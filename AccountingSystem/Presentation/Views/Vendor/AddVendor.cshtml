@@ -1,0 +1,509 @@
+﻿@using Presentation.Models.Master
+@using Application.DTOs.Master
+@model Presentation.Models.Vendor.VendorViewModel
+
+@{
+    var vendordetails = ViewBag.VendorDetails;
+    ViewData["Title"] = "Add Vendor";
+    DropDownDto dropDowns = ViewBag.DropDownList;
+    IEnumerable<DropDownDto> gstRegistrationType = dropDowns.GSTRegistrationType;
+    IEnumerable<DropDownDto> vendorCategoryType = dropDowns.CategoryType;
+    IEnumerable<DropDownDto> paymentTermsType = dropDowns.PaymentTermsType;
+    IEnumerable<DropDownDto> paymentMethodType = dropDowns.PaymentMethodType;
+    IEnumerable<DropDownDto> tdsSectionType = dropDowns.TDSSectionType;
+    IEnumerable<DropDownDto> vendorDocumentType = dropDowns.VendorDocumentType;
+    IEnumerable<DropDownDto> cities = dropDowns.Cities;
+    IEnumerable<DropDownDto> states = dropDowns.States;
+    var statedrop = states.Where(x => x.CodeValue == "Karnataka");
+    var citiesdrop = cities.Where(x => x.CodeValue == "Bangalore");
+    IEnumerable<DropDownDto> Country = dropDowns.Country;
+    var countrydrop = Country.Where(x => x.CodeValue == "India");
+    //IEnumerable<BankMasterModel> banks = ViewBag.Banks;
+    IEnumerable<BranchMasterModel> banks = ViewBag.Banks;
+    // IEnumerable<BankDetailsModel> Branch = ViewBag.Branch;
+    var banklist = banks.Select(x => new { x.BankDetails.Id, x.BankDetails.BankName }).Distinct().ToArray();
+
+}
+<div class="col-md">
+    <form asp-action="Create" enctype="multipart/form-data" id="chckAll">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="checkbox" id="title1" class="accordioncollapse" checked />
+        <label for="title1" class="labeldclass">
+            Vendor Details
+            <div class="addvendor float-right">
+                <button type="button" value="SAVE" id="savevendor" class="btnsave vedisable  btnreset"><i class="fa fa-save mr-2"></i></button>
+                <button type="button" class="btnsave mr-3  vedisable" id="clear1"><i class="fa fa-close"></i> </button>
+            </div>
+        </label>
+        <div class="content">
+
+            <div class=" d-flex flex-row justify-content-start">
+                @*<input type="text" value="@Id" id="id" class="form-control" />*@
+                <div class=" col-md-3">
+                    <label asp-for="GSTRegistration" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <select asp-for="GSTRegistration" class="form-dropdown form-control vedisable">
+                        <option value="" selected>Select GST Registration</option>
+                        @foreach (var o in gstRegistrationType)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+                    <span asp-validation-for="GSTRegistration" class="text-danger"></span>
+                </div>
+                <div class=" col-md-3">
+                    <label asp-for="GSTIN_Number" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="GSTIN_Number" class="form-control vedisable gst" disabled="disabled" id="disableGst" onchange="this.value=this.value.toUpperCase()" title="Please use format [00AAAAA0000A0Z0]" />
+                    <span asp-validation-for="GSTIN_Number" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-3">
+                    <label> &nbsp;</label>
+                    <label class="control-label">Confirm GSTIN</label>
+                    <label class="text-danger">  * </label>
+                    <input class="form-control vedisable" disabled="disabled" id="disableConfirmGst" onpaste="return false;" maxlength="15" onCopy="return false" onCut="return false" onchange="this.value=this.value.toUpperCase()" title="Please use format [00AAAAA0000A0Z0]" />
+                    <span asp-validation-for="GSTIN_Number" id="message" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+
+                    <label asp-for="Name" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="Name" class="form-control vedisable" />
+                    <span asp-validation-for="Name" id="vendorName" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div class=" col-md-3">
+                    <label asp-for="OwnerOrDirectorName" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="OwnerOrDirectorName" class="form-control vedisable" required />
+                    <span asp-validationfor="OwnerOrDirectorName" class="text-danger"></span>
+                </div>
+                <div class=" col-md-3">
+                    <label asp-for="PAN_Number" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="PAN_Number" class="form-control vedisable" id="panNo" onchange="this.value=this.value.toUpperCase()" title="Please use format [AAAAA0000A]" />
+                    <span asp-validation-for="PAN_Number" class="text-danger"></span>
+                </div>
+                <div class=" col-md-3">
+
+                    <label class="control-label">Confirm PAN No</label>
+                    <label class="text-danger">  * </label>
+                    <input class="form-control vedisable" id="confirmpanNo" onpaste="return false;" maxlength="10" onCopy="return false" onCut="return false" onchange="this.value=this.value.toUpperCase()" title="Please use format [AAAAA0000A]" />
+                    <span asp-validation-for="PAN_Number" class="text-danger" id="message1"></span>
+                </div>
+                <div class=" form-check col-md-3 d-flex align-items-end ">
+                    <label class="form-check-label mb-3">
+                        &emsp;
+                        <input class="form-check-input vedisable checkgst" asp-for="GST_TDS_Applicable" disabled="disabled" /> @Html.DisplayNameFor(model => model.GST_TDS_Applicable)
+                    </label>
+                </div>
+
+
+
+                
+            </div>
+            <div class="d-flex flex-row justify-content-start mt-3">
+                <div class=" col-md-3">
+                    <label asp-for="TAN_Number" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="TAN_Number" class="form-control vedisable" id="tanNo" onchange="this.value=this.value.toUpperCase()" title="Please use format [AAAA00000A]" />
+                    <span asp-validation-for="TAN_Number" class="text-danger"></span>
+                </div>
+                <div class=" col-md-3">
+
+                    <label class="control-label">Confirm TAN No</label>
+                    <label class="text-danger">  * </label>
+                    <input class="form-control vedisable" id="confirmtanNo" onpaste="return false;" maxlength="10" onCopy="return false" onCut="return false" onchange="this.value=this.value.toUpperCase()" title="Please use format [AAAA00000A]" />
+                    <span asp-validation-for="TAN_Number" class="text-danger" id="message3"></span>
+                </div>
+                <div class="col-3">
+                    <label asp-for="Notes" class="control-label"></label>
+                    <textarea asp-for="Notes" class="form-control vedisable textarea1"></textarea>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <div class="form-check col-md-3 d-flex align-items-center ">
+
+                    <label class="form-check-label mb-3">
+                        &emsp;
+                        <input class="form-check-input chckvs vedisable " id="Status" asp-for="Status" />Vendor IsActive ?  @*@Html.DisplayNameFor(model => model.Status)*@
+                    </label>
+                </div>
+
+            </div>
+            <div class="d-flex flex-row justify-content-start mt-3">
+                <div class="form-check col-md-3 d-flex align-items-center ">
+
+                    <label class="form-check-label ">
+                        &emsp;
+                        <input class="form-check-input chckvs vedisable " id="IsExisting" asp-for="Status" />Vendor IsExisting ?  @*@Html.DisplayNameFor(model => model.Status)*@
+                    </label>
+                </div>
+                <div class=" col-md-3">
+
+                    <label class="control-label">Opening Balance Date</label>
+
+                    <input type="date" class="form-control vedisable " id="OpeningDate" asp-for="VendorBalance.OpeningBalanceDate" placeholder="dd/mm/yy" disabled />
+                </div>
+
+
+                <div class=" col-md-3">
+                    <label class="control-label">Opening Balance Amount</label>
+
+                    <input class="form-control vedisable" asp-for="VendorBalance.OpeningBalance" id="OpeningBalance" value="0.00" disabled />
+
+                </div>
+
+
+
+
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <div class="form-check col-md-3  ">
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+        <br />
+
+        <input type="checkbox" id="title2" class="accordioncollapse" />
+        <label for="title2" class="labeldclass">
+            Vendor Contact  Information
+            <div class="addvendor float-right">
+                <button type="button" value="SAVE" id="save1" class="btnsave disbtn  vpdisable" disabled><i class="fa fa-save mr-2"></i></button>
+                <button type="button" class="btnsave mr-3 disbtn vpdisable btnreset " id="clear2" disabled><i class="fa fa-close"></i> </button>
+
+            </div>
+        </label>
+        <div class="content">
+            <div class="d-flex flex-row justify-content-start">
+                <div class="col-md-12  text-right mx-2">
+
+                    <div class="col-md-12  mx-n5">
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex flex-row justify-content-start">
+                <div class="form-group col-md-3">
+                    <label asp-for="VendorPerson.Contacts.Name" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="VendorPerson.Contacts.Name" class="form-control vpdisable" />
+                    <span asp-validation-for="VendorPerson.Contacts.Name" class="text-danger spdisable spdisable1"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="VendorPerson.Contacts.Phone" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="VendorPerson.Contacts.Phone" class="form-control vpdisable" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <span asp-validation-for="VendorPerson.Contacts.Phone" class="text-danger spdisable spdisable1"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="VendorPerson.Contacts.Email" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="VendorPerson.Contacts.Email" id="EmailTxt" class="form-control vpdisable" />
+                    <span asp-validation-for="VendorPerson.Contacts.Email" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="d-flex flex-row justify-content-start ">
+                <div class="form-group col-md-9">
+                    <label asp-for="VendorPerson.Addresses.Address" class="control-label"></label>
+                    <textarea asp-for="VendorPerson.Addresses.Address" class="form-control vpdisable textarea1"></textarea>
+                    <span asp-validation-for="VendorPerson.Addresses.Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-start">
+                <div class="form-group col-md-3">
+                    <label asp-for="VendorPerson.Addresses.Country" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <select asp-for="VendorPerson.Addresses.Country" class="form-dropdown vpdisable form-control">
+                        <option value="" selected>--- Select Country ---</option>
+                        @foreach (var o in countrydrop)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+                    <span asp-validation-for="VendorPerson.Addresses.Country" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label asp-for="VendorPerson.Addresses.State" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <select asp-for="VendorPerson.Addresses.State" class="form-dropdown vpdisable form-control">
+                        <option value="" selected>--- Select State ---</option>
+                        @foreach (var o in statedrop)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+                    <span asp-validation-for="VendorPerson.Addresses.State" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="VendorPerson.Addresses.City" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <select asp-for="VendorPerson.Addresses.City" class="form-dropdown vpdisable form-control">
+                        <option value="" selected>--- Select City ---</option>
+                        @foreach (var o in citiesdrop)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+
+                    <span asp-validation-for="VendorPerson.Addresses.City" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label asp-for="VendorPerson.Addresses.PinCode" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="VendorPerson.Addresses.PinCode" class="form-control vpdisable" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <span asp-validation-for="VendorPerson.Addresses.PinCode" class="text-danger spdisable spdisable1"></span>
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <input type="checkbox" id="title3" class="accordioncollapse" />
+        <label for="title3" class="labeldclass">
+            Vendor Bank Account
+            <div class="addvendor float-right">
+                <button type="button" value="SAVE" id="save2" class="btnsave disbtn vbdisable btnreset" disabled><i class="fa fa-save mr-2"></i></button>
+                <button type="button" class="btnsave disbtn mr-3 vbdisable btnreset " id="clear3" disabled><i class="fa fa-close"></i></button>
+            </div>
+        </label>
+        <div class="content">
+
+            <div class="d-flex flex-row justify-content-start">
+                <div class=" col-md-3">
+                    <label asp-for="VendorBankAccounts.BeneficiaryName" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="VendorBankAccounts.BeneficiaryName" class="form-control vbdisable" />
+                    <span asp-validation-for="VendorBankAccounts.BeneficiaryName" class="text-danger spdisable spdisable2"></span>
+                </div>
+                <div class=" col-md-3">
+
+                    <label class="control-label">Bank Name</label>
+                    <label class="text-danger">  * </label>
+                    <select class="form-dropdown form-control vbdisable" id="selBankName" required>
+                        <option value="">--- Select Bank Name ---</option>
+                        @foreach (var o in banklist)
+                        {
+                            <option value="@o.BankName,@o.Id">@o.BankName</option>
+                        }
+                    </select>
+                </div>
+                <div class=" col-md-3">
+
+                    <label class="control-label">Branch Name</label>
+                    <label class="text-danger">  * </label>
+                    <select class="form-dropdown form-control vbdisable" id="selBranchName">
+                        <option value="">--- Select Branch Name ---</option>
+                        @* @foreach (var o in banks)
+                        {
+                        <option value="@o.BranchMaster.branch_ifsc,@o.BranchMaster.branch_id" data="@o.BankName">@o.BranchMaster.branch_name</option>
+
+                        }*@
+                    </select>
+                    <input type="hidden" id="branchid" name="VendorBankAccounts.BankMasterId" />
+                </div>
+                <div class=" col-md-3">
+
+                    <label class="control-label">IFSC Code</label>
+                    <label class="text-danger">  * </label>
+                    <input class="form-control vbdisable" id="selIfsc" readonly />
+                </div>
+
+            </div>
+            <div class="d-flex flex-row justify-content-start mt-3">
+                <div class="col-md-3">
+
+                    <label asp-for="VendorBankAccounts.AccountNumber" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="VendorBankAccounts.AccountNumber" class="form-control vbdisable" id="accountNo" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <span asp-validation-for="VendorBankAccounts.AccountNumber" class="text-danger spdisable spdisable2"></span>
+                </div>
+                <div class="col-md-3">
+                    <label class="control-label">Confirm Account Number</label>
+                    <label class="text-danger">  * </label>
+                    <input class="form-control vbdisable" id="confirmaccountNo" maxlength="20" onpaste="return false;" onCopy="return false" onCut="return false" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+                    <span asp-validation-for="VendorBankAccounts.AccountNumber" id="message2" class="text-danger spdisable2 spdisable"></span>
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <input type="checkbox" id="title4" class="accordioncollapse" />
+        <label for="title4" class="labeldclass">
+            Vendor Defaults
+            <div class="addvendor float-right">
+                <button value="SAVE" type="button" id="save3" class="btnsave disbtn vddisable btnreset" disabled><i class="fa fa-save mr-2"></i> </button>
+                <button type="button" class="btnsave mr-3 disbtn  vddisable btnreset " id="clear4" disabled><i class="fa fa-close"></i></button>
+            </div>
+        </label>
+        <div class="content">
+
+            <div class="d-flex flex-row justify-content-around">
+                <div class=" col-md-3">
+                    <label asp-for="VendorDefaults.Category" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <select asp-for="VendorDefaults.Category" class="form-control vddisable form-dropdown">
+                        <option value="" selected>--- Select Vendor Category ---</option>
+                        @foreach (var o in vendorCategoryType)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+                    <span asp-validation-for="VendorDefaults.Category" class="text-danger spdisable spdisable3"></span>
+                </div>
+                @*US#005 Remove this field *@
+                @*<div class=" col-md-3">
+
+                <label asp-for="VendorDefaults.GSTPercentage" class="control-label"></label>
+                <label style="color: red;">  * </label>
+                <input asp-for="VendorDefaults.GSTPercentage" class="form-control vddisable" />
+                <span asp-validation-for="VendorDefaults.GSTPercentage" class="text-danger spdisable spdisable3"></span>
+                </div>*@
+                <div class=" col-md-3">
+
+                    <label asp-for="VendorDefaults.PaymentMethod" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <select asp-for="VendorDefaults.PaymentMethod" class="form-control vddisable form-dropdown">
+                        <option value="" selected>--- Select Payment Method ---</option>
+                        @foreach (var o in paymentMethodType)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+                    <span asp-validation-for="VendorDefaults.PaymentMethod" class="text-danger spdisable spdisable3"></span>
+                </div>
+                <div class="col-md-3">
+
+                    <label asp-for="VendorDefaults.PaymentTerms" class="control-label"> Payterms (In Days) </label>
+                    <label class="text-danger">  * </label>
+                    <select asp-for="VendorDefaults.PaymentTerms" class="form-control vddisable form-dropdown">
+                        <option value="" selected>--- Select Payterms ---</option>
+                        @foreach (var o in paymentTermsType)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+                    <span asp-validation-for="VendorDefaults.PaymentTerms" class="text-danger spdisable spdisable3"></span>
+                </div>
+                <div class="from-group col-md-3">
+
+                    <label asp-for="VendorDefaults.GST_TDSPercentage" class="control-label"></label>
+                    <input asp-for="VendorDefaults.GST_TDSPercentage" class="form-control" disabled title="GST TDS Fixed to 2%" />
+                    <span asp-validation-for="VendorDefaults.GST_TDSPercentage" class="text-danger spdisable spdisable3"></span>
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-start mt-3">
+                <div class="from-group col-md-3">
+                    <label asp-for="VendorDefaults.TDSSection" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <select class="form-control vddisable form-dropdown" id="tdsScetion">
+                        <option value="" selected>--- Select TDS Section ---</option>
+                        @foreach (var o in tdsSectionType)
+                        {
+                            <option value="@o.CodeName,@o.CodeValue" data="@o.CodeValue">@o.CodeName</option>
+                        }
+                    </select>
+                    <input type="hidden" id="tdssectionsvalue" name="VendorDefaults.TDSSection" />
+                    <span asp-validation-for="VendorDefaults.TDSSection" class="text-danger spdisable spdisable3"></span>
+                </div>
+                <div class="form-group col-md-3">
+
+                    <label asp-for="VendorDefaults.TDSPercentage" class="control-label"></label>
+                    <label class="text-danger">  * </label>
+                    <input asp-for="VendorDefaults.TDSPercentage" class="form-control " id="tdspercentage" disabled />
+                    <span asp-validation-for="VendorDefaults.TDSPercentage" class="text-danger spdisable spdisable3"></span>
+                </div>
+
+            </div>
+
+        </div>
+        <br />
+        <input type="checkbox" id="title5" class="accordioncollapse" />
+        <label for="title5" class="labeldclass">
+            File Upload
+            <div class="addvendor float-right">
+                <button type="button" value="SAVE" id="save4" class="btnsave disbtn" disabled><i class="fa fa-save mr-2"></i></button>
+                <button type="button" class="btnsave disbtn mr-3" id="clear5" disabled><i class="fa fa-close"></i></button>
+            </div>
+        </label>
+        <div class="content">
+
+            <div class="mt-3">
+                <div class="from-group col-md-3">
+                    <select asp-for="FileType" id="filetype" class="form-dropdown form-control ">
+                        <option value="" selected>--- Select File Type ---</option>
+                        @foreach (var o in vendorDocumentType)
+                        {
+                            <option value="@o.CodeValue">@o.CodeValue</option>
+                        }
+                    </select>
+                </div>
+                <div class="row">
+                    <div>
+                        <input id="FileUpload1" name="file" type="file" class=" ml-4 mt-3" onchange="Validate()" required accept="application/pdf,image/jpeg" />
+
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <table id="uploadTable" class="table table-bordered" hidden>
+                <caption hidden>Document Details</caption>
+                <thead>
+                    <tr>
+
+                        <th>Document Name</th>
+                        <th>Document Type</th>
+
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+        <br />
+        <div class="d-flex flex-row justify-content-start">
+            <div class="col-md-12  text-right mx-2">
+                <button type="button" value="SAVE" id="save" class="btn btn-success btnreset"><i class="fa fa-save"></i> Save</button>
+                <div class="col-md-11  mx-5">
+                    <a class="btn btn-danger btnreset " id="cancel" asp-controller="Vendor" asp-action="Index"><i class="fa fa-close"></i>  Cancel</a>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        var GSTAvailable = @Html.Raw(Json.Serialize(@ViewBag.GstNumber));
+        var PanAvailable = @Html.Raw(Json.Serialize(@ViewBag.PanNumber));
+        var AccountNoAvailable = @Html.Raw(Json.Serialize(@ViewBag.AccountNumber));
+    </script>
+
+    
+   
+
+}
+<script src="~/js/Vendor/Addvendor.js" ></script>

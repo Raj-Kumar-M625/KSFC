@@ -1,0 +1,115 @@
+﻿@using Presentation.Models.Vendor
+
+
+@{
+	var UserName = ViewBag.UserName;
+	ViewData["Title"] = "BankFile";
+	var gridId = "TDSPaidList";
+	var contr = "TDS";
+	var pref = "filter";
+
+    var defaultDateFrom = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+
+<div id="outFilter" class=" awe-il searchgrid">
+    @*context will add a prefix to all awesome editors html ids*@
+    @using (Html.Awe().BeginContext(pref))
+    {
+        @*html input name matches filter rule name*@
+        <div class="row mt-3">
+            <div class=" col-md-2 px-3">
+                @Html.Awe().TextBox("tdsPaidFilters.paymentReferenceNo").Placeholder("Bill Ref No.").CssClass("input-search")
+            </div>
+            <div class=" col-md-2 px-3">
+                @Html.Awe().TextBox("tdsPaidFilters.vendorName").Placeholder("Vendor Name").CssClass("input-search")
+            </div>
+            <div class="col-md-2 px-3">
+                @Html.Awe().DatePicker("tdsPaidFilters.fromDate").Placeholder("From Date").DayFunc("dayfirst").ChangeMonth().ChangeYear()
+            </div>
+            <div class="col-md-2 px-3">
+                @Html.Awe().DatePicker("tdsPaidFilters.toDate").Placeholder("To Date").DayFunc("daylast").ChangeMonth().ChangeYear()
+            </div>
+            <div class=" col-md-2 px-3">
+                @Html.Awe().TextBox("tdsPaidFilters.challanNo").Placeholder("Challan No.").CssClass("input-search")
+            </div>
+            <div class=" col-md-2 px-3">
+                @Html.Awe().TextBox("tdsPaidFilters.bsrCode").Placeholder("BSR No.").CssClass("input-search")
+            </div>
+            <div class="row mt-4">
+                <div class=" col-md-2 px-3">
+                    @Html.Awe().TextBox("tdsPaidFilters.utrNo").Placeholder("UTR No.").CssClass("input-search")
+                </div>
+                <div class=" col-md-2 px-3">
+                    @Html.Awe().TextBox("tdsPaidFilters.payableMinAmount").Numeric().Placeholder("Min Amount").CssClass("input-label min_val")
+                </div>
+                <div class=" col-md-2 px-3">
+                    @Html.Awe().TextBox("tdsPaidFilters.payableMaxAmount").Numeric().Placeholder("Max Amount").CssClass("input-label max_val")
+                </div>
+                <div class="col-md-2 px-3">
+                    @Html.Awe().AjaxRadioList("tdsPaidFilters.tdsSection").Url(Url.Action("GetTDSSectionList", "TDS")).Odropdown(o => o.Caption("--- Select TDS Section ---").ClearBtn())
+                </div>
+              @*  <div class="col-md-2 px-5">
+                    @Html.Awe().AjaxRadioList("tdsPaidFilters.tdsStatus").Url(Url.Action("GetTDSStatus", "TDS", new { isIdKey = true })).Odropdown(o => o.Caption("--- Select TDS Status ---").ClearBtn())
+                </div>*@
+                <div class=" col-md-2 px-3">
+                    <button type="button" id="btnClearFilter" class="btn  btn-sm btn-primary mr-n3 bnkreset"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="bar">
+    <div class="form-group row" >
+        <label for="numberOfRecords" class="frow-label col-sm-1"> No. of Records </label>
+        <div class="col-sm-1">
+            <input type="text" id="numberOfRecords" class="form-control" readonly>
+        </div>
+        <label for="totalTDSPaidAmount" class="frow-label col-sm-2 text-end">₹ TDS Paid  </label>
+        <div class="col-sm-2">
+            <input type="text" id="totalTDSPaidAmount" class="form-control" readonly>
+        </div>
+
+        <div class="col-sm-6" >
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-primary btnxls  btndownload" title="Download File" value="Submit" onclick="exportToExcel()">
+                    <i class="bi bi-download"></i> Download
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+@(Html.Awe().Grid(gridId)
+      .Mod(o => o.Main().Custom("outsideFilter"))
+      .Url(Url.Action("GetTDSPaidList", contr))
+      .Height(450)
+      .Resizable()
+      .Reorderable()
+      .Columns(
+        new Column { Bind = "Bill.BillReferenceNo", Prop = "BillReferenceNo", Header = "Bill Ref No.", HeaderCssClass = "boldh" },
+        new Column { Bind = "Bill.BillNo", Prop = "BillNumber", Header = "Bill Item No.", HeaderCssClass = "boldh" },
+        new Column { Bind = "TDSPaymentChallan.PaymentDate", Prop = "PaymentDate", Header = "<p title='(dd-MM-yyyy)'>Pay Date</p>", HeaderCssClass = "boldh", MinWidth = 200 },
+        new Column { Bind = "Bill.Vendor.Name", Prop = "VendorName", ClientFormat = "<a href='" + Url.Action("EditVendor", "Vendor", new { id = ".(VendorID)" }) + "'>.(VendorName)</a>", Header = "Vendor Name", HeaderCssClass = "boldh" },
+        new Column { Bind = "Bill.Vendor.PAN_Number", Prop = "PanNumber", Header = "PAN No.", HeaderCssClass = "boldh" },
+        new Column { Bind = "Bill.BillAmount", Prop = "BillAmount", Header = "₹ Bill Amount", HeaderCssClass = "boldh", CssClass = "amount" },
+        new Column { Bind = "TDSPaymentChallan.TDSSection", Prop = "TdsSection", Header = "TDS Section", HeaderCssClass = "boldh" },
+        new Column { Bind = "TDSPaymentChallan.TotalTDSPayment", Prop = "PaidAmount", Header = "₹TDS Paid ", HeaderCssClass = "boldh ", CssClass = "amount", MinWidth = 150 },
+        new Column { Bind = "TDSPaymentChallan.ChallanNo", Prop = "ChallanNo", Header = "Challan No.", HeaderCssClass = "boldh" },
+        new Column { Bind = "TDSPaymentChallan.BSRCode", Prop = "BsrCode", Header = "BSR Code", HeaderCssClass = "boldh" },
+        new Column { Bind = "TDSPaymentChallan.UTRNo", Prop = "UtrNo", Header = "UTR No.", HeaderCssClass = "boldh" },
+        new Column { Bind = "TDSPaymentChallan.TDSStatus", Prop = "TdsStatus", Header = "TDS Status", HeaderCssClass = "boldh", CssClass = "statuscolor" }
+      ))
+     
+
+<script>
+
+    var gridId = "@gridId";
+    var contr = "@contr";
+
+
+</script>
+<script src="~/js/TDS/TdsPaidList.js"> </script>
+	

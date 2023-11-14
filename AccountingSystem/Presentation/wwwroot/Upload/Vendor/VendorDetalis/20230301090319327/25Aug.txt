@@ -1,0 +1,9 @@
+today:
+1>rest api
+2>bitbucket access
+3>bug fixing for some pages
+
+tomorrow:
+debugging code
+spring
+json

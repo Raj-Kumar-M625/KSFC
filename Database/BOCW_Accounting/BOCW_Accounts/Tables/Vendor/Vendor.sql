@@ -1,0 +1,18 @@
+﻿CREATE TABLE [dbo].[Vendor]
+(
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY,
+    [Name] NVARCHAR(100) NULL,
+    [GSTRegistration] NVARCHAR(20) NULL,
+    [GST_TDS_Applicable] BIT NOT NULL DEFAULT 1,
+    [GSTIN_Number] NVARCHAR(20) NULL,
+    [PAN_Number] NVARCHAR(20) NULL,
+    [OwnerOrDirectorName] NVARCHAR(100) NULL,
+    [Notes] NVARCHAR(500) NULL,
+    [Description] NVARCHAR(500) NULL,
+    [Status] BIT NOT NULL DEFAULT 1,
+    [CreatedBy] NVARCHAR(100) NULL,
+    [CreatedOn] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
+    [ModifiedBy] NVARCHAR(100) NULL,
+    [ModifiedOn] DATETIME2 NOT NULL DEFAULT GETUTCDATE()
+)
+GO

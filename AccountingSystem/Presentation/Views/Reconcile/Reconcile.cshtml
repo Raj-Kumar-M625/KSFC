@@ -1,0 +1,120 @@
+﻿@using Common.ConstantVariables;
+@using Presentation.Models.Bank;
+@model List< Presentation.Models.Bank.ReconciliationModel>
+@{
+    var UserName = ViewBag.UserName;
+    Layout = null;
+    var ID = ViewBag.ID;
+    BankTransactionModel bankTransaction = new();
+    if (@Model.Any())
+    {
+        bankTransaction = @Model.LastOrDefault().BankTransactions;
+        bankTransaction.Credit = bankTransaction.Credit != null ? bankTransaction.Credit : 0;
+        bankTransaction.Debit = bankTransaction.Debit != null ? bankTransaction.Debit : 0;
+    }
+
+}
+<style>
+    th {
+        font-size: 14px;
+    }
+
+    td {
+        font-size: 14px;
+    } 
+</style>
+<input id="bankTranactionId" Value="@bankTransaction.Id" hidden />
+<input id="credit" Value="@bankTransaction.Credit" hidden />
+<input id="debit" Value="@bankTransaction.Debit" hidden />
+
+<hr />
+<div class="mt-1">
+    <div class="col-md mt-lg-3">
+        <input type="checkbox" id="title1" class="accordioncollapse" checked="checked" />
+        <label for="title1" class="labelclass">List of Transactions</label>
+        <div class="content">
+
+            <table id="tblAddPayments" class="table  table-bordered ">
+                <caption hidden>Bank Tramnsaction</caption>
+                <tr>
+                    <th title="(dd-mm-yyyy)">Transaction Date</th>
+                    <th title="(dd-mm-yyyy)">ValueDate</th>
+                    <th>Description</th>
+                    <th>₹ Credit</th>
+                    <th>₹ Debit</th>
+                    <th>₹ Balance</th>
+                    <th>Account Number</th>
+                    <th>Bank Name </th>
+                    <th>Status</th>
+                </tr>
+                <tbody>
+                    <tr>
+                        <td>@bankTransaction.Transaction_Date.ToString("dd-MM-yyyy")</td>
+                        <td>@bankTransaction.Value_Date.ToString("dd-MM-yyyy")</td>
+                        <td>@bankTransaction.Description</td>
+                        <td>@bankTransaction.Credit</td>
+                        <td>@bankTransaction.Debit</td>
+                        <td>@bankTransaction.Balance</td>
+                        <td>@bankTransaction.AccountNo</td>
+                        <td>@bankTransaction.BankName</td>
+                        <td>@bankTransaction.Status</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <br />
+    </div>
+    <div class="col-md mt-lg-3">
+        <input type="checkbox" id="title2" class="accordioncollapse" checked="checked" />
+        <label for="title2" class="labelclass">List of Transactions</label>
+        <div class="content">
+            <table id="tbllistOfTransactions" class="table  table-bordered ">
+                <caption hidden>Bank TramnsactionDetails</caption>
+                <tr>
+                    <th class="check"></th>
+                    <th hidden></th>
+                    <th title="(dd-mm-yyyy)">Transaction Date</th>
+                    <th>System Name</th>
+                    <th>Transaction Detailed Type</th>
+                    <th>Payment Mode</th>
+                    <th>₹ Amount</th>
+                    <th>UTR Number</th>
+                    <th>Cheque/DD Number</th>
+                    <th>Status</th>
+                </tr>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox" id="transactionCheckbox" />
+                            </td>
+                            <td hidden>@item.Id</td>
+                            <td>@item.TransactionsSummary.TransactionGeneratedDate.ToString("dd-MM-yyyy")</td>
+                            <td>@item.SystemName</td>
+                            <td>@item.TransactionDetailedType</td>
+                            <td>@item.TransactionsSummary.PaymentMode </td>
+                            <td>@item.TransactionsSummary.Amount</td>
+                            <td>@item.TransactionsSummary.UTRNumber</td>
+                            <td>@item.TransactionsSummary.Cheque_No</td>
+                            <td>@item.TransactionsSummary.Status</td>
+
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+        <br />
+    </div>
+    <div class="col-md-12">
+        <button value="" type="button" class=" btn btn-success float-right" id="btnReconcile"><i class="fa fa-save mr-2"></i>Submit</button>
+    </div>
+    <div class="col-md-12">
+        <button value="" type="button" class=" btn btn-danger float-right" id="btnUnmatch" style="margin-right:2%;">UnMatch</button>
+    </div>
+</div>
+
+<script src="~/js/Reconcile/Reconcile.js" asp-append-version="true"></script>

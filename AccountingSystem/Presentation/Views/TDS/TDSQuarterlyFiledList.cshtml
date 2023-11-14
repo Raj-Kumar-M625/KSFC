@@ -1,0 +1,90 @@
+﻿@{
+    
+    var UserName = ViewBag.UserName;
+	ViewData["Title"] = "TDS Quarterly Filed List";
+	var gridId = "TDSQuarterlyFiledList";
+	var contr = "TDS";
+	var pref = "filter";
+}
+<script src="~/js/TDS/QuarterlyFiledList.js"></script>
+
+<div id="outFilter" class=" awe-il searchgrid">
+	@using (Html.Awe().BeginContext(pref))
+	{
+        <div class="row mt-3">
+            <div class="col-md-2 px-2">
+                @Html.Awe().AjaxRadioList("tdsQuarterlyFiledFilters.assessmentYear").Url(Url.Action("GetTDSAssessmentYear", "TDS")).Odropdown(o => o.Caption("--- Select Assessment Year ---").ClearBtn())
+            </div>
+            <div class="col-md-2 px-4 ml-5" >
+                @Html.Awe().AjaxRadioList("tdsQuarterlyFiledFilters.noOfChallan").Url(Url.Action("GetNumberOfChallans", "TDS")).Odropdown(o => o.Caption("--- Select No of Challan ---").ClearBtn())
+            </div>
+            <div class=" col-md-2 px-4 ml-5" >
+                @Html.Awe().TextBox("tdsQuarterlyFiledFilters.payableMinAmount").Numeric().Placeholder("Min Amount").CssClass("input-label min_val")
+            </div>
+
+            <div class=" col-md-2 px-2" >
+                @Html.Awe().TextBox("tdsQuarterlyFiledFilters.payableMaxAmount").Numeric().Placeholder("Max Amount").CssClass("input-label max_val")
+            </div>
+            <div class=" col-md-2 px-1">
+                @Html.Awe().AjaxRadioList("tdsQuarterlyFiledFilters.quarter").Url(Url.Action("GetQuarterly", "TDS")).Odropdown(o => o.AutoSelectFirst())
+            </div>
+           
+        </div>
+		<div class="row mt-3">
+            <div class=" col-md-12 px-5">
+                <button type="button" id="btnClearFilter" class="btn  btn-sm btn-primary mr-n4 bnkreset"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+            </div>
+		</div>
+		<br />
+	}
+
+</div>
+
+
+    <div class="bar">
+        <div class="form-group row pt-3" >
+            <label for="numberOfRecords" class="frow-label col-sm-1 pt-2"> No. of Records </label>
+            <div class="col-sm-1">
+                <input type="text" id="numberOfRecords" class="form-control" readonly>
+            </div>
+            <label for="totalTDSPayableAmount" class="frow-label col-sm-2  pt-2 text-end">₹  Total TDS Payable </label>
+            <div class="col-sm-2">
+                <input type="text" id="totalTDSPayableAmount" class="form-control" readonly>
+            </div>
+        </div>
+    </div>
+@(Html.Awe().Grid(gridId)
+      .Mod(o => o.Main().Custom("outsideFilter"))
+      .Url(Url.Action("GetTDSQuarterlyFiledList", contr))
+      .Resizable()
+         .Height(450)
+      .Reorderable()
+      .Columns(
+          new Column
+          {
+              Width = 50,
+              ClientFormat = Html.Awe().CheckBox("Id")
+                                .Ochk()
+                                .Prefix("c.(Id)")
+                                .HtmlAttributes(null, new { data_val = ".(Id)" })
+                                .ToString(),
+              Header = Html.Awe().CheckBox("ChkAll").Ochk().SyncScript().ToString(),
+              Hidden=true
+          }.Mod(o => o.Nohide()),
+        new Column { Bind = "QuarterMaster.CodeName", Prop = "Quarter", Header = "Quarter", HeaderCssClass = "boldh" },
+          new Column { Bind = "AssementYear", Prop = "AssementYear", Header = " Assessment year", HeaderCssClass = "boldh" },
+        new Column { Bind = "NoOfChallan", Prop = "NoOfChallan", Header = "No. of Challan", HeaderCssClass = "boldh" },
+        new Column { Bind = "NoOfVendors", Prop = "NoOfVendors", Header = "No. of Vendors", HeaderCssClass = "boldh" },
+        new Column { Bind = "TotalAmount", Prop = "TotalAmount", Header = "₹ Total Amount", HeaderCssClass = "boldh", CssClass = "amount" },
+        new Column { Bind = "QuarterStatusMaster.CodeName", Prop = "QuarterlyStatus", Header = "Filed Status", HeaderCssClass = "boldh", CssClass = "statuscolor" },
+        new Column { ClientFormat = "<a href='/TDS/DownloadCSV/.(Id)'><img src='../images/download.png'alt='download Image'></a>", Header = "Download Challan", HeaderCssClass = "boldh ", CssClass = "icon" }))
+
+
+<script>
+
+    var gridId = "@gridId";
+    
+
+
+</script>
+	

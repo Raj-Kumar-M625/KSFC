@@ -1,9 +1,0 @@
-﻿CREATE TABLE [dbo].[SqliteDeviceLog]
-(
-	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
-    [BatchId] BIGINT NOT NULL  REFERENCES dbo.SqliteActionBatch, 
-    [EmployeeId] BIGINT NOT NULL, 
-	[At] DATETIME2 NOT NULL,
-	[LogText] NVARCHAR(255) NOT NULL,
-    [DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(), 
-)

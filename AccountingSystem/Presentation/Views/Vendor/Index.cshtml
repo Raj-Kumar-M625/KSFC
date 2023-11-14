@@ -1,0 +1,128 @@
+﻿@{
+    var UserName = ViewBag.UserName;
+    ViewData["Title"] = "Index";
+    var gridId = "VendorListGrid";
+    var contr = "Vendor";
+    var pref = "filter";
+}
+
+
+<div id="outFilter" class=" awe-il searchgrid">
+    @*context will add a prefix to all awesome editors html ids*@
+    @using (Html.Awe().BeginContext(pref))
+    {
+        @*html input name matches filter rule name*@
+        <div class="row mt-3">
+            <div class="col-md-2 px-2">
+
+                @Html.Awe().TextBox("vendorfilters.vendorName").Placeholder("Vendor Name").CssClass("input-search")
+
+            </div>
+            <div class="col-md-2 px-2">
+
+                @Html.Awe().TextBox("vendorfilters.gstin_Number").Placeholder("GSTIN Number").CssClass("input-search")
+
+            </div>
+            <div class="col-md-2 px-2">
+
+                @Html.Awe().TextBox("vendorfilters.pan_Number").Placeholder("PAN Number").CssClass("input-search")
+
+            </div>
+            <div class=" col-sm-2 ml-n1">
+
+                @Html.Awe().TextBox("vendorfilters.payableAmount").Numeric().Placeholder("Min (Net Payable)").CssClass("input-label min_val")
+
+            </div>
+            <div class=" col-sm-2 ml-n1">
+
+                @Html.Awe().TextBox("vendorfilters.payableMaxAmount").Numeric().Placeholder("Max (Net Payable)").CssClass("input-label max_val")
+
+            </div>
+            <div class="col-md-2 px-2">
+
+
+                @Html.Awe().AjaxRadioList("vendorfilters.category").Url(Url.Action("GetCategoryList", "Vendor")).Odropdown(o =>o.Caption("--- Select Category ---").ClearBtn())
+
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-2 px-2">
+
+                @Html.Awe().AjaxRadioList("vendorfilters.status").Url(Url.Action("GetVendorStatus", "Vendor")).Odropdown(o =>o.Caption("--- Select Status ---").ClearBtn())
+
+            </div>
+            <div class="col-md-10 ">
+                <button type="button" id="btnClearFilter" class="btn btn-primary  btnreset"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+            </div>
+        </div>
+        <br />
+        <div>
+        </div>
+
+
+    }
+</div>
+<div class="addvendorbtn">
+    <a class="btn btn-primary btn-add mt-2 mr-1" asp-action="AddVendor"><i class="bi bi-plus"></i> Add Vendor</a>
+</div>
+<div class="col-md-11">
+    <button type="submit" class="btn btn-primary btnxls  btndownload" title="Download File" value="Submit" onclick="exportToExcel()">
+        <i class="bi bi-download"></i> Download
+    </button>
+</div>
+
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+
+@(Html.Awe().Grid(gridId)
+      .Mod(o => o.Main().Custom("outsideFilter"))
+      .Url(Url.Action("GetVendorList", contr))
+      .Height(450)
+      .Resizable()
+      .Reorderable()
+      .HeaderGroups(
+        new HeaderGroup { Content = "Current Financial Year (C.F.Y)", Level = 0, Id = "cfy", CssClass = "headerboldh" },
+        new HeaderGroup { Content = "Tax Deducted at Source (T.D.S) Details", Level = 0, Id = "tds", CssClass = "headerboldh" },
+        new HeaderGroup { Content = "GST-TDS Details", Level = 0, Id = "gsttds", CssClass = "headerboldh" })
+      .Columns(
+        @*new Column { Bind = "Id", Width = 75, Groupable = false },*@
+
+        new Column { Bind = "Name", ClientFormat = "<a href='" + Url.Action("EditVendor", "Vendor", new { id = ".(Id)" }) + "'>.(Name)</a>", Header = "Vendor Name", HeaderCssClass = "boldh" },
+
+        new Column { Bind = "GSTIN_Number", Prop = "GstIn_Number", Header = "GST IN Number", HeaderCssClass = "boldh" },
+
+        new Column { Bind = "PAN_Number", Prop = "Pan_Number", Header = "PAN Number", HeaderCssClass = "boldh" },
+        new Column { Bind = "TAN_Number", Prop = "Tan_Number", Header = "TAN Number", HeaderCssClass = "boldh" },
+
+        new Column { Bind = "VendorDefaults.Category", Width = 160, ClientFormat = ".(Category)", Header = "Vendor Category", HeaderCssClass = "boldh" },
+
+        new Column { Bind = "VendorBalance.OpeningBalance", Width = 160, ClientFormat = ".(OpeningBalance) ", Header = "₹ Opening Balance", HeaderCssClass = "boldh", HeaderGroups = new[] { "cfy" }, CssClass = "amount" },
+        new Column { Bind = "VendorBalance.TotalBillAmount", Width = 150, ClientFormat = ".(InvoiceAmount) ", Header = "₹ Invoice", HeaderCssClass = "boldh", HeaderGroups = new[] { "cfy" }, CssClass = "amount" },
+        new Column { Bind = "VendorBalance.TotalNetPayable", ClientFormat = ".(NetPayable)", Header = "₹ Net Payable", HeaderCssClass = "boldh", HeaderGroups = new[] { "cfy" }, CssClass = "amount" },
+        new Column { Bind = "VendorBalance.Paid_NetPayable", Width = 160, ClientFormat = ".(TotalPayment)", Header = "₹ Total Payments", HeaderCssClass = "boldh ", HeaderGroups = new[] { "cfy" }, CssClass = "amount" },
+        new Column { Bind = "VendorBalance.Pending_NetPayable", Width = 150, ClientFormat = ".(BalanceAmount)", Header = "₹ Balance", HeaderCssClass = "boldh ", HeaderGroups = new[] { "cfy" }, CssClass = "amount" },
+        new Column { Bind = "VendorDefaults.TDSPercentage", Header = "TDS %", ClientFormat = ".(Tds) %", HeaderCssClass = "boldh", HeaderGroups = new[] { "tds" }, CssClass = "amount" },
+        new Column { Bind = "VendorBalance.Paid_TDS", Width = 160, ClientFormat = ".(Paid_TDS)", Header = "₹ TDS Paid Amount", HeaderCssClass = "boldh", HeaderGroups = new[] { "tds" } },
+       @*        new Column { Bind = "GSTINNumber", Header = "TDS Filed Date (dd-mm-yyy)",HeaderCssClass = "boldh",HeaderGroups = new[] { "tds" },MinWidth=230},
+*@        new Column { Bind = "VendorDefaults.GST_TDSPercentage", Width = 100, ClientFormat = ".(GstTds) %", Header = "GST-TDS %", HeaderCssClass = "boldh", HeaderGroups = new[] { "gsttds" } },
+        new Column { Bind = "VendorBalance.Paid_GST_TDS", Width = 200, ClientFormat = ".(Paid_GST_TDS)", Header = "₹ GST-TDS Paid Amount", HeaderCssClass = "boldh", HeaderGroups = new[] { "gsttds" } },
+       @*        new Column { Bind = "GSTINNumber",Header = "GST-TDS Filed Date (dd-mm-yyy)",HeaderCssClass = "boldh",HeaderGroups = new[] { "gsttds" },MinWidth=270},
+*@        new Column { Bind = "Status", Header = "Vendor Status", HeaderCssClass = "boldh", CssClass = "statuscolor" }))
+
+
+<script>
+    var contr = "@contr";
+    var gridId = "@gridId";
+
+
+</script>
+<script src="~/js/Vendor/Vendor.js" asp-append-version="true"></script>
+
+
+
+
+
+
+
+
+

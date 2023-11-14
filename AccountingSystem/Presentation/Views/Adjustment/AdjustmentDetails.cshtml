@@ -1,0 +1,186 @@
+﻿@using Common.ConstantVariables;
+@model Presentation.Models.Adjustment.AdjustmentViewModel
+@{
+    var VendorID = ViewBag.VendorId;
+    var vlist = ViewBag.VendorDetails;
+    string Role = ViewBag.Role;
+    var status = Model.AdjustmentStatus.StatusMaster.CodeValue;
+}
+<div>
+    @{
+        <partial name="_VendorBalanceDetails" />
+    }
+</div>
+<hr />
+<input type="checkbox" id="title1" class="accordioncollapse" />
+<label for="title1" class="labelclass">Vendor Details</label>
+<div class="content">
+    <div class=" d-flex flex-row justify-content-start">
+        <div class=" col-md-3">
+            <label class="control-label">Owner/Director Name</label>
+            <input value="@vlist.OwnerOrDirectorName" class="form-control" readonly />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Vendor Name</label>
+            <input class="form-control" value="@vlist.Name" readonly />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Email</label>
+            <input class="form-control" value="@vlist.VendorPerson.Contacts.Email" readonly />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Phone</label>
+            <input class="form-control" value="@vlist.VendorPerson.Contacts.Phone" readonly />
+        </div>
+    </div>
+
+    <div class=" d-flex flex-row justify-content-start">
+        <div class="form-group col-md-3">
+            <label class="control-label">Bank Name</label>
+            <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.BankDetails.BankName" readonly />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Branch Name</label>
+            <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_name" readonly />
+        </div>
+        <div class="form-group col-md-3">
+
+            <label class="control-label">Account No</label>
+
+            <input class="form-control" value="@vlist.VendorBankAccounts.AccountNumber" readonly />
+
+        </div>
+
+        <div class="form-group col-md-3">
+            <label class="control-label">IFSC Code</label>
+            <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_ifsc" readonly />
+        </div>
+    </div>
+</div>
+<br />
+<label for="title2" class="labelclass">Add Adjustment</label>
+<div class="content">
+    <form asp-action="AdjustmentDetails" asp-controller="Adjustment" method="post" enctype="multipart/form-data">
+        <div class=" d-flex flex-row justify-content-start">
+            <input type="hidden" value="@VendorID" name="VendorID" />
+            <input type="hidden" asp-for="ID" name="ID" />
+            <div class="form-group col-md-3">
+                <label class="control-label">Adjustment Type</label>
+                <select id="filetype" name="AdjustmentType" class="form-dropdown form-control" required asp-for="AdjustmentType">
+                    <option value="">--- Select File Type ---</option>
+                    <option value="Payment">Payment</option>
+                    <option value="Bill">Bill</option>
+                    <option value="Adjustment">Adjustment</option>
+                </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Reference No</label>
+                <label class="text-danger">  * </label>
+                <input class="form-control" name="BillPaymentRefNo"asp-for="BillPaymentRefNo"  type="text" maxlength="30" oninput="this.value = this.value.toUpperCase()" />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Date</label>
+                <label class="text-danger">  * </label>
+                <input type="date" name="Date" required class="form-control" id="BillDate" asp-for="Date" />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">₹ Amount</label>
+                <input class="form-control input-amount" type="number" name="Amount" id="payabledeuction" asp-for="Amount" required />
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-start">
+            <div class="form-group col-md-3">
+                <label class="control-label">UTR No</label>
+                <input class="form-control" name="UTR_No" type="text" maxlength="30" asp-for="UTR_No" oninput="this.value = this.value.toUpperCase()" />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Description</label>
+                <textarea class="form-control" name="Description" maxlength="150" id="txtPaymentTerms" asp-for="Description" required></textarea>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row mb-2">
+                <div class="form-group col-md-3 mt-4 remark">
+
+                    @if (@Role == "Administrator")
+                    {
+                        @if (status != ValueMapping.pending)
+                        {
+                            <label class="control-label">Remarks</label>
+                            <label class="text-danger">  * </label>
+                            <textarea  class="form-control" asp-for="Remarks" disabled>@Model.Remarks</textarea>
+                        }
+                        else
+                        {
+                            <label class="control-label">Remarks</label>
+                            <label class="text-danger">  * </label>
+                            <textarea   asp-for="Remarks" class="form-control" required ></textarea>
+                        }
+
+                    }
+                    else
+                    {
+                        @if (status != ValueMapping.pending)
+                        {
+                            <label class="control-label">Remarks</label>
+                            <label class="text-danger">  * </label>
+                            <textarea  class="form-control" asp-for="Remarks" disabled>@Model.Remarks</textarea>
+                        }
+
+                    }
+                </div>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right ml-2">
+                @if (@Role == "Administrator")
+                {
+                    @if (status == ValueMapping.pending)
+                    {
+                        <button type="submit" id="approvebill" class="btn btn-success ml-2" name="action" value="approve">Approve</button>
+                        <button type="submit" id="rejectbill" class="btn btn-danger" name="action" value="reject">Reject</button>
+                        <a class="btn btn-danger mx-2" asp-controller="Adjustment" asp-action="Index" asp-route-id="@VendorID"><i class="fa fa-close"></i> Cancel</a>
+                    }
+                    else{
+
+
+                        <a class="btn btn-danger mx-2" asp-controller="Adjustment" asp-action="Index" asp-route-id="@VendorID"><i class="fa fa-close"></i> Cancel</a>
+
+                        }
+                }
+                @*Add a new Button to Reject the Bills Button Name: "Reject"*@
+
+                @*  <a class="btn btn-danger" type="button" asp-action="Index" asp-controller="Bill"><i class="fa fa-close"></i> Cancel</a>*@
+            </div>
+        </div>
+
+        @if (@Role != "Administrator")
+        {
+            <div class="row">
+                @if (status == ValueMapping.pending)
+                {
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-success ml-2" id="btnSubmit"><i class="fa fa-save"></i> Submit</button>
+                        <a class="btn btn-danger mx-2" asp-controller="Adjustment" asp-action="Index" asp-route-id="@VendorID"><i class="fa fa-close"></i> Cancel</a>
+                    </div>
+                }
+                else
+                {
+                      <div class="col-md-12 text-right">                       
+                        <a class="btn btn-danger mx-2" asp-controller="Adjustment" asp-action="Index" asp-route-id="@VendorID"><i class="fa fa-close"></i> Cancel</a>
+                    </div>
+                    
+                }
+                
+            </div>
+        }
+    </form>
+</div>
+<br />
+<script>
+    $(#approvebill)
+</script>
+

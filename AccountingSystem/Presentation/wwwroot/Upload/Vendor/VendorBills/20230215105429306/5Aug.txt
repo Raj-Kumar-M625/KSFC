@@ -1,0 +1,7 @@
+today:
+1>debugg the code for sakala
+2>practiced jsp and servlet concepts
+
+
+tomorrow:
+1>cintinue with coding

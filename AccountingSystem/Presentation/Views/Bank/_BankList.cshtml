@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Presentation.Models.Bank.BankStatementsModel>
+
+@*@{
+    ViewData["Title"] = "Index";
+    //List<BankStatementsVM> bankStatements = ViewBag.data;
+}*@
+
+<table  class="table table-striped tablefont table-responsive-md">
+    <caption hidden>Bank List</caption>
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction_Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Value_Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefNo_ChequeNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Branch_Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction_Mnemonic)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Transaction_Literal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Debit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Credit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BankName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Transaction_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Value_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RefNo_ChequeNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Branch_Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Transaction_Mnemonic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Transaction_Literal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Debit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Credit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccountNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BankName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

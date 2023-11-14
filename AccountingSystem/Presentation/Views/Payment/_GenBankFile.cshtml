@@ -1,0 +1,33 @@
+﻿@using Presentation.Models.Master
+@using Presentation.Models.Vendor
+@model Presentation.Models.Vendor.VendorPaymentViewModel
+
+@{
+    ViewData["Title"] = "Generate BankFile";
+    var UserName = ViewBag.UserName;
+    IEnumerable<BankMasterModel> banks = ViewBag.Banks;
+}
+ <h1>Generate Bank File - Select Account</h1>
+<div class="mt-2 searchgrid">
+    <form asp-action="GenerateBankFile">
+        <div class="row">
+            <div class="form-group  col-md-3">
+                <label class="control-label">Vendor Name</label>
+                <input class="form-control" readonly />
+            </div>
+            <div class="form-group  col-md-3">
+                <label class="control-label">No.Of Transacrtions</label>
+                <input class="form-control" readonly />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Total Selected Amount</label>
+                <input class="form-control" readonly />
+            </div>
+        </div>
+        <div class=" row">
+            @{
+                await Html.RenderPartialAsync("_BankPartial", banks);
+            }
+        </div>
+    </form>
+</div>

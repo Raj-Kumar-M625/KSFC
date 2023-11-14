@@ -1,0 +1,92 @@
+﻿@model Presentation.Models.Identity.OtpRequestViewModel
+@{
+    ViewData["Title"] = "Login";
+    string otp = ViewBag.OTP;
+}
+
+<meta name="viewport" content="width=device-width" />
+
+
+
+<div class="row mt-2 logindiv" width="100%" height="100%">
+    <div class="col-md-6 logindivprimary" >
+        <div class="mt-3">            
+            <img src="~/images/LoginPageImage.jpg" width="90%" height="85%"  alt="Accounting"/>
+        </div>
+    </div>
+    @if (Model.Otp == null)
+    {
+        <form class="col-md-5 responsiveform loginform" method="post" asp-controller="Identity" asp-action="SendOtp">
+            <div class="mt-3">
+                <div class="loginBox">
+                    <div class="logo"> <img src="~/images/kar_main_logo.png" title="Government Logo" alt="Government Logo"> </div>
+                    <div>&nbsp;</div>
+                    <h3>Accounting Interface</h3>
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="loginviewbag">
+                            @ViewBag.Error
+                        </div>
+                    }
+                    <div class="container mt-5">
+                        <div class="material-textfield">
+                            <input placeholder=" " class="logininput" type="text" asp-for="Email" name="Email" id="email" required value="user@localhost.com" >
+                            <label class="lbl">Email Address</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <button class="btn btn-primary loginotpbtn" type="submit">Send OTP</button>
+                </div>
+
+                <br />
+            </div>
+        </form>
+    }
+    else
+    {
+        <form class="col-md-5 loginform"  method="post" asp-controller="Identity" asp-action="Login"  asp-route-returnUrl="@ViewData["ReturnUrl"]">
+            <div class="mt-3">
+                <div class="loginBox">
+                     <div class="logo"> <img src="~/images/kar_main_logo.png" alt="Government Logo"> </div>
+                    <div>&nbsp;</div>
+                    <h3>Accounting Interface</h3>
+                        @if (ViewBag.Error != null)
+                    {
+                        <div class="loginviewbag">
+                            @ViewBag.Error
+                        </div>
+                    }
+                  @*  @if (ViewBag.result != null)
+                    {
+                        <div class="loginviewbag">
+                            @ViewBag.result
+                        </div>
+                    }*@
+                    <div class="container mt-5">
+                        <div class="material-textfield">
+                            <input placeholder=" "  class="logininput" type="text" asp-for="Email" name="Email" id="email" value="@Model.Email" required readonly>
+                            <label class="lbl">Email Address</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="OtpField" class="mt-4"> 
+                      <div class="container mt-5">
+                        <div class="material-textfield">
+                            <input placeholder=" " class="logininput" asp-for="Otp" type="password" name="Otp" id="otp" required value=" @ViewBag.result" readonly>
+                            <label class="lbl">OTP</label>
+                        </div>
+                    </div>
+            </div>
+            <div class="my-4">
+                <button class="btn btn-primary loginbtn" type="submit" id="login">Log in</button>             
+            </div>
+            <div class="resendbtn">
+             <a href="@Url.Action("ResendOTP","Identity",new { email = Model.Email})" >Resend OTP</a>
+              </div>
+            </form>
+                   
+    }
+</div>

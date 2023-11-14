@@ -1,0 +1,122 @@
+﻿@{
+	var UserName = ViewBag.UserName;
+	ViewData["Title"] = "TDS Challan List";
+	var gridId = "TDSChallanList";
+	var contr = "TDS";
+	var pref = "filter";
+}
+<div id="outFilter" class=" awe-il searchgrid">
+	@using (Html.Awe().BeginContext(pref))
+	{
+		<div class="row mt-3">
+            <div class=" col-sm-2 ml-n1">
+                @Html.Awe().TextBox("challanFilters.noOfVendors").Numeric().Placeholder("No. of Vendors").CssClass("input-search")
+			</div>
+            <div class=" col-sm-2 ml-n2">
+                @Html.Awe().TextBox("challanFilters.noOfTransactions").Numeric().Placeholder("No. of Transaction").CssClass("input-search")
+			</div>
+            <div class=" col-sm-2 ml-n2">
+                @Html.Awe().AjaxRadioList("challanFilters.bankName").Url(Url.Action("GetBanks", "TDS")).Odropdown(o  => o.Caption("--- Select Bank Name ---").ClearBtn())
+            </div>
+            <div class=" col-sm-2 px-5" >
+                @Html.Awe().TextBox("challanFilters.payableMinAmount").Numeric().Placeholder("Min Amount").CssClass("input-label min_val")
+            </div>
+
+            <div class=" col-sm-2 px-4">
+                @Html.Awe().TextBox("challanFilters.payableMaxAmount").Numeric().Placeholder("Max Amount").CssClass("input-label max_val")
+            </div>
+            <div class="col-md-2 px-3">
+                @Html.Awe().DatePicker("challanFilters.challanDate").Placeholder("Challan Date Range").SelectRange().ChangeMonth().ChangeYear()
+            </div>
+            
+            <div class=" row mt-4">
+                <div class=" col-sm-2 ml-n2">
+                    @Html.Awe().AjaxRadioList("challanFilters.accountNo").Parent("challanFilters.bankName", "bankNames").Url(Url.Action("GetAccountNumber", "TDS")).Odropdown(o => o.Caption("--- Select Account No ---").ClearBtn())
+                </div>
+                <div class="col-md-2 px-3">
+                    @Html.Awe().AjaxRadioList("challanFilters.tdsSection").Url(Url.Action("GetTDSSectionList", "TDS")).Odropdown(o => o.Caption("--- Select TDS Section ---").ClearBtn())
+                </div>
+                <div class=" col-md-10 px-n5">
+                    <button type="button" id="btnClearFilter" class="btn  btn-sm btn-primary mr-n4 bnkreset"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+                </div>
+                <input type="hidden" id="branchid" name="challanFilters.bankMasterId" />
+            </div>
+		</div>
+		<br />
+	}
+</div>
+
+
+    <div class="bar">
+    <div class="form-group row  pt-3">
+            <label for="numberOfRecords" class="frow-label col-sm-1 pt-2"> No. of Records </label>
+            <div class="col-sm-1">
+                <input type="text" id="numberOfRecords" class="form-control" readonly>
+            </div>
+            <label for="totalTDSPayableAmount" class="frow-label col-sm-2 pt-2 text-end"> ₹ Total TDS Payable </label>
+            <div class="col-sm-2">
+                <input type="text" id="totalTDSPayableAmount" class="form-control" readonly>
+            </div>
+
+            @(Html.Awe().InitPopup()
+                .Name("UpdateUTR")
+                .Width(50)
+                .Height(200)                 
+                .Url(Url.Action("UpdateTDSPaymentChallan", contr))
+                .Draggable(false)
+                .Modal()
+                )
+
+            <div class="col-sm-6" >
+            @*@Html.Awe().Button().Text("Enter UTR").Id("btnEnterUTR").Enabled(true).CssClass("btnadd col-sm-5 offset-sm-9").OnClick(Html.Awe().OpenPopup("UpdateUTR"))*@
+                <div class="col-sm-4 offset-sm-8">
+                    <button type="submit" class="btn btn-primary btnxls  btndownload" title="Download File" value="Submit" onclick="exportToExcel()">
+                        <i class="bi bi-download"></i> Download
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+@(Html.Awe().Grid(gridId)
+      .Mod(o => o.Main().Custom("outsideFilter"))
+      .Url(Url.Action("GetTDSChallanList", contr))
+        .Height(450)
+      .Resizable()
+      .Reorderable()
+      .Columns(
+          new Column
+          {
+              Width = 50,
+              ClientFormat = Html.Awe().CheckBox("Id")
+                                .Ochk()
+                                .Prefix("c.(Id)")
+                                .HtmlAttributes(null, new { data_val = ".(Id)" }) 
+                                .ToString(),
+                Hidden = true
+          }.Mod(o => o.Nohide()),
+         new Column { Bind = "CreatedOn", Prop = "CreatedOn", Header = "Challan Date", HeaderCssClass = "boldh" },
+        new Column { Bind = "TDSSection", Prop = "TdsSection", Header = "TDS Section", HeaderCssClass = "boldh" },
+        new Column { Bind = "NoOfVendors", Prop = "NoOfVendors", Header = "No. of Vendors", HeaderCssClass = "boldh", CssClass = "amount" },
+        new Column { Bind = "NoOfTrans", Prop = "NoOfTransactions", Header = "No. of Transaction", HeaderCssClass = "headerboldh60px", CssClass = "amount" },
+        new Column { Bind = "Bank.BankName", Prop = "BankName", Header = "Bank Name", HeaderCssClass = "boldh" },
+        new Column { Bind = "Bank.Accountnumber", Prop = "AccountNo", Header = "Account No.", HeaderCssClass = "boldh " },
+        new Column { Bind = "ChallanNo", Prop = "ChallanNo", Header = "Challan No.", HeaderCssClass = "boldh" },
+        new Column { Bind = "UTRNo", Prop = "UtrNo", Header = "UTR No.", HeaderCssClass = "boldh " },
+        new Column { Bind = "TotalTDSPayment", Prop = "TotalTdsPayment", Header = "₹ TDS Payable", HeaderCssClass = "headerboldh60px", CssClass = "amount" },
+        new Column { Bind = "TDSStatus", Prop = "TdsStatus", Header = "Status", HeaderCssClass = "boldh", CssClass = "statuscolor" },
+        new Column { ClientFormat = "<a href='/TDS/DownloadPayableChallan/.(Id)'><img src='../images/download.png'alt='download image'></a>", Header = "Payable Challan", HeaderCssClass = "boldh ", CssClass = "icon" },
+        new Column { ClientFormat = "<button type='button' class='btn btn-primary btnadd awe-btn' id='btnEnterUTR' onclick='awe.open(\"UpdateUTR\", {params : { id : .(Id) }}, event)'>Enter UTR</button>", Header = "Action", HeaderCssClass = "boldh" }))
+
+<script>
+
+    var gridId = "@gridId";
+    var contr = "@contr";
+
+
+</script>
+
+
+<script src="~/js/TDS/TDSChallanlist.js"></script>
+	

@@ -1,0 +1,20 @@
+﻿CREATE TABLE [dbo].[Address]
+(
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY,
+    [VendorPersonID] INT NOT NULL,
+	[Name] NVARCHAR(100) NULL,
+    [Type] NVARCHAR(15) NULL,
+    [Address] NVARCHAR(250) NULL,
+    [City] NVARCHAR(100) NULL,
+    [State] NVARCHAR(100) NULL,
+    [Country] NVARCHAR(100) NULL,
+    [PinCode] NVARCHAR(15) NULL,
+    [StartDate] DATETIME2 NULL,
+    [EndDate] DATETIME2 NULL,
+    [Status] BIT NOT NULL DEFAULT 1,
+    [CreatedBy] NVARCHAR(100) NULL,
+    [CreatedOn] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
+    [ModifiedBy] NVARCHAR(100) NULL,
+    [ModifiedOn] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
+    CONSTRAINT [FK_Address_ToVendorPerson] FOREIGN KEY ([VendorPersonID]) REFERENCES [VendorPerson]([ID])
+)

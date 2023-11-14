@@ -1,0 +1,172 @@
+﻿@{
+    var UserName = ViewBag.UserName;
+    ViewData["Title"] = "UserList";
+    var gridId = "UserListGrid";
+    var contr = "Identity";
+    var pref = "filter";
+}
+
+
+<h3>RoleManagement</h3><br />
+<div id="outFilter" class=" awe-il searchgrid">
+    @*context will add a prefix to all awesome editors html ids*@
+    @using (Html.Awe().BeginContext(pref))
+    {
+        @*html input name matches filter rule name*@
+        <div class="row mt-3">
+
+            <div class=" col-md-2 px-3">
+                @Html.Awe().TextBox("userfilters.UserName").Placeholder("UserName").CssClass("input-search")
+            </div>
+
+            <div class=" col-md-2 px-3">
+                @Html.Awe().TextBox("userfilters.EmailId").Placeholder("EmaiId").CssClass("input-search")
+            </div>
+
+            <div class=" col-md-2 px-3">
+                @Html.Awe().TextBox("userfilters.MobileNumber").Numeric().Placeholder("MobileNumber").CssClass("input-search")
+            </div>
+
+            <div class=" col-md-2 offset-md-4 px-5">
+                <button type="button" id="btnClearFilter" class="btn  btn-sm btn-primary mr-n3 bnkreset"><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+            </div>
+           
+
+        </div>
+    }
+</div>
+
+@(Html.Awe().InitPopup()
+    .Name("UpdateUTR")
+    .Width(50)
+    .Height(200)
+    .Url(Url.Action("Edit",contr))
+    .Draggable(false)
+    .Modal()
+    )
+@(Html.Awe().Grid(gridId)
+    .Mod(o => o.Main().Custom("outsideFilter"))
+    .Url(Url.Action("GetUserList",contr))
+    .Height(450)
+    .Resizable()
+    .Reorderable()
+    .Columns(
+        new Column
+        {
+            Width = 50,
+            ClientFormat = Html.Awe().CheckBox("Id")
+                .Ochk()
+                .Prefix("c.(Id)")
+                .HtmlAttributes(null,new { data_val = ".(Id)" })
+                .ToString(),
+            Hidden = true
+        }.Mod(o => o.Nohide()),
+        new Column { Bind = "UserName",Prop = "UserName",Header = "User Name",HeaderCssClass = "boldh",MinWidth = 230 },
+        new Column { Bind = "EmailId",Prop = "EmailId",Header = "Email",HeaderCssClass = "boldh" },
+        new Column { Bind = "MobileNumber",Prop = "MobileNumber",Header = "Phone Number",HeaderCssClass = "boldh" },
+        new Column { Bind = "Role",Prop = "Role",Header = "Role",HeaderCssClass = "boldh" },         
+        new Column { ClientFormat = "<button type='button' class='btn btn-primary btnadd awe-btn float-left'  id='btnEnterUTR' onclick='awe.open(\"UpdateUTR\", {params : { id : \".(Id)\" }}, event)'>Enter UTR</button>",Header = "Action",HeaderCssClass = "boldh" }
+        ))
+
+
+
+
+<script>
+
+    // outside filter row custom mod
+    function outsideFilter(o) {
+        var g = o.v;
+        var fcont = $('#outFilter');
+        var opt = { model: {} };
+        o.fltopt = opt;
+
+        // reload each filter control when grid loads
+        g.on('aweload', function () {
+            $('#outFilter .awe-val').each(function () {
+                var api = $(this).data('api');
+                api && api.load && api.load();
+            });
+        });
+
+        // apply filters on control change
+        fcont.on('change', function (e) {
+            opt.inp = fcont.find('input').not('.nonflt input');
+            // instead of opt.inp we could set opt.cont = fcont; but this will also include the itemsType input
+            // and the grid would reload when we change the items type also
+
+            awem.loadgflt(o);
+        });
+
+        $('#btnClearFilter').on('click', function () {
+            fcont.find('.awe-val').not('.nonflt input').each(function () {
+                var it = $(this).val('');
+                var api = it.data('api');
+                api && api.render && api.render();
+                // call api.render instead of change to load the grid only once
+            });
+
+            opt.inp = fcont.find('input').not('.nonflt input');
+
+            awem.loadgflt(o);
+        });
+
+        // keep same filter editors values after page refresh
+
+        var fkey = 'persFout' + o.id;
+        var storage = sessionStorage;
+        var pref = '@pref';
+
+        g.on('awefinit', function () {
+            var fopt = storage[fkey];
+            if (fopt) {
+                fopt = JSON.parse(fopt, function (key, val) {
+                    if (val && val.length > 0 && val[0] === '[') {
+                        return JSON.parse(val);
+                    }
+
+                    return val;
+                });
+
+                if (fopt.model) {
+                    o.fltopt.model = fopt.model;
+                    o.fltopt.order = fopt.order;
+
+                    // set persisted model filter params
+                    var res = awef.serlObj(fopt.model);
+                    res = res.concat(awef.serlArr(fopt.order, 'forder'));
+                    o.fparams = res;
+                    var model = fopt.model;
+
+                    g.one('aweload', function () {
+                        for (var prop in model) {
+                            var editor = $('#' + pref + prop);
+                            if (editor.length) {
+                                editor.val(awef.sval(model[prop]));
+                                if (editor.closest('.awe-txt-field')) {
+                                    editor.data('api').render();
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            g.on('aweload', function (e) {
+                if ($(e.target).is(g)) {
+                    fopt = o.fltopt;
+                    storage[fkey] = JSON.stringify({ model: fopt.model, order: fopt.order });
+                }
+            });
+        });
+    }
+
+    // get data for filter editor from grid model
+    function filterData(name) {
+        return function () {
+            var g = $('#@gridId');
+            var o = g.data('o');
+            return awem.frowData(o, name);
+        }
+    }
+
+</script>

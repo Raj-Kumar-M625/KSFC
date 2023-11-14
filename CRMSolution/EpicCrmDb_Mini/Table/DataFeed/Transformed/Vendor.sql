@@ -1,9 +1,0 @@
-﻿CREATE TABLE [dbo].[Vendor]
-(
-	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
-	[VendorId] NVARCHAR(10) NOT NULL,
-	[CompanyName] NVARCHAR(50) NOT NULL,
-	[ContactPerson] NVARCHAR(50) NOT NULL,
-	[Address] NVARCHAR(100) NOT NULL,
-	[Mobile] NVARCHAR(20) NOT NULL,
-)

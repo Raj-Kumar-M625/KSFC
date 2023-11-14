@@ -1,0 +1,8 @@
+Today:
+1>go trough the Angular Course
+2>Code setup
+3>created table for Fee 
+
+tomorrow:
+1>create table for payment
+2>Add new fee ui

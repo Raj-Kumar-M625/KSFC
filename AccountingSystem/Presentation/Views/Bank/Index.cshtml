@@ -1,0 +1,92 @@
+﻿@using Presentation.Models.Bank
+@model Presentation.Models.Bank.BankStatementsSearchCriteriaModel
+
+@{
+    ViewData["Title"] = "Index";
+
+    List<BankStatementsModel> bankStatements = ViewBag.data;
+    var count = bankStatements != null ? bankStatements.Count : 0;
+
+    var defaultDateFrom = DateTime.Now.AddDays(-30).ToString("yyyy-MM-dd");
+    var defaultDateTo = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+
+@*<h1>Index</h1>*@
+
+<h5 class="d-flex font-weight-bold">Bank Statements Search Criteria</h5>
+<hr />
+<div>
+    <form asp-controller="Bank" asp-action="BankList" method="post">
+        <div class="form-row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-md-2">
+                <label asp-for="BankName" class="control-label"></label>
+                <input asp-for="BankName" class="form-control" />
+                <span asp-validation-for="BankName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="FileName" class="control-label"></label>
+                <input asp-for="FileName" class="form-control" />
+                <span asp-validation-for="FileName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="AccountNo" class="control-label"></label>
+                <input asp-for="AccountNo" class="form-control" value="0" />
+                <span asp-validation-for="AccountNo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="MinAmount" class="control-label"> Min Credit Amount</label>
+                <input asp-for="MinAmount" class="form-control" value="0" />
+                <span asp-validation-for="MinAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="MaxAmount" class="control-label">Max Credit Amount</label>
+                <input asp-for="MaxAmount" class="form-control" value="0" />
+                <span asp-validation-for="MaxAmount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label asp-for="TransactionType" class="control-label"></label>
+                <select asp-for="TransactionType" class="form-control">
+                    <option value="All">All</option>
+                    <option value="Debit">Debit</option>
+                    <option value="Credit">Credit</option>
+                </select>
+                <span asp-validation-for="TransactionType" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="DateFrom" class="control-label"> </label>
+                <input asp-for="DateFrom" value="date" class="form-control" />
+                <span asp-validation-for="DateFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="DateTo" class="control-label"></label>
+                <input asp-for="DateTo" value="date" class="form-control" />
+                <span asp-validation-for="DateTo" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label asp-for="Count" class="control-label"></label>
+                <input asp-for="Count" class="form-control" value="500" />
+                <span asp-validation-for="Count" class="text-danger"></span>
+            </div>
+            <div class="col-md-2">
+                <label class="control-label"> Search Button</label>
+                <input type="submit" value="Search" class="btn btn-success btn-block" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <h5>Bank Statements (@count)</h5>
+    @if (count > 0)
+    {
+        await Html.RenderPartialAsync("_BankList", bankStatements);
+    }
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

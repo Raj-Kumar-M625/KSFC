@@ -1,0 +1,147 @@
+﻿@{
+    var UserName = ViewBag.UserName;
+    ViewData["Title"] = "GSTTDSList";
+    var gridId = "GSTTDSListGrid";
+    var contr = "GSTTDS";
+    var pref = "filter";
+}
+@*<script src="~/js/GST-TDS/GST-TDSList.js"></script>*@
+
+<div id="outFilter" class=" awe-il searchgrid">
+    @*context will add a prefix to all awesome editors html ids*@
+    @using (Html.Awe().BeginContext(pref))
+    {
+        <div class="row mt-3">
+            <div class="col-md-2 px-2">
+                @Html.Awe().TextBox("gsttdsFilters.billReferenceNo").Placeholder("Bill Ref. No.").CssClass("input-search form-control")
+            </div>
+            <div class="col-md-2 px-2">
+                @Html.Awe().TextBox("gsttdsFilters.vendorName").Placeholder("Vendor Name").CssClass("input-search form-control")
+            </div>
+            <div class=" col-md-2 px-2">
+                @Html.Awe().TextBox("gsttdsFilters.payableMinAmount").Numeric().Placeholder("Min (GST-TDS Payable)").CssClass("input-label min_val")
+            </div>
+            <div class=" col-md-2 px-2">
+                @Html.Awe().TextBox("gsttdsFilters.payableMaxAmount").Numeric().Placeholder("Max (GST-TDS Payable)").CssClass("input-label max_val")    
+            </div>
+            <div class="col-md-2 px-2">
+                @Html.Awe().DatePicker("gsttdsFilters.paymentFromDate").Placeholder("Bill Date Range").DayFunc("dayfirst").SelectRange().ChangeMonth().ChangeYear()
+            </div>
+          @*  <div class="col-md-2 px-2">
+                @Html.Awe().DatePicker("gsttdsFilters.paymentToDate").Placeholder("To Date").DayFunc("daylast").ChangeMonth().ChangeYear()
+            </div>*@
+
+        </div>
+        <div class=" row mt-3">
+            
+            <div class="col-md-2 px-2">
+                @Html.Awe().TextBox("gsttdsFilters.gstinNumber").Placeholder("GSTIN Number").CssClass("input-search form-control")
+            </div>
+            <div class="col-md-2 px-2">
+                @Html.Awe().AjaxRadioList("gsttdsFilters.gstTdsStatus").Url(Url.Action("GetGSTTDSStatus", "GSTTDS")).Odropdown(x => x.Caption("--- Select GST TDS Status ---").AutoSelectFirst().ClearBtn())
+            </div>
+            <div class="col-md-2 px-2">
+             </div>
+             <div class="col-md-2 px-2">
+             </div>
+            <div class="col-md-3 px-n5 align-content-end">
+                <button type="button" id="btnClearFilter" class="btn btn-sm btn-primary billreset" ><i class="bi bi-bootstrap-reboot"></i> Reset</button>
+            </div>
+        </div>
+        <br />
+        <div>
+        </div>
+    }
+</div>
+
+<div class="bar">
+    <div class="row" >       
+        <div class="col-md-2 px-3">
+            <label for="numberOfRecords" > No. of Records </label>
+            <input type="text" id="numberOfRecords" class="form-control" readonly>
+        </div>        
+        <div class="col-md-2 px-3">
+            <label for="totalGSTTDSPayableAmount" > ₹ Total GST-TDS Payable </label>
+            <input type="text" id="totalGSTTDSPayableAmount" class="form-control" readonly>
+        </div>
+        <div class="col-md-2 px-3">
+            <label for="selVendors">No of Vendors Selected</label>
+            <input type="text" class="form-control" id="selVendors" readonly>
+        </div>
+        <div class="col-md-2 px-3">
+            <label for="selTransactions">No of Transactions Selected</label>
+            <input type="text" class="form-control" id="selTransactions" readonly>
+        </div>
+        <div class="col-md-2 px-3">
+            <label for="selPayableAmount">GST-TDS Payable Amount Selected</label>
+            <input type="text" class="form-control" id="selPayableAmount" readonly>
+        </div>
+        <div class="col-md-2 px-5 pt-4">         
+            <button type="submit" class="btn btn-primary btnxls  btndownload" title="Download File" value="Submit" onclick="exportToExcel()">
+                <i class="bi bi-download"></i> Download
+            </button>
+        </div>
+        </div>
+
+    <div class="row mt-4 mb-3">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+
+        <div class="col-md-4">
+
+        @(Html.Awe().InitPopup()
+            .Name("GenerateGSTTDSChallan")
+            .Width(50)
+            .Height(200)
+            .Url(Url.Action("GenerateJsonFile", contr))
+            .ParameterFunc("setParams")
+            .Draggable(false)
+            .Modal()
+            )
+            @Html.Awe().Button().Text("Generate JSON File").Id("btnGenerateGSTTDSChallan").CssClass("btnadd col-sm-5 offset-sm-9").Enabled(true).OnClick(Html.Awe().OpenPopup("GenerateGSTTDSChallan"))
+        </div>
+    </div>
+ </div>
+@(Html.Awe().Grid(gridId)
+    .Mod(o => o.Main().Custom("outsideFilter"))
+    .Url(Url.Action("GetGSTTDSList", contr))
+    .Height(450)
+    .Resizable()
+    .Reorderable()
+    .Columns(
+        new Column
+        {
+            Width = 50,
+            ClientFormat = Html.Awe().CheckBox("Id")
+                .Ochk()
+                .Prefix("c.(Id)")
+                .HtmlAttributes(null, new { data_val = ".(Id)" })
+                .ToString(),
+            Header = Html.Awe().CheckBox("ChkAll").Ochk().SyncScript().ToString(),
+        }.Mod(o => o.Nohide()),       
+        new Column { Bind = "BillReferenceNo",ClientFormat = "<a href='" + Url.Action("BillDetails","Bill",new { id = ".(Id)",ModuleType = "GST-TDS" }) + "'>.(BillReferenceNo)</a>",Header = "Bill Reference Number",HeaderCssClass = "boldh",MinWidth = 180 },
+        new Column { Bind = "BillDate", Prop = "BillDate", Header = "<p title='(dd-MM-yyyy)'>Bill Date</p>", HeaderCssClass = "boldh", MinWidth = 230 },
+        new Column { Bind = "Vendor.Name", Prop = "VendorName", Header = "Vendor Name", HeaderCssClass = "boldh" },
+        new Column { Bind = "Vendor.GSTIN_Number", Prop = "GstIn_Number", Header = "GSTIN", HeaderCssClass = "boldh" },
+        new Column { Bind = "BillAmount", Prop = "BillAmount", Header = "₹ Total Bill", HeaderCssClass = "boldh", CssClass = "amount" },
+        new Column { Bind = "GSTTDS", Prop = "GstTdsPayableAmount", Header = "₹ GST-TDS Payable ", HeaderCssClass = "boldh", CssClass = "amount" },
+        new Column { Bind = "GSTTDSStatus.StatusMaster.CodeName", Prop = "GstTdsStatus", Header = "GST-TDS Status", HeaderCssClass = "boldh ", CssClass = "statuscolor" }
+    )
+)
+
+<br />
+
+<script>
+
+    var gridId = "@gridId";
+    var contr = "@contr";
+
+
+</script>
+<script src="js/GST-TDS/GST-TDSList.js">
+   
+</script>
+
+
+
+

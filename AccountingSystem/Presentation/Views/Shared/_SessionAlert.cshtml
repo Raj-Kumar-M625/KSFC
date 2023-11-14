@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <script type="text/javascript">
+        function SessionExpireAlert(timeout) {
+            var seconds = timeout / 1000;
+            document.getElementsByName("secondsIdle").innerHTML = seconds;
+            document.getElementsByName("seconds").innerHTML = seconds;
+            setInterval(function () {
+                seconds--;
+                document.getElementById("seconds").innerHTML = seconds;
+                document.getElementById("secondsIdle").innerHTML = seconds;
+            }, 1000);
+        
+            setTimeout(function () {
+                window.location = "http://www.neerajcodesolutions.com/";
+            }, timeout);
+        };
+        function ResetSession() {
+            //Redirect to refresh Session.
+            window.location = window.location.href;
+        }
+</script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    Your Session will expire in&nbsp;<span id="seconds"></span>&nbsp;seconds.
+    </form>
+</body>
+</html>

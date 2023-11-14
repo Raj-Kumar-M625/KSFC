@@ -1,0 +1,102 @@
+﻿@model Presentation.Models.Payment.PaymentViewModel
+@{
+    var UserName = ViewBag.UserName;
+    ViewData["Title"] = "EditAdvancePayment";
+    var Id = ViewBag.Id;
+    var vlist = ViewBag.VendorDetails;
+    var currentDate = DateTime.Now.ToString("dd-MM-yyyy");
+}
+<div>
+    @{
+        <partial name="_VendorBalanceDetails" />
+    }
+</div>
+<hr />
+<div class="mt-1">
+
+    <div class="col-md mt-lg-3">
+        <form asp-action="EditAdvancePayment" asp-controller="AdvancePayment" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mt-2"></div>
+            <input value="@Model.ID" asp-for="ID" class="form-control" hidden />
+            <input type="checkbox" id="title1" class="accordioncollapse" checked />
+            <label for="title1" class="labelclass">Vendor Details</label>
+            <div class="content">
+                <div class=" d-flex flex-row justify-content-start">
+                    <div class=" col-md-3">
+                        <label class="control-label">Owner/Director Name</label>
+                        <input value="@vlist.OwnerOrDirectorName" class="form-control" readonly />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Vendor Name</label>
+                        <input class="form-control" value="@vlist.Name" readonly />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Email</label>
+                        <input class="form-control" value="@vlist.VendorPerson.Contacts.Email" readonly />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Phone</label>
+                        <input class="form-control" value="@vlist.VendorPerson.Contacts.Phone" readonly />
+                    </div>
+                </div>
+                <div class=" d-flex flex-row justify-content-start">
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Bank Name</label>
+                        <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.BankDetails.BankName" readonly />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Branch Name</label>
+                        <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_name" readonly />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Account No</label>
+                        <input class="form-control" value="@vlist.VendorBankAccounts.AccountNumber" readonly />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">IFSC Code</label>
+                        <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_ifsc" readonly />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <input type="checkbox" id="title2" class="accordioncollapse" checked />
+            <label for="title2" class="labelclass">Add Advance Payment</label>
+            <div class="content">
+                <div class=" d-flex flex-row justify-content-start">
+                    <div class=" col-md-3">
+                        <label class="control-label">Payment Bill Ref No</label>
+                        <label class="text-danger">  * </label>
+                        <input asp-for="PaymentBillReference" type="text" class="form-control" maxlength="50" required />
+                        <span asp-validation-for="PaymentBillReference" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Payment Date</label>
+                        <label class="text-danger">  * </label>
+                        <input asp-for="PaymentDate" class="form-control" type="date" id="paymentDate" required />
+                        <span asp-validation-for="PaymentDate" class="text-danger"></span>
+                    </div>
+                    <div class=" col-md-3">
+                        <label class="control-label">Payment Amount</label>
+                        <label class="text-danger">  * </label>
+                        <input asp-for="PaidAmount" type="text" class="form-control input-amount" maxlength="16" id="advancePaymentAmount" required />
+                        <span asp-validation-for="PaidAmount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Description</label>
+                        <label class="text-danger">  * </label>
+                        <input asp-for="Description" class="form-control" type="text" maxlength="150" required />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-success" value="Submit"><i class="fa fa-save"></i> Submit</button>
+                        <a class="btn btn-danger" asp-controller="Payment" asp-action="Index"><i class="fa fa-close"></i> Cancel</a>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+</div>

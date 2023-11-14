@@ -1,0 +1,86 @@
+﻿@using Presentation.Models.Master
+@using Presentation.Models.GenerateBankFiles
+@model Presentation.Models.GenerateBankFiles.GenerateBankFileModel
+
+@{
+    ViewData["Title"] = "Generate BankFile";
+    var UserName = ViewBag.UserName;
+    IEnumerable<BankMasterModel> banks = ViewBag.Banks;
+    var banklist = banks.Select(x => x.BankName).Distinct().ToArray();
+    var paymentList = ViewBag.PaymentList;
+   List<int> id = ViewBag.PaymentId;
+}                           
+ <h4 >Generate Bank File - Select Account</h4>
+<div class="mt-2 searchgrid">
+    <form asp-action="GenerateBankFile">
+        <div class="row">
+            @for (int i = 0; i < id.Count; i++)
+            {
+                 <input class="form-control" asp-for="PaymentId" value="@id[i]" hidden />
+            }
+           
+
+            <div class="form-group  col-md-3">
+                <label class="control-label">No Of Vendors</label>
+                <input  class="form-control" asp-for="NoOfVendors" readonly />
+            </div>
+            <div class="form-group  col-md-3">
+                <label class="control-label">No Of Transactions</label>
+                <input class="form-control" asp-for="NoOfTransactions" readonly />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Total Selected Amount</label>
+                <input class="form-control"  asp-for ="TotalAmount" value="@paymentList" readonly />
+            </div>
+    
+        </div>
+        <div class=" row">
+            <div class="form-group  col-md-3">
+                <label class="control-label">Bank Name</label>
+
+                <select class="form-dropdown form-control" id="selBankName" asp-for="BankName" required>
+                    <label class="text-danger">  * </label>
+                    <option value="">--- Select Bank Name ---</option>
+                    @foreach (var o in banklist)
+                    {
+                        <option value="@o">@o</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group  col-md-3">
+
+                <label class="control-label">Branch Name</label>
+                <label class="text-danger">  * </label>
+                <select class="form-dropdown form-control" asp-for="BranchName" id="selBranchName" required>
+                    <option value="">--- Select Branch Name ---</option>
+                    @foreach (var o in banks)
+                    {
+                        <option value="@o.IfscCode,@o.Id,@o.AccountNumber,@o.IsBulkPayment" data="@o.BankName">@o.BranchName</option>
+                     
+
+                    }
+                    <input type="hidden" id="branchid" asp-for="BankMasterId" name="BankMasterId" />
+
+                </select>
+            </div>
+            <div class="form-group  col-md-3">
+
+                <label class="control-label">IFSC Code</label>
+
+                <input class="form-control" id="selIfsc" asp-for="IFSCCode" readonly required />
+
+            </div>
+             <div class="form-group  col-md-3">
+
+                <label class="control-label">Account Number</label>
+
+                <input class="form-control" id="selAccountNo"  readonly required />
+            </div>
+            <button value="" type="submit" class=" btn btn-primary others Gbtn"><i class="fa fa-save mr-2"></i>Save</button>
+
+        </div>
+    </form>
+</div>
+<script src="~/js/GenerateBankFile/GenerateBankfile.js">
+   
+</script>

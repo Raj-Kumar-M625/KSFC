@@ -1,0 +1,10 @@
+﻿@model Domain.User.UsersList
+@using (Html.BeginForm())
+{
+    using (Html.Awe().BeginContext())
+    {
+        @Html.EditorFor(o => o.MobileNumber)
+        @Html.EditorFor(o => o.EmailId)
+        @Html.EditorFor(o => o.UserName)      
+    }
+}

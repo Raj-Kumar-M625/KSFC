@@ -1,0 +1,15 @@
+﻿using Application.DTOs.Master;
+using MediatR;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.UserStories.Master.Request.Queries
+{
+    public class GetCommonMasterListRequest : IRequest<List<CommonMasterDto>>
+    {
+        public string CodeType { get; set; }
+    }
+}

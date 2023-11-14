@@ -1,0 +1,270 @@
+﻿@using Presentation.Models.Payment
+@model IList< Presentation.Models.Bill.BillModel>
+@{
+    var UserName = ViewBag.UserName;
+    ViewData["Title"] = "AddPayment";
+    var Id = ViewBag.Id;
+    var vlist = ViewBag.VendorDetails;
+    List<PaymentViewModel> advancePayments = ViewBag.AdvancePayments;
+}
+
+<div>
+    @{
+        <partial name="_VendorBalanceDetails" />
+    }
+</div>
+<hr />
+<div class="mt-1">
+    <div class="col-md mt-lg-3">
+        <form asp-action="AddPayment" asp-route-id="@Id" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger mt-2"></div>
+            @*  <div class="form-group col-md-3">
+            <label class="control-label">Total Advance Amount</label>
+            <input class="form-control" value="@advancePayments.Sum(x=>x.BalanceAdvanceAmount)" readonly />
+            </div>*@
+            <input type="text" hidden value="@advancePayments.Count" id="advancePayments" />
+            <input type="checkbox" id="title1" class="accordioncollapse" />
+            <label for="title1" class="labelclass">Vendor Details</label>
+            <div class="content">
+                <div class=" d-flex flex-row justify-content-start">
+                    <div class=" col-md-3">
+                        <label class="control-label">Owner/Director Name</label>
+
+                        <input value="@vlist.OwnerOrDirectorName" class="form-control" readonly />
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Vendor Name</label>
+
+                        <input class="form-control" value="@vlist.Name" readonly />
+
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Email</label>
+
+                        <input class="form-control" value="@vlist.VendorPerson.Contacts.Email" readonly />
+
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Phone</label>
+
+                        <input class="form-control" value="@vlist.VendorPerson.Contacts.Phone" readonly />
+
+                    </div>
+                </div>
+
+                <div class=" d-flex flex-row justify-content-start">
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Bank Name</label>
+                        <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.BankDetails.BankName" readonly />
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label class="control-label">Branch Name</label>
+                        <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_name" readonly />
+                    </div>
+
+
+
+                    <div class="form-group col-md-3">
+
+                        <label class="control-label">Account No</label>
+
+                        <input class="form-control" value="@vlist.VendorBankAccounts.AccountNumber" readonly />
+
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label">IFSC Code</label>
+                        <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_ifsc" readonly />
+                    </div>
+                </div>
+            </div>
+            <br />
+            @* <div class="content">
+            <div class="col-md-12">
+            <div class="row mb-2">
+            <label for="inputEmail3" class="col-sm-2 col-form-label font-weight-bold" style="margin-left:65%">Opening Balance Date</label>
+            <div class="col-sm-2">
+            <input type="text" class="form-control  pl-3 " value="@vlist.VendorBalance.OpeningBalanceDate.ToString("dd/MM/yyyy")" readonly>
+            </div>
+            </div>
+            <div class="row mb-2" id="divcgst">
+            <label for="inputEmail3" class="col-sm-2 col-form-label"  style="margin-left:65%">₹ Opening Balance Amount</label>
+            <div class="col-sm-2">
+            <input type="text" class="form-control  pl-3 input-amount" value="@vlist.VendorBalance.OpeningBalance" id="txtOpeningBalance"  readonly>
+            </div>
+            </div>
+            <div class="row mb-2" id="divcgst">
+            <label for="inputEmail3" class="col-sm-2 col-form-label"  style="margin-left:65%">₹ Opening Balance Payable Amount</label>
+            <div class="col-sm-2">
+            <input type="number" min="0" class="form-control  pl-3 input-amount" onkeyup="if(this.value<0){this.value= this.value * -1}" data-decimal="2" asp-for="@Model.FirstOrDefault().OpeningBalancePayableAmount" oninput="enforceNumberValidation(this)">
+            </div>
+            </div>
+            </div>
+            </div>*@
+            @*            <br />
+            *@
+            <input type="checkbox" id="title2" class="accordioncollapse" checked="checked" />
+            <label for="title2" class="labelclass">List of Approved Bills </label>
+            <div class="content">
+
+                <table id="tblAddPayments" class="table  table-bordered ">
+                    <caption hidden>Payment Details</caption>
+                    <tr>
+                        <th>₹ Net Payable </th>
+                        <th>₹ Balance </th>
+                        <th>₹ Payable </th>
+                        <th>Bill Ref No</th>
+                        <th>Bill Date</th>
+                        <th>Due Date</th>
+                        <th>₹ Total Bill With GST </th>
+                        <th>₹ GST</th>
+                        <th>₹ TDS </th>
+                        <th>₹ GST-TDS </th>
+                    </tr>
+
+                    <tbody>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <input asp-for="@Model[i].AdvancePaymentUsed" class="form-control" id="advanceAmountUsed" hidden />
+                            <input asp-for="@Model[i].AdvancePayments" class="form-control" id="advancePayments" hidden />
+
+                            <tr class="trow">
+                                <td id="tdstxt">
+                                    <input class="text1 pl-3 form-control input-amount" asp-for="@Model[i].NetPayableAmount" value="@Model[i].NetPayableAmount" type="number" min="0" step="any" />
+                                </td>
+                                <td class="amount">
+                                    @Html.HiddenFor(m=>m[i].BalanceAmount, new {@class="balancepayable "})
+                                    @Html.DisplayFor(m=>m[i].BalanceAmount)
+                                </td>
+                                <td class="amount">
+                                    @Html.HiddenFor(m=>m[i].NetPayable , new {@class="payable amount"})
+                                    @Html.DisplayFor(m=>m[i].NetPayable)
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(m=>m[i].VendorId)
+                                    @Html.HiddenFor(m=>m[i].BillNo)
+                                    @Html.HiddenFor(m=>m[i].TDSWithholdPercent)
+                                    @Html.HiddenFor(m=>m[i].GSTTDSWithholdPercent)
+                                    @Html.HiddenFor(m=>m[i].BillAmount)
+                                    @Html.HiddenFor(m=>m[i].CGSTAmount)
+                                    @Html.HiddenFor(m=>m[i].SGSTAmount)
+                                    @Html.HiddenFor(m=>m[i].IGSTAmount)
+                                    @Html.HiddenFor(m=>m[i].ApprovedDate)
+                                    @Html.HiddenFor(m=>m[i].AssementYearCMID)
+                                    @Html.HiddenFor(m=>m[i].CreatedBy)
+                                    @Html.HiddenFor(m=>m[i].CreatedOn)
+                                    @Html.HiddenFor(m=>m[i].ModifedBy)
+                                    @Html.HiddenFor(m=>m[i].ModifiedOn)
+                                    @Html.HiddenFor(m=>m[i].Remarks)
+                                    @Html.HiddenFor(m=>m[i].Id)
+                                    @Html.HiddenFor(m=>m[i].OpeningBalancePayableAmount)
+
+                                    <a href="@Url.Action("BillDetails","Bill")/@Model[i].Id">@Model[i].BillReferenceNo</a>
+
+                                </td>
+
+                                <td>
+                                    @Html.HiddenFor(m=>m[i].BillDate)
+                                    @Model[i].BillDate.ToString("dd-MM-yyyy")
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(m=>m[i].BillDueDate)
+                                    @Model[i].BillDueDate.ToString("dd-MM-yyyy")
+                                </td>
+                                <td class="amount">
+                                    @Html.HiddenFor(m=>m[i].TotalBillAmount)
+                                    @Model[i].TotalBillAmount
+                                </td>
+                                <td class="amount">
+                                    @Html.HiddenFor(m=>m[i].GSTAmount)
+                                    @Model[i].GSTAmount
+                                </td>
+                                <td class="amount">
+                                    @Html.HiddenFor(m=>m[i].TDS)
+                                    @Model[i].TDS.ToString("0.00")
+                                </td>
+                                <td class="amount">
+                                    @Html.HiddenFor(m=>m[i].GSTTDS)
+                                    @Html.DisplayFor(m=>m[i].GSTTDS)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <br />
+            <input type="checkbox" id="title3" class="accordioncollapse" checked />
+            <label for="title3" class="labelclass">Payment Details</label>
+            <div class="content">
+                <div class=" d-flex flex-row justify-content-start">
+                    <div class="form-group col-md-2">
+                        <label class="control-label">₹ Total Net Payable</label>
+                        <input class="form-control input-amount" id="totalpayable" readonly />
+                    </div>
+                   @* <div class="form-group col-md-2">
+                        <label class="control-label">₹ Net Payable Deduction</label>
+                        <input class="form-control input-amount" id="payabledeuction" readonly />
+                    </div>*@
+                    <div class="form-group col-md-2">
+                        <label class="control-label">₹ Remaining Payable</label>
+                        <input class="form-control input-amount" id="balance" readonly />
+                    </div>
+
+                </div>
+            </div>
+            <br />
+            @if (advancePayments.Count() > 0)
+            {
+                <input type="checkbox" id="title4" class="accordioncollapse" />
+                <label for="title4" class="labelclass">Advance Payment Details</label>
+                <div class="content">
+                    <table id="tblListOfAdvancePayments" class="table  table-bordered ">
+                        <caption hidden>List Of Advance Payments</caption>
+                        <tr>
+                            <th class="check"></th>
+                            <th hidden></th>
+                            <th>AdvancePaymentRefNo</th>
+                            <th>Date</th>
+                            <th>₹ Amount</th>
+                            <th>Description</th>
+                        </tr>
+                        <tbody>
+                            @foreach (var item in advancePayments)
+                            {
+                                <tr class="trow2">
+                                    <td>
+                                        <input type="checkbox" id="advancePaymentCheckBox" class="advancePaymentCheckBox" />
+                                    </td>
+                                    <td hidden>@item.ID</td>
+                                    <td>@item.PaymentReferenceNo</td>
+                                    <td>@item.PaymentDate.ToString("dd-MM-yyyy")</td>
+                                    <td>@item.BalanceAdvanceAmount</td>
+                                    <td>@item.Description </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <br />
+            }
+
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button type="submit" class="btn btn-success" value="Submit"><i class="fa fa-save"></i> Submit</button>
+                    <a class="btn btn-danger" asp-controller="Vendor" asp-action="EditVendor" asp-route-id="@Id"><i class="fa fa-close"></i> Cancel</a>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+<script src="~/js/Payment/AddPayment.js"></script>
+
+@*<script src="~/js/Payment/Payment.js"></script>*@

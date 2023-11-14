@@ -1,0 +1,73 @@
+﻿@using Presentation.Models.BankFile
+@model Presentation.Models.BankFile.BankFileUtrDetailsModel
+
+@{
+    ViewData["Title"] = "Generate BankFile";
+    var UserName = ViewBag.UserName;
+    var id = ViewBag.GenerateBankFile;
+
+}
+<h4 >Update UTR Details</h4>
+<div class="mt-2 searchgrid">
+    <form asp-action="EnterUTR">
+        @for (int i = 0; i < id.Count; i++)
+        {
+            <input class="form-control" asp-for="GenerateBankFileID" value="@id[i]" hidden />
+        }
+        <div class="row">
+            <div class="form-group  col-md-3">
+                <label class="control-label">
+                    No Of Transactions
+                    <input class="form-control " asp-for="NoOfTransactions" readonly />
+                </label>
+
+            </div>
+
+            <div class="form-group  col-md-3 ">
+                <label class="control-label">
+                    Total Amount Paid
+                    <input class="form-control" asp-for="TotalAmount" readonly />
+                </label>
+            </div>
+
+            <div class="form-group  col-md-4 ">
+                <label class="control-label">
+                    UTR Number (Similar Bank) <label class="text-danger">  * </label>
+
+                    <input class="form-control" id="first" asp-for="SameBankUTRNumber" type="text" min="1" onkeypress="return event.charCode >= 46 && event.charCode <= 57" maxlength="10" />
+                    <span id="spanDet">Max: 10 Characters</span><br />
+                    <span id="first-error" class="text-danger"></span>
+                </label>
+                
+            </div>
+           
+        </div>
+        <div class="row">
+            @*      US#002 Add the new Enterable Field to Enter the Different Bank UTR Details .*@
+
+            @*<div class="form-group  col-md-5 ">
+                <label class="control-label">
+                    UTR Number (Different Bank)
+                    <label class="text-danger">  * </label>
+                    <input class="form-control" id="second" asp-for="DifferentBankUTRNumber" type="text" min="1" onkeypress="return event.charCode >= 46 && event.charCode <= 57" maxlength="10" />
+                    <span id="spanDet">Max: 10 Characters</span><br />
+                    <span id="second-error" class="text-danger"></span>
+                </label>
+               
+            </div>*@
+                     <div class="form-group col-md-3">
+                <label class="control-label px-2" >Is Bulk Payment</label>
+                <input class ="form-check-input ml-2" type="checkbox" asp-for="IsBulkPayment" id="selectedbankPaymentLevel" readonly />
+            </div>
+            <div class="col-md-6">
+                <button value="" type="submit" class=" btn btn-primary float-right mt-2" ><i class="fa fa-save mr-2"></i>Save</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+<
+<script src="~/js/BankFile/UTR.js">
+   
+    
+</script>

@@ -1,0 +1,17 @@
+1>View
+2>Layout
+3>Text
+4>Image
+5>image
+6>Button
+7>Touchables
+8>ScrollView
+9>List(FlatList,Section List)
+9>TextInput
+10>Searchbar
+11>Pressable
+12>checkbox
+13>optionbox
+14>navigation(React navigation,Navigation and Routes)
+15>Animation 
+16>WebView

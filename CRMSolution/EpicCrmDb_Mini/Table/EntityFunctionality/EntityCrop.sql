@@ -1,6 +1,0 @@
-﻿CREATE TABLE [dbo].[EntityCrop]
-(
-	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY,
-    [EntityId] BIGINT NOT NULL REFERENCES [Entity]([Id]),
-	[CropName] NVARCHAR(50) NOT NULL
-)

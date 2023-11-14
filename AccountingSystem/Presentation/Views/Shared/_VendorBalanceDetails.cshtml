@@ -1,0 +1,195 @@
+﻿@using Presentation.Models.Payment
+@using Presentation.Models.Vendor
+
+@{
+    var UserName = ViewBag.UserName;
+    var vendorBalance = ViewBag.VendorBalanceDetails;
+    List<PaymentViewModel> advancePayments = ViewBag.AdvancePayments;
+    var paidAmount = @advancePayments.Sum(x => x.PaidAmount);
+    var BalanceAmount = @advancePayments.Sum(x => x.BalanceAdvanceAmount);
+ 
+    var UsedAmount = paidAmount - BalanceAmount;
+
+}
+<div class="row pl-3">
+    <div class="col-md-2">
+        <div class="card cardopeningbalance">
+            <div class="card-body">
+                <div>
+                    <a href=""><img src="~/images/money.png" alt="money.png" class="cardicon" /> </a>
+                </div>
+                <div>
+                    @if (@vendorBalance.OpeningBalance > 0)
+                    {
+                        <b class="bold">₹ @vendorBalance.OpeningBalance CR </b>
+
+                    }
+                    else
+                    {
+                        <b class="bold">₹ @vendorBalance.OpeningBalance DR </b>
+                    }
+
+
+                    <span> Opening Balance</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 ">
+        <div class="card cardtotalbill">
+            <div class="card-body">
+                <a href=""><img src="~/images/invoice.png" alt="Invoice" class="cardicon" /> </a>
+                <div>
+                    <b class="bold">₹ @vendorBalance.TotalBillAmount</b>
+                    <span> Total Bill With GST</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card cardtdsdeduction">
+            <div class="card-body">
+                <div>
+                    <a href=""><img src="~/images/bar-graph  pink.png" alt="graph.png" class="cardicon" /></a>
+                </div>
+                <div>
+                    <b class="bold">₹ @vendorBalance.TotalTDS</b>
+                    <span> TDS Deduction</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card cardgsttdsdeduction">
+            <div class="card-body">
+                <a href=""><img src="~/images/bar-graph red.png" alt="red.png" class="cardicongsttds" /> </a>
+                <div>
+                    <b class="bold">₹ @vendorBalance.TotalGST_TDS</b>
+                    <span>GST-TDS Deduction</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 ">
+        <div class="card cardtotalbillpayable">
+            <div class="card-body">
+                <div>
+                    <a href=""><img src="~/images/bar-graph.png" alt="graph.png" class="cardicon" /></a>
+                </div>
+                <div>
+                    <b class="bold">₹ @vendorBalance.TotalNetPayable</b>
+                    <span> Total Bill Net Payable</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="card cardgsttdsdeduction">
+            <div class="card-body">
+                <a href=""><img src="~/images/bar-graph red.png" alt="red.png" class="cardicongsttds" /> </a>
+                <div>
+                    <b class="bold">₹ @paidAmount</b>
+                    <span>Total Advance amt</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+@*   @if (advancePayments != null && advancePayments.Count() > 0)*@
+   
+       @* <div class="col-md-2 pl-2">
+            <div class="card">
+                <div class="card-body cardgsttdsdeduction">
+                    <a href=""><img src="~/images/bar-graph red.png" alt="red.png" class="cardicongsttds" /> </a>
+                    <div>
+                        <b class="bold">₹ @advancePayments.Sum(x=>x.BalanceAdvanceAmount)</b>
+                        <span>UnUsed Advance Amount</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        *@
+  
+   
+   
+
+</div>
+<div class="row mt-2  ">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-2 px-3 pb-4 ">
+        <div>
+            <label class="mt-2  px-3 mb-4 lblpaid ms-5"> Paid Amount</label>
+        </div>
+        <div>
+            <label class="mt-2 mb-4 px-3  lblclosingbalance ms-5">  Pending Amount</label>
+        </div>
+    </div>
+
+
+    <div class="col-md-2 px-3">
+        <div>
+            <label class="mt-2 px-4  lblpink form-control input-amount" readonly>@vendorBalance.Paid_TDS</label>
+        </div>
+        <div>
+            <label class="mt-2 px-4 lblpink form-control input-amount" readonly>@vendorBalance.Pending_TDS</label>
+        </div>
+    </div>
+
+    <div class="col-md-2 px-3">
+        <div>
+            <label class="mt-2 px-4 lblorange form-control input-amount" readonly>@vendorBalance.Paid_GST_TDS</label>
+        </div>
+        <div>
+            <label class="mt-2 px-4 lblorange form-control input-amount" readonly>@vendorBalance.Pending_GST_TDS</label>
+        </div>
+    </div>
+    <div class="col-md-2 px-3">
+        <div>
+            <label class="mt-2 px-4 lblgreen form-control input-amount" readonly>@vendorBalance.Paid_NetPayable</label>
+        </div>
+        <div>
+            <label class="mt-2 px-4 lblgreen form-control input-amount" readonly>@vendorBalance.Pending_NetPayable</label>
+        </div>
+    </div>
+  @*  <div class="col-md-1">
+        <div>
+            <label class="mt-2 mr-3 lblpaid "> Used Advance</label>
+        </div>
+        <div>
+            <label class="mt-2 mr-3 lblpaid "> Bal Advance</label>
+        </div>
+    </div>*@
+
+  @*  <div class="col-md-2 px-3">
+        <div class="material-textfield">           
+                <label class="mt-2 px-4 lblgreen form-control input-amount logininput" readonly>@UsedAmount</label>
+        </div>
+    </div>*@
+    <div class="col-md-2 px-3">
+        <div class="material-textfield mt-2 ">
+            <input class="logininput input-amount" type="text" style="width : 14rem;background-color: #e9ecef;" value="@UsedAmount" readonly >
+            <label class="lbl ml-3 ">Used Advance</label>
+        </div>
+        <div class="material-textfield mt-3 ">
+            <input class="logininput input-amount" type="text" style="width : 14rem;background-color: #e9ecef;" value="@BalanceAmount" readonly>
+            <label class="lbl ml-3 ">Bal Advance</label>
+        </div>
+    </div>
+
+@*    <div class="col-md-1 ">
+        <div>
+            <label class="mt-2 px-4 lblgreen form-control input-amount " readonly>@UsedAmount </label>
+        </div>
+        <div>
+            <label class="mt-2 px-4 lblgreen form-control input-amount" readonly>@BalanceAmount </label>
+        </div>
+    </div>*@
+</div>

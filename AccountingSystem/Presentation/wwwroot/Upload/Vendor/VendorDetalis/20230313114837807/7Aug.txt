@@ -1,0 +1,8 @@
+today:
+1>course on SQL started
+2>Worked on Sakala Issue
+3>Prepared ESI sakala Document 
+
+
+Tomorrow:
+1>Sakala Demo

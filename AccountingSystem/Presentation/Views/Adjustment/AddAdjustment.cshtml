@@ -1,0 +1,116 @@
+﻿@{
+    var VendorID = ViewBag.VendorId;
+    var vlist = ViewBag.VendorDetails;
+}
+<div>
+    @{
+        <partial name="_VendorBalanceDetails" />
+    }
+</div>
+<hr />
+<input type="checkbox" id="title1" class="accordioncollapse" />
+<label for="title1" class="labelclass">Vendor Details</label>
+<div class="content">
+    <div class=" d-flex flex-row justify-content-start">
+        <div class=" col-md-3">
+            <label class="control-label">Owner/Director Name</label>
+
+            <input value="@vlist.OwnerOrDirectorName" class="form-control" readonly />
+        </div>
+
+        <div class="form-group col-md-3">
+            <label class="control-label">Vendor Name</label>
+
+            <input class="form-control" value="@vlist.Name" readonly />
+
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Email</label>
+
+            <input class="form-control" value="@vlist.VendorPerson.Contacts.Email" readonly />
+
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Phone</label>
+
+            <input class="form-control" value="@vlist.VendorPerson.Contacts.Phone" readonly />
+
+        </div>
+    </div>
+
+    <div class=" d-flex flex-row justify-content-start">
+        <div class="form-group col-md-3">
+            <label class="control-label">Bank Name</label>
+            <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.BankDetails.BankName" readonly />
+        </div>
+        <div class="form-group col-md-3">
+            <label class="control-label">Branch Name</label>
+            <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_name" readonly />
+        </div>
+
+
+
+        <div class="form-group col-md-3">
+
+            <label class="control-label">Account No</label>
+
+            <input class="form-control" value="@vlist.VendorBankAccounts.AccountNumber" readonly />
+
+        </div>
+
+        <div class="form-group col-md-3">
+            <label class="control-label">IFSC Code</label>
+            <input class="form-control" value="@vlist.VendorBankAccounts.BranchMaster.branch_ifsc" readonly />
+        </div>
+    </div>
+</div>
+<br />
+<label for="title2" class="labelclass">Add Adjustment</label>
+<div class="content">
+    <form asp-action="AddAdjustment" asp-controller="Adjustment" method="post" enctype="multipart/form-data">
+        <div class=" d-flex flex-row justify-content-start">
+            <input type="hidden" value="@VendorID" name="VendorID" />
+            <div class="form-group col-md-3">
+                <label class="control-label">Adjustment Type</label>
+            <select id="filetype" name="AdjustmentType" class="form-dropdown form-control" required>
+                <option value="">--- Select File Type ---</option>
+                <option value="Payment">Payment</option>
+                <option value="Bill">Bill</option>
+                <option value="Adjustment">Adjustment</option>
+            </select>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Reference No</label>
+                <label class="text-danger">  * </label>
+                <input class="form-control" name="BillPaymentRefNo" type="text" maxlength="30" oninput="this.value = this.value.toUpperCase()" />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Date</label>
+                <label class="text-danger">  * </label>
+                <input type="date" name="Date" required class="form-control" id="BillDate" />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">₹ Amount</label>
+                <input class="form-control input-amount" type="number"  name="Amount" id="payabledeuction" required />
+            </div>
+        </div>
+
+        <div class="d-flex flex-row justify-content-start">
+            <div class="form-group col-md-3">
+                <label class="control-label">UTR No</label>
+                <input class="form-control" name="UTR_No" type="text" maxlength="30" oninput="this.value = this.value.toUpperCase()" />
+            </div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Description</label>
+                <textarea class="form-control" name="Description" maxlength="150" id="txtPaymentTerms" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-success ml-2" id="btnSubmit"><i class="fa fa-save"></i> Submit</button>
+                <a class="btn btn-danger mx-2" asp-controller="Adjustment" asp-action="Index" asp-route-id="@VendorID"><i class="fa fa-close"></i> Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+<br />

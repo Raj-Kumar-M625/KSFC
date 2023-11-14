@@ -1,0 +1,14 @@
+﻿CREATE TABLE [dbo].[Contacts]
+(
+	[ID] INT NOT NULL PRIMARY KEY IDENTITY,
+    [VendorPersonID] INT NOT NULL,
+    [Name] NVARCHAR(100) NULL,
+    [Phone] NVARCHAR(15) NULL,
+    [Email] NVARCHAR(100) NULL,
+    [Status] BIT NOT NULL DEFAULT 1,
+    [CreatedBy] NVARCHAR(100) NULL,
+    [CreatedOn] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
+    [ModifiedBy] NVARCHAR(100) NULL,
+    [ModifiedOn] DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
+    CONSTRAINT [FK_Contacts_ToVendorPerson] FOREIGN KEY ([VendorPersonID]) REFERENCES [VendorPerson]([ID])
+)
