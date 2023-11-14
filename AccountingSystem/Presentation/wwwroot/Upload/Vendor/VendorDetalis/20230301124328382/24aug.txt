@@ -1,8 +1,0 @@
-today:
-1>debugging the code 3 flows
-2>Jquey course
-3>tested FBIS flows
-
-tomorrow:
-Doubt clarification
-continue with debugging

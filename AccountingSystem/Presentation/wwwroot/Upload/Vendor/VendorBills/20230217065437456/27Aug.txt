@@ -1,7 +1,0 @@
-Today:
-1>KUM api testing for one flow
-2>prepared document for app status
-3>prepared document for sakala
-
-next working date:
-1> KUM api testing for Remaining flows

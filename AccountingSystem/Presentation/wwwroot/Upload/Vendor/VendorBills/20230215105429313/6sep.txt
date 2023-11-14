@@ -1,7 +1,0 @@
-today:
-1>understanding sakala code
-2>go through the course spring
-3>help to solve the sakala issue
-
-tomorrow:
-go through the code

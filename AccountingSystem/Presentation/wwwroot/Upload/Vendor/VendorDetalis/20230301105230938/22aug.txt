@@ -1,9 +1,0 @@
-today:
-1>preapared document for FBIS project
-2>Updated  KUM REST API DOCUMENTATION
-3>practised spring with hibernate
-4>Reinstalled tomcat,java 8 ,setup FBIS project
-
-tomorrow:
-1>continue with hibernate
-2>learn debugging

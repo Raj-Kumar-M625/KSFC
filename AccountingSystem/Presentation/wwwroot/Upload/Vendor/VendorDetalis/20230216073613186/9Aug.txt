@@ -1,5 +1,0 @@
-today:
-1>HTML andCSS partially completed
-
-tomorrow:
-1>Continue with HTML and CSS

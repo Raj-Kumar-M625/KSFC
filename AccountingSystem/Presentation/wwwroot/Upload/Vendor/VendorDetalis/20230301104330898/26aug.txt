@@ -1,8 +1,0 @@
-today:
-1>testing the FBIS flows
-2>modified code in autorenewal form
-3>prepared document issues Queries
-
-
-tomorrow:
-1>Flow KT to Kiran

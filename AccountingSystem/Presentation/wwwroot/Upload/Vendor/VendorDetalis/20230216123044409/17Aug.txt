@@ -1,6 +1,0 @@
-today: 17/08/2022
-1>continue with spring
-2>recap on jsp,servlet,jdbc and practiced in eclipse
-
-tomorrow:
-udemy class
