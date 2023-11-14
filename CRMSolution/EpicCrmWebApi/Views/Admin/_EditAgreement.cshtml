@@ -1,0 +1,111 @@
+﻿@model EntityAgreementModel
+@{
+    IEnumerable<DomainEntities.CodeTableEx> statusValues = ViewBag.AgreementStatus;
+    string displayDate = "";
+    if (Model.IsPassBookReceived)
+    {
+        displayDate = String.Format("{0:dd-MM-yyyy}", Model.PassBookReceivedDate);
+    }
+}
+
+
+@using (Html.BeginForm("EditAgreement", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+@if (Model.Id == 0)
+{
+    <span style="font-size:large;margin-left:20px;">Add @Model.EntityType Agreement</span>
+}
+else
+{
+    <span style="font-size:large;margin-left:20px;">Edit @Model.EntityType Agreement</span>
+}
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.EntityId)
+    @Html.HiddenFor(model => model.EntityName)
+    @Html.HiddenFor(model => model.EntityType)
+    @Html.HiddenFor(model => model.UniqueId)
+    @Html.HiddenFor(model => model.AgreementNumber)
+    @Html.HiddenFor(mode => mode.WorkflowSeasonId)
+    @Html.HiddenFor(model => model.WorkflowSeasonName)
+    @Html.HiddenFor(model => model.LandSizeInAcres)
+    @Html.HiddenFor(model => model.TypeName)
+
+    <div>&nbsp;</div>
+    <table class="table table-bordered table-striped table-condensed" id="idMakePaymentTable">
+        <tr>
+            <th>@Model.EntityType</th>
+            <th>@Html.LabelFor(model => model.TypeName)</th>
+            <th>@Html.LabelFor(model => model.WorkflowSeasonName)</th>
+            <th>@Html.LabelFor(model => model.AgreementNumber)</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(modelItem => Model.EntityName)</td>
+            <td>@Html.DisplayFor(modelItem => Model.TypeName)</td>
+            <td>@Html.DisplayFor(modelItem => Model.WorkflowSeasonName)</td>
+            <td>@Html.DisplayFor(modelItem => Model.AgreementNumber)</td>
+        </tr>
+    </table>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="selStatus" name="Status">
+                    <option value="">Select Status</option>
+                    @foreach (var o in statusValues.OrderBy(x => x.DisplaySequence))
+                    {
+                        if (o.Code.Equals(Model.Status, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="@o.Code" selected>@o.Code</option>
+                        }
+                        else
+                        {
+                            <option value="@o.Code">@o.Code</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.IsPassBookReceived, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.IsPassBookReceived)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PassBookReceivedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="input-append date col-md-4">
+            <input data-format="dd-MM-yyyy" type="text" class="form-control justDate" id="txtPassBookReceivedDate" name="PassBookReceivedDate" value="@displayDate" />
+            <span class="add-on">
+                <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                </i>
+            </span>
+            @Html.ValidationMessageFor(model => model.PassBookReceivedDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}

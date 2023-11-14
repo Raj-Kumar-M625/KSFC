@@ -1,0 +1,14 @@
+﻿        .navbar-inverse {
+            background-color: rgb(157, 15, 137);
+            color: rgba(237, 0, 0, 1);
+        }
+
+        .navbar-brand {
+            /*color: rgba(237, 0, 0, 1) !important;*/
+            color: #ffffff !important;
+        }
+
+        .rowVisited{
+            color:purple !important;
+            font-weight:bold;
+        }

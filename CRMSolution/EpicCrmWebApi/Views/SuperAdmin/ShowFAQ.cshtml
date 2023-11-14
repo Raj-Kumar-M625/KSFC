@@ -1,0 +1,841 @@
+﻿
+@{
+    ViewBag.Title = "ShowFAQ";
+}
+
+<h2>Frequently Asked Questions</h2>
+<div class="faq">
+    <h4>Custom SMS feature is not showing up on Dashboard Search pages?</h4>
+    <h4>For some customers, since SMS is not set up, how to disable Custom SMS feature?</h4>
+    <h5>Custom SMS featue is controlled by Web.config setting SMSOnDemandFeatureEnabled.  Set its value to true / false to enable the feature.</h5>
+</div>
+
+<div class="faq">
+    <h4>SMS are not being sent?</h4>
+    <h5>Please check following settings</h5>
+    <ol>
+        <li>Web.Config => SMSOnDemandFeatureEnabled should be true </li>
+        <li>Web.Config => IsSMSEnabled should be true (if this value is false, SMS Api is not invoked.)</li>
+        <li>Web.Config => SMSTestMode should be false </li>
+        <li>dbo.Tenant table should have IsSmsEnabled set to 1 for tenant (if this value is 0, SMS Api is not invoked)</li>
+    </ol>
+</div>
+
+<div class="faq">
+    <h4>Where are SMS Logs</h4>
+    <h5>OnSuper Admin page click on SMS Log button</h5>
+</div>
+
+
+<div class="faq">
+    <h4>Where is the documentation for SMS API?</h4>
+    <h5><pre>http://api.textlocal.in/docs/sendsms</pre></h5>
+</div>
+
+
+<div class="faq">
+    <h4>How can I set test mode of SMS - so that SMS does not go out, but simulated only?</h4>
+    <h5> One important setting for SMS to be sent is SMSTestMode in web.config.  Set its value to 'true'.  Once this value is sent to SMS Api, the api, will run in simulation mode.</h5>
+</div>
+
+<div class="faq">
+    <h4>What are the different ways SMS can be sent in Multiplex environment?</h4>
+    <h5>There are two ways - SMS on demand and Configured SMS.  SMS on demand is available on all dashboard search result pages. Configured SMS is controled by SMSController - which looks at the entries in database table (explained next)</h5>
+</div>
+
+<div class="faq">
+    <h4>For SMS on demand, I have selected the user on screen and clicked Send Message, but user is not receiving the message.</h4>
+    <h5>Beside checking the config settings explained above, check SMS log. Also, SMS is not sent if user is not active/does not exist in either SalesPerson or TenantEmployee table.</h5>
+</div>
+
+<div class="faq">
+    <h4>For SMS on demand, What are valid characters in SMS text?</h4>
+    <pre>User entered SMS text is validated using regular expression /^[a-zA-Z0-9 ._,()+?&gt;&lt;/:;\-|\=\*\%\$\#\!]{10,@@MaxSMSTextSize}$/.test(smsText)</pre>
+</div>
+
+<div class="faq">
+    <h4>For SMS on demand, Where is maximum SMS text length defined?</h4>
+    <h5>Web.config | MaxSMSTextSize</h5>
+</div>
+
+<div class="faq">
+    <h4>How is SMS on demand feature implemented?</h4>
+    <h5>
+        All the search pages, that make use of ShowSearch.cshtml get this feature.  After ajax call gets the result from server,
+        the javascript looks for following conditions and does the needful.
+    </h5>
+    <ul>
+        <li>There should be items in the result set</li>
+        <li>One column should be there as Employee Code (its position does not matter)</li>
+        <li>SMS on demand feature is enabled in web.config</li>
+        <li>Above the header row there should be one more row in the table (usually we use this row to show download link)</li>
+    </ul>
+</div>
+
+
+<div class="faq">
+    <h4>On What days SMS will be sent?</h4>
+    <h5>We have tenant work days defined in dbo.TenantWorkDay table. SMS will be sent on these work days.  In addition, there can be configured holidays for tenant in dbo.TenantHoliday table. SMS is not sent on these holidays.  These holidays can be configured in advance.</h5>
+</div>
+
+<div class="faq">
+    <h4>What are various types of SMS that I can send?</h4>
+    <h5>SMS Types are defined in dbo.TenantSMSType.  In this table we can give a mnemonic to the SMS, message to be sent and the name of the sproc that will return the list of staff codes to whom SMS is to be sent.</h5>
+</div>
+
+<div class="faq">
+    <h4>Show a sample stored procedure for SMS Type?</h4>
+    <pre>
+CREATE PROCEDURE [dbo].[SMS_GetStartDayStaffCode]
+	@@tenantId BIGINT,
+	@@runDate DATE
+AS
+BEGIN
+	-- get the list of staff codes who did not start their day
+	SELECT te.EmployeeCode
+	FROM dbo.TenantEmployee te
+	INNER JOIN dbo.SalesPerson sp ON te.EmployeeCode = sp.StaffCode
+	      AND te.IsActive = 1 
+	      AND sp.IsActive = 1
+		  AND te.TenantId = @@tenantId
+	INNER JOIN dbo.[Day] d ON d.[Date] = @@runDate
+	LEFT JOIN dbo.EmployeeDay ed ON te.Id = ed.TenantEmployeeId
+	      AND ed.DayId = d.Id
+		  AND ed.AppVersion <> '***'
+	-- if I continued through mid night, and created activity after midnight
+	-- I get an entry in employee day with app version = '***'
+	-- this should not be treated as if I have started my day
+	WHERE ed.TenantEmployeeId is null
+END
+</pre>
+</div>
+
+<div class="faq">
+    <h4>What code changes are needed for any new SMS Type I want to configure / send?</h4>
+    <h5>
+        Goal is zero code changes and no deployment. (this is WIP though and will be completed soon). Define entries in dbo.TenantSmsType and dbo.TenantSMSSchedule tables and create the sproc to return Staff Codes and that is it.
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>For each work day defined in TenantWorkDay table, at what time SMS will be sent?</h4>
+    <h5>
+        For this we have dbo.TenantSMSSchedule table.  For each SMS Type (dbo.TenantSmsType), and each work day (TenantWorkDay), we can have multiple schedules.
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>How are SMS thus configured are sent?</h4>
+    <h5>
+        There is a job that runs every ten minutes to see if any SMS type is ready to be processed - this takes into account, work day, holiday, sms schedule.
+        To run this job manually use Super Admin | Send SMS button.
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>Where can I see current SMS configuration?</h4>
+    <h5>
+        Super Admin | SMS Schedule
+    </h5>
+</div>
+
+
+<div class="faq">
+    <h4>How does an app user see the customers?</h4>
+    <h5>
+        Customers are by HQ Codes (dbo.Customer table). App users have their associations - say a user is assigned to a Zone.  In such case, we have to
+        get all the HQ Codes that fall in the assigned Zone and then look for customers in those HQ Codes.
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>How to reset the SuperAdmin password?</h4>
+    <h5>
+        Super Admin password is defined in web.config. Here are the steps:
+        <ol>
+            <li>
+                In Web.config file change the password
+
+            </li>
+            <li>On web site login with SuperAdmin (using old password)</li>
+            <li>Change the URL to <b>http://domain/SuperAdmin/Delete</b></li>
+            <li>(this will delete SuperAdmin user and can only be done when you are logged in as SuperAdmin. Also note that there is no button on SuperAdmin to do this, but you have to type the url.)</li>
+            <li>Restart the web site/application pool</li>
+            <li>Login with new SuperAdmin password</li>
+        </ol>
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>Exec App is not showing any data?</h4>
+    <h5>
+
+        To see data for all areas
+        <ol>
+            <li>
+                Go to Super Admin page
+            </li>
+            <li>
+                Click on 'Exec App IMEI' button
+            </li>
+            <li>
+                Put IMEI number of the user by adding a new entry on this page.
+            </li>
+        </ol>
+
+        To allow user to see data only for his/her areas as per association:
+        <ol>
+            <li>
+                Go to Admin page
+            </li>
+            <li>
+                Click on 'CRM Users' button
+            </li>
+            <li>
+                Check the 'Exec App' check box for the user.
+            </li>
+        </ol>
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>How is Unique Id and Tax Id implemented for new Entities?</h4>
+    <h5>
+        Tax id is an optional field for all entity types and it is alpha numeric.
+        Unique Id field is configurable for each entity type, in two ways.
+        <ul>
+            <li>We may not have any display for unique Id Type</li>
+            <li>We can configure the type of unique Id</li>
+        </ul>
+        This configuration is in CodeTable for entries where codeType = 'CustomerType'.  In this, if we leave the CodeName as empty,
+        then Unique Id Field is not visible for the customer (entity) type.  If the value is there in codeName column, then unique Id field is
+        made available on add entity screen, for that particular customer/entity type.  The value put in CodeName column is used to display the field
+        title on Add Entity screen and is also persisted in Entity table as UniqueIdType. In either case, on Add Entity screen, Unique Id and Tax Id fields are optional and user can leave them blank.
+        For example, consider
+    </h5>
+    <h5>
+        UPDATE dbo.CodeTable SET CodeName = 'Aadhar' WHERE codeType = 'CustomerType'
+        and CodeValue = 'Farmer'
+        and IsActive = 1
+    </h5>
+    <h5>
+        When we add an entity type as Farmer, a field is displayed with title 'Aadhar Number';
+        Value 'Aadhar' is saved in Entity table under UniqueIdType column.
+        The value entered by the user while adding new entity, under Aadhar Number title, is saved in UniqueId column (Entity table).
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>What are the changes made in app 1.7yb?</h4>
+    <h5>
+        1.7yb mainly contains changes for Reitzel.
+        <ul>
+            <li>On Add entity screen, we need to accept Aadhar number for Farmer (This is designed and implemented as per previous entry on this list)</li>
+            <li>Once a farmer has completed all work flow activities, the farmer is not to be shown on Work Flow Farmer Selection page.</li>
+            <li>On Farmer Selection page, (under Workflow), show last four digits of Aadhar and Primary contact's phone number</li>
+            <li>
+                In addition, for add entities, we are now capturing and processing location in line with Activity i.e. we capture all three types of locations (or as confiugred in UrlResolve) and pick the
+                best as per configuration in web.config and in TenantEmployee table.
+            </li>
+        </ul>
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>How to Collect logs on Exec Crm App?</h4>
+    <h5>
+        These steps are applicable, when cover page (as for TStanes) is enabled/shown
+    </h5>
+    <ol>
+        <li>
+            In UrlResolve, enable log for the site.
+        </li>
+        <li>
+            If User's IMEI is registered in Super Admin for Exec App, Enable log there
+            Else enable log for the user on Crm User page (in TenantEmployee table).
+        </li>
+
+        <li>
+            On Phone, refresh configuration (if UrlResolve->Log setting is changed).
+        </li>
+        <li>User can press download on Exec Crm cover page now.</li>
+        <li>
+            Along with data download, above flag setting will be sent to phone, and Log option will
+            be available in top right hand menu.
+        </li>
+    </ol>
+</div>
+
+<div class="faq">
+    <h4>On Field App, how and when Url Resolve configuration is refreshed?</h4>
+    <ol>
+        <li>
+            User can refresh the configuration manually by selecting refresh config from top right hand menu.
+        </li>
+        <li>
+            Config is automatically refreshed on app launch in following case (when all is true):
+            <ul>
+                <li>
+                    User Day Started == false
+                </li>
+                <li>
+                    User has started the day since last config refresh.
+                    (this is to prevent repeated refresh/download of config, when user has not started the day and is just launching the app repeatedly)
+                </li>
+                <li>
+                    Internet connectivity has to be there.
+                </li>
+            </ul>
+        </li>
+    </ol>
+</div>
+
+
+<div class="faq">
+    <h4>When and how app version check is made in field app?</h4>
+    <pre>
+Url Resolve configuration has now following options on Security Tab:
+a) Check App Version on Start Day
+b) Check App Version on End Day
+Upto Build 2.1.0249: 
+----------------------
+Only 'a' is used when Day is Started in Online mode. 
+This is a vulnerability that people at Khushi have exploited.
+Starting Build 2.1.0250 (not released as of this writing): 
+-----------------------------------------------------------
+Option 'a' will be used 
+     o. At the time of Register - User can't register and a message will be displayed.
+     o. At the time of Start Day (online) - will force the user to come to register page, by deleting all the app data from phone [ this is same as present ]
+     o. At the time of Download - will force the user to come to register page, by deleting all the app data from phone.
+Option 'b' will be used
+     o. At the time of Upload - will not upload the batches, at the same time will *not* delete app data from phone. Message will be displayed.
+Please let me know if any questions in this context.
+*Please note that in following scenario, data loss may occur on phone:*
+- User is using an obsoete / unsupported app version.
+- User started the day in offline mode.
+- User entered some activity.
+- User connected to the internet and pressed Download button.
+</pre>
+</div>
+
+
+<div class="faq">
+    <h4>File Upload Process (Change)</h4>
+    <pre>
+For TStanes => We need to be able to 
+   - automatically upload files every night without human intervention.
+   - upload csv files
+This needed a redesign of upload process.
+Current Process:
+---------------
+1. User clicks upload and waits, 
+2. File is uploaded, evaluated/parsed and errors are reported if any.
+3. Another background job will actually move the uploaded data into OLTP tables.
+New Process:
+-----------
+1. <same as above>
+2. Changed
+   a. File is uploaded and stored on server.
+   b. Background job will parse the uploaded file and store errors (if any) in the database.
+   c. User can come back to same page, to check for parse/upload status
+   d. If there are no errors, step 3 will automatically happen.
+3. <same as above>
+</pre>
+</div>
+
+<div class="faq">
+    <h4>Monitoring Pipeline</h4>
+    <pre>
+In UrlResolve, following global configuration items have been put:
+AlertSmsEnabled => Enable/Disable Alert Sms (True/False)
+AlertPhoneList => Phone numbers where sms to be sent (separated by comma)
+AlertSmsKey => SMS KEY to be used
+AlertSmsTemplate => SMS template for Alert
+AlertSmsSender => SMS Sender as used in Sms api
+AlertAPI => UrlResolve API to receive error log (used by Field Application web code)
+AlertSmsInTestMode => To test Alert Sms in Test Mode (True/False)
+Web End code of field app will call the API in UrlResolve to log alert items.
+e.g. 
+  - lock not acquired.
+  - job / batch failed
+API in UrlResolve, will persist these in DB
+
+There is a task scheduler job that kicks off a job in UrlResolve;
+This UrlResolve API/Job, in turn fires jobs on all individual sites.
+This job is currently scheduled to run every 10 minutes.
+
+SMS alerts are sent as part of this job itself - that is every 10 minutes.
+
+Alert SMS are sent based on above configuration.
+</pre>
+</div>
+
+<div class="faq">
+    <h4>Alert Codes</h4>
+    <pre>
+WUPLKNA => Lock could not be acquired to upload Data Feed
+Reason: IsParsingUploadFile column in dbo.Tenant table has a value of 1
+If the problem persists for a long time, manually reset this column value to 0
+(Code has been updated to auto release the lock)
+--------------------------
+EUPFAULT => Error occured in Data Feed Upload; Log Id {errorLogId}
+(Must investigate)
+--------------------------
+WDFLKNA => Lock could not be acquired to Process Data Feed
+Reason: IsTransformingDataFeed column in dbo.Tenant table has a value of 1
+If the problem persists for a long time, manually reset this column value to 0
+(Code has been updated to auto release the lock)
+--------------------------
+EDFFAULT => Error occured in Data Feed Processing; Log Id {errorLogId}
+(Must investigate)
+--------------------------
+WBPLKNA => Lock could not be acquired to Process Phone Batches
+Reason: IsProcessingMobileData column in dbo.Tenant table has a value of 1
+The lock is auto released if it persists say for more than 15 minutes
+--------------------------
+EBPFAULT => Error occured in Phone Batch Processing; Log Id {errorLogId}
+(Must investigate)
+--------------------------
+EDCFAULT => Error occured in Distance Calculation; Log Id {errorLogId}
+Look at the rows in DistanceCalcErrorLog
+(Must investigate)
+--------------------------
+WSMLKNA => Lock could not be acquired to Process SMS
+Reason: IsSendingSMS column in dbo.Tenant table has a value of 1
+The lock is auto released if it persists say for more than 15 minutes
+--------------------------
+ESMFAULT => Error occured in SMS Processing; Log Id {errorLogId}
+(Must investigate)
+--------------------------
+WITLKNA => Lock could not be acquired to Transfer Images to S3
+Reason: IsUploadingImage column in dbo.Tenant table has a value of 1
+The lock is auto released if it persists say for more than 15 minutes
+-----------------------
+EITFAULT => Error occured while transfering images to S3; Log Id {errorLogId}
+(Must investigate)
+-----------------------
+
+Auto release lock time is defined in UrlResolve Global Config with key
+        AutoReleaseLockTimeInMinutes
+
+If the key is not defined or has been given an invalid value, the default is 15 minutes.
+</pre>
+</div>
+
+<div class="faq">
+    <h4>Field App Localization Process</h4>
+    <pre>
+For each site, in Code Table we will define the supported locales
+CodeType  CodeName   CodeValue
+ Locale    en-US      English
+ Locale    kn-IN      Kannada
+ Locale    hi-IN      Hindi
+Next, in URL Resolve, for each site, we have to 
+ - Configure the default locale (e.g. en-US) which should be one out of configured in code table for the site.
+ - whether, the site users are allowed to change language packs
+Once these settings are configured, at the time of registration, 
+- the language pack for default language (as in URLResolve) will be downloaded.
+- based on second config item (site users are allowed to change language pack), 
+  users can download/change language pack from top right menu on Start Day page and home page.
+Question: Where are language strings defined?
+- These can be configured in URLResolve site.  On Home page of the site, there is a Localization button.
+  From the resulting page, new strings can be defined + localized text for strings can be defined.
+Question: What if I defined a locale in code table and translation is not available in that locale?
+- Fall back is English
+Localization page (In Url Resolve) has following columns
+     Label Name, Label Value
+In this, don't change the values in 'Label Name' - as this is the mnemonic used in app code, to find translations.
+Label Value is the default/fallback value, when localized text is not available.
+Below this, you can define text in locale language.
+</pre>
+</div>
+
+<div class="faq">
+    <h4>Validations on Expense Page (Field App)</h4>
+<pre>
+
+Upcoming changes on Expense Page (2.1.0253 onwards)
+
+- Odometer Start can not be 0
+- If Odometer End < Odometer Start
+     Total KM is shown as 0
+
+- While adding an expense, Odometer End is allowed to be 0
+  otherwise (odometer end - Odometer Start) must be > 0
+  which means, Odometer start can never be zero.
+               Odometer End can be zero only at the time of Add
+
+- Made provision for Notes field on expense pages.
+
+</pre>
+</div>
+
+
+<div class="faq">
+    <h4>Field App - Activity Page - Type - How to show localized values in selection list?</h4>
+<pre>
+Type values on this page are coming from code table, where CodeType = 'CustomerType'
+
+Say, a value in code table is defined as:
+
+CodeType: CustomerType
+CodeName: does not matter here
+CodeValue: Farmer
+
+Values under Code Value column are what shown on Field App in the above context.
+
+To localize the value 'Farmer' (for display purpose on phone, in above context), perform following steps:
+
+Go to UrlResolve site, Localization page, click Add
+  Label Name: Farmer
+  Label Value: Farmer
+This creates default display value for Farmer
+
+To localize it say in Hindi, for the above added entry, click on Add Loc link next to it
+  Locale: hi-IN
+  Localized Value: 'Kisan' in Hindi
+
+Once this is done, download the language pack of Hindi on field app
+(provided hi-IN is enabled as a locale for the site - see previous FAQ on how to do this.)
+
+And Type drop down on Activity Page will show the localized value as 'Kisan'
+
+Please note that the above localization is used only for display. 
+The value that gets sent with the activity is still 'Farmer' - the way it should be.
+
+If you define a new code value, but don't put it on localization page, 
+the Code Value defined in Code Table, will be used for both display and storage purposes.
+The same rule applies, if you have not put localized value for 'Farmer' say for a language/locale.
+
+</pre>
+</div>
+
+
+<div class="faq">
+    <h4>MyPeople (Management App) Refinements - 30 Dec 2019</h4>
+    <pre>
+Current:
+--------
+On first access, we don't know the IMEI number and therefore can't grant access.
+User get to see No Access page and IMEI number is displayed on the page.
+User will have to take a snap of this page, send to us and then we will add the IMEI number
+This is not the correct user experience.
+
+Modified approach:
+------------------
+In above scenario, user will get to see a button to request access
+User will fill in a short form and request will be sent to our server.
+User will see a confirmation message.
+We will pick up the request thus sent, and take action as appropriate (add the IMEI as before)
+
+Where do I see the sent requests:
+---------------------------------
+It is on UrlResovle, top bar - Access Request - available to all users who have access to UrlResolve site.
+Additionally to avoid spam, user can send the request only once.
+</pre>
+</div>
+
+<div class="faq">
+    <h4>TStanes File Upload Process</h4>
+    <pre>
+A new Web API has been created that will receive input and mimic the behavior as from web page.
+
+A new console application has been created that will
+- Look at the files in the designated folder on designated server
+- Invoke the above web API to upload the file(s) one by one.
+- On Success, will *move* the file to another folder.
+- Log the message(s) in event viewer, under source as 'EpicUpload', Log as 'Application'
+(Configuration is in App.Config file for this application - where we can configure the 
+ upload api url, source folder, backup folder and various file mappings)
+
+The bits for the console application are deployed on 52 server in c:\app\EpicUpload_20200101
+
+A New Task scheduler job has been set up on 52 server, to run the above console application code
+every one hour.
+
+In case of any errors in thus uploaded file, an alert sms will be generated, using alert mechanism recently put in place.
+</pre>
+</div>
+
+
+<div class="faq">
+    <h4>How to configure custom Razor Views - March 5 2020</h4>
+    <pre>
+Requirement is say for Admin - Profile page, where Reitzel has say 9 fields and PJM has 15 fields. 
+If we have a single view, then Reitzel will also get to see 6 additional fields, which is noise for them.
+So, we need to have a way to define separate views for Reitzel and PJM.  Let's say that AdminController in GetSearchEntities action has a call
+
+        return PartialView("_ShowEntities", model);
+
+How can _ShowEntities be different for Reitzel and PJM.
+
+MVC searches for views and partial views in pre-defined folders.
+
+        https://www.ryadel.com/en/asp-net-mvc-add-custom-locations-to-the-view-engine-default-search-patterns/
+
+As defined above, the partial view _ShowEntities will be looked under
+Views - Admin  folder.
+
+We want to put custom view for PJM say in Views - Admin - PJMargo folder
+
+To make that happen, in UrlResolve, for PJMargo site, Go to Web Config tab
+and Put 'PJMargo' in Custom View Folder and save the configuration.
+
+Come back to web site for PJM, Refresh the configuration from Super Admin Page.
+Beside this, sometime there is ASP.NET MVC Razor View Engine Cache (for which there is no clear option I could find) - so to take
+the above config change, effect, sometime we have to restart the web site/application pool.
+</pre>
+</div>
+
+
+<div class="faq">
+    <h4>(App) How to configure Name Selection field on Add Activity Page - March 5 2020</h4>
+    <pre>
+Probably by now we all know how to configure / set custom Add activity page using UrlResolve site.
+
+Till now (March 5 2020), when user clicked on Name field on Add Activity page, a list of selectable names was displayed as a plain vanilla list.
+But with PJM changes, the customer wanted a multiline tile for each selectable entity.  So now we have two different requirements for Name select list
+First a plain old fashioned list and second a rich tile list.
+
+To facilitate this, a new config option is added in UrlResolve, Modules tab for the site.
+Under Activity Module, there is Entity Select Page - which can have values BusinessEntityPage for old / simple style, BusinessEntityPage2 for rich tile view.
+Make the change as appropriate and refresh config on phone.
+</pre>
+</div>
+
+<div class="faq">
+    <h4>(App) Entity Button configuration - March 5 2020</h4>
+    <pre>
+On phone, we can configure the target page for Entity button click on Modules tab as:
+AddEntityPage2 - to directly go to generic add entity page, where user will get to select entity type as well. 
+
+        EntityProfileListPage2 - to first go to a list page, which will show the available entities on phone.  Since there can be different types of entities, the page shows list of one type of entities at a time.
+User can change the entity type by using the filter icon on top of page. The page also has an add option to add new entities.
+(Which entity type list is displayed by default is configurable on UrlResolve site under WebConfig tab - WorkFlowEntity Type field)
+
+If we want individual entity tiles on this page to be clickable - as in case of Reitzel and upcoming PJM, 
+we can put the configuration value in above field as 
+
+        EntityProfileListPage2>EntityProfilePage to indicate that click on the tile will open EntityProfile page.
+
+This way, we can have different target click page for the tile based on customer requirement.
+
+Another related question becomes, that for each type of entity, we may need to have different add page.
+This is configurable for each site using Code Table in Web DB.
+
+For this use Code Type as 'XamlEntityAddPage'
+CodeName is Entity Type e.g. Farmer / Retailer / Dealer
+CodeValue is the name of target add page - currently we have two version of add page one for farmer and other for all other type
+These are AddFarmerPage and AddGenericEntityPage.
+
+This way, if need to be, we can create additional pages with more or less fields and configure.
+
+If add page for any type of entity is not defined, AddGenericEntityPage will be used.
+</pre>
+</div>
+
+
+<div class="faq">
+    <h4>Parallel Activities in WorkFlow - March 29 2020</h4>
+    <pre>
+Workflow can have parallel activities starting myDay App 2.1.0277
+
+Care need to be taken while setting up schedules in WorkFlowSchedule
+
+Here is a sample:
+
+insert into dbo.WorkFlowSchedule
+([Sequence], Phase, TargetStartAtDay, TargetEndAtDay, IsActive, PhoneDataEntryPage, TypeName, TagName)
+values
+(10, 'Sowing Confirmation', 0, 0, 1, 'SowingWorkflowEntryPage', 'Gherkin', 'Sowing Confirmation'),
+(20, 'Insect Spray 1', 1, 15, 1, 'CommonWorkflowEntryPage', 'Gherkin', 'Gherkin_Tag_Phase1'),
+(20, 'Germination', 1, 20, 1, 'CommonWorkflowEntryPage', 'Gherkin', 'Gherkin_Tag_Phase1'),
+(30, 'Insect Spray 2', 21, 25, 1, 'CommonWorkflowEntryPage', 'Gherkin', 'Gherkin_Tag_Phase2'),
+(30, 'Weeding', 21, 30, 1, 'CommonWorkflowEntryPage', 'Gherkin', 'Gherkin_Tag_Phase2'),
+(40, 'Insect Spray 3', 31, 35, 1, 'CommonWorkflowEntryPage', 'Gherkin', 'Gherkin_Tag_Phase3'),
+(40, 'Staking', 31, 40, 1, 'CommonWorkflowEntryPage', 'Gherkin', 'Gherkin_Tag_Phase3'),
+(50, 'Harvest', 41, 60, 1, 'FirstHarvestWorkflowEntryPage', 'Gherkin', 'Harvest')
+
+Note following points:
+
+a) First activity can't have a parallel sibling.
+b) Subsequent parallel activities have same sequence number and a common tag name.
+c) Activities that don't have a sibling activity, have TagName same as Phase.
+
+</pre>
+</div>
+
+<div class="faq">
+    <h4>Follow Up Activities in WorkFlow - April 03 2020</h4>
+    <pre>
+
+CREATE TABLE [dbo].[WorkFlowFollowUp]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY,
+	[TypeName] NVARCHAR(50) NOT NULL, -- could be crop name
+	[Phase] NVARCHAR(50) NOT NULL,
+	[PhoneDataEntryPage] NVARCHAR(50) NOT NULL DEFAULT '',
+	[FollowUpPhaseTag] NVARCHAR(50) NOT NULL DEFAULT '',
+	    -- can be called a fk in Code Table
+	[MinFollowUps] INT NOT NULL DEFAULT 0,
+	[MaxFollowUps] INT NOT NULL DEFAULT 0,
+	-- used at the time of follow up activity creation only
+	[TargetStartAtDay] INT NOT NULL,
+	[TargetEndAtDay] INT NOT NULL,
+	[IsActive] BIT NOT NULL DEFAULT 1
+)
+GO
+
+
+During workflow Activity, code will look at this table to see (based on Type/Phase) 
+if followups are to be allowed on the page  (MaxFollowUps > 0).  If followups are 
+allowed, it will use FollowUpPhaseTag (and look in code table) to get the names of follow up phases.
+(See query below)
+
+The phases returned from code table are the phases that will be available on followup entry page.
+
+For each of these available followup phases, the table (WorkFlowFollowUp) will be probed again
+(with TypeName as current type Name and Phase Name returned from Code Table)
+to limit the date range on follow up activity create page (based on TargetStartAtDay and TargetEndAtDay).
+
+When such created follow up workflow activity is filled, the cycle will be repeated using the 
+then Type/Phase name of current activity being filled.
+
+MinFollowUps is not a hard limit but a soft limit to remind the user that he may want to add follow up activities for the current phase.
+
+Query to get available phase names:
+
+SELECT CodeValue 'AvailablePhase'
+FROM dbo.CodeTable
+WHERE IsActive = 1
+  AND CodeType = 'WorkFlowFollowUp'
+  AND CodeName = <FollowUpPhaseTag>
+ORDER BY DisplaySequence
+
+Update May 4 2020: A new field MaxDWS is added in WorkFlowFollowUp table
+    A value 0 means that DWS is not allowed on this page.
+    A value say +2 means that max dws allowed are 2 and DWS is mandatory.
+    A value say -2 means that max dws allowed are 2 and DWS is Optional
+</pre>
+</div>
+
+<div class="faq">
+    <h4>(App)How to use App Date Set feature on builds 2.1.0290 onwards?</h4>
+    <pre>
+The feature is built to aid in WF testing, where Work flow start dates are in future 
+So that we don't have to change dates on phone.
+
+Pre-requisites: Enhanced Debug mode must be enabled for the user. (Super Admin > Employee Config)
+
+Steps:
+
+- Register on phone
+- On Home screen (that has buttons), from top right hand menu, select App Date
+- On the resulting page, select the date you want to set and press Set button.
+- To clear the date, press clear button.
+
+After the user comes back to home page, Download the data again,as the download routine makes use of the date that is set/cleared.
+
+To avoid the possibility of errors/confusion, the dependent data is cleared from phone when user presses Set Date or Clear Date Buttons.
+</pre>
+</div>
+
+
+<div class="faq">
+    <h4>How to investigate distance Calculation not happening</h4>
+    <pre>
+Distance calculation job is run using api 'api/Distance'
+
+Records for distance calculation are picked using sproc
+GetTrackingRecordsForDistanceCalculation <= 10 at a time
+
+If distance calculation fails, A row is added in DistanceCalcErrorLog table
+Note: For this row to appear in DistanceCalcErrorLog table
+[
+In db, there is a table dbo.Config
+In this a Row has to be there 
+with ConfigName = 'LogDistanceCalcError' and ConfigBooleanValue as 1
+]
+</pre>
+</div>
+
+<div class="faq">
+    <h4>Where do I define/configure Rate for DWS items?</h4>
+    <h5>It has to be defined in WorkFlowSeason table and from there it is put in EntityAgreement table (when agreement is created) and then at the time STR is marked as Silo Checked, it is put in DWS table.</h5>
+</div>
+
+<div class="faq">
+    <h4>Where do I define/configure maximum number of agreements per crop?</h4>
+    <h5>(for apk 2.1.0296 onwards )It has to be defined in WorkFlowSeason table.</h5>
+    <h5>For previous versions the configuration is only available to the extent - one agreement per crop or multiple agreements per crop - via setting in UrlResolve.
+    From apk 2.1.0296 onwards, the setting in UrlResolve is not used.
+    </h5>
+</div>
+
+<div class="faq">
+    <h4>How is concurrency check implemented on Admin > STR Page?</h4>
+    <pre>
+Concurrency check is implemented by way of a numeric field called CyclicCount.
+
+For STR, we have three tables
+
+- STRTag
+- STR
+- DWS
+
+STRTag is the parent table that defines a Vehicle.
+STR constitutes the loads - many field staff can put their loads in a single vehicle instance.
+DWS - Each load can have several DWS from different agreements.
+
+We have put a Cyclic count field in STRTag table, that is incremented each time an update happens in either of these three tables.
+
+When the user is ready to 
+- Add an item in STR or DWS OR 
+- Edit an item in STRTag, STR or DWS
+
+the cyclic count from corresponding STRTag table is cached in browser and sent back with added/changed data.
+
+The thus sent back cyclic count value is checked with the cyclic count in STRTag table, for corresponding record.
+
+In order for update to happen, these values of cyclic count (the one in table/row and the other coming from browser with update/changes),
+must match.
+
+</pre>
+</div>
+
+<div class="faq">
+    <h4>How to Assign HQ using regular upload process - November 15 2021</h4>
+    <pre>
+As of now there were only following options to complete the assignments.
+- Using UI, is very time consuming.
+- Using Excel, not feasible if assignment are frequently getting updated on and alternate system is is also time consuming.
+
+New approach : We will get Staff and there respective HQ to which they have to be assigned (As HQ assignment takes approx 80-90% of the overall assignment time). Using upload functionality system will automatically assign Employee to there HQ's (As per input data provided in upload file).
+
+Input file condition : Employee Code should be same as availabe in Employee Upload. (Ex - 0154 != 154)
+
+Complete Refresh (True) - Will delete all the existing HQ assigment except for PPA's (PPA reference details are below).
+Complete Refresh (False) - Will delete HQ's assignments only for Employees available in uploaded file.
+
+(Tstanes) - PPA HQ assignment based on the input PPA Vs SO (Employee) mapping file. 
+
+Input file condition : PPA Code should be of 10 character.
+
+Complete Refresh (True) - Will delete all the existing PPA HQ assigment.
+Complete Refresh (False) - Will delete PPA HQ's assignments only for Employees available in uploaded file.
+
+</pre>
+</div>
+
+
+@section styles
+{
+    <style>
+        div.faq {
+            margin: 30px;
+            margin-left: 50px;
+            margin-right: 50px;
+            max-width: 700px;
+        }
+</style>
+}

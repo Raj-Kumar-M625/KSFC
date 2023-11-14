@@ -1,0 +1,99 @@
+﻿@model AssociationViewModel 
+
+@{
+    IEnumerable<SalesPersonsAssociationDataModel> AssociationModel = Model.AssociationModel;
+    IEnumerable<SelectableOfficeHierarchyModel> OfficeHierarchyModel = Model.OfficeHierarchyModel;
+    IEnumerable<SalesPersonViewModel> VisibleStaffData = Model.VisibleStaffData;
+    IEnumerable<DomainEntities.CodeTableEx> AreaCodes = Model.AreaCodes;
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    @*<tr id="dataTableHeader">
+        <td colspan="3" id="downloadLinkArea">&nbsp;</td>
+    </tr>*@
+    <tr>
+        <th colspan="3" style="text-align:center;">Defined Associations</th>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => AssociationModel.First().CodeType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => AssociationModel.First().CodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => AssociationModel.First().AssignedDate)
+        </th>
+    </tr>
+
+    @foreach (var item in AssociationModel)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeType)
+            </td>
+            <td>
+                @item.CodeName (@item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedDate)
+            </td>
+        </tr>
+    }
+</table>
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable2">
+    <tr>
+        <th colspan="4" style="text-align:center;">@AreaCodes.Count() Unique Area Codes per Associations Defined</th>
+    </tr>
+
+    <tr>
+        <th>@Html.DisplayNameFor(model => OfficeHierarchyModel.First().AreaCode)</th>
+        <th>@Html.DisplayNameFor(model => OfficeHierarchyModel.First().AreaName)</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    @foreach (var item in AreaCodes)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.Code)</td>
+            <td>@Html.DisplayFor(modelItem => item.CodeName)</td>
+            <td><a href="" title="Customers for Employee Code @Model.StaffCode (Area Code @item.Code)" onclick="CustomersForAreaClicked('@Model.StaffCode', '@item.Code'); return false;">Customers</a></td>
+            <td><a href="" title="Products for Employee Code @Model.StaffCode (Area Code @item.Code)" onclick="ProductsForAreaClicked('@Model.StaffCode', '@item.Code'); return false;">Products</a></td>
+        </tr>
+    }
+</table>
+
+@{ 
+    var vdd = new ViewDataDictionary();
+    vdd.Add("HeaderText1", "Detailed Translated Associations");
+    vdd.Add("HeaderText2", "Green marks indicate direct or descendent assignment");
+}
+@Html.Partial("_OfficeHierarchy2", OfficeHierarchyModel, vdd)
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable3">
+    <tr>
+        <th colspan="6" style="text-align:center;">Visible Staff (@VisibleStaffData.Count())</th>
+    </tr>
+    <tr>
+        <th>@Html.DisplayNameFor(model => VisibleStaffData.First().StaffCode)</th>
+        <th>@Html.DisplayNameFor(model => VisibleStaffData.First().EmployeeId)</th>
+        <th>@Html.DisplayNameFor(model => VisibleStaffData.First().Name)</th>
+        <th>@Html.DisplayNameFor(model => VisibleStaffData.First().Phone)</th>
+        <th>@Html.DisplayNameFor(model => VisibleStaffData.First().IsActive)</th>
+        <th>@Html.DisplayNameFor(model => VisibleStaffData.First().OnWeb)</th>
+
+    </tr>
+    @foreach (var item in VisibleStaffData)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.StaffCode)</td>
+            <td>@Html.DisplayFor(modelItem => item.EmployeeId)</td>
+            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+            <td>@Html.DisplayFor(modelItem => item.Phone, "Phone")</td>
+            <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+            <td>@Html.DisplayFor(modelItem => item.OnWeb)</td>
+        </tr>
+    }
+</table>

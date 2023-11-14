@@ -1,0 +1,25 @@
+﻿CREATE TABLE [dbo].[TaskAudit]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY,
+	[XRefTaskId] BIGINT NOT NULL,
+	[XRefTaskProjectId] BIGINT NOT NULL,
+	[Description]  NVARCHAR(200),
+
+	[ActivityType] NVARCHAR(50) NOT NULL,
+	[ClientType] NVARCHAR(50) NOT NULL,
+	[ClientName] NVARCHAR(50) NOT NULL,
+	[ClientCode] NVARCHAR(50) NOT NULL DEFAULT '',
+
+	[PlannedStartDate] DATETIME2 NOT NULL,
+	[PlannedEndDate] DATETIME2 NOT NULL,
+	[ActualStartDate] DATETIME2 NOT NULL,
+	[ActualEndDate] DATETIME2 NOT NULL,
+	[Comments] NVARCHAR(2048) NOT NULL,
+
+	[Status] NVARCHAR(50) NOT NULL,
+	[IsActive] BIT NOT NULL DEFAULT 0,
+
+	[DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[CreatedBy] NVARCHAR(50) NOT NULL,
+)
+GO

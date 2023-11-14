@@ -1,0 +1,54 @@
+﻿@model RegisterSuperAdminViewModel
+@{
+    ViewBag.Title = "Create";
+    bool registrationAllowed = ViewBag.RegistrationAllowed;
+}
+
+<h2>Create New Super Admin</h2>
+
+@if (registrationAllowed)
+{
+    using (Html.BeginForm("Register", "SuperAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Immortal, new { @class = "col-md-2 control-label" })
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.Immortal, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Create" />
+            </div>
+        </div>
+    }
+}
+else
+{
+    <h4>New user is not allowed - check max user limit in configuration.</h4>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

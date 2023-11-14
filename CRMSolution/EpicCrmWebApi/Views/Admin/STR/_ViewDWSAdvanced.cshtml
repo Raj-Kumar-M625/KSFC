@@ -1,0 +1,271 @@
+﻿@model DWSModel
+@{
+    bool IsEditAllowed = ViewBag.IsEditAllowed;
+    string caption = "View DWS";
+}
+
+
+@using (Html.BeginForm("EditDWS", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+<div class="form-horizontal">
+    <span style="font-size:large;">@caption #@Model.DWSNumber</span>
+
+    <hr />
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#basicData">Basic</a></li>
+            <li><a data-toggle="tab" href="#weightData">Weights</a></li>
+            <li><a data-toggle="tab" href="#amountData">Amounts</a></li>
+            <li><a data-toggle="tab" href="#approvalData">Approvals</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="basicData" class="tab-pane fade in active">
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.DWSNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.DWSNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.DWSDateAsText, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            <input data-format="dd-MM-yyyy" type="text" name="DWSDateAsText"
+                                   class="form-control justDate" value="@Model.DWSDateAsText" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.EntityName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.EntityName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.TypeName, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.TypeName, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.STRNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.STRNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.Agreement, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Agreement, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.HQCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.HQCode, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="weightData" class="tab-pane fade in">
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.FilledBagsWeightKg, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.FilledBagsWeightKg, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.EmptyBagsWeightKg, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.EmptyBagsWeightKg, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.GoodsWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.GoodsWeight, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.BagCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.BagCount, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.SiloDeductPercent, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.SiloDeductPercent, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.SiloDeductWt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.SiloDeductWt, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.SiloDeductWtOverride, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.SiloDeductWtOverride, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.NetPayableWt, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.NetPayableWt, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="amountData" class="tab-pane fade in">
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.RatePerKg, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.RatePerKg, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.GoodsPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.GoodsPrice, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.DeductAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.DeductAmount, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div>
+                        @Html.LabelFor(model => model.NetPayable, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.NetPayable, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="approvalData" class="tab-pane fade in">
+
+                <table class="table table-bordered table-striped table-condensed" style="margin-top:5px;">
+                    <tr>
+                        <th>Context</th>
+                        <th>Performed By</th>
+                        <th>Performed On</th>
+                    </tr>
+                    <tr>
+                        <td>Wt. Approval</td>
+                        <td>@Model.WtApprovedBy</td>
+                        <td>@Model.WtApprovedDateAsText</td>
+                    </tr>
+
+                    <tr>
+                        <td>Amt. Approval</td>
+                        <td>@Model.AmountApprovedBy</td>
+                        <td>@Model.AmountApprovedDateAsText</td>
+                    </tr>
+
+                    <tr>
+                        <td>Paid</td>
+                        <td>@Model.PaidBy</td>
+                        <td>@Model.PaidDateAsText</td>
+                    </tr>
+                </table>
+
+                <table class="table table-bordered table-striped table-condensed">
+                    <tr>
+                        <th>@Html.LabelFor(model => model.BankAccountName)</th>
+                        <th>@Html.LabelFor(model => model.BankName)</th>
+                        <th>@Html.LabelFor(model => model.BankAccount)</th>
+                        <th>@Html.LabelFor(model => model.BankIFSC)</th>
+                        <th>@Html.LabelFor(model => model.BankBranch)</th>
+                    </tr>
+                    <tr>
+                        <td>@Model.BankAccountName</td>
+                        <td>@Model.BankName</td>
+                        <td>@Model.BankAccount</td>
+                        <td>@Model.BankIFSC</td>
+                        <td>@Model.BankBranch</td>
+                    </tr>
+                </table>
+
+                <div class="form-group">
+                    <div>
+                        @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            <textarea name="Comments" rows="3" cols="30" class="form-control">@Model.Comments</textarea>
+                        </div>
+                    </div>
+
+                    <div>
+                        @Html.LabelFor(model => model.PaymentReference, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.PaymentReference, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+<script type="text/javascript">
+    @Html.Raw("var IsEditAllowed = '" + IsEditAllowed.ToString() + "';");
+
+    if (IsEditAllowed == 'False')
+    {
+        $("#popupForm Input").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm textarea").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm select").each(function (i, e) {
+            $(e).attr("disabled", true);
+        });
+
+        $("input.justDate").datetimepicker({ datepicker: false, timepicker: false });
+    }
+</script>

@@ -1,0 +1,22 @@
+﻿CREATE TABLE [dbo].[SqliteReturnOrder]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[BatchId] BIGINT NOT NULL REFERENCES dbo.SqliteActionBatch,
+	[EmployeeId] BIGINT NOT NULL,
+
+	[PhoneDbId] NVARCHAR(50) NOT NULL DEFAULT '',
+
+	[CustomerCode] NVARCHAR(50) NOT NULL,
+	[ReturnOrderDate] DATETIME2 NOT NULL,
+	[TotalAmount] DECIMAL(19,2) NOT NULL,
+	[ItemCount] BIGINT NOT NULL DEFAULT 0,
+	[ReferenceNum] NVARCHAR(255),
+	[Comment] NVARCHAR(2048),
+
+	[PhoneActivityId] NVARCHAR(50) NOT NULL DEFAULT '',
+
+	[IsProcessed] BIT NOT NULL DEFAULT 0,  -- non-unique indexed
+	[ReturnOrderId] BIGINT NOT NULL DEFAULT 0,
+	[DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[DateUpdated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+)

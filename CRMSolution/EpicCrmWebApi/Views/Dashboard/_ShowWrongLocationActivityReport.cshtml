@@ -1,0 +1,75 @@
+﻿@model IEnumerable<EpicCrmWebApi.WrongLocationReportModel>
+
+@{
+    int wrongLocationRecords = Model.Count();
+    string displayString = $"{wrongLocationRecords} rows displayed.";
+}
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr id="dataTableHeader">
+        <td colspan="2" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="8">@displayString rows displayed.</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HQCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RadiusValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.At)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HQCode)
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.ClientName)
+        </td>
+        <td>
+            +91 @Html.DisplayFor(model => item.ClientPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.ActivityType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RadiusValue)
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.At, "DateTimeDate")
+        </td>
+    </tr>
+    }
+</table>
+

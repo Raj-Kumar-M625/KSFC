@@ -1,0 +1,198 @@
+﻿@model IEnumerable<EpicCrmWebApi.SmsSummaryDataModel>
+
+@{
+    ViewBag.Title = "Present Active Staff";
+}
+
+<h2>Active People (In Field) Stats [Summary]</h2>
+
+<table class="table" id="summaryDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CurrentlyRoamingCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InFieldCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RegisteredCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeadCount)
+            </th>
+            <th>@Html.DisplayNameFor(model => model.Orders)</th>
+            <th>@Html.DisplayNameFor(model => model.Payments)</th>
+            <th>@Html.DisplayNameFor(model => model.Expenses)</th>
+            <th>@Html.DisplayNameFor(model => model.Returns)</th>
+            <th>@Html.DisplayNameFor(model => model.Activities)</th>
+
+            <th>@Html.DisplayNameFor(model => model.CustomerCount)</th>
+            <th>@Html.DisplayNameFor(model => model.Outstanding)</th>
+            <th>@Html.DisplayNameFor(model => model.LongOutstanding)</th>
+            <th>@Html.DisplayNameFor(model => model.Target)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentlyRoamingCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InFieldCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegisteredCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HeadCount)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Orders)</td>
+                <td>@Html.DisplayFor(modelItem => item.Payments)</td>
+                <td>@Html.DisplayFor(modelItem => item.Expenses)</td>
+                <td>@Html.DisplayFor(modelItem => item.Returns)</td>
+                <td>@Html.DisplayFor(modelItem => item.Activities)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.CustomerCount)</td>
+                <td>@Html.DisplayFor(modelItem => item.Outstanding)</td>
+                <td>@Html.DisplayFor(modelItem => item.LongOutstanding)</td>
+                <td>@Html.DisplayFor(modelItem => item.Target)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr/>
+
+<h2>Active People (In Field) Stats [Detail]</h2>
+<table class="table" id="detailDataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details.First().StaffCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details.First().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details.First().Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details.First().IsInFieldToday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details.First().IsRegisteredOnPhone)
+            </th>
+
+            <th>@Html.DisplayNameFor(model => model.Details.First().StartTime)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().EndTime)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().Orders)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().Payments)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().Expenses)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().Returns)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().Activities)</th>
+
+            <th>@Html.DisplayNameFor(model => model.Details.First().Latitude)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().Longitude)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().CurrentLocTime)</th>
+
+            <th>@Html.DisplayNameFor(model => model.Details.First().PhoneModel)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().PhoneOS)</th>
+            <th>@Html.DisplayNameFor(model => model.Details.First().AppVersion)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            foreach (var d in item.Details)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => d.StaffCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => d.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => d.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => d.IsInFieldToday)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => d.IsRegisteredOnPhone)
+                    </td>
+
+                    @if (d.StartTime.HasValue)
+                    {
+                        <td>@Html.DisplayFor(modelItem => d.StartTime.Value)</td>
+                    }
+                    else
+                    {
+                        <td>&nbsp;</td>
+                    }
+
+                    @if (d.EndTime.HasValue)
+                    {
+                        <td>@Html.DisplayFor(modelItem => d.EndTime.Value)</td>
+                    }
+                    else
+                    {
+                        <td>&nbsp;</td>
+                    }
+
+                    <td>@Html.DisplayFor(modelItem => d.Orders)</td>
+                    <td>@Html.DisplayFor(modelItem => d.Payments)</td>
+                    <td>@Html.DisplayFor(modelItem => d.Expenses)</td>
+                    <td>@Html.DisplayFor(modelItem => d.Returns)</td>
+                    <td>@Html.DisplayFor(modelItem => d.Activities)</td>
+
+                    <td>@Html.DisplayFor(modelItem => d.Latitude)</td>
+                    <td>@Html.DisplayFor(modelItem => d.Longitude)</td>
+                    <td>@Html.DisplayFor(modelItem => d.CurrentLocTime)</td>
+
+                    <td>@Html.DisplayFor(modelItem => d.PhoneModel)</td>
+                    <td>@Html.DisplayFor(modelItem => d.PhoneOS)</td>
+                    <td>@Html.DisplayFor(modelItem => d.AppVersion)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(
+            function () {
+                $("#summaryDataTable").DataTable();
+                $("#detailDataTable").DataTable();
+            });
+    </script>
+}

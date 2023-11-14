@@ -1,0 +1,85 @@
+﻿@model IEnumerable<EpicCrmWebApi.SelectableOfficeHierarchyModel>
+@{
+    IEnumerable<SelectableOfficeHierarchyModel> OfficeHierarchyModel = Model;
+    string headerText1 = ViewData["HeaderText1"] as string;
+    string headerText2 = ViewData["HeaderText2"] as string;
+    int hierarchy = Model.Count();
+    string displayString = $"{hierarchy} rows displayed.";
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable2">
+    <tr>
+        <td colspan="10">@displayString</td>
+    </tr>
+
+    @if (String.IsNullOrEmpty(headerText1) == false)
+    {
+        <tr>
+            <th colspan="10" style="text-align:center;">@headerText1 
+                <span style="color:blue;font-size:smaller;">(@headerText2)</span>
+            </th>
+        </tr>
+    }
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.ZoneCode)</th>
+            <th>@Html.DisplayNameFor(model => model.ZoneName)</th>
+
+            <th>@Html.DisplayNameFor(model => model.AreaCode)</th>
+            <th>@Html.DisplayNameFor(model => model.AreaName)</th>
+
+            <th>@Html.DisplayNameFor(model => model.TerritoryCode)</th>
+            <th>@Html.DisplayNameFor(model => model.TerritoryName)</th>
+
+            <th>@Html.DisplayNameFor(model => model.HQCode)</th>
+            <th>@Html.DisplayNameFor(model => model.HQName)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in OfficeHierarchyModel)
+        {
+            var zoneImage = (item.IsZoneSelectable) ? "greenImage.png" : "redImage.png";
+            var areaImage = (item.IsAreaSelectable) ? "greenImage.png" : "redImage.png";
+            var territoryImage = (item.IsTerritorySelectable) ? "greenImage.png" : "redImage.png";
+            var hqImage = (item.IsHQSelectable) ? "greenImage.png" : "redImage.png";
+            <tr>
+                <td>
+                    <img width="10" height="10" src="~/Content/img/@zoneImage" />
+                    @Html.DisplayFor(modelItem => item.ZoneCode)
+                </td>
+                <td>
+                    <img width="10" height="10" src="~/Content/img/@zoneImage" />
+                    @Html.DisplayFor(modelItem => item.ZoneName)
+                </td>
+
+                <th>
+                    <img width="10" height="10" src="~/Content/img/@areaImage" />
+                    @Html.DisplayFor(modelItem => item.AreaCode)
+                </th>
+                <th>
+                    <img width="10" height="10" src="~/Content/img/@areaImage" />
+                    @Html.DisplayFor(modelItem => item.AreaName)
+                </th>
+
+                <td>
+                    <img width="10" height="10" src="~/Content/img/@territoryImage" />
+                    @Html.DisplayFor(modelItem => item.TerritoryCode)
+                </td>
+                <td>
+                    <img width="10" height="10" src="~/Content/img/@territoryImage" />
+                    @Html.DisplayFor(modelItem => item.TerritoryName)
+                </td>
+
+                <th>
+                    <img width="10" height="10" src="~/Content/img/@hqImage" />
+                    @Html.DisplayFor(modelItem => item.HQCode)
+                </th>
+                <th>
+                    <img width="10" height="10" src="~/Content/img/@hqImage" />
+                    @Html.DisplayFor(modelItem => item.HQName)
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+

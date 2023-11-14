@@ -1,0 +1,119 @@
+﻿@model StockInputTagModel
+@{
+    string title = $"Review/Confirm Input Stock (GRN # {Model.GRNNumber})";
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    string ZoneName = officeHierarchy.Where(x => x.ZoneCode.Equals(Model.ZoneCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.ZoneName ?? Model.ZoneCode;
+
+    string AreaName = officeHierarchy.Where(x => x.AreaCode.Equals(Model.AreaCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.AreaName ?? Model.AreaCode;
+
+    string TerritoryName = officeHierarchy.Where(x => x.TerritoryCode.Equals(Model.TerritoryCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.TerritoryName ?? Model.TerritoryCode;
+
+    string HQName = officeHierarchy.Where(x => x.HQCode.Equals(Model.HQCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.HQName ?? Model.HQCode;
+
+    bool IsGoodToApprove = (Model.TotalItemCount == Model.ItemCountFromLines && Model.TotalAmount == Model.AmountTotalFromLines);
+}
+
+@using (Html.BeginForm("ReviewStockInputTag", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">@title</span>
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.CyclicCount)
+
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>@Html.LabelFor(model => model.ZoneCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.AreaCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.TerritoryCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.HQCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => ZoneName)</td>
+                <td>@Html.DisplayFor(model => AreaName)</td>
+                <td>@Html.DisplayFor(model => TerritoryName)</td>
+                <td>@Html.DisplayFor(model => HQName)</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(model => model.ReceiveDate, htmlAttributes: new { @class = "control-label" })</th>
+                <th>@Html.LabelFor(model => model.VendorBillDate, htmlAttributes: new { @class = "control-label" })</th>
+                <th>@Html.LabelFor(model => model.VendorBillNo, htmlAttributes: new { @class = "control-label" })</th>
+                <th>@Html.LabelFor(model => model.VendorName, htmlAttributes: new { @class = "control-label" })</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.ReceiveDate, "DatetimeShort")</td>
+                <td>@Html.DisplayFor(model => model.VendorBillDate, "DatetimeShort")</td>
+                <td>@Html.DisplayFor(model => model.VendorBillNo)</td>
+                <td>@Html.DisplayFor(model => model.VendorName)</td>
+            </tr>
+
+            <tr>
+                <th>@Html.LabelFor(model => model.TotalItemCount, htmlAttributes: new { @class = "control-label" })</th>
+                <th>@Html.LabelFor(model => model.TotalAmount, htmlAttributes: new { @class = "control-label" })</th>
+                <th>@Html.LabelFor(model => model.ItemCountFromLines, htmlAttributes: new { @class = "control-label" })</th>
+                <th>@Html.LabelFor(model => model.AmountTotalFromLines, htmlAttributes: new { @class = "control-label" })</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(model => model.TotalItemCount)</td>
+                <td>@Html.DisplayFor(model => model.TotalAmount)</td>
+                <td>@Html.DisplayFor(model => model.ItemCountFromLines)</td>
+                <td>@Html.DisplayFor(model => model.AmountTotalFromLines)</td>
+            </tr>
+            <tr>
+                <th>@Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })</th>
+                <td colspan="3">
+                    @Html.DisplayFor(model => model.Notes)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    @*<div>
+        @Html.LabelFor(model => model.IsReviewed, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.CheckBox("IsReviewed", false, htmlAttributes: new { id = "idIsReviewed", onclick = "cbSelectionChanged()" })
+        </div>
+    </div>*@
+
+    @if (!IsGoodToApprove)
+    {
+        <div>
+            <label class="control-label" style="margin-top:0px;font-weight:normal;color:red;font-size:small;"
+                   >Item / Amount totals from header and line items don't match.  Please correct the entries and try again. 
+            </label>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.ReviewNotes, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    <textarea name="ReviewNotes" rows="2" cols="60" maxlength="100" class="form-control">@Model.ReviewNotes</textarea>
+                    @Html.ValidationMessageFor(model => model.ReviewNotes, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-4">
+                <input type="submit" value="Review/Confirm & Save" class="btn btn-success" id="popupSaveButton" />
+            </div>
+        </div>
+    }
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}

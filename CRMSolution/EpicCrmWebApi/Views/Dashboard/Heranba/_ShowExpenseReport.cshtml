@@ -1,0 +1,153 @@
+﻿@model ExpenseReportModel  
+
+@{ 
+    IEnumerable<ExpenseReportDataModel> reportData = Model.ExpenseReportData;
+    IEnumerable<OfficeHierarchyModel> officeHierarchy = Model.OfficeHierarchy;
+    OfficeHierarchyModel oh = null;
+}
+<table class="table table-bordered table-striped table-condensed">
+    <tr id="dataTableHeader">
+        <td colspan="1" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="22">@reportData.Count() rows displayed.</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().ExpenseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.StaffCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().Name)
+        </th>
+        <th>
+            Odometer Reading
+        </th>
+        <th>Kms Travelled (Odometer)</th>
+        <th>
+            Travel Expense
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().Fuel.First().Amount)
+        </th>
+
+        <th>@Html.DisplayNameFor(model => model.ExpenseReportData.First().DALocalAmount)</th>
+        <th>@Html.DisplayNameFor(model => model.ExpenseReportData.First().DAOutstationAmount)</th>
+
+        <th>
+            Hotel Rent
+        </th>
+        <th>
+            Vehicle Repair
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().TelephoneAmount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().TollTaxAmount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DriverSalary)
+        </th>
+
+        <th>
+            Miscellaneous
+        </th>
+
+        <th>
+            Travel Public Vehicle Type
+        </th>
+        <th>
+            Travel Public Amt.
+        </th>
+        <th>
+            Daily Total
+        </th>
+        <th>Odometer Reading (Company Vehicle)</th>
+        <th>Kms Travelled (Company Vehicle)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.TrackingDistanceInMeters)
+        </th>
+    </tr>
+
+@foreach (var item in reportData)
+{
+    oh = officeHierarchy.Where(x => x.HQCode == item.ExpenseHQCode).FirstOrDefault();
+
+    var totalTravelAmount = item.TravelPrivate.Sum(x => x.Amount) + item.TravelPublic.Sum(x => x.Amount);
+    var miscAmount = item.MiscellaneousAmount;
+
+    long totalTravelDistanceInOfficeVehicle = 0;
+    if ((item.TravelCompany?.Count() ?? 0) > 0)
+    {
+        totalTravelDistanceInOfficeVehicle = item.TravelCompany
+                    .Where(x => x.OdometerEnd > x.OdometerStart)
+                    .Sum(x => x.OdometerEnd - x.OdometerStart);
+    }
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpenseDate, "DatetimeShort")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.StaffCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @item.GetTravelPrivateOdometerReadings
+        </td>
+
+        <td>@item.TravelPrivateDistanceInKm</td>
+
+        <td>
+            @item.TravelPrivate.Sum(x => x.Amount).ToString("###,##0.00")
+        </td>
+        <td>
+            @item.Fuel.Sum(x=> x.Amount).ToString("###,##0.00")
+        </td>
+
+        <td>@Html.DisplayFor(modelItem => item.DALocalAmount)</td>
+        <td>@Html.DisplayFor(modelItem => item.DAOutstationAmount)</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LodgeRent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleRepairAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelephoneAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TollTaxAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DriverSalary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => miscAmount)
+        </td>
+        <td>
+            @String.Join(",", item.TravelPublic.Select(x=> x.TransportType).ToArray())
+        </td>
+        <td>
+            @item.TravelPublic.Sum(x=> x.Amount).ToString("###,##0.00")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.TotalExpenseAmount)
+        </td>
+
+        <td>@item.GetTravelCompanyOdometerReadings</td>
+        <td>@totalTravelDistanceInOfficeVehicle</td>
+
+        <td>
+            @item.CalculatedTrackingDistanceInKm
+        </td>
+    </tr>
+}
+
+</table>

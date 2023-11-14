@@ -1,0 +1,117 @@
+﻿@using System.Text.RegularExpressions
+@{
+    ViewBag.Title = "Configuration";
+
+    var settings = System.Configuration.ConfigurationManager.AppSettings;
+    var connectionStrings = System.Configuration.ConfigurationManager.ConnectionStrings;
+}
+
+<h2>Configuration</h2>
+
+<table class="table">
+    <tr>
+        <th>Key</th>
+        <th>Value</th>
+    </tr>
+
+@foreach (var k in settings.AllKeys.OrderBy(x=> x))
+{
+    var v = settings[k] as string;
+    <tr>
+        <td>@k</td>
+        <td>@v</td>
+    </tr>
+}
+</table>
+
+
+<h2>Url Resolve Configuration</h2>
+
+<table class="table" id="dataTable">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            System.Reflection.PropertyInfo[] properties = CRMUtilities.Utils.SiteConfigData.GetType().GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+                if (properties[i].CanRead)
+                {
+                    <tr>
+                        <td>@properties[i].Name</td>
+                        <td>@properties[i].GetValue(CRMUtilities.Utils.SiteConfigData)</td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<h2>DB Connection Configuration (based on UrlResolve)</h2>
+@{ 
+    string dbConnDisplay = CRMUtilities.Utils.DBConnectionString;
+    string efConnDisplay = CRMUtilities.Utils.EFConnectionString;
+
+    dbConnDisplay = Regex.Replace(dbConnDisplay, "password=.*;", "*****", RegexOptions.IgnoreCase);
+    dbConnDisplay = Regex.Replace(dbConnDisplay, "user id=.*;", "*****", RegexOptions.IgnoreCase);
+
+    efConnDisplay = Regex.Replace(efConnDisplay, "password=.*;", "*****", RegexOptions.IgnoreCase);
+    efConnDisplay = Regex.Replace(efConnDisplay, "user id=.*;", "*****", RegexOptions.IgnoreCase);
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@EpicCrmWebApi.Helper.ConfigKeyForDbConnection</td>
+            <td>@dbConnDisplay</td>
+        </tr>
+        <tr>
+            <td>@Helper.ConfigKeyForEfConnection</td>
+            <td>@efConnDisplay</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<h2>Connection String</h2>
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Connection string</th>
+        <th>Provider</th>
+    </tr>
+    @foreach(var cn in connectionStrings)
+    {
+        var cs = cn as System.Configuration.ConnectionStringSettings;
+        var v1 = Regex.Replace(cs.ConnectionString, "password=.*;", "*****", RegexOptions.IgnoreCase);
+        v1 = Regex.Replace(v1, "user id=.*;", "*****", RegexOptions.IgnoreCase);
+        if (cs != null)
+        {
+            <tr>
+                <td>@cs.Name</td>
+                <td>@v1</td>
+                <td>@cs.ProviderName</td>
+            </tr>
+        }
+    }
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(
+            function () {
+                $("#dataTable").DataTable();
+            });
+    </script>
+}

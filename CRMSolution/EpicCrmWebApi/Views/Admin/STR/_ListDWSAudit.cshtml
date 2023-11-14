@@ -1,0 +1,47 @@
+﻿@model IEnumerable<EpicCrmWebApi.DWSModel>
+@{
+    ICollection<DomainEntities.DWSAudit> AuditItems = ViewBag.AuditItems as ICollection<DomainEntities.DWSAudit>;
+    int itemCount = AuditItems.Count();
+}
+
+@if (itemCount > 0)
+{
+    <h4>
+        DWS History (@itemCount)
+    </h4>
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+      
+        <th>@Html.DisplayNameFor(model => model.DWSNumber)</th>
+        <th>@Html.DisplayNameFor(model => model.DWSDate)</th>
+
+        <th>@Html.DisplayNameFor(model => model.BagCount)</th>
+        <th>@Html.DisplayNameFor(model => model.FilledBagsWeightKg)</th>
+        <th>@Html.DisplayNameFor(model => model.EmptyBagsWeightKg)</th>
+
+        <th>@Html.DisplayNameFor(model => model.Agreement)</th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in AuditItems.OrderBy(x=> x.DWSNumber).ThenByDescending(x=> x.DateCreated))
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.DWSNumber)</td>
+            <td>@Html.DisplayFor(modelItem => item.DWSDate, "DateTimeShort")</td>
+
+
+            <td>@Html.DisplayFor(modelItem => item.BagCount)</td>
+            <td>@Html.DisplayFor(modelItem => item.FilledBagsWeightKg)</td>
+            <td>@Html.DisplayFor(modelItem => item.EmptyBagsWeightKg)</td>
+
+            <td>@Html.DisplayFor(modelItem => item.Agreement)</td>
+
+            <td>@Html.DisplayFor(modelItem => item.CreatedBy)</td>
+            <td>@Html.DisplayFor(modelItem => item.DateCreated, "DateTimeShort")</td>
+        </tr>
+    }
+</table>
+}
+

@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutTestBed.cshtml";
+    string fileName = ViewBag.FileName;
+}
+
+<div>
+    <a href="/TestBed">Go Back to Test Bed page</a>
+</div>
+
+<h2>Get Presigned Link from S3</h2>
+    <div class="well">
+        <div class="row">
+            <form id="downloadForm" method="post" action="" enctype="application/x-www-form-urlencoded">
+                <div>
+                    <label>File Name (with Path)</label>
+                </div>
+                <div>
+                    <input name="fileName" id="fileName" type="text" size="75" value="@fileName" class="form-control" />
+                </div>
+
+                <div class="col-sm-2">
+                    <input type="Submit" id="submiButton" value="Submit" class="form-control btn-info" />
+                </div>
+            </form>
+            </div>
+        </div>
+    <hr />
+<div id="dataArea">
+
+</div>
+
+
+
+@section scripts{
+    <script>
+
+    $(document).ready(function () {
+        $("#downloadForm").submit(function () {
+            var fileName = $("#fileName").val();
+
+            if (fileName == undefined || fileName == '')
+            {
+                alert('Please input file name');
+                return false;
+            }
+
+            HideSubmitButton();
+            
+            GetPresignedLink(fileName);
+            return false;
+        });
+    });
+
+    function HideSubmitButton()
+    {
+        $("#submiButton").hide();
+    }
+
+    function ShowSubmitButton()
+    {
+        $("#submiButton").show();
+    }
+
+    var isProcessing = false;
+    function GetPresignedLink(fileName) {
+        if (isProcessing) {
+            return;
+        }
+        isProcessing = true;
+
+        $('#dataArea').html('<p>Please wait...</p>');
+
+        $.ajax('/TestBed/S3Link?fileName='+fileName, {
+            cache: false,
+            type: "Get",
+            contentType: "application/json",
+            //data: fileName,
+            success: function (data, textStatus, jqXHR) {
+                $('#dataArea').html(data);
+                $('#fileName').val('');
+                ShowSubmitButton();
+                isProcessing = false;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("An error occured processing your request.")
+                ShowSubmitButton();
+                isProcessing = false;
+            }
+        });
+    }
+    </script>
+}
+
+@section styles{
+<style type="text/css">
+    div {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+</style>
+    }

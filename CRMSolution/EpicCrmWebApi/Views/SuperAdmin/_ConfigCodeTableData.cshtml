@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ConfigCodeTableModel>
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr id="dataTableHeader">
+        <td colspan="7">
+            @Model.Count() rows displayed.
+            <a href="/superadmin/AddCodeTableEntry" title="New Code Entry" class="addInPopup">Add new row in CodeTable</a>
+        </td>
+    </tr>
+
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CodeValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplaySequence)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="/superadmin/EditCodeTableEntry?codeTableId=@item.Id" title="Edit @item.Id" class="editInPopup">Edit</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplaySequence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+        </tr>
+    }
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".editInPopup").off('click').on('click', editPopupLinkClicked);
+        $(".addInPopup").off('click').on('click', addPopupLinkClicked);
+    });
+</script>
+

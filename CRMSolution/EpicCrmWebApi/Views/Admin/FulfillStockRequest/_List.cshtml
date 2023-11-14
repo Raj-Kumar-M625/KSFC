@@ -1,0 +1,122 @@
+﻿@model IEnumerable<EpicCrmWebApi.StockRequestFullModel>
+@{
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    int itemCount = Model.Count();
+
+    string EditActionName = ViewBag.EditActionName;
+}
+
+<div>
+    <h3>
+        <a href="" title="Refresh Search Result" onclick="btnSearchClicked();return false;">
+            <img height="25" width="25" src="~/Content/img/refresh.png" /></a>&nbsp;Search Result (@itemCount)
+    </h3>
+</div>
+@if (itemCount > 0)
+{
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <thead>
+        <tr>
+            <th class="removeFromDownload" style="column-width:45px;" id="downloadLinkArea">&nbsp;</th>
+
+            <th>@Html.DisplayNameFor(model => model.RequestNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.RequestDate)</th>
+
+            <th>@Html.DisplayNameFor(model => model.Category)</th>
+            <th>@Html.DisplayNameFor(model => model.ItemCode)</th>
+            <th>@Html.DisplayNameFor(model => model.Unit)</th>
+            <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+
+
+            <th>@Html.DisplayNameFor(model => model.ZoneCode)</th>
+            <th>@Html.DisplayNameFor(model => model.AreaCode)</th>
+            <th>@Html.DisplayNameFor(model => model.TerritoryCode)</th>
+            <th>@Html.DisplayNameFor(model => model.HQCode)</th>
+            <th>@Html.DisplayNameFor(model => model.StaffCode)</th>
+            <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.Notes)</th>
+
+            <th>@Html.DisplayNameFor(model => model.QuantityIssued)</th>
+            <th>@Html.DisplayNameFor(model => model.IssueDate)</th>
+            <th>@Html.DisplayNameFor(model => model.ReviewNotes)</th>
+
+            <th>@Html.DisplayNameFor(model => model.CreatedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.DateCreated)</th>
+
+            <th>@Html.DisplayNameFor(model => model.UpdatedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.DateUpdated)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string guidForRow = Guid.NewGuid().ToString();
+
+            string ZoneName = officeHierarchy.Where(x => x.ZoneCode.Equals(item.ZoneCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.ZoneName ?? item.ZoneCode;
+
+            string AreaName = officeHierarchy.Where(x => x.AreaCode.Equals(item.AreaCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.AreaName ?? item.AreaCode;
+
+            string TerritoryName = officeHierarchy.Where(x => x.TerritoryCode.Equals(item.TerritoryCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.TerritoryName ?? item.TerritoryCode;
+
+            string HQName = officeHierarchy.Where(x => x.HQCode.Equals(item.HQCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.HQName ?? item.HQCode;
+
+
+            <tr id="@guidForRow">
+                <td class="removeFromDownload">
+                    @if (item.IsPendingFulfillment)
+                    {
+                    <a href="/admin/@EditActionName?stockRequestId=@item.Id" title="Fulfill Request" class="editInPopup">
+                        <img height="35" width="35" src="~/Content/img/Edit.png" /></a>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.RequestNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.RequestDate, "DatetimeDate")</td>
+
+                <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                <td>@Html.DisplayFor(modelItem => item.ItemCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.Unit)</td>
+                <th>@Html.DisplayFor(modelItem => item.Quantity)</th>
+
+                <td>@Html.DisplayFor(modelItem => ZoneName)</td>
+                <td>@Html.DisplayFor(modelItem => AreaName)</td>
+                <td>@Html.DisplayFor(modelItem => TerritoryName)</td>
+                <td>@Html.DisplayFor(modelItem => HQName)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.StaffCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>@Html.DisplayFor(modelItem => item.Notes)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.QuantityIssued)</td>
+                <td>@Html.DisplayFor(modelItem => item.IssueDate, "NullableDateTimeDate")</td>
+                <td>@Html.DisplayFor(modelItem => item.ReviewNotes)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.CreatedBy)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateCreated, "Datetime")</td>
+
+                @if (item.IsPendingFulfillment)
+                {
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                }
+                else
+                {
+                    <td>@Html.DisplayFor(modelItem => item.UpdatedBy)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateUpdated, "DatetimeShort")</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+}
+
+
+

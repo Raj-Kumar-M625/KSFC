@@ -1,0 +1,93 @@
+﻿@model DWSModel
+@{
+}
+
+@using (Html.BeginForm("AddDWSPost", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">Add DWS in STR # @Model.STRNumber for @Model.EmployeeName (@Model.EmployeeCode)</span>
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.STRId)
+    @Html.HiddenFor(model => model.STRTagId)
+    @Html.HiddenFor(model => model.STRNumber)
+    @Html.HiddenFor(model => model.EmployeeCode)
+    @Html.HiddenFor(model => model.EmployeeName)
+    @Html.HiddenFor(model => model.StrTagCyclicCount)
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.DWSNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.DWSNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DWSNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.DWSDateAsText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input data-format="dd-MM-yyyy" type="text" name="DWSDateAsText"
+                       class="form-control justDate" value="@Model.DWSDateAsText" />
+                @Html.ValidationMessageFor(model => model.DWSDateAsText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.Agreement, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Agreement, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Agreement, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.BagCount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.BagCount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BagCount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.FilledBagsWeightKg, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.FilledBagsWeightKg, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FilledBagsWeightKg, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.EmptyBagsWeightKg, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.EmptyBagsWeightKg, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EmptyBagsWeightKg, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <textarea name="Comments" rows="4" cols="40" class="form-control">@Model.Comments</textarea>
+                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}

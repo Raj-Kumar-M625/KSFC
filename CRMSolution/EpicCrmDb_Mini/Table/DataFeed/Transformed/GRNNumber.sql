@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[GRNNumber]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[Sequence] BIGINT NOT NULL,
+	[GRNNumber] NVARCHAR(20) NOT NULL,
+	[IsUsed] BIT NOT NULL DEFAULT 0,
+	[UsedTimestamp] DATETIME2 NOT NULL DEFAULT SysUtcDateTime()
+)

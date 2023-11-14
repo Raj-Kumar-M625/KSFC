@@ -1,0 +1,129 @@
+﻿@model IEnumerable<EpicCrmWebApi.EntityAgreementModel>
+
+@{ 
+    bool ValueAddedServices = ViewBag.ValueAddedServices;
+    bool isIssueReturnEnabled = CRMUtilities.Utils.SiteConfigData.IssueReturnModule;
+    bool isAdvanceRequestEnabled = CRMUtilities.Utils.SiteConfigData.AdvanceRequestModule;
+}
+
+<h3>
+    Agreements (@Model.Count())
+    <a  href="/admin/AddAgreement?entityId=@ViewBag.EntityId"  title="Add Agreement" class="addInPopup">
+            <img height="15" width="15" src="~/Content/img/Add.png" />
+        </a>
+</h3>
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th>&nbsp;</th>
+        @if (ValueAddedServices)
+        {
+            <th>&nbsp;</th>
+        }
+        <th>
+            @Html.DisplayNameFor(model => model.TypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WorkflowSeasonName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AgreementNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LandSizeInAcres)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.RatePerKg)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>&nbsp;</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            <a href="/admin/EditAgreement?entityAgreementId=@item.Id" title="Edit agreement" class="editInPopup">
+                <img height="35" width="35" src="~/Content/img/Edit.png" />
+            </a>
+        </td>
+        @if (ValueAddedServices)
+        {
+            <td>
+                @if (item.DWSCount > 0)
+                {
+                    <a href="/admin/ShowDwsIssueReturns?entityAgreementId=@item.Id&defaultTab=1" title="Show @item.DWSCount DWS for Agreement # @item.AgreementNumber" class="editInPopup">
+                        <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_21.png" />
+                    </a>
+                }
+
+                @if (item.IssueReturnCount > 0 && isIssueReturnEnabled)
+                {
+                    <a href="/admin/ShowDwsIssueReturns?entityAgreementId=@item.Id&defaultTab=2" title="Show @item.IssueReturnCount Issue/Returns for Agreement # @item.AgreementNumber" class="editInPopup">
+                        <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_09.png" />
+                    </a>
+                }
+
+                @if (item.AdvanceRequestCount > 0 && isAdvanceRequestEnabled)
+                {
+                    <a href="/admin/ShowDwsIssueReturns?entityAgreementId=@item.Id&defaultTab=3" title="Show @item.AdvanceRequestCount Advances for Agreement # @item.AgreementNumber" class="editInPopup">
+                        <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_13.png" />
+                    </a>
+                }
+
+                @if (item.HasWorkflow)
+                {
+                    <a href="/admin/ShowDwsIssueReturns?entityAgreementId=@item.Id&defaultTab=4" title="Show Workflow for Agreement # @item.AgreementNumber" class="editInPopup">
+                        <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_08.png" />
+                    </a>
+                }
+            </td>
+        }
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.WorkflowSeasonName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.AgreementNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LandSizeInAcres)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RatePerKg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @if (item.CreatedBy == "ProcessSqliteAgreementData")
+            {
+                <p>MyDay User</p>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            }
+        </td>
+        <td>
+            @if (item.ActivityId > 0)
+            {
+                @Html.ActionLink("Activity", "ActivityOne", "Dashboard", new { activityId = item.ActivityId }, new { @class = "c_activityLink", target = "_new", title = "Show Activity" })
+            }
+        </td>
+    </tr>
+    }
+</table>
+

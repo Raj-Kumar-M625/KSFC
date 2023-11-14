@@ -1,0 +1,153 @@
+﻿@{
+    ICollection<DWSModel> allDWS = (ViewBag.AllDWS != null) ? ViewBag.AllDWS : new List<DWSModel>();
+    int allDWSCount = allDWS?.Count ?? 0;
+
+    ICollection<IssueReturnModel> issueReturns = (ViewBag.IssueReturns != null) ? ViewBag.IssueReturns :
+                            new List<IssueReturnModel>();
+    int issueReturnCount = issueReturns?.Count ?? 0;
+
+    ICollection<AdvanceRequestModel> advanceRequests = (ViewBag.AdvanceRequests != null) ? ViewBag.AdvanceRequests :
+                            new List<AdvanceRequestModel>();
+    int advanceRequestCount = advanceRequests?.Count ?? 0;
+
+    ICollection<EntityWorkFlowDetailModel> workflowDetails = (ViewBag.WorkFlowDetails != null) ? ViewBag.WorkFlowDetails :
+                            new List<EntityWorkFlowDetailModel>();
+    int workflowDetailCount = workflowDetails?.Count ?? 0;
+
+    // get workflow followup schedule
+    ICollection<DomainEntities.WorkFlowFollowUp> wff = ViewBag.WorkFlowFollowUp;
+
+    // this is used in partial view to mark the current DWS
+    // (feature used while approving DWS Amount)
+    ViewDataDictionary vdd = new ViewDataDictionary();
+    vdd["ContextDWSNumber"] = "";
+    vdd["WorkFlowFollowUp"] = wff;
+
+
+    string EntityType = ViewBag.EntityType;
+    string EntityName = ViewBag.EntityName;
+    string AgreementNumber = ViewBag.AgreementNumber;
+    string typeName = ViewBag.TypeName;
+
+    string caption = $"{EntityType} Name: {EntityName}";
+    if (!string.IsNullOrEmpty(AgreementNumber))
+    {
+        caption = $"{caption} | Agreement #: {AgreementNumber} | {typeName}";
+    }
+
+    int defaultTab = ViewBag.DefaultTab;
+    if (defaultTab < 1 || defaultTab > 9)
+    {
+        defaultTab = 1;
+    }
+
+    long entityAgreementId = ViewBag.EntityAgreementId;
+
+    string dwsActive = (defaultTab == 1) ? "active" : "";
+    string issueReturnActive = (defaultTab == 1) ? "active" : "";
+
+    bool issueReturnModuleEnabled = (CRMUtilities.Utils.SiteConfigData.IssueReturnModule);
+    bool advanceRequestModuleEnabled = (CRMUtilities.Utils.SiteConfigData.AdvanceRequestModule);
+
+    bool showWorkFlowTab = !String.IsNullOrEmpty(AgreementNumber);
+}
+
+
+@using (Html.BeginForm("None", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+<div class="form-horizontal">
+    <a href="/admin/ShowDwsIssueReturns?entityAgreementId=@entityAgreementId&defaultTab=@defaultTab" title="Refresh" class="editInPopup">
+        <img height="35" width="35" src="~/Content/img/refresh.png" />
+    </a>
+    <span style="font-size:large;">@caption</span>
+
+    <hr />
+
+    <div style="margin-top:10px;"></div>
+
+    <div class="container">
+        <ul class="nav nav-tabs">
+            <li><a data-toggle="tab" href="#relatedDWSData">
+                                   <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_21.png" />
+                                    All DWS (@allDWSCount)</a></li>
+            @if (issueReturnModuleEnabled)
+            {
+                <li><a data-toggle="tab" href="#relatedIssueReturnData">
+                    <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_09.png" />
+                    Issue/Return (@issueReturnCount)</a></li>
+            }
+            @if (advanceRequestModuleEnabled)
+            {
+                <li><a data-toggle="tab" href="#relatedAdvanceRequestData">
+                    <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_13.png" />
+                    Advance (@advanceRequestCount)</a></li>
+            }
+
+            @if (showWorkFlowTab)
+            {
+            <li><a data-toggle="tab" href="#relatedWorkflowData">
+                <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_08.png" />
+                Workflow (@workflowDetailCount)</a></li>
+            }
+
+        </ul>
+        <div class="tab-content">
+            <div id="relatedDWSData" class="tab-pane fade in active">
+                <div>&nbsp;</div>
+                @{ 
+                    Html.RenderPartial("_ListAgreementDWS", allDWS, vdd);
+                }
+            </div>
+
+            @if (issueReturnModuleEnabled)
+            {
+                <div id="relatedIssueReturnData" class="tab-pane fade in">
+                    <div>&nbsp;</div>
+                    @{
+                        Html.RenderPartial("_ListAgreementIssueReturns", issueReturns);
+                    }
+                </div>
+            }
+
+            @if (advanceRequestModuleEnabled)
+            {
+                <div id="relatedAdvanceRequestData" class="tab-pane fade in">
+                    <div>&nbsp;</div>
+                    @{
+                        Html.RenderPartial("_ListAgreementAdvances", advanceRequests);
+                    }
+                </div>
+            }
+
+            @if (showWorkFlowTab)
+            {
+                <div id="relatedWorkflowData" class="tab-pane fade in">
+                    <div>&nbsp;</div>
+                    @{
+                        Html.RenderPartial("_ListAgreementWorkflow", workflowDetails, vdd);
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+}
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+<script type="text/javascript">
+    $(".editInPopup").off('click').on('click', editPopupLinkClicked);
+
+    // this is used for popup over popup
+    $(".addInPopupOverPopup").off('click').on('click', addPopupLinkClicked2);
+    $(".editInPopupOverPopup").off('click').on('click', editPopupLinkClicked2);
+
+    // make selected item as default tab
+    $(".nav-tabs").find("li:nth-child(@defaultTab)").each(function (index) {
+        $(this).find('a').each(function (index) {
+            $(this).click();
+        });
+    });
+        
+</script>

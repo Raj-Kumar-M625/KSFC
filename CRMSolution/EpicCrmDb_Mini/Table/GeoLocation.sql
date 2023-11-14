@@ -1,0 +1,12 @@
+﻿CREATE TABLE [dbo].[GeoLocation]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[EmployeeId] BIGINT NOT NULL REFERENCES TenantEmployee(Id),
+	[ClientCode] NVARCHAR(50) NOT NULL DEFAULT '',
+    [Latitude] DECIMAL(19, 9) NOT NULL, 
+    [Longitude] DECIMAL(19, 9) NOT NULL, 
+	[At] [DateTime2] NOT NULL, 
+	[IsActive] BIT NOT NULL DEFAULT 1,
+	[DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[DateUpdated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+)

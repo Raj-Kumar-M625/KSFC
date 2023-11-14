@@ -1,0 +1,56 @@
+﻿CREATE TABLE [dbo].[SqliteEntity]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY, 
+    [BatchId] BIGINT NOT NULL  REFERENCES dbo.SqliteActionBatch, 
+    [EmployeeId] BIGINT NOT NULL, 
+    [PhoneDbId] NVARCHAR(50) NOT NULL, 
+	[ContactCount] INT NOT NULL DEFAULT 0,
+	[CropCount] INT NOT NULL DEFAULT 0,
+	[ImageCount] INT NOT NULL DEFAULT 0,
+    [AtBusiness] BIT NOT NULL, 
+    [EntityType] NVARCHAR(50) NOT NULL, 
+    [EntityName] NVARCHAR(50) NOT NULL, 
+    [Address] NVARCHAR(100) NULL, 
+    [City] NVARCHAR(50) NULL, 
+    [State] NVARCHAR(50) NULL, 
+    [Pincode] NVARCHAR(10) NULL, 
+    [LandSize] NVARCHAR(50) NULL , 
+    [TimeStamp] DATETIME2 NOT NULL, 
+    [Latitude] DECIMAL(19, 9) NOT NULL, 
+    [Longitude] DECIMAL(19, 9) NOT NULL, 
+    [LocationTaskStatus] NVARCHAR(50) NULL, 
+    [LocationException] NVARCHAR(256) NULL, 
+    [MNC] BIGINT NOT NULL, 
+    [MCC] BIGINT NOT NULL, 
+    [LAC] BIGINT NOT NULL, 
+    [CellId] BIGINT NOT NULL, 
+
+	[FatherHusbandName] NVARCHAR(50) NOT NULL DEFAULT '',
+	[TerritoryCode] NVARCHAR(10) NOT NULL DEFAULT '',
+	[TerritoryName] NVARCHAR(50) NOT NULL DEFAULT '',
+	[HQCode] NVARCHAR(10) NOT NULL DEFAULT '',
+	[HQName] NVARCHAR(50) NOT NULL DEFAULT '',
+	--[MajorCrop] NVARCHAR(50) NOT NULL DEFAULT '',
+	--[LastCrop] NVARCHAR(50) NOT NULL DEFAULT '',
+	--[WaterSource] NVARCHAR(50) NOT NULL DEFAULT '',
+	--[SoilType] NVARCHAR(50) NOT NULL DEFAULT '',
+	--[SowingType] NVARCHAR(50) NOT NULL DEFAULT '',
+	--[SowingDate] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+
+
+	[UniqueIdType] NVARCHAR(50) NOT NULL DEFAULT '',
+	[UniqueId] NVARCHAR(50) NOT NULL DEFAULT '',
+	[TaxId] NVARCHAR(50) NOT NULL DEFAULT '',
+	[LocationCount] INT NOT NULL DEFAULT 0,
+
+	[DerivedLocSource] NVARCHAR(50) NULL,
+	[DerivedLatitude] DECIMAL(19,9) NOT NULL DEFAULT 0,
+    [DerivedLongitude] DECIMAL(19,9) NOT NULL DEFAULT 0,
+
+
+    [IsProcessed] BIT NOT NULL DEFAULT 0, 
+    [EntityId] BIGINT NOT NULL DEFAULT 0, 
+    [DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(), 
+    [DateUpdated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+    --[Consent]  BIT NOT NULL  DEFAULT 0
+)

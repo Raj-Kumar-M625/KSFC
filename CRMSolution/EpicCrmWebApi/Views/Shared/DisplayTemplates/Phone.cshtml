@@ -1,0 +1,6 @@
+﻿@model string
+    @{ 
+        long phoneAsLongValue = 0;
+        long.TryParse(Model, out phoneAsLongValue);
+    }
+@String.Format("{0:### ### ####}", @phoneAsLongValue)

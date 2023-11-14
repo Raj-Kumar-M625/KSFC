@@ -1,0 +1,3 @@
+﻿ALTER TABLE [dbo].[BankAccount]
+ADD [BranchName] NVARCHAR(50) NOT NULL DEFAULT ''
+GO

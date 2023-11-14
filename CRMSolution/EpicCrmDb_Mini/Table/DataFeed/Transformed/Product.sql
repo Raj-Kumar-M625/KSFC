@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[Product]
+(
+	[Id] INT NOT NULL PRIMARY KEY Identity,
+	[GroupId] INT NOT NULL REFERENCES ProductGroup,
+	[ProductCode] NVARCHAR(50) NOT NULL,
+	[Name] NVARCHAR(100) NOT NULL,
+	[UOM] NVARCHAR(10) NOT NULL,
+	[BrandName] NVARCHAR(50) NOT NULL,
+	[ShelfLifeInMonths] INT NOT NULL,
+	[MRP] DECIMAL(19,2) NOT NULL,
+	[GstCode] NVARCHAR(20) NOT NULL DEFAULT '',
+	[IsActive] BIT NOT NULL
+)

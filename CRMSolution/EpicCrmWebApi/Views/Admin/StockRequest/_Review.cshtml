@@ -1,0 +1,95 @@
+﻿@model StockRequestTagModel
+@{
+    string title = $"Review/Confirm Stock Request (Req # {Model.RequestNumber})";
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    string ZoneName = officeHierarchy.Where(x => x.ZoneCode.Equals(Model.ZoneCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.ZoneName ?? Model.ZoneCode;
+
+    string AreaName = officeHierarchy.Where(x => x.AreaCode.Equals(Model.AreaCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.AreaName ?? Model.AreaCode;
+
+    string TerritoryName = officeHierarchy.Where(x => x.TerritoryCode.Equals(Model.TerritoryCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.TerritoryName ?? Model.TerritoryCode;
+
+    string HQName = officeHierarchy.Where(x => x.HQCode.Equals(Model.HQCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault()?.HQName ?? Model.HQCode;
+}
+
+@using (Html.BeginForm("ReviewStockRequestTag", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">@title</span>
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.CyclicCount)
+
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>@Html.LabelFor(model => model.ZoneCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.AreaCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.TerritoryCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.HQCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.StaffCode, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => ZoneName)</td>
+                <td>@Html.DisplayFor(model => AreaName)</td>
+                <td>@Html.DisplayFor(model => TerritoryName)</td>
+                <td>@Html.DisplayFor(model => HQName)</td>
+                <td>@Html.DisplayFor(model => Model.StaffCode)</td>
+            </tr>
+            <tr>
+                <th colspan="2">@Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label" })</th>
+                <th colspan="3">@Html.LabelFor(model => model.ItemCountFromLines, htmlAttributes: new { @class = "control-label" })</th>
+            </tr>
+            <tr>
+                <td colspan="2">@Html.DisplayFor(model => model.RequestDate, "DatetimeDate")</td>
+                <td colspan="3">@Html.DisplayFor(model => model.ItemCountFromLines)</td>
+            </tr>
+
+            <tr>
+                <th>@Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })</th>
+                <td colspan="4">
+                    @Html.DisplayFor(model => model.Notes)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    @*<div>
+        @Html.LabelFor(model => model.IsReviewed, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.CheckBox("IsReviewed", false, htmlAttributes: new { id = "idIsReviewed", onclick = "cbSelectionChanged()" })
+        </div>
+    </div>*@
+
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            <input type="submit" value="Review/Confirm & Save" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+<script type="text/javascript">
+
+    function cbSelectionChanged() {
+        var checkBox = document.getElementById("idIsFinal");
+
+        //if (checkBox.checked) {
+        //    alert("Please note, Once data is saved, further edits won't be allowed on this STR.");
+        //}
+    }
+
+</script>

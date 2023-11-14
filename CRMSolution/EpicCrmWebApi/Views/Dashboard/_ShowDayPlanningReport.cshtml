@@ -1,0 +1,109 @@
+﻿@model EpicCrmWebApi.DayPlanReportModel
+
+@{
+    IEnumerable<DayPlanReportDataModel> reportData = Model.DayPlanReportData;
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+
+    <tr id="dataTableHeader">
+        <td colspan="1" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="8">@reportData.Count() rows displayed.</td>
+    </tr>
+
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().EmployeeCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().ActualSalesAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().TargetSalesAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().ActualCollectionAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().TargetCollectionAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().ActualDealerAppt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().TargetDealerAppt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().ActualDemoActivity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DayPlanReportData.First().TargetDemoActivity)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.DayPlanReportData.First().ActualVigoreSales)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DayPlanReportData.First().TargetVigoreSales)
+            </th>*@
+    </tr>
+
+    @foreach (var item in reportData)
+    {
+        <tr>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.DayId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Date, "DateTimeDate")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualSalesAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TargetSalesAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualCollectionAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TargetCollectionAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualDealerAppt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TargetDealerAppt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualDemoActivity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TargetDemoActivity)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ActualVigoreSales)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TargetVigoreSales)
+                </td>*@
+        </tr>
+    }
+
+</table>

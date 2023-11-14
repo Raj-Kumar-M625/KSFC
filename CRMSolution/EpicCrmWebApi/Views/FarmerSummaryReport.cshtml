@@ -1,0 +1,296 @@
+﻿@model IEnumerable<FarmerSummaryReportModelData>
+    @{
+        Layout = null;
+        ViewBag.Title = "FarmerSummaryReport";
+
+        IEnumerable<FarmerSummaryReportModelData> FarmerDetails = ViewBag.FarmerDetails;
+        IEnumerable<FarmerSummaryReportModelData> FarmerIssueData = ViewBag.FarmerIssueDetails;
+        IEnumerable<FarmerSummaryReportModelData> FarmerAdvanceData = ViewBag.FarmerAdvanceDetails;
+        IEnumerable<FarmerSummaryReportModelData> FarmerAgreementBonusData = ViewBag.FarmerBonusDetails;
+        decimal totalIssueQuantity = 0;
+        decimal totalInputAmount = 0;
+        decimal totalDwsQuantity = 0;
+        decimal totalPurchaseAmount = 0;
+        decimal totalDwsDeduction = 0;
+        decimal Netpayable = 0;
+        decimal totalPaymentAmount = 0;
+        decimal totalAmountApproved = 0;
+        decimal BonusAmountApproved = 0;
+        int count = FarmerIssueData.Count();
+        int count1 = FarmerAdvanceData.Count();
+        string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority;
+        string imagePath = baseUrl + @"/Content/img/pj_margo_logo.png";
+
+    }
+
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <style>
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-size:11px;
+            }
+
+            th {
+                background-color: #a9abac;
+                text-align:center;
+            }
+            p {
+                font-size: 14px;
+            }
+            .header{
+                font-size:20px;
+                text-align:center;
+            }
+        </style>
+        
+    </head>
+    <body>
+        <div>
+            <div class="logo" style="display: flex; flex-direction: row; justify-content: flex-start;">
+                <img src="@imagePath" alt="logo" style="width: 70px; height:70px;" />
+                <p style="text-align: center; margin:-50px;">
+                    <b>
+                        P J Margo Private Limited<br />
+                        Individual farmer settlement
+                    </b>
+                </p>
+
+            </div>
+            <hr />
+
+            <table style="border:1px solid white;font-weight:bold">
+                <tr>
+                    <td style="width: 150px; border: 1px solid white">Farmer Name</td>
+                    <td style="width: 150px; border: 1px solid white">: @FarmerDetails.FirstOrDefault().EntityName</td>
+                    <td style="width: 150px; border: 1px solid white">Village</td>
+                    <td style="width: 150px; border: 1px solid white ">: @FarmerDetails.FirstOrDefault().HQName</td>
+                </tr>
+                <tr>
+                    <td style="width: 150px; border: 1px solid white"> Farmer Id</td>
+                    <td style="width: 150px; border: 1px solid white ">: @FarmerDetails.FirstOrDefault().FarmerId</td>
+                    <td style="width: 150px; border: 1px solid white">Cluster</td>
+                    <td style="width: 150px; border: 1px solid white">: @FarmerDetails.FirstOrDefault().TerritoryName</td>
+                </tr>
+                <tr>
+                    <td style="width: 150px; border: 1px solid white">Aadhar Number</td>
+                    <td style="width: 150px; border: 1px solid white">: @FarmerDetails.FirstOrDefault().UniqueId</td>
+                    <td style="width: 150px; border: 1px solid white">Acerage</td>
+                    <td style="width: 150px; border: 1px solid white">: @FarmerDetails.FirstOrDefault().LandInSize</td>
+                </tr>
+                <tr>
+                    <td style="width: 150px; border: 1px solid white">Agreement Number</td>
+                    <td style="width: 150px; border: 1px solid white">: @FarmerDetails.FirstOrDefault().AgreementNumber</td>
+                    <td style="width: 150px; border: 1px solid white">Flower Purchase Price</td>
+                    <td style="width: 150px; border: 1px solid white">: @FarmerDetails.FirstOrDefault().RatePerKg</td>
+                </tr>
+                <tr>
+                    <td style="width: 150px; border: 1px solid white">Comments</td>
+                    <td style="width: 150px; border: 1px solid white">: </td>
+                </tr>
+            </table>
+            <br />
+            <div>
+                &nbsp;
+            </div>
+            <table>
+                <tr>
+                    <th colspan="8">Input Details</th>
+                </tr>
+                <tr>
+                    <th>Issue Date</th>
+                    <th>Issue Slip Number</th>
+                    <th>InputType</th>
+                    <th>Input</th>
+                    <th>Quantity</th>
+                    <th>UOM</th>
+                    <th>Price/Unit</th>
+                    <th>Input Amount</th>
+                </tr>
+                @foreach (var item in FarmerIssueData)
+                {
+                    if (item.IssueType == "Input Issue")
+                    {
+                        totalIssueQuantity += item.IssueQuantity;
+                        totalInputAmount += item.InputAmount;
+                    }
+
+                    else
+                    {
+                        totalIssueQuantity -= item.IssueQuantity;
+                        totalInputAmount -= item.InputAmount;
+                    }
+
+
+                    <tr>
+                        <td>@item.Issuedate.ToString("dd-MM-yyyy")</td>
+                        <td>@item.IssueSlipNumber</td>
+                        <td>@item.IssueType</td>
+                        <td>@item.IssueInput</td>
+                        @if (item.IssueType == "Input Return")
+                        {
+                            <td>- @item.IssueQuantity </td>
+                        }
+                        else
+                        {
+                            <td> @item.IssueQuantity </td>
+                        }
+                        <td>@item.Uom</td>
+                        <td>@item.PricePerUom</td>
+                        @if (item.IssueType == "Input Issue")
+                        {
+                            <td> @item.InputAmount </td>
+                        }
+                        else
+                        {
+                            <td> - @item.InputAmount </td>
+                        }
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" style="text-align:center"><b>Total</b></td>
+                    <td><b>@totalIssueQuantity</b></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>@totalInputAmount</b></td>
+                </tr>
+
+            </table>
+            <br />
+           
+            <table>
+                <tr>
+                    <th colspan="2">Advance Amount</th>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <th>Approved Amount</th>
+                </tr>
+                @foreach (var item in FarmerAdvanceData)
+                {
+                    totalAmountApproved += item.AmountApproved;
+
+                    <tr>
+                        <td>@item.AdvanceRequestDate.ToString("dd-MM-yyyy")</td>
+                        <td>@item.AmountApproved</td>
+                    </tr>
+                }
+                <tr>
+                    <td><b>Total</b></td>
+                    <td><b>@totalAmountApproved</b></td>
+                </tr>
+
+            </table>
+            <br />
+            <table>
+                <tr>
+                    <th colspan="5">Flower Purchase</th>
+                    <th colspan="2">Deductions</th>
+                    <th colspan="2">Payment</th>
+                </tr>
+                <tr>
+                    <th>STR Number</th>
+                    <th>Dws Number</th>
+                    <th>Purchase Date</th>
+                    <th>Quantity</th>
+                    <th>Purchase Amount</th>
+                    <th>Payment Reference</th>
+                    <th>Deduction</th>
+                    <th>Payment Date</th>
+                    <th>Payment Amount</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    totalDwsQuantity += item.DWSQuantity;
+                    totalPurchaseAmount += item.PurchaseAmount;
+                    totalDwsDeduction += item.DWSDeduction;
+                    Netpayable += item.Netpayable;
+                    totalPaymentAmount += item.PaymentAmount;
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.STRNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DWSNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PurchaseDate, "DateTimeDate")</td>
+                        <td>@Html.DisplayFor(modelItem => item.DWSQuantity)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PurchaseAmount)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PaymentReference)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DWSDeduction)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PayoutDate, "DateTimeDate")</td>
+                        <td>@Html.DisplayFor(modelItem => item.PaymentAmount)</td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="3" style="text-align:center"><b>Total</b></td>
+                    <td><b>@totalDwsQuantity</b></td>
+                    <td><b>@totalPurchaseAmount</b></td>
+                    <td></td>
+                    <td><b>@totalDwsDeduction</b></td>
+                    <td></td>
+                    <td><b>@totalPaymentAmount</b></td>
+                </tr>
+            </table>
+
+            <br />
+            <div>
+                &nbsp;
+            </div>
+
+            <table>
+                <tr>
+                    <th colspan="3">Bonus Details</th>
+                    <th colspan="3">Payment Details</th>
+                </tr>
+                <tr>
+                    <th>Net Weight</th>
+                    <th>Bonus Rate</th>
+                    <th>Bonus Amount</th>
+                    <th>Payment Reference</th>
+                    <th>Payment Date</th>
+                    <th>Bonus Payment Amount</th>
+                </tr>
+      
+
+            @foreach (var item in FarmerAgreementBonusData)
+            {
+                BonusAmountApproved = item.BonusAmountPaid;
+                    <tr>
+                        <td>@item.TotalNetQuantity</td>
+                        <td>@item.BonusRate</td>
+                        <td>@item.BonusPayableAmount</td>
+                        <td>@item.BonusPaymentReference</td>
+                        <td>@item.PaymentDate.ToString("dd-MM-yyyy")</td>
+                        <td>@item.BonusAmountPaid</td>
+                    </tr>
+            }
+
+            <tr>
+                <td colspan="3" style="text-align:center"><b>Total</b></td>
+                <td></td>
+                <td></td>
+                <td><b>@BonusAmountApproved</b></td>
+            </tr>
+            </table>
+
+
+            <p>Settlement Amount = (Flower Purchase Amount - Input Amount - AdvanceRequest Amount - Payment Amount)</p>
+                @{
+                    var totalSettleAmount = totalPurchaseAmount - totalInputAmount - totalAmountApproved - totalPaymentAmount;
+                    var totalSettleAmountdetails = totalSettleAmount + BonusAmountApproved;
+                }
+
+             <p>Total Settlement Amount = Settlement Amount + Bonus Payment Amount</p> 
+             <p>Total Settlement Amount (Rs.) = @totalSettleAmountdetails </p>
+              <br />
+                <p>
+                    I @FarmerDetails.FirstOrDefault().EntityName, fully understand and confirm that the above receipts and settlement from P.J.Margo Pvt. Ltd., is full and final, for the supply of Marigold Fresh Flowers.
+                    The company has explained to me in detail all the calculations in the local language.
+                </p>
+                <br />
+                <br />
+                <p style="text-align:right">Farmer's signature.</p>
+        </div>
+    </body>
+</html>

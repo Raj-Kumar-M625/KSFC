@@ -1,0 +1,240 @@
+﻿@model IEnumerable<CustomerQuestionnaireModel>
+@{
+
+    if (ViewBag.Message == "Exception")
+    {
+        @Html.DisplayName("");
+        Html.RenderPartial("_CodeSnippetPopupCancelLink");
+     
+        return;
+    }
+    IEnumerable<DomainEntities.Questionnaire.CustomerQuestionnairedetails> AnswerDetail = ViewBag.AnswerDetail;
+}
+
+@using (Html.BeginForm("ShowCustomerQuestionnairedetails", "Dashboard", FormMethod.Get, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <div>
+            <h2>Questionnaire Details</h2>
+            <hr />
+            <table class="table table-bordered table-striped table-condensed" id="dataTable">
+             
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DateCreated)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmployeeCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmployeeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerCode)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EntityType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EntityName)
+                    </th>
+                    <th>
+                        @Html.DisplayName("Questionnaire Type")
+                    </th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated, "DateTimeShort")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntityType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EntityName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.QuestionPaperName)
+                </td>
+            </tr>
+                    break;
+                }
+            </table>
+               
+        </div>
+        <hr />
+
+        <div>
+            @{int QuestionSlno = 1;}
+            @{long PreviousQuestionId = 0, AnswerId = 0, FirstRecord = 0;}
+            @foreach (var det in Model)
+            {
+                foreach (var detA in AnswerDetail)
+                {
+                    if (detA.QuestionPaperQuestionId == det.QuestionPaperQuestionId)
+                    {
+                        //Check For New Question
+                        if (PreviousQuestionId != det.QuestionPaperQuestionId)
+                        {
+                            //Foreach to display Text Comment
+                            foreach (var detT in Model)
+                            {
+                                //If it is not first Question
+                                if (FirstRecord != 0)
+                                {
+                                    if (PreviousQuestionId == detT.QuestionPaperQuestionId)
+                                    {
+                                        //Is Descriptive type
+                                        if (detT.QuestionPaperAnswerId == 0)
+                                        {
+                                            <text>&nbsp;&nbsp;</text> @Html.TextAreaFor(modelItem => detT.TextComment, new { @disabled = "disabled", @style = "width: 100%; max-width: 100%;" }) <br />
+                                        }//Display comment only has text comment is true
+                                        else if (detT.HasTextComment == true)
+                                        {<br />
+                                            <span><b>Additional Comment </b></span> @Html.TextBoxFor(modelItem => detT.TextComment, new { @disabled = "disabled", @style = "width: 100%; max-width: 100%;" })<br />
+                                        }
+                                        break;
+                                    }
+                                }
+                                FirstRecord++;
+                            }
+                            <br />
+                            //Question Display
+                            <span><b>@QuestionSlno . </b></span><b> @Html.DisplayFor(modelItem => det.QText)</b>
+                            <br />
+                            //Answer Display
+                            if (det.QuestionPaperAnswerId != 0)
+                            {
+                                foreach (var detT in AnswerDetail)
+                                {
+                                    if (detT.QuestionPaperAnswerId == det.QuestionPaperAnswerId)
+                                    {
+                                        if (det.QuestionTypeName == "Single Select")
+                                        {
+                                            <text>&nbsp;&nbsp;</text> @Html.RadioButton(det.QText, det.AText, new { @checked = true, @disabled = "disabled" }) @det.AText <br />
+                                        }
+                                        else if (det.QuestionTypeName == "Multi Select")
+                                        {
+                                            <text>&nbsp;&nbsp;</text> @Html.CheckBox(det.AText, new { @checked = true, @disabled = "disabled" }) @det.AText <br />
+                                        }
+                                        AnswerId = 1;
+                                        break;
+                                    }
+                                }
+                                if (AnswerId == 1)
+                                {
+                                    AnswerId = 0;
+                                }
+                                else
+                                {
+                                    if (det.QuestionTypeName == "Single Select")
+                                    {
+                                        <text>&nbsp;&nbsp;</text> @Html.RadioButton(det.QText, det.AText, new { @disabled = "disabled" }) @det.AText <br />
+                                    }
+                                    else if (det.QuestionTypeName == "Multi Select")
+                                    {
+                                        <text>&nbsp;&nbsp;</text> @Html.CheckBox(det.AText, new { @disabled = "disabled" }) @det.AText <br />
+                                    }
+                                }
+                            }
+                            QuestionSlno++;
+                        }
+                        else
+                        {//Options and Answer Display
+                            if (det.QuestionPaperAnswerId != 0)
+                            {
+                                foreach (var detT in AnswerDetail)
+                                {
+                                    {
+                                        if (detT.QuestionPaperAnswerId == det.QuestionPaperAnswerId)
+                                        {
+                                            if (det.QuestionTypeName == "Single Select")
+                                            {
+                                                <text>&nbsp;&nbsp;</text> @Html.RadioButton(det.QText, det.AText , new { @checked = "checked", @disabled = "disabled" }) @det.AText <br />
+                                                AnswerId = 1;
+                                                break;
+                                            }
+                                            else if (det.QuestionTypeName == "Multi Select")
+                                            {
+                                                <text>&nbsp;&nbsp;</text> @Html.CheckBox(det.AText, new { @checked = true, @disabled = "disabled" }) @det.AText <br />
+                                                AnswerId = 1;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                if (AnswerId == 1)
+                                {
+                                    AnswerId = 0;
+                                }
+                                else
+                                {
+                                    if (det.QuestionTypeName == "Single Select")
+                                    {
+                                        <text>&nbsp;&nbsp;</text> @Html.RadioButton(det.QText, det.AText, new { @disabled = "disabled" }) @det.AText <br />
+
+                                    }
+                                    else if (det.QuestionTypeName == "Multi Select")
+                                    {
+                                        <text>&nbsp;&nbsp;</text> @Html.CheckBox(det.AText, new { @disabled = "disabled" }) @det.AText <br />
+
+                                    }
+                                }
+                            }
+                        }
+                        PreviousQuestionId = det.QuestionPaperQuestionId;
+                        break;
+                    }
+
+                }
+            }
+            @*Display Last TextComment*@
+            @foreach (var detT in Model)
+            {
+                //If it is not first Question
+                if (FirstRecord != 0)
+                {
+                    foreach (var detA in AnswerDetail)
+                    {
+                        if (detA.QuestionPaperQuestionId == detT.QuestionPaperQuestionId)
+                        {
+                            if (PreviousQuestionId == detT.QuestionPaperQuestionId)
+                            {
+                                if (detT.QuestionTypeName == "Descriptive")
+                                {
+                                    <text>&nbsp;&nbsp;</text> @Html.TextAreaFor(modelItem => detT.TextComment, new { @disabled = "disabled", @style = "width: 100%; max-width: 100%;" }) <br />
+                                }//Display comment only has text comment is true
+                                else if (detT.HasTextComment == true)
+                                {<br />
+                                    <span><b>Additional Comment </b></span> @Html.TextBoxFor(modelItem => detT.TextComment, new { @disabled = "disabled", @style = "width: 100%; max-width: 100%;" })<br />
+                                }
+                                FirstRecord = 0;
+                                break;
+                            }
+
+                        }
+
+                    }
+
+                }
+                // break;
+            }
+        </div>
+    </div>
+}
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}

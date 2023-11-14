@@ -1,0 +1,209 @@
+﻿@model StockRequestTagModel
+@{
+    string title = Model.Id <= 0 ? "Add Header" : $"Edit Header (Req # {Model.RequestNumber})";
+    bool isAddMode = Model.Id <= 0;
+
+    bool isEditAllowed = isAddMode || Model.IsEditAllowed;
+}
+
+@using (Html.BeginForm("AddEditStockRequestTag", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">@title</span>
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.CyclicCount)
+    @Html.HiddenFor(model => model.RequestNumber)
+    @Html.HiddenFor(model => model.IsEditAllowed)
+    @Html.HiddenFor(model => model.RequestType)
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.ZoneCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="selZone2" name="ZoneCode">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.AreaCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="selArea2" name="AreaCode">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.TerritoryCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="selTerritory2" name="TerritoryCode">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.HQCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="selHQ2" name="HQCode">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.StaffCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.StaffCode, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.StaffCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <hr style="height:1px;border-width:0;color:lightgray;background-color:lightgray;"/>
+
+    <div class="form-group" style="margin-top:5px;">
+        <div>
+            @Html.LabelFor(model => model.RequestDateAsText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input data-format="dd-MM-yyyy" type="text" name="RequestDateAsText" autocomplete="off"
+                        class="form-control justDate" value="@Model.RequestDateAsText" />
+                @Html.ValidationMessageFor(model => model.RequestDateAsText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <textarea name="Notes" rows="3" cols="60" maxlength="100" class="form-control">@Model.Notes</textarea>
+                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    @if (isEditAllowed)
+    {
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-4">
+                <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+            </div>
+        </div>
+    }
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+<script type="text/javascript">
+    @Html.Raw("var IsEditAllowed = " + isEditAllowed.ToString().ToLower() + ";");
+
+    if (IsEditAllowed == false)
+    {
+        $("#popupForm Input").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm textarea").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm select").each(function (i, e) {
+            $(e).attr("disabled", true);
+        });
+
+        $("input.justDate").datetimepicker({ datepicker: false, timepicker: false });
+    }
+
+    // Fill zone
+    var selectedObj = {};
+    for (i = 0; i < OfficeHierarchy.length; i++) {
+        var o = OfficeHierarchy[i];
+        selectedObj[o.ZoneName] = o.ZoneCode;
+    }
+    Object.keys(selectedObj).sort().forEach(function (element) {
+        var opt = new Option(element, selectedObj[element]);
+        $('#selZone2').append(opt);
+    });
+
+    $('#selZone2').change(function () { ZonesSelectionChanged2(); })
+    $('#selArea2').change(function () { AreasSelectionChanged2(); })
+    $('#selTerritory2').change(function () { TerritoriesSelectionChanged2(); })
+
+    // select the zone in dropdown
+    $("#selZone2 option").each(function () {
+        if ($(this).val() == '@Model.ZoneCode')
+        {
+            $(this).prop('selected', true);
+            // fill Areas
+            ZonesSelectionChanged2();
+            return false;  // come out of each iteration
+        }
+    });
+
+    // select the Area in dropdown
+    $("#selArea2 option").each(function () {
+        if ($(this).val() == '@Model.AreaCode') {
+            $(this).prop('selected', true);
+            // fill Territories
+            AreasSelectionChanged2();
+            return false;  // come out of each iteration
+        }
+    });
+
+    // select the territory in dropdown
+    $("#selTerritory2 option").each(function () {
+        if ($(this).val() == '@Model.TerritoryCode') {
+            $(this).prop('selected', true);
+            // fill Territories
+            TerritoriesSelectionChanged2();
+            return false;  // come out of each iteration
+        }
+    });
+
+    // select the HQ in dropdown
+    $("#selHQ2 option").each(function () {
+        if ($(this).val() == '@Model.HQCode') {
+            $(this).prop('selected', true);
+            return false;  // come out of each iteration
+        }
+    });
+
+    function ZonesSelectionChanged2() {
+        $('#selArea2 option:not(:first-child)').remove();
+        $('#selTerritory2 option:not(:first-child)').remove();
+        $('#selHQ2 option:not(:first-child)').remove();
+
+        // get current value of Zone
+        var selectedZone = $("#selZone2").val();
+        FillAreasForZone(selectedZone, 'selArea2');
+    }
+
+    function AreasSelectionChanged2() {
+        $('#selTerritory2 option:not(:first-child)').remove();
+        $('#selHQ2 option:not(:first-child)').remove();
+        var selectedZone = $("#selZone2").val();
+        var selectedArea = $("#selArea2").val();
+        FillTerritories(selectedZone, selectedArea, 'selTerritory2');
+    }
+
+    function TerritoriesSelectionChanged2() {
+        $('#selHQ2 option:not(:first-child)').remove();
+        var selectedZone = $("#selZone2").val();
+        var selectedArea = $("#selArea2").val();
+        var selectedTerritory = $("#selTerritory2").val();
+        FillHQ(selectedZone, selectedArea, selectedTerritory, 'selHQ2');
+    }
+</script>

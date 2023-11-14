@@ -1,0 +1,104 @@
+﻿@model EntityWorkFlowDetailModel
+@{
+    IEnumerable<DomainEntities.CodeTableEx> statusValues = ViewBag.WorkFlowStatus;
+
+    IEnumerable<string> AvailableFollowUpPhases = ViewBag.AvailableFollowUpPhases;
+    int maxCommentsLength = ViewBag.MaxNotesLength;
+
+    string caption = $"Add Followup: {Model.EntityName} | Agreement: {Model.Agreement} | {Model.TypeName} | {Model.Phase}";
+}
+
+@using (Html.BeginForm("AddAgreementWorkFlowRec", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+
+    <span style="font-size:large;">@caption</span>
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div>&nbsp;</div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Phase, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" name="Phase">
+                    @foreach (var o in AvailableFollowUpPhases)
+                    {
+                        <option value="@o">@o</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Phase, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.IsActiveAsNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="selStatus" name="IsActiveAsNumber">
+                    @foreach (var o in statusValues.OrderBy(x => x.DisplaySequence))
+                    {
+                        if (o.Code.Equals(Model.IsActiveAsNumber.ToString(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="@o.Code" selected>@o.CodeName</option>
+                        }
+                        else
+                        {
+                            <option value="@o.Code">@o.CodeName</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.IsActiveAsNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.PlannedFromDateAsText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input data-format="dd-MM-yyyy" type="text" name="PlannedFromDateAsText"
+                       class="form-control justDate" value="@Model.PlannedFromDateAsText" />
+                @Html.ValidationMessageFor(model => model.PlannedFromDateAsText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.PlannedEndDateAsText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input data-format="dd-MM-yyyy" type="text" name="PlannedEndDateAsText"
+                       class="form-control justDate" value="@Model.PlannedEndDateAsText" />
+                @Html.ValidationMessageFor(model => model.PlannedEndDateAsText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <textarea name="Notes" rows="4" cols="40" maxlength="@maxCommentsLength" class="form-control">@Model.Notes</textarea>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink2");
+}

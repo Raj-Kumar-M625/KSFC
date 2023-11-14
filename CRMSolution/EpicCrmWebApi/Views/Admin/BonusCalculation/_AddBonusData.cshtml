@@ -1,0 +1,280 @@
+﻿@model EpicCrmWebApi.BonusCalculationModel
+@{
+    int maxCommentsLength = ViewBag.MaxBonusLength;
+}
+
+@using (Html.BeginForm("AddBonusData", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    <div class="form-horizontal">
+        <span style="font-size:large;">Add Additional Bonus Data</span>
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.AgreementId)
+
+    <div class="container">
+        <table class="table table-bordered table-striped table-condensed" style="margin-top:2px;margin-bottom:5px;" id="idFarmerDetailsTable">
+            <tr>
+
+                <th>@Html.DisplayNameFor(model => model.AgreementDate)</th>
+                <th>@Html.DisplayNameFor(model => model.AgreementNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.EntityName)</th>
+                <th>@Html.DisplayNameFor(model => model.SeasonName)</th>
+                <th>@Html.DisplayNameFor(model => model.TypeName)</th>
+            </tr>
+            <tr>
+
+                <td>@Html.DisplayFor(modelItem => Model.AgreementDate, "DatetimeDate")</td>
+                <td>@Html.DisplayFor(modelItem => Model.AgreementNumber)</td>
+                <td>@Html.DisplayFor(modelItem => Model.EntityName)</td>
+                <td>@Html.DisplayFor(modelItem => Model.SeasonName)</td>
+                <td>@Html.DisplayFor(modelItem => Model.TypeName)</td>
+            </tr>
+        </table>
+        <table class="table table-bordered table-striped table-condensed" style="margin-top:2px;margin-bottom:5px;" id="idBonusWeightDetailsTable">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.LandSizeInAcres)</th>
+                <th>@Html.DisplayNameFor(model => model.NetPayableWt)</th>
+                <th>@Html.DisplayNameFor(model => model.NetPayable)</th>
+                <th>@Html.DisplayNameFor(model => model.YieldPerAcre)</th>
+                <th>@Html.DisplayNameFor(model => model.BonusRate)</th>
+                <th>@Html.DisplayNameFor(model => model.BonusAmountPayable)</th>
+            </tr>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => Model.LandSizeInAcres)</td>
+                <td>@Html.DisplayFor(modelItem => Model.NetPayableWt)</td>
+                <td>@Html.DisplayFor(modelItem => Model.NetPayable)</td>
+                <td>@Html.DisplayFor(modelItem => Model.YieldPerAcre)</td>
+                <td>@Html.DisplayFor(modelItem => Model.BonusRate)</td>
+                <td>@Html.DisplayFor(modelItem => Model.BonusAmountPayable)</td>
+            </tr>
+        </table>
+        <div class="form-group">
+            <div>
+                <br />
+                <div>
+                    <label class="control-label" style="margin-top:0px;font-weight:normal;color:blue;font-size:small; font-style:italic">Bonus Amount Calculated = Bonus Rate * Approved Weight  </label>
+                </div>
+                <br />
+                <label class="control-lable col-md-2">Beneficary Account</label>
+                <div class="col-md-5">
+                    @if ((Model.EntityBankAccounts?.Count ?? 0) == 0)
+                    {
+                    <select class="form-control" id="idTargetAccount" name="BeneficiaryAccountId" readonly="true">
+                        <option value="-1">Bank Details Not Available</option>
+                    </select>
+                    }
+                    else if ((Model.EntityBankAccounts?.Count ?? 1) == 1)
+                    {
+                        <select class="form-control" id="idTargetAccount" name="BeneficiaryAccountId" readonly="true">
+                            @foreach (var o in Model.EntityBankAccounts.OrderBy(x => x.BankName))
+                            {
+                                <option value="@o.Id">@o.BankName (@o.BankAccount)</option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <select class="form-control" id="idTargetAccount" name="BeneficiaryAccountId">
+                            @foreach (var o in Model.EntityBankAccounts.OrderBy(x => x.BankName))
+                            {
+                                <option value="@o.Id">@o.BankName (@o.BankAccount)</option>
+                            }
+                        </select>
+                    }
+                </div>
+                <div>
+                    @Html.LabelFor(model => model.BonusAmountPaid, String.Format("{0} (Rs.)", Html.DisplayNameFor(m => m.BonusAmountPaid)), htmlAttributes: new { @class = "col-md-3" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.BonusAmountPaid, new { htmlAttributes = new { @class = "form-control", @id = "BonusAmountPaying" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
+                    <textarea name="Comments" rows="2" cols="60" maxlength="@maxCommentsLength" class="form-control" id="idComments">@Model.Comments</textarea>
+                    <label class="control-label" style="margin-top:0px;font-weight:normal;color:red;font-size:smaller">Max characters allowed : 500</label>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-6">
+                <input type="hidden" value="Submit" class="btn btn-default" id="popupSaveButton" />
+                <input type="button" value="Awaiting Approval" class="btn btn-success" id="saveButton" onclick="validateFormForSave()" />
+            </div>
+            <div class="col-md-6">
+                <input type="hidden" value="Submit" class="btn btn-default" id="popupSaveButton" />
+                <input type="button" value="Reject" class="btn btn-danger" id="rejectButton" onclick="validateFormForReject()" />
+            </div>
+        </div>
+    </div>
+    </div>
+}
+
+<div id="resultArea">
+    <img id="idWait" src="/Content/img/pleasewait.gif" />
+</div>
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+    Html.RenderPartial("_CodeSnippetConfirmBox");
+}
+
+<script type="text/javascript">
+    @Html.Raw("var MaxCommentsLength = " + maxCommentsLength.ToString() + ";");
+    var bonusStatus = "";
+    pickBonusAmount();
+
+
+    $('#popupSaveButton').on('click', function () { Save() });
+
+
+    function pickBonusAmount() {
+        $('#idWait').hide();
+        var bonusAmount = $('#BonusAmountPaying').val();
+        $("#saveButton").val("Click to Save Bonus Amount (Rs. " + bonusAmount + ")");
+    }
+
+    $('#BonusAmountPaying').on('input', function (e) {
+        pickBonusAmount();
+    });
+
+    function validateFormForSave()
+    {
+        var bonusAmountPaying = $("#BonusAmountPaying").val();
+
+        if (isNaN(bonusAmountPaying)) {
+            ShowAlertArea("Error!", "Please enter a valid Bonus amount", true);
+            return false;
+        }
+
+        if (bonusAmountPaying <= 0)
+        {
+            ShowAlertArea("Error!", "Bonus Amount can not be less than 0 ", true);
+            return false;
+        }
+
+        var beneficiaryAccountId = $("#idTargetAccount").val();
+        if (beneficiaryAccountId == undefined || beneficiaryAccountId <= 0)
+        {
+            ShowAlertArea("Error!", "Farmer Bank Details not available!!!", true);
+            return false;
+        }
+
+        // get the number of characters in comments
+        var commentsText = $("#idComments").val();
+        if (commentsText != undefined && commentsText.length > MaxCommentsLength)
+        {
+            ShowAlertArea("Error!", "Notes can be maximum @maxCommentsLength characters. Currently Notes has " + commentsText.length + " characters.", false);
+            return false;
+        }
+
+        bonusStatus = "AwaitingApproval";
+
+        // confirm
+            ShowAlertArea("Confirm!", "Please click 'Yes' to save your changes.", false);
+
+    }
+
+    function validateFormForReject()
+    {
+        var bonusAmountPaying = $("#BonusAmountPaying").val();
+
+        if (isNaN(bonusAmountPaying)) {
+            ShowAlertArea("Error!", "Please enter a valid Bonus amount", true);
+            return false;
+        }
+
+        if (bonusAmountPaying < 0)
+        {
+            ShowAlertArea("Error!", "Bonus Amount can not be less than 0 ", true);
+            return false;
+        }
+
+        // get the number of characters in comments
+        var commentsText = $("#idComments").val();
+        if (commentsText != undefined && commentsText.length > MaxCommentsLength)
+        {
+            ShowAlertArea("Error!", "Notes can be maximum @maxCommentsLength characters. Currently Notes has " + commentsText.length + " characters.", false);
+            return false;
+        }
+        if (commentsText.length <= 0)
+        {
+            ShowAlertArea("Error!", "Please enter the Rejection reason in Notes textarea, and Try Again!!!", true);
+            return false;
+        }
+
+        bonusStatus = "Rejected";
+
+        // confirm
+            //ShowAlertArea("Alert!", "Are you sure ? You want to Reject Bonus for this Agreement. You can't make further changes to this Agreement", false);
+            ShowAlertArea("Alert!", "'Rejecting Bonus', will NOT allow any further changes to this Agreement. Are you sure ?", false);
+
+    }
+
+    function Save() {
+
+        var collectiveData = {};
+        collectiveData.AgreementId = @Model.AgreementId;
+        collectiveData.AgreementNumber = "@Model.AgreementNumber";
+        collectiveData.AgreementDate = "@Model.AgreementDate";
+        collectiveData.EntityId = @Model.EntityId;
+        collectiveData.EntityName = "@Model.EntityName";
+        collectiveData.TypeName = "@Model.TypeName";
+        collectiveData.SeasonName = "@Model.SeasonName";
+        collectiveData.LandSizeInAcres = @Model.LandSizeInAcres;
+        collectiveData.RatePerKg = @Model.RatePerKg;
+        collectiveData.NetPayableWt = @Model.NetPayableWt;
+        collectiveData.NetPayable = @Model.NetPayable;
+        collectiveData.BonusRate = @Model.BonusRate;
+        collectiveData.BonusAmountPayable = @Model.BonusAmountPaid;
+        collectiveData.HQCode = "@Model.HQCode";
+        collectiveData.bonusAmountPaid = $("#BonusAmountPaying").val();
+        collectiveData.bonusStatus = bonusStatus;
+        collectiveData.Comments = $("#idComments").val();
+        collectiveData.BankId = $("#idTargetAccount").val();
+
+        $("#idTitle").hide();
+        $("#idFarmerDetailsTable").hide();
+        $("#idBonusWeightDetailsTable").hide();
+        $("#popupForm").hide();
+        $("#idWait").show();
+
+        $('#idCancelLinkContainer').remove();
+
+        $.ajax('/Admin/AddBonusData', {
+            type: "POST",
+            contentType: "application/JSON",
+            data: JSON.stringify(collectiveData),
+            success: function (data, textStatus, jqXHR) {
+
+                $formHtml = $(data); // make it Jquery object
+                $("#resultArea").html($formHtml);
+
+                $formContainer = $("div#divOverGlass");
+
+                // attach event on cancel
+                $formHtml.find("#popupCancelLink").click(
+                    {
+                        formContainer: $formContainer,
+                        form: $formHtml
+                    }, cancelLinkClickOnGlassForm);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("An error occured. Please refresh the page and try again.")
+                $formContainer = $("div#divOverGlass");
+                HideGlassForm({
+                    formContainer: $formContainer
+                })
+            }
+        });
+
+    }
+
+</script>
+<script src="~/Scripts/CustomScripts/EpicCrmCustomPopup.js"></script>

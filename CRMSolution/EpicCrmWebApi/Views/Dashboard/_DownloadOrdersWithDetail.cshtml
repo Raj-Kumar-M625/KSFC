@@ -1,0 +1,100 @@
+﻿@model IEnumerable<EpicCrmWebApi.OrderItemsModel>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Date</th>
+        <th>Employee Code</th>
+        <th>Employee Name</th>
+        <th>Customer Code</th>
+        <th>Customer Name</th>
+        <th>Approved</th>
+        <th>Orig. Order Amount</th>
+        <th>Revised Order Amount</th>
+        <th>Approved Amount</th>
+        <th>Sequence</th>
+        <th>Product Code</th>
+        <th>Product Name</th>
+        <th>UOM</th>
+        <th>Unit Price</th>
+        <th>Original Quantity</th>
+        <th>Original Amount</th>
+        <th>Revised Quantity</th>
+        <th>Revised Amount</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        foreach (var orderItem in item.Items)
+        { 
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.OrderDate, "DatetimeShort")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.EmployeeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.CustomerCode)
+            </td>
+            <td>
+               @Html.DisplayFor(modelItem => item.Order.CustomerName)
+            </td>
+            @if(item.Order.IsApproved)
+            {
+                <td>Yes</td>
+            }
+            else
+            {
+                <td>No</td>
+            }
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.TotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.RevisedTotalAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Order.ApprovedAmt)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.SequenceNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.ProductCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.UOM)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.RevisedQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => orderItem.RevisedAmount)
+            </td>
+        </tr>
+        }
+    }
+</table>
+
+
+

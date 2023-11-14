@@ -1,0 +1,108 @@
+﻿@model IEnumerable<EpicCrmWebApi.PaymentFileDownloadModel>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STRNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankIFSC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetPayable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Commission)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemitterAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemitterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemitterAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankAccountName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankBranch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDetails)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SenderToReceiverInfo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemitterEmail)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.OrderBy(x => x.SNo))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.STRNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankIFSC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetPayable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Commission)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemitterAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemitterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemitterAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAccountName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankBranch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaymentDetails)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SenderToReceiverInfo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemitterEmail)
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[TerminateAgreementRequest]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY,
+
+	[EmployeeId] BIGINT NOT NULL REFERENCES TenantEmployee(Id),
+	[DayId] BIGINT NOT NULL REFERENCES dbo.[Day](Id),
+	[EntityId] BIGINT NOT NULL REFERENCES dbo.Entity,
+	[EntityAgreementId] BIGINT NOT NULL REFERENCES [EntityAgreement]([Id]), 
+
+	[RequestDate] DATE NOT NULL,
+	[RequestReason] NVARCHAR(50) NOT NULL,
+	[Status] NVARCHAR(50) NOT NULL DEFAULT 'Pending',
+	[ActivityId] BIGINT NOT NULL DEFAULT 0,
+
+	[RequestNotes] NVARCHAR(512),
+
+	[SqliteTerminateAgreementId] BIGINT NOT NULL,
+	[ReviewNotes] NVARCHAR(512),
+	[ReviewedBy] NVARCHAR(50) NOT NULL DEFAULT '',
+	[ReviewDate] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+
+	[DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[DateUpdated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[CreatedBy] NVARCHAR(50) NOT NULL,
+	[UpdatedBy] NVARCHAR(50) NOT NULL
+)

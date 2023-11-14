@@ -1,0 +1,89 @@
+﻿@model IEnumerable<EpicCrmWebApi.TaskAssignmentModel>
+@{
+    int itemCount = Model.Count();
+    string displayString = $"{itemCount} rows displayed.";
+
+    bool isEmptyClientCode = ViewBag.IsEmptyClientCode;
+
+    long taskId = ViewBag.TaskId;
+    string taskDesc = ViewBag.TaskDesc;
+
+    var rowId = ViewBag.RowId as String;
+    var parentRowId = ViewBag.ParentRowId as String;
+}
+
+<h3>
+    <a href="" title="Refresh Assignments for Task @taskDesc" onclick="refreshItemList('@parentRowId', '@rowId', '@taskId');return false;">
+        <img height="25" width="25" src="~/Content/img/refresh.png" />
+    </a>&nbsp;Staff Assignments (@Model.Count())
+    @if (!isEmptyClientCode)
+    {
+        <a href="/dashboard/AddTaskAssignment?taskId=@taskId&assignmentId=0" title="Add New Assignment" class="addInPopup">
+            <img height="15" width="15" src="~/Content/img/Add.png" />
+        </a>
+    }
+    else
+    {
+        <label style="font-size:large;">Note :&nbsp; </label><label style="color:red; font-size:medium;">"Client details are missing/incorrect. Kindly, add client from option available above before proceeding for assignment."&nbsp;</label>
+    }
+</h3>
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered table-striped table-condensed">
+        <tr>
+            <th style="column-width:50px;">
+                <a href="" onclick="closeArea('@parentRowId', '@rowId');return false;" title="Close">
+                    <img height="15" width="15" src="~/Content/img/Close.png" />
+                </a>
+            </th>
+
+            <th>@Html.DisplayNameFor(model => model.EmployeeCode)</th>
+            <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+            <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+            <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Comments)</th>
+            <th>@Html.DisplayNameFor(model => model.IsAssigned)</th>
+            <th>@Html.DisplayNameFor(model => model.IsSelfAssigned)</th>
+            <th>@Html.DisplayNameFor(model => model.ActivityCount)</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if (!isEmptyClientCode)
+                {
+                    <td>
+                        <a href="/dashboard/EditTaskAssignment?taskId=@taskId&assignmentId=@item.Id" title="Edit" class="editInPopup">
+                            <img height="35" width="35" src="~/Content/img/Edit.png" />
+                        </a>
+                    </td>
+                }
+                else
+                { 
+                    <td>&nbsp;</td>
+                }
+
+                <th>@Html.DisplayFor(modelItem => item.EmployeeCode)</th>
+                <th>@Html.DisplayFor(modelItem => item.EmployeeName)</th>
+                <td>@Html.DisplayFor(modelItem => item.StartDate, "DateTimeShort")</td>
+                <td>@Html.DisplayFor(modelItem => item.EndDate, "DateTimeShort")</td>
+                <td>@Html.DisplayFor(modelItem => item.Comments)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsAssigned)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsSelfAssigned)</td>
+                <td>
+                    @if (item.ActivityCount > 0)
+                    {
+                        var count = item.ActivityCount.ToString();
+                        @*@Html.ActionLink(count, "GetTaskAction");*@
+                        @Html.ActionLink(count, "GetTaskAssignmentAction", "Dashboard", new { taskId = item.XRefTaskId, AssignmentId = item.Id}, new { @class = "c_activityLink", target = "_new", title = "Show FollowUp Assignment Activity" })
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ActivityCount);
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}

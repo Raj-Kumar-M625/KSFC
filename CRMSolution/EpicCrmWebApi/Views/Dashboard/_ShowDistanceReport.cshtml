@@ -1,0 +1,81 @@
+﻿@model EpicCrmWebApi.DashboardReportModel
+
+@{ 
+    int numColumn = 2;
+
+    IEnumerable<OfficeHierarchyModel> officeHierarchy = Model.OfficeHierarchy;
+    OfficeHierarchyModel oh = null;
+
+    var displayModel =
+        Model.DashboardDataSet.Join(Model.AppUsers, x => x.TenantEmployeeId, y => y.EmployeeId, (d, u) => new
+        {
+            d.Date,
+            u.Name,
+            d,
+            u
+        }).OrderBy(x => x.Date).ThenBy(x => x.Name).ToList();
+}
+    <table class="table table-bordered table-striped table-condensed" id="dataTable">
+        @* need this row here as javascript code for SMS check box looks for column heading in 2nd row*@
+        <tr id="dataTableHeader">
+            <td colspan="3" id="downloadLinkArea">&nbsp;</td>
+            <td colspan="14">@displayModel.Count rows displayed.</td>
+        </tr>
+
+        <tr>
+            <th>Date</th>
+            <th>Employee Code</th>
+            <th>Employee Name</th>
+            <th>Phone</th>
+            <th>Distance (km)</th>
+            <th>Start Place</th>
+            <th>Start Time</th>
+            <th>End Place</th>
+            <th>End Time</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().ZoneCode)</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().ZoneName)</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().AreaCode)</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().AreaName)</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().TerritoryCode)</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().TerritoryName)</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().HQCode)</th>
+            <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().HQName)</th>
+        </tr>
+
+        @foreach (var employee in displayModel)
+        {
+            var displayString = $"{decimal.Round(employee.d.TotalDistanceInMeters / 1000, 1)}";
+            oh = officeHierarchy.Where(x => x.HQCode == employee.u.ExpenseHQCode).FirstOrDefault();
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => employee.Date, "DateTimeShort")
+                </td>
+                <td>@employee.u.EmployeeCode</td>             
+                <td>@employee.Name</td>
+                <td>@Html.DisplayFor(modelItem => employee.u.Phone, "Phone")
+                </td>
+                <td>@displayString</td>
+                <td>@employee.d.StartPosition</td>
+
+                <td> @Html.DisplayFor(modelItem => employee.d.StartTime, "DateTimeTime")
+                </td>
+
+                <td>@employee.d.EndPosition</td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => employee.d.EndTime, "DateTimeTime")
+                </td>
+
+                <td>@(oh?.ZoneCode ?? "")</td>
+                <td>@(oh?.ZoneName ?? "")</td>
+                <td>@(oh?.AreaCode ?? "")</td>
+                <td>@(oh?.AreaName ?? "")</td>
+                <td>@(oh?.TerritoryCode ?? "")</td>
+                <td>@(oh?.TerritoryName ?? "")</td>
+                <td>@(oh?.HQCode ?? "")</td>
+                <td>@(oh?.HQName ?? "")</td>
+            </tr>
+        }
+    </table>
+

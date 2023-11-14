@@ -1,0 +1,787 @@
+﻿@model IssueReturnModel
+@{
+  
+    IEnumerable<DomainEntities.CodeTableEx> activityTypes = ViewBag.ActivityTypes;
+    IEnumerable<DownloadItemMaster> itemMaster = ViewBag.ItemMaster as IEnumerable<DownloadItemMaster>;
+}
+
+<div class="form-horizontal" id="details">
+    <span style="font-size:large;">Add Issues/Returns</span>
+
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            <label>Zone <span style="color: red;">  * </span> </label>
+        </div>
+        <div class="col-sm-4">
+            <select class="form-control commonclass" id="selZone2" name="ZoneCode">
+                <option value="">Select</option>
+            </select>
+            <span asp-validation-for="ZoneCode" class="text-danger"></span>
+        </div>
+        <div>
+            <div class="control-label col-md-2">
+                <label>Area <span style="color: red;">  * </span> </label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control commonclass" id="selArea2" name="AreaCode" required>
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <div class="control-label col-md-2">
+                <label>Cluster <span style="color: red;">  * </span> </label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control commonclass" id="selTerritory2" name="TerritoryCode">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+        <div>
+            <div class="control-label col-md-2">
+                <label>Village <span style="color: red;">  * </span> </label>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control commonclass" id="selHQ2" name="HQCode">
+                    <option value="">Select</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <hr style="height:1px;border-width:0;color:lightgray;background-color:lightgray;" />
+    <br />
+
+    <div class="form-group">
+        <div class="col-md-4">
+            <label>Employee Names</label>
+
+            <select class="form-control commonclass" id="empCode" onchange="SetEntityName()">
+                <option value="">-- Select --</option>
+            </select>
+
+        </div>
+
+        <div class="col-md-4">
+            <label>Entity Names</label>
+            <select class="form-control commonclass" id="entityCode" onchange="SetEntityAgreement()">
+                <option value="">-- Select --</option>
+            </select>
+
+        </div>
+
+        <div class="col-md-4">
+            <label>Agreement #</label>
+
+            <select class="form-control commonclass" id="aggnumber" onchange="SelectitemType()">
+                <option value="">-- Select --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            <div class="col-md-4">
+                <label>Date</label>
+                <input class="form-control" id="Date" name="CurrentDate"  type="date" />
+                      
+            </div>
+        </div>
+        <div>
+            <div class="col-md-4">
+                <label>Activity Type</label>
+                <select class="form-control commonclass" id="transactionType" name="AppliedTransactionType" onchange="selectActivity()">
+                    <option>-- Select --</option>
+                    @foreach (var o in activityTypes.OrderBy(x => x.CodeName))
+                    {
+
+                        if (o.Code.Equals(Model.AppliedTransactionType, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="@o.Code" selected>@o.Code</option>
+                        }
+                        else
+                        {
+                            <option value="@o.Code">@o.Code</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>Input Slip No</label>
+
+            <input type="text" class="form-control commonclass" id="SlipNumber" onchange="activitytypeselect()" />
+
+
+        </div>
+    </div>
+
+    <hr style="height:1px;border-width:0;color:lightgray;background-color:lightgray;" />
+    <br />
+    <div>
+        <div>
+            <P> <b>Note :</b> <span style="font-size: 11px"> Max Seven(7) Items Can Be Added </span></P>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-4">
+                <label>Item Type</label>
+
+
+                <select class="form-control" id="itemtype" onchange="ItemTypeSelectionChanged()" disabled="disabled">
+                    <option value="">-- Select --</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label>Item</label>
+
+                <select class="form-control" id="item" onchange="SetItemAmount()" disabled="disabled">
+                    <option value="">-- Select --</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+
+                <label>Amount</label>
+
+                <input type="number" class="form-control" id="amount" readonly />
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-4">
+
+                <label>Quantity</label>
+
+                <input type="number" class="form-control" id="quantity" value="1" onchange="CalculateAmount()" disabled="disabled" />
+            </div>
+            <div class="col-md-4">
+
+                <label>Comments</label>
+
+                <input type="text" class="form-control" id="comments" disabled="disabled" />
+            </div>
+            <div class="col-md-4" style="margin-top:27px">
+                
+                <a onclick="AddItemList()" class="btn btn-primary text-white mb-2 mt-6" id="addItems" disabled="disabled"> Add Items</a>
+            </div>
+        </div>
+      
+        <div class="form-group">
+
+            <div class="col-md-4">
+
+                <input type="hidden" class="form-control" id="uom" />
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-4">
+
+                <input type="hidden" class="form-control" id="rate" />
+            </div>
+            <div class="col-md-4">
+
+                <input type="hidden" class="form-control" id="itemid" />
+            </div>
+        </div>
+    </div>
+
+    <hr style="height:1px;border-width:0;color:lightgray;background-color:lightgray;" />
+
+    <div class=" d-flex flex-row justify-content-start">
+        <table id="tblAddItems" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Item Type</th>
+                    <th>Item</th>
+                    <th>UOM</th>
+                    <th>Quantity</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+
+        </table>
+    </div>
+    <div id="saveBtn" style="margin-bottom:8px;display:flex;justify-content:center">
+        <a id="popupSaveButton" class="btn btn-success text-white" disabled="disabled"> Save</a>
+    </div>
+
+</div>
+<div id="success">
+</div>
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+<script type="text/javascript">
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById("Date").setAttribute("max", today);
+
+    function SetEntityAgreement() {
+    
+        var entityId = $('#entityCode').val();
+        $('#aggnumber').empty();
+
+        if (entityId == "") {
+            return;
+        }
+        else {
+            $.ajax({
+                cache: false,
+                type: "Get",
+                url: '/Dashboard/GetEntityAgreements',
+                contentType: "application/json",
+                dataType: "json",
+                data: "entityId=" + entityId,
+                success: function (data, textStatus, jqXHR) {
+
+                    if (data.length > 0) {
+                        var opt = '';
+                        opt += '<option value="">' + "-- select --" + '</option>';
+                        for (var i = 0; i < data.length; i++) {
+                           
+                            opt += '<option value="' + data[i].Id + '">' + data[i].AgreementNumber + '(' + data[i].TypeName + ')' + '</option>';
+                        }
+                        $('#aggnumber').append(opt);
+                    }
+                    else {
+                        alert("No Agreements# Created To This Entity")
+                    }
+
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured while getting data.")
+                }
+            });
+        }
+    }
+
+    function SelectitemType() {
+     
+        var aggId = $('#aggnumber').val();
+        $('#itemtype').empty();
+
+        if (aggId == "") {
+            return;
+        }
+        else {
+            $.ajax({
+                cache: false,
+                type: "Get",
+                url: '/Dashboard/GetItemType',
+                contentType: "application/json",
+                dataType: "json",
+                data: "aggId=" + aggId,
+                success: function (data, textStatus, jqXHR) {
+
+                    if (data.length > 0) {
+                        var opt = '';
+                        opt += '<option value="">' + "-- select --" + '</option>';
+                        for (var i = 0; i < data.length; i++) {
+                            opt += '<option value="' + data[i] + '">' + data[i] + '</option>';
+                        }
+                        $('#itemtype').append(opt);
+                    }
+                    else {
+                        alert("Item Types are not available ")
+                    }
+
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured while getting data.")
+                }
+            });
+        }
+    }
+
+    function ItemTypeSelectionChanged() {
+     
+        var wfsid = $('#itemtype').val();
+        var activityType = $('#transactionType').val();
+
+        $('#item').empty();
+
+        if (wfsid == "0") {
+            return;
+        }
+        else {
+            $.ajax({
+                cache: false,
+                type: "Get",
+                url: '/Dashboard/GetItemSelected',
+                contentType: "application/json",
+                dataType: "json",
+                data: "wfsid=" + wfsid,
+                success: function (data, textStatus, jqXHR) {
+
+                    if (data.length > 0) {
+                        if (activityType == "Input Return") {
+                            var opt = '';
+                            opt += '<option value="">' + "-- select --" + '</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                opt += '<option value="' + data[i].ItemType + '">' + data[i].ItemType + '(' + data[i].ReturnRate + ')' + '</option>';
+                            }
+                            $('#item').append(opt);
+                        }
+                        else {
+                            var opt = '';
+                            opt += '<option value="">' + "-- select --" + '</option>';
+                            for (var i = 0; i < data.length; i++) {
+                                opt += '<option value="' + data[i].ItemType + '">' + data[i].ItemType + '(' + data[i].Rate + ')' + '</option>';
+                            }
+                            $('#item').append(opt);
+                        }
+                    }
+                    else {
+                        alert("Items are not available ")
+                    }
+
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured while getting data.")
+                }
+            });
+        }
+    }
+
+    function SetItemAmount() {
+     
+        var item = $("#item").val();
+        var activityType = $('#transactionType').val();
+        $("#addItems").removeAttr('disabled');
+        $("#amount").val('');
+        $("#quantity").val("1");
+        if (item == "0") {
+            return;
+        }
+        else {
+            $.ajax({
+                cache: false,
+                type: "Get",
+                url: '/Dashboard/GetItemList',
+                contentType: "application/json",
+                dataType: "json",
+                data: "item=" + item,
+                success: function (data, textStatus, jqXHR) {
+
+
+                    if (activityType == "Input Return") {
+                        $("#amount").val(data[0].ReturnRate);
+                        $("#rate").val(data[0].ReturnRate);
+                        $("#uom").val(data[0].ItemUnit);
+                        $("#itemid").val(data[0].ItemMasterId);
+                    } else {
+                        $("#amount").val(data[0].Rate);
+                        $("#rate").val(data[0].Rate);
+                        $("#uom").val(data[0].ItemUnit);
+                        $("#itemid").val(data[0].ItemMasterId);
+                    }
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured while getting data.")
+                }
+            });
+        }
+    }
+    function CalculateAmount() {
+    
+        if ($('#quantity').val() == "0" || $('#quantity').val() == "") {
+            alert("Quantity can Not be Zero (0)/Empty");
+            $('#quantity').val('1');
+            $('#amount').val(parseInt($('#rate').val()));
+        }
+        else {
+            var amt = parseInt($('#rate').val());
+            var qnty = parseInt($('#quantity').val());
+            var answer = amt * qnty;
+            $('#amount').val(answer);
+
+        }
+    }
+
+    function AddItemList() {
+        var opt = new Option("--Select--", "");
+        if ($('#item').val() == "") {
+
+            alert("Please Add Items");
+            return
+        }
+        $("#popupSaveButton").removeAttr('disabled');
+
+        $(".commonclass").attr('disabled', true);
+
+        var x = document.getElementById("tblAddItems").rows.length;
+
+        if (x > 7) {
+            alert("Maximum Seven(7) Items Can Be Added");
+            $("#itemtype").val('');
+            $("#item").val('');
+            $("#amount").val('');
+            $("#quantity").val('');
+            $("#comments").val('');
+            return
+        }
+        var itemType = $("#itemtype").val();
+
+        var item = $("#item option:selected").text();
+
+        var itemAmount = $("#rate").val();
+        var unitmeasure = $("#uom").val();
+
+        var amount = $("#amount").val();
+
+        var quantity = $("#quantity").val();
+        var itemMasterId = $("#itemid").val();
+        var comments = $("#comments").val();
+        //Get the reference of the Table's TBODY element.
+        var tBody = $("#tblAddItems > TBODY")[0];
+
+        //Add Row.
+        var row = tBody.insertRow(-1);
+        $(row).addClass("trow");
+        //Add Name cell.
+        var cell = $(row.insertCell(-1));
+        cell.html(itemType);
+
+        cell = $(row.insertCell(-1));
+        cell.html(item);
+
+        cell = $(row.insertCell(-1));
+        cell.html(unitmeasure);
+
+        cell = $(row.insertCell(-1));
+        cell.html(quantity);
+
+        cell = $(row.insertCell(-1));
+        cell.html(itemAmount);
+
+        cell = $(row.insertCell(-1));
+        cell.html(amount);
+
+        cell = $(row.insertCell(-1));
+        cell.html(itemMasterId).addClass("hidden");
+
+        cell = $(row.insertCell(-1));
+        cell.html(comments).addClass("hidden");
+
+        $("#itemtype").val('');
+        $("#item").empty();
+        $('#item').append(opt);
+        $("#amount").val('');
+        $("#quantity").val('');
+        $("#comments").val('');
+
+    }
+
+    $("#popupSaveButton").on("click", function () {
+      
+        if ($('#amount').val() == null) {
+
+            alert("Please Add Items");
+            return;
+        }
+        if ($("#item").val() != "") {
+            alert("There are unadded items in the list. Please Click on Add Items");
+            return;
+        }
+        if ($("#empCode").val() == "") {
+            alert("Please Select Employee Name");
+            $('#empCode').removeAttr('disabled');
+            return;
+        }
+
+        var itemsData = new Array();
+        $("#tblAddItems TBODY TR").each(function () {
+            var row = $(this);
+            var items = {};
+            items.ItemType = row.find("TD").eq(0).html();
+            items.item = row.find("TD").eq(1).html();
+            items.ItemUnit = row.find("TD").eq(2).html();
+            items.quantity = row.find("TD").eq(3).html();
+            items.Rate = row.find("TD").eq(4).html();
+            items.itemAmount = row.find("TD").eq(5).html();
+            items.itemMasterId = row.find("TD").eq(6).html();
+            items.comments = row.find("TD").eq(7).html();
+            itemsData.push(items);
+        });
+
+        var masterData = {};
+
+        masterData.EmployeeId = $("#empCode").val();
+        masterData.EntityId = $("#entityCode").val();
+        masterData.EntityAgreementId = $("#aggnumber").val();
+        masterData.TransactionDate = $("#Date").val();
+        masterData.transactionType = $("#transactionType").val();
+        masterData.SlipNumber = $("#SlipNumber").val();
+       
+        $.ajax({
+            cache: false,
+            type: "POST",
+            url: '/Dashboard/AddIssueReturns',
+
+            data: { itemsData: itemsData, masterData: masterData },
+            success: function (data, textStatus, jqXHR) {
+                $('#details').hide();
+                $formHtml = $(data); // make it Jquery object
+                $("#success").html($formHtml);
+
+                $formContainer = $("div#divOverGlass");
+
+                // attach event on cancel
+                $formHtml.find("#popupCancelLink").click(
+                    {
+
+                        formContainer: $formContainer,
+                        form: $formHtml
+                    }, cancelLinkClickOnGlassForm);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("An error occured while getting data.")
+            }
+        });
+
+    });
+
+
+    function activitytypeselect() {
+     
+        if ($('#transactionType').val() != "-- Select --" && $('#Date').val() != "") {
+            $('#itemtype').removeAttr('disabled');
+            $('#item').removeAttr('disabled');
+            $('#quantity').removeAttr('disabled');
+            $('#comments').removeAttr('disabled');
+        }
+        else {
+            $("#SlipNumber").val('');
+            alert("Please Select Both  Date And  Activity Type To Add Items.")
+        }
+    }
+
+
+    function selectActivity() {
+  
+        if ($('#item').val() != "" || $('#quantity').val() != "" || $('#itemtype').val() != "") {
+            $('#itemtype').val('');
+            $('#item').val('');
+            $('#quantity').val("1");
+            $('#amount').val('');
+        }
+
+    }
+
+</script>
+
+<script type="text/javascript">
+    // Fill zone
+    var selectedObj = {};
+    for (i = 0; i < OfficeHierarchy.length; i++) {
+        var o = OfficeHierarchy[i];
+        selectedObj[o.ZoneName] = o.ZoneCode;
+    }
+    Object.keys(selectedObj).sort().forEach(function (element) {
+        var opt = new Option(element, selectedObj[element]);
+        $('#selZone2').append(opt);
+    });
+
+    $('#selZone2').change(function () { ZonesSelectionChanged2(); })
+    $('#selArea2').change(function () { AreasSelectionChanged2(); })
+    $('#selTerritory2').change(function () { TerritoriesSelectionChanged2(); })
+
+    // select the zone in dropdown
+    $("#selZone2 option").each(function () {
+        //debugger
+        if ($(this).val() == '@Model.ZoneCode')
+        {
+            $(this).prop('selected', true);
+            return false;  // come out of each iteration
+        }
+    });
+
+    // select the Area in dropdown
+    $("#selArea2 option").each(function () {
+        if ($(this).val() == '@Model.AreaCode') {
+            $(this).prop('selected', true);
+            return false;  // come out of each iteration
+        }
+    });
+
+    // select the territory in dropdown
+    $("#selTerritory2 option").each(function () {
+        if ($(this).val() == '@Model.TerritoryCode') {
+            $(this).prop('selected', true);
+            return false;  // come out of each iteration
+        }
+    });
+
+    // select the HQ in dropdown
+    $("#selHQ2 option").each(function () {
+        if ($(this).val() == '@Model.HQCode') {
+            $(this).prop('selected', true);
+            return false;
+        }
+    });
+
+
+    function ZonesSelectionChanged2() {
+        $('#selArea2 option:not(:first-child)').remove();
+        $('#selTerritory2 option:not(:first-child)').remove();
+        $('#selHQ2 option:not(:first-child)').remove();
+        $('#Employee option:not(:first-child)').remove();
+        // get current value of Zone
+        var selectedZone = $("#selZone2").val();
+        var selectedZoneName = $("#selZone2 option:selected").text();
+        $("#selZone2Name").val(selectedZoneName)
+        FillAreasForZone(selectedZone, 'selArea2');
+    }
+
+    function FillAreasForZone(z, d) {
+        var selectedObj = {};
+        for (i = 0; i < OfficeHierarchy.length; i++) {
+            var o = OfficeHierarchy[i];
+            if (o.ZoneCode == z) {
+                // use Area Name as key so we can sort by name
+                selectedObj[o.AreaName] = o.AreaCode;
+            }
+        }
+        Object.keys(selectedObj).sort().forEach(function (element) {
+            var opt = new Option(element, selectedObj[element]);
+            $('#' + d).append(opt);
+        });
+    }
+
+    function AreasSelectionChanged2() {
+        $('#selTerritory2 option:not(:first-child)').remove();
+        $('#selHQ2 option:not(:first-child)').remove();
+        $('#Employee option:not(:first-child)').remove();
+        var selectedZone = $("#selZone2").val();
+        var selectedArea = $("#selArea2").val();
+        var selectedAreaName = $("#selArea2 option:selected").text();
+        $("#selArea2Name").val(selectedAreaName)
+        FillTerritories(selectedZone, selectedArea, 'selTerritory2');
+    }
+
+    // zone and area
+    function FillTerritories(zo, ar, d) {
+        var selectedObj = {};
+        for (i = 0; i < OfficeHierarchy.length; i++) {
+            var o = OfficeHierarchy[i];
+            if (o.ZoneCode == zo && o.AreaCode == ar) {
+                selectedObj[o.TerritoryName] = o.TerritoryCode;
+            }
+        }
+        Object.keys(selectedObj).sort().forEach(function (element) {
+            var opt = new Option(element, selectedObj[element]);
+            $('#' + d).append(opt);
+        });
+    }
+
+    function TerritoriesSelectionChanged2() {
+        $('#selHQ2 option:not(:first-child)').remove();
+        $('#Employee option:not(:first-child)').remove();
+        var selectedZone = $("#selZone2").val();
+        var selectedArea = $("#selArea2").val();
+        var selectedTerritory = $("#selTerritory2").val();
+        var selectedTerritoryName = $("#selTerritory2 option:selected").text();
+        $("#selTerritory2Name").val(selectedTerritoryName)
+        FillHQ(selectedZone, selectedArea, selectedTerritory, 'selHQ2');
+    }
+
+    // zone, area, tr
+    function FillHQ(zo, ar, tr, d) {
+        var selectedObj = {};
+        for (i = 0; i < OfficeHierarchy.length; i++) {
+            var o = OfficeHierarchy[i];
+            if (o.ZoneCode == zo && o.AreaCode == ar && o.TerritoryCode == tr) {
+                selectedObj[o.HQName] = o.HQCode;
+            }
+        }
+        Object.keys(selectedObj).sort().forEach(function (element) {
+            var opt = new Option(element, selectedObj[element]);
+            $('#' + d).append(opt);
+        });
+    }
+  
+   
+</script>
+
+<script>
+    $('select[id="selHQ2"]').change(function () {
+     
+        var selectedHQName = $("#selHQ2 option:selected").text();
+        $("#selHQ2Name").val(selectedHQName);
+        $('#empCode option:not(:first-child)').remove();
+        html = '<option value= "Loading"> Loading </option>';
+        $('#empCode').empty();
+        $('#entityCode').empty();
+        $('#entityCode').append(html);
+        $('#empCode').append(html);
+        var searchCriteria = CaptureSearchCriteria1();
+        $.ajax('/Dashboard/GetSearchSalesPersonsDetails', {
+            cache: false,
+            type: "Get",
+            contentType: "application/json",
+            dataType: "json",
+            data: searchCriteria,
+            success: function (data,textStatus, jqXHR) {
+                if (data.model.length > 0) {
+                    opt = '<option value= ""> Select Employee </option>';
+                    $('#empCode').empty();
+                    for (var i = 0; i < data.model.length; i++) {
+                        opt += '<option value="' + data.model[i].EmployeeId + '">' + data.model[i].Name + '</option>';
+                    }
+                    $('#empCode').append(opt);
+                }
+                else {
+                    alert("Employee's are not available ")
+                    opt = '<option value= ""> Select Employee </option>';
+                    $('#empCode').empty();
+                    $('#empCode').append(opt);
+                }
+                if (data.associatedentityName.length > 0) {
+                    var opt = '';
+                    opt += '<option value="">' + "-- select --" + '</option>';
+                    for (var i = 0; i < data.associatedentityName.length; i++) {
+                        opt += '<option value="' + data.associatedentityName[i].Id + '">' + data.associatedentityName[i].EntityName + '(' + data.associatedentityName[i].Id + ')' + '</option>';
+                    }
+                    $('#entityCode').empty();
+                    $('#entityCode').append(opt);
+                }
+                else {
+                    alert("Entities Not Found in Selected HQ")
+                    opt = '<option value= ""> Select Entity </option>';
+                    $('#entityCode').empty();
+                    $('#entityCode').append(opt);
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("An error occured while getting data matching your search criteria.")
+            }
+        });
+
+    });
+
+    function CaptureSearchCriteria1() {
+        var searchCriteria = {};
+        searchCriteria.Zone = $("#selZone2").val();
+        searchCriteria.Area = $("#selArea2").val();
+        searchCriteria.Territory = $("#selTerritory2").val();
+        searchCriteria.HQ = $("#selHQ2").val();
+        return searchCriteria;
+    }
+</script>

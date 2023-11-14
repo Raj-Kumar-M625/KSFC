@@ -1,0 +1,100 @@
+﻿@model IEnumerable<EpicCrmWebApi.EntityModel>
+@{
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    ICollection<DomainEntities.EntityContact> entityContacts = ViewBag.EntityContact;
+    ICollection<DomainEntities.EntityCrop> entityCrops = ViewBag.EntityCrop;
+}
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.Id) </th>
+        <th>@Html.DisplayNameFor(model => model.EntityType)</th>
+        <th>@Html.DisplayNameFor(model => model.EntityName)</th>
+        <th>@Html.DisplayNameFor(model => model.EntityNumber)</th>
+
+        <th>@Html.DisplayNameFor(model => model.EmployeeCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+        <th>Contact Person Name</th>
+        <th>Contact No</th>
+        <th>Crop Name</th>
+        <th>@Html.DisplayNameFor(model => model.AtBusiness)</th>
+        <th>@Html.DisplayNameFor(model => model.IsActive) </th>
+        <th>@Html.DisplayNameFor(model => model.HQName)</th>
+        <th>@Html.DisplayNameFor(model => model.TerritoryName)</th>
+        <th>Territory</th>
+        <th>HQ</th>
+        <th>@Html.DisplayNameFor(model => model.EntityDate)</th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        DomainEntities.OfficeHierarchy ohRec = officeHierarchy?
+                        .Where(x => x.HQCode.Equals(item.HQCode, StringComparison.OrdinalIgnoreCase))
+                        .FirstOrDefault();
+
+        var zoneName = ohRec?.ZoneName ?? "";
+        var areaName = ohRec?.AreaName ?? "";
+        var territoryName = ohRec?.TerritoryName ?? "";
+        var hqName = ohRec?.HQName ?? "";
+
+        foreach (var item1 in entityContacts)
+
+        {
+            foreach (var item2 in entityCrops)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EntityType)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EntityName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EntityNumber)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmployeeCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmployeeName)
+                    </td>
+                     <td>
+                        @Html.DisplayFor(modelItem => item1.Name)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item1.PhoneNumber)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item2.CropName)
+                    </td>
+          
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AtBusiness, "BoolAsText")
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive, "BoolAsText")
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => hqName)</td>
+                    <td>@Html.DisplayFor(modelItem => territoryName)</td>
+                    <td>@Html.DisplayFor(modelItem => zoneName)</td>
+                    <td>@Html.DisplayFor(modelItem => areaName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EntityDate)</td>
+
+                </tr>
+
+             }
+
+        }
+     }
+</table>
+

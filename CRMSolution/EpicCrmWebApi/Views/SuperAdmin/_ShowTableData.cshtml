@@ -1,0 +1,38 @@
+﻿@model System.Data.DataTable
+
+@{ 
+    var dt = Model;
+    int colCount = dt.Columns.Count;
+    bool ShowDownloadLink = ViewBag.ShowDownloadLink;
+
+    string tableName = ViewBag.TableName;
+}
+
+<div>
+    <h2 class="removeFromDownload">@dt.Rows.Count Row(s) from @tableName matching your search criteria.</h2>
+    @if (ShowDownloadLink && (dt?.Rows?.Count ?? 0) > 0)
+    {
+        <span class="removeFromDownload" id="downloadLinkArea"></span>
+    }
+</div>
+@if (dt.Rows.Count > 0)
+{
+<table class="table table-bordered table-striped" id="dataTable">
+    <tr>
+        @foreach (System.Data.DataColumn c in dt.Columns)
+        {
+            <th>@c.ColumnName</th>
+        }
+    </tr>
+    @foreach (System.Data.DataRow item in dt.Rows)
+    {
+        <tr>
+            @for (int i = 0; i < colCount; i++)
+            {
+                <td>@item[i]</td>
+            }
+        </tr>
+    }
+</table>
+}
+

@@ -1,0 +1,88 @@
+﻿@model IEnumerable<EpicCrmWebApi.TerminateAgreementRequestModel>
+@{
+    int rowCount = Model.Count();
+    string displayString = $"{rowCount} rows displayed.";
+
+    FeatureData featureSet = ViewBag.FeatureSet as FeatureData;
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr id="dataTableHeader">
+        <td colspan="2" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="12">@displayString</td>
+    </tr>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.EmployeeCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+        <th>@Html.DisplayNameFor(model => model.HQCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EntityName)</th>
+
+        <th>@Html.DisplayNameFor(model => model.AgreementNumber)</th>
+        <th>@Html.DisplayNameFor(model => model.AgreementStatus)</th>
+
+        <th>@Html.DisplayNameFor(model => model.Crop)</th>
+       
+        <th>@Html.DisplayNameFor(model => model.SeasonName)</th>
+        <th>@Html.DisplayNameFor(model => model.RequestDate)</th>
+        <th>@Html.DisplayNameFor(model => model.RedFarmerReqReason)</th>
+        <th>@Html.DisplayNameFor(model => model.RedFarmerReqStatus)</th>
+        <th>@Html.DisplayNameFor(model => model.ReviewedBy)</th>
+        <th>@Html.DisplayNameFor(model => model.ReviewDate)</th>
+        <th>Activity Detail</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.EmployeeCode)</td>
+        <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+        <td>@Html.DisplayFor(modelItem => item.HQCode)</td>
+        <td>@Html.DisplayFor(modelItem => item.EntityName)</td>
+
+        <td>
+            @if (item.IsApproved || featureSet.IsReadOnlyUser)
+            {
+                @Html.DisplayFor(modelItem => item.AgreementNumber)
+            }
+            else
+            {
+                <a href="/dashboard/ApproveTerminateAgreementRequest?Id=@item.Id" 
+                   title="Terminate Farmer (@item.EntityName)" class="editInPopup">
+                        @Html.DisplayFor(modelItem => item.AgreementNumber)
+                </a>
+            }
+        </td>
+        <td>@Html.DisplayFor(modelItem => item.AgreementStatus)</td>
+
+        <td>@Html.DisplayFor(modelItem => item.Crop)</td>
+
+
+        <td>@Html.DisplayFor(modelItem => item.SeasonName)</td>
+
+        <td>@Html.DisplayFor(modelItem => item.RequestDate, "DateTimeDate")</td>
+        <td>@Html.DisplayFor(modelItem => item.RedFarmerReqReason)</td>
+        <td>@Html.DisplayFor(modelItem => item.RedFarmerReqStatus)</td>
+
+        <td>@Html.DisplayFor(modelItem => item.ReviewedBy)</td>
+        @if (item.IsReviewed == false)
+        {
+            <td>&nbsp;</td>
+        }
+        else
+        {
+            <td>@Html.DisplayFor(modelItem => item.ReviewDate)</td>
+        }
+
+        @if (item.ActivityId > 0)
+        {
+            <td>@Html.ActionLink("Detail", "ActivityOne", new { activityId = item.ActivityId }, new { @class = "c_activityLink", target = "_new" })</td>
+        }
+        else
+        {
+            <td>&nbsp;</td>
+        }
+    </tr>
+       
+    }
+</table>
+

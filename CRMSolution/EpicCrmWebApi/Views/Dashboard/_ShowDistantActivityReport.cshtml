@@ -1,0 +1,95 @@
+﻿@model IEnumerable<EpicCrmWebApi.DistantActivityReportModel>
+
+@{
+    string displayString = $"{Model.Count()} rows displayed.";
+    IEnumerable<DomainEntities.Entity> entities = ViewBag.Entities as IEnumerable<DomainEntities.Entity>;
+
+    string uniqueIdType = entities.FirstOrDefault()?.UniqueIdType ?? "Aadhar";
+}
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr id="dataTableHeader">
+        <td colspan="2" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="9">@displayString </td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StaffCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>Client Name</th>
+        <th>@uniqueIdType</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityDate)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.RadiusValue)
+        </th>
+
+        <th>Entity At Location?</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityAtLocation)
+        </th>
+
+        <th>Activity Location</th>
+        <th>Entity Location</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var entity = entities.Where(x => x.Id == item.EntityId).FirstOrDefault();
+        string activityLocation = $"{item.ActivityLatitude}, {item.ActivityLongitude}";
+        string entityLocation = $"{entity?.Latitude ?? 0}, {entity?.Longitude ?? 0}";
+        string entityName = entity?.EntityName ?? "";
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StaffCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => entityName)
+        </td>
+        <td>
+            @entity.UniqueId
+        </td>
+        <td>
+            @if (item.ActivityId > 0)
+            {
+                @Html.ActionLink(item.ActivityType, "ActivityOne", new { activityId = item.ActivityId }, new { @class = "c_activityLink", target = "_new" })
+            }
+            else
+            {
+                @Html.DisplayFor(model => item.ActivityType)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.ActivityDate, "DateTimeDate")
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.RadiusValue)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => entity.AtBusiness)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityAtLocation)
+        </td>
+        <td>
+            @activityLocation
+        </td>
+        <td>
+            @entityLocation
+        </td>
+    </tr>
+    }
+</table>
+

@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ModelExpense>
+
+@{
+    decimal total = (Model != null) ? Model.Sum(s => s.TotalAmount) : 0;
+    int itemCount = (Model != null) ? Model.Count() : 0;
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr id="dataTableHeader">
+        <td colspan="2" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="5" style="text-align:right;"><strong>Total @itemCount Expense:</strong></td>
+        <td style="text-align:right;"><strong>@total.ToString("##,##,##,##0.00")</strong></td>
+    </tr>
+
+    <tr>
+        <th hidden>Id</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsZoneApproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAreaApproved)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsTerritoryApproved)
+        </th>
+        <th style="text-align:right;">
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        decimal zoneApprovedAmount = item.Approvals?.FirstOrDefault(x => x.ApproveLevel == DomainEntities.SalesPersonLevel.Zone.ToString())?.ApproveAmount ?? 0M;
+        decimal areaApprovedAmount = item.Approvals?.FirstOrDefault(x => x.ApproveLevel == DomainEntities.SalesPersonLevel.Area.ToString())?.ApproveAmount ?? 0M;
+        decimal territoryApprovedAmount = item.Approvals?.FirstOrDefault(x => x.ApproveLevel == DomainEntities.SalesPersonLevel.Territory.ToString())?.ApproveAmount ?? 0M;
+        <tr>
+            <td hidden>@item.Id</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpenseDate, "DatetimeDate")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone, "Phone")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => zoneApprovedAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => areaApprovedAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => territoryApprovedAmount)
+            </td>
+
+            <td style="text-align:right;">
+                @Html.ActionLink(item.TotalAmount.ToString(), "ShowApprovePage", new { Id = item.Id, ReportType = ViewBag.ReportType }, new { target = "_new" })
+            </td>
+        </tr>
+    }
+</table>

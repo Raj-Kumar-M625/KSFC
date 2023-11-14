@@ -1,0 +1,167 @@
+﻿@model DWSModel
+@{
+    bool IsEditAllowed = ViewBag.IsEditAllowed;
+    string caption = IsEditAllowed ? "Edit DWS" : "View DWS";
+    Model.NetGoodsWeight = Model.FilledBagsWeightKg - Model.EmptyBagsWeightKg;
+}
+
+
+@using (Html.BeginForm("EditDWS", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">@caption</span>
+
+    <h5>@Model.EntityName (HQ: @Model.HQCode) | @Model.TypeName | Agreement: @Model.Agreement </h5>
+
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.StrTagCyclicCount)
+    @Html.HiddenFor(model => model.ActivityId)
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.STRNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.STRNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.STRNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Agreement, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Agreement, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Agreement, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.DWSNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.DWSNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DWSNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.DWSDateAsText, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input data-format="dd-MM-yyyy" type="text" name="DWSDateAsText"
+                       class="form-control justDate" value="@Model.DWSDateAsText" />
+                @Html.ValidationMessageFor(model => model.DWSDateAsText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.FilledBagsWeightKg, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.FilledBagsWeightKg, new { htmlAttributes = new { @class = "form-control", @id = "idFilledBagsWeight" } })
+                @Html.ValidationMessageFor(model => model.FilledBagsWeightKg, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.EmptyBagsWeightKg, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.EmptyBagsWeightKg, new { htmlAttributes = new { @class = "form-control", @id = "idEmptyBagsWeight" } })
+                @Html.ValidationMessageFor(model => model.EmptyBagsWeightKg, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.GoodsWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.NetGoodsWeight, new { htmlAttributes = new { @class = "form-control",  @readonly = "true", @id = "idGoodsWeight" } })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.BagCount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.BagCount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BagCount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.DisplayFor(model => model.Status)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <textarea name="Comments" rows="4" cols="40" class="form-control">@Model.Comments</textarea>
+                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            @if (IsEditAllowed)
+            {
+                <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+            }
+        </div>
+    </div>
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+
+<script type="text/javascript">
+    @Html.Raw("var IsEditAllowed = '" + IsEditAllowed.ToString() + "';");
+
+    if (IsEditAllowed == 'False')
+    {
+        $("#popupForm Input").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm textarea").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm select").each(function (i, e) {
+            $(e).attr("disabled", true);
+        });
+
+        $("input.justDate").datetimepicker({ datepicker: false, timepicker: false });
+    }
+
+    function CalculateGoodsWeight()
+    {
+        var filledBagWeight = $('#idFilledBagsWeight').val();
+        var emptyBagWeight = $('#idEmptyBagsWeight').val();
+
+        var goodsWeight = filledBagWeight - emptyBagWeight;
+        $('#idGoodsWeight').val(Number(goodsWeight));
+    }
+
+    $('#idFilledBagsWeight').on('input', function (e) {
+        CalculateGoodsWeight();
+    });
+    $('#idEmptyBagsWeight').on('input', function (e) {
+        CalculateGoodsWeight();
+    });
+</script>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ErrorLogModel>
+
+@{
+    ViewBag.Title = "Error Log";
+}
+
+<h2>Error Log (@Model.Count()) [@Helper.GetCurrentIstDateTime().ToString("yyyy-MM-dd hh:mm:ss tt") IST]</h2>
+
+@if (Model.Count() > 0)
+{
+<table class="table" id="dataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.At)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LogText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Process)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.At)
+                </td>
+                <td>
+                    <span style="font-weight:bold">@Html.DisplayFor(modelItem => item.LogSnip)</span>
+                    @Html.DisplayFor(modelItem => item.LogText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Process)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(
+            function () {
+                //$("#dataTable").DataTable();
+            });
+    </script>
+}

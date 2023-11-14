@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutTestBed.cshtml";
+}
+
+<h2>EORP</h2>
+    <div>
+        <h2>Expense/Order/Return/Payment Data Test Bed</h2>
+        <form id="downloadForm" method="post" action="" enctype="application/x-www-form-urlencoded">
+            <div>
+                <label>Start Date (dd/mm/yyyy)</label>
+            </div>
+            <div>
+                <input id="StartDate" type="text" value="05/09/2017" />
+            </div>
+
+            <div>
+                <label>End Date (dd/mm/yyyy)</label>
+            </div>
+            <div>
+                <input id="EndDate" type="text" value="20/09/2017" />
+            </div>
+
+            <div>
+                <input type="Submit" value="Submit" />
+            </div>
+
+            <div>
+                <p id="completeResponse" />
+            </div>
+        </form>
+    </div>
+    <hr />
+
+
+@section scripts{
+    <script>
+
+    $(document).ready(function () {
+
+        $("#downloadForm").submit(function () {
+            ClearAllResponseFields();
+
+            $.ajax('/api/EORP/DataByDay', {
+                type: "Get",
+                contentType: "application/json",
+                dataType: "json",
+                data: CaptureSearchCriteria(),
+                success: function (data, textStatus, jqXHR)
+                {
+                    $('#completeResponse').text(JSON.stringify(data));
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured.");
+                }
+            });
+
+            return false;
+        });
+    });
+
+    function CaptureSearchCriteria() {
+        var searchCriteria = {};
+        searchCriteria.StartDate = $("#StartDate").val();
+        searchCriteria.EndDate = $("#EndDate").val();
+        //alert(JSON.stringify(searchCriteria));
+        return searchCriteria;
+    }
+
+    function ClearAllResponseFields()
+    {
+        $('#completeResponse').text('');
+    }
+    </script>
+}
+
+@section styles{
+<style type="text/css">
+    div {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+</style>
+    }

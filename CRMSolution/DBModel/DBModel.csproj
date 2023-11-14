@@ -1,0 +1,675 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{006C1C0E-2C20-4254-B9DE-AF29375540D8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DBModel</RootNamespace>
+    <AssemblyName>DBModel</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activity.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityContact.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActivityType.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdvanceRequest.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AgreementNumber.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Answer.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AnswerDetail.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppVersion.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Audit.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BankAccount.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BonusAgreementDetail.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BonusPaymentReference.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BonusRate.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CodeTable.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Comment.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Config.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Customer.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerDivisionBalance.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerQuestionnaire.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataFeedProcessLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Day.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DayPlanTarget.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistanceCalcErrorLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Division.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DW.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DWSAudit.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DWSPaymentReference.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeAchieved.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeDay.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeMonthlyTarget.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmployeeYearlyTarget.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityAgreement.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityBankDetail.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityBankDetailImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityContact.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityCrop.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityNumber.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntitySurvey.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityWorkFlow.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityWorkFlowDetail.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityWorkFlowDetailItemUsed.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EpicCrmEntities.cs" />
+    <Compile Include="EpicCrmModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EpicCrmModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EpicCrmModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EpicCrmModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EpicCrmModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ErrorLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelUploadError.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelUploadHistory.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelUploadStatu.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExecAppImei.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Expense.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseApproval.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseItem.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseItemImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FeatureControl.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GeoLocation.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCustomerDivisionBalance_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetEntityWorkFlow_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetEntityWorkFlow_Result1.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetInFieldSalesPeople_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetOfficeHierarchyForAll_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetOfficeHierarchyForStaff_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetOrderForAgentSMS_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetOrderForCustomerSMS_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetSignedInEmployeeData_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetSqliteActionBatchForProcessing_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTenantSmsData_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTrackingRecordsForDistanceCalculation_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GRNNumber.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GstRate.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HolidayList.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Image.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IMEI.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IssueReturn.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemMaster.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ItemMasterTypeName.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Leave.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LeaveType.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OfficeHierarchy.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Order.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderItem.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Payment.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PPA.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Product.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductGroup.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductPrice.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Project.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectAssignment.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProjectAudit.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurgeLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionPaper.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionPaperAnswer.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionPaperQuestion.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="RequestNumber.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReturnOrder.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ReturnOrderItem.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesPerson.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SalesPersonAssociation.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SMSProcessLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_DashboardData_ResultSet.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteAction.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteActionBatch.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteActionContact.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteActionDup.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteActionImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteActionLocation.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteActionProcessLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteAdvanceRequest.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteAgreement.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteAnswer.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteAnswerDetail.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteBankDetail.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteBankDetailImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteCancelledLeave.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteDayPlanTarget.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteDeviceLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntity.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityContact.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityCrop.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityLocation.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityWorkFlow.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityWorkFlowFollowUp.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityWorkFlowItemUsed.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteEntityWorkFlowV2.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteExpense.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteExpenseImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteIssueReturn.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteLeave.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteOrder.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteOrderImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteOrderItem.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqlitePayment.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqlitePaymentImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteQuestionnaire.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteReturnOrder.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteReturnOrderItem.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteSTR.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteSTRDW.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteSTRImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteSurvey.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteTask.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteTaskAction.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SqliteTerminateAgreement.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffDailyReportData.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffDivision.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffDivisionInput.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StaffMessage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockBalance.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockInput.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockInputTag.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockLedger.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockRequest.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockRequestFulfill.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockRequestTag.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STR.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STRImage.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STRPayment.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STRTag.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="STRWeight.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TableSchema_Result.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Task.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskAction.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskAssignment.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TaskAudit.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tenant.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TenantEmployee.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TenantHoliday.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TenantSmsData.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TenantSMSLog.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TenantSMSSchedule.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TenantSmsType.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TenantWorkDay.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TerminateAgreementRequest.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tracking.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Transporter.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransporterBankDetail.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransporterPaymentReference.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransportType.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vendor.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkFlowFollowUp.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkFlowSchedule.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowSeason.cs">
+      <DependentUpon>EpicCrmModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="EpicCrmModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EpicCrmModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="EpicCrmModel.edmx.diagram">
+      <DependentUpon>EpicCrmModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EpicCrmModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EpicCrmModel.Context.cs</LastGenOutput>
+      <DependentUpon>EpicCrmModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="EpicCrmModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EpicCrmModel.edmx</DependentUpon>
+      <LastGenOutput>EpicCrmModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

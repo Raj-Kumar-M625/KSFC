@@ -1,0 +1,759 @@
+﻿@model IEnumerable<DomainEntities.SqliteDomainBatch>
+
+@{
+    ViewBag.Title = "Mobile Data Batches";
+    long prevEmpId = 0;
+    string currentDateTime = String.Format("{0:yyyy-MM-dd hh:mm:ss tt}", Helper.GetCurrentIstDateTime());
+    int batchToShowForEachEmployee = ViewBag.BatchCount;
+
+    long inputEmployeeId = ViewBag.InputEmployeeId;
+
+    int batchCountForEmployee = 0;
+
+    FeatureData featureSet = ViewBag.FeatureSet as FeatureData;
+}
+
+<h4>
+    Mobile Data Batches At @currentDateTime IST | @Html.ActionLink("recent 500 batches", "ShowSqliteBatches", "SuperAdmin", new { employeeId = -1, batchCount = @batchToShowForEachEmployee, onlyLockedBatches = false, inRecentBatches=500 }, null) |
+    @Html.ActionLink("recent 5000 batches", "ShowSqliteBatches", "SuperAdmin", new { employeeId = -1, batchCount = -1, onlyLockedBatches = false, inRecentBatches = 5000 }, null) |
+    @Html.ActionLink("Unprocessed Batches", "ShowSqliteBatches", "SuperAdmin", new { employeeId = -1, batchCount = -1, onlyLockedBatches = false, onlyUnprocessedBatches = true, inRecentBatches=3000 }, null) |
+    @Html.ActionLink("Locked Batches", "ShowSqliteBatches", "SuperAdmin", new { employeeId = -1, batchCount = @batchToShowForEachEmployee, onlyLockedBatches = true, inRecentBatches=3000 }, null)
+</h4>
+
+<table data-nostripes="" class="table table-bordered table-condensed">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            Type
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchInputCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchSavedCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DuplicateItemCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AtIST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimestampIST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchProcessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockTimestampIST)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (prevEmpId != item.EmployeeId)
+        {
+            prevEmpId = item.EmployeeId;
+            batchCountForEmployee = 0;
+            <tr class="cBatchFirstRow">
+                <td colspan="9" style="font-weight:bold;">
+                    @item.EmployeeCode: @item.EmployeeName | Id: @item.EmployeeId | @Html.ActionLink("...Batches", "ShowSqliteBatches", "SuperAdmin", new { employeeId = @item.EmployeeId, batchCount = 50, onlyLockedBatches = false, inRecentBatches = 3000 }, null)
+                </td>
+            </tr>
+        }
+        batchCountForEmployee++;
+        if (batchCountForEmployee > batchToShowForEachEmployee)
+        {
+            continue;
+        }
+        <tr class="cBatchFirstRow">
+            <th>
+                @Html.DisplayFor(modelItem => item.Id)
+                @if (item.IsDataFileExist)
+                {
+                    <a href="/TestBed/PreSignedLinkFromS3?fileName=@item.DataFileName"
+                       style="margin-left:10px;"
+                       title="Download @item.DataFileSize bytes for Batch Id @item.Id">
+                        <img src="~/Content/img/Download_2.png" alt="DL">
+                    </a>
+                }
+            </th>
+            <th>Action</th>
+            <th>
+                @Html.DisplayFor(modelItem => item.BatchInputCount)
+            </th>
+            <th>
+                @if (item.BatchSavedCount == 0)
+                {
+                    @Html.DisplayFor(modelItem => item.BatchSavedCount)
+                }
+                else
+                {
+                    @Html.ActionLink(item.BatchSavedCount.ToString(), "ShowSavedActionBatchItems", new { batchId = item.Id, empName = item.EmployeeName })
+                }
+            </th>
+            <th>
+                @if (item.DuplicateItemCount == 0)
+                {
+                    @Html.DisplayFor(modelItem => item.DuplicateItemCount)
+                }
+                else
+                {
+                    @Html.ActionLink(item.DuplicateItemCount.ToString(), "ShowDupActionBatchItems", new { batchId = item.Id, empName = item.EmployeeName })
+                }
+            </th>
+            <th>
+                @Helper.ConvertUtcTimeToIst(item.At).ToString("dd-MM-yyyy hh:mm:ss tt")
+            </th>
+            <th>
+                @Helper.ConvertUtcTimeToIst(item.Timestamp).ToString("dd-MM-yyyy hh:mm:ss tt")
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.BatchProcessed)
+            </th>
+            <th>
+                @if (item.LockTimestamp.HasValue)
+                {
+                    @Helper.ConvertUtcTimeToIst(item.LockTimestamp.Value).ToString("dd-MM-yyyy hh:mm:ss tt")
+                }
+            </th>
+        </tr>
+
+        if (featureSet.ExpenseFeature && (item.ExpenseLineInputCount > 0 || item.ExpenseLineSavedCount > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Expense</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.ExpenseLineInputCount)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.ExpenseLineSavedCount == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.ExpenseLineSavedCount)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.ExpenseLineSavedCount.ToString(), "ShowSavedExpenseItems", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.DuplicateExpenseCount)
+                </td>
+                <td style="border-top:none;">
+                    Total Exp Amount: @item.TotalExpenseAmount.ToString()
+                </td>
+                @if (item.ExpenseDate.HasValue)
+                {
+                    <td style="border-top:none;">
+                        Expense Date: @String.Format("{0:dd-MM-yyyy}", item.ExpenseDate.Value)
+                    </td>
+                }
+                else
+                {
+                    <td style="border-top:none;">&nbsp;</td>
+                }
+
+                <td style="border-top:none;" colspan="2">
+                    Expense Id: @item.ExpenseId
+                </td>
+            </tr>
+        }
+
+        if (featureSet.OrderFeature && (item.NumberOfOrders > 0 || item.NumberOfOrdersSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Orders</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfOrders)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfOrdersSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfOrdersSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfOrdersSaved.ToString(), "ShowSavedOrders", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.DuplicateOrderCount)
+                </td>
+                <td style="border-top:none;" colspan="2">
+                    All Orders Total Amount: @item.TotalOrderAmount.ToString()
+                </td>
+
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.PaymentFeature && (item.NumberOfPayments > 0 || item.NumberOfPaymentsSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Payments</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfPayments)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfPaymentsSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfPaymentsSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfPaymentsSaved.ToString(), "ShowSavedPayments", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.DuplicatePaymentCount)
+                </td>
+                <td style="border-top:none;" colspan="2">
+                    All Payments Total Amount: @item.TotalPaymentAmount.ToString()
+                </td>
+
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.OrderReturnFeature && (item.NumberOfReturns > 0 || item.NumberOfReturnsSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Returns</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfReturns)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfReturnsSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfReturnsSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfReturnsSaved.ToString(), "ShowSavedReturns", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.DuplicateReturnCount)
+                </td>
+                <td style="border-top:none;" colspan="2">
+                    All Returns Total Amount: @item.TotalReturnAmount.ToString()
+                </td>
+
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if ((item.NumberOfEntities > 0 || item.NumberOfEntitiesSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Entities</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfEntities)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfEntitiesSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfEntitiesSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfEntitiesSaved.ToString(), "ShowSavedEntities", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.DuplicateEntityCount)
+                </td>
+                <td style="border-top:none;" colspan="2"></td>
+
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.LeaveFeature && (item.NumberOfLeaves > 0 || item.NumberOfLeavesSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Leaves</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfLeaves)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfLeavesSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfLeavesSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfLeavesSaved.ToString(), "ShowSavedLeaves", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                </td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.LeaveFeature && (item.NumberOfCancelledLeaves > 0 || item.NumberOfCancelledLeavesSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>   
+                <td style="border-top:none;">Cancelled Leaves</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfCancelledLeaves)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfCancelledLeavesSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfCancelledLeavesSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfCancelledLeavesSaved.ToString(), "ShowSavedCancelledLeaves", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                </td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.Agreements > 0 || item.AgreementsSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Agreements</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.Agreements)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.AgreementsSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.AgreementsSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.AgreementsSaved.ToString(), "ShowSavedAgreements", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.Surveys > 0 || item.SurveysSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Surveys</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.Surveys)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.SurveysSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.SurveysSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.SurveysSaved.ToString(), "ShowSavedSurveys", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.IssueReturnFeature && (item.NumberOfIssueReturns > 0 || item.NumberOfIssueReturnsSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Issues / Returns</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfIssueReturns)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfIssueReturnsSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfIssueReturnsSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfIssueReturnsSaved.ToString(), "ShowSavedIssueReturns", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.AdvanceRequestModule && (item.AdvanceRequests > 0 || item.AdvanceRequestsSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Advance Request</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.AdvanceRequests)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.AdvanceRequestsSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.AdvanceRequestsSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.AdvanceRequestsSaved.ToString(), "ShowSavedAdvanceRequests", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.RedFarmerModule && (item.TerminateRequests > 0 || item.TerminateRequestsSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Red Farmer</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.TerminateRequests)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.TerminateRequestsSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.TerminateRequestsSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.TerminateRequestsSaved.ToString(), "ShowSavedTerminateRequests", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (featureSet.WorkFlowFeature && (item.NumberOfWorkFlow > 0 || item.NumberOfWorkFlowSaved > 0))
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Work Flow Data</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfWorkFlow)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.NumberOfWorkFlowSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.NumberOfWorkFlowSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.NumberOfWorkFlowSaved.ToString(), "ShowSavedWorkFlowData", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.BankDetails > 0 || item.BankDetailsSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Bank Details</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.BankDetails)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.BankDetailsSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.BankDetailsSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.BankDetailsSaved.ToString(), "ShowSavedBankDetails", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.STRCount > 0 || item.STRSavedCount > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">STR</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.STRCount)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.STRSavedCount == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.STRSavedCount)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.STRSavedCount.ToString(), "ShowSavedSTRData", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.DayPlanTarget > 0 || item.DayPlanTargetSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Day Plan</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.DayPlanTarget)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.DayPlanTargetSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.DayPlanTargetSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.DayPlanTargetSaved.ToString(), "ShowSavedDayPlanTarget", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        // Author: Rajesh; Date: 13-07-2021; Purpose: Display Questionnaire Details
+        if (item.QuestionnaireTarget > 0 || item.QuestionnaireTargetSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Questionnaire</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.QuestionnaireTarget)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.QuestionnaireTargetSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.QuestionnaireTargetSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.QuestionnaireTargetSaved.ToString(), "ShowSavedQuestionnaire", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.Task > 0 || item.TaskSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">FollowUp Task</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.Task)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.TaskSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.TaskSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.TaskSaved.ToString(), "ShowSavedFollowUpTask", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.TaskAction > 0 || item.TaskActionSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">FollowUp Task Action</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.TaskAction)
+                </td>
+                <td style="border-top:none;">
+                    @if (item.TaskActionSaved == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.TaskActionSaved)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.TaskActionSaved.ToString(), "ShowSavedFollowUpTaskAction", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;"></td>
+                <td style="border-top:none;" colspan="2"></td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.DeviceLogCount > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Device Log</td>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">
+                    @if (item.DeviceLogCount == 0)
+                    {
+                        @Html.DisplayFor(modelItem => item.DeviceLogCount)
+                    }
+                    else
+                    {
+                        @Html.ActionLink(item.DeviceLogCount.ToString(), "ShowDeviceLog", new { batchId = item.Id, empName = item.EmployeeName })
+                    }
+                </td>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+
+        if (item.NumberOfImages > 0 || item.NumberOfImagesSaved > 0)
+        {
+            <tr>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;">Images</td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfImages)
+                </td>
+                <td style="border-top:none;">
+                    @Html.DisplayFor(modelItem => item.NumberOfImagesSaved)
+                </td>
+                <td style="border-top:none;">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+                <td style="border-top:none;" colspan="2">
+                    &nbsp;
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+
+@section styles
+{
+    <style type="text/css">
+        .cBatchFirstRow {
+            background-color: bisque !important;
+        }
+    </style>
+}

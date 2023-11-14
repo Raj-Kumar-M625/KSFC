@@ -1,0 +1,69 @@
+﻿@model IEnumerable<EpicCrmWebApi.ModelOrderItem>
+
+
+@using (Html.BeginForm("EditOrder", "Dashboard", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+    <span style="font-size:large;">Edit</span>
+    <hr />
+    <input type="hidden" value="@Model.First().OrderId" name="OrderId" />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SequenceNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RevisedQuantity)
+            </th>
+        </tr>
+
+        @foreach (var item in Model.OrderBy(x => x.SequenceNumber))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SequenceNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Quantity)
+                </td>
+                <td>
+                    <input type="hidden" value="@item.Id" name="ItemId" />
+                    <input class="text-box single-line form-control" name="RevisedQuantity" type="number"
+                           min="0" max="@item.Quantity"
+                           maxlength="@item.RevisedQuantity.ToString().Length"
+                           value="@item.RevisedQuantity"
+                           required />
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="5">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}

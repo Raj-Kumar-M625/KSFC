@@ -1,0 +1,213 @@
+﻿@model StockInputModel
+@{
+    string title = Model.Id <= 0 ? "Add Stock Item" : $"Edit Stock Item";
+    title = $"{title} (GRN # {Model.GRNNumber})";
+    bool isAddMode = Model.Id <= 0;
+
+    bool isEditAllowed = isAddMode || Model.IsEditAllowed;
+
+    IEnumerable<DomainEntities.CodeTableEx> itemTypes = ViewBag.ItemTypes;
+    IEnumerable<DownloadItemMaster> itemMaster = ViewBag.ItemMaster as IEnumerable<DownloadItemMaster>;
+
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+}
+
+@using (Html.BeginForm("AddEditStockInputItem", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">@title</span>
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.StockInputTagId)
+    @Html.HiddenFor(model => model.GRNNumber)
+    @Html.HiddenFor(model => model.CyclicCount)
+    @Html.HiddenFor(model => model.ParentCyclicCount)
+    @Html.HiddenFor(model => model.IsEditAllowed)
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.LineNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.LineNumber, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                @Html.ValidationMessageFor(model => model.LineNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Category, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" name="Category" onchange="ItemTypeSelectionChanged()" id="selItemType">
+                    <option value="" selected>Select</option>
+                    @foreach (var o in itemTypes.OrderBy(x => x.DisplaySequence))
+                    {
+                        if (o.Code.Equals(Model.Category, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="@o.Code" selected>@o.Code</option>
+                        }
+                        else
+                        {
+                            <option value="@o.Code">@o.Code</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.ItemCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" name="ItemMasterId" id="selItemCode">
+                    @foreach (var o in itemMaster
+                                    .Where(x => x.Category.Equals(Model.Category, StringComparison.OrdinalIgnoreCase))
+                                    .OrderBy(x => x.ItemCode))
+                    {
+                        if (o.ItemId == Model.ItemMasterId)
+                        {
+                            <option value="@o.ItemId" selected>@o.ItemCode (@o.Unit)</option>
+                        }
+                        else
+                        {
+                            <option value="@o.ItemId">@o.ItemCode (@o.Unit)</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control", autocomplete = "off", @id="idQuantity" } })
+                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control", autocomplete = "off", @id="idRate" } })
+                @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @readonly = "true", @id = "idAmount" } })
+            </div>
+        </div>
+        @if (!isAddMode)
+        {
+        <div>
+            @Html.LabelFor(model => model.DeleteMe, htmlAttributes: new { @class = "control-label col-md-2 text-danger" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.DeleteMe)
+            </div>
+        </div>
+        }
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+<script type="text/javascript">
+    @Html.Raw("var IsEditAllowed = " + isEditAllowed.ToString().ToLower() + ";");
+
+    if (IsEditAllowed == false)
+    {
+        $("#popupForm Input").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm textarea").each(function (i, e) {
+            $(e).attr("readonly", "true");
+        });
+
+        $("#popupForm select").each(function (i, e) {
+            $(e).attr("disabled", true);
+        });
+
+        $("input.justDate").datetimepicker({ datepicker: false, timepicker: false });
+    }
+</script>
+
+<script type="text/javascript">
+
+    function ItemTypeSelectionChanged() {
+        var selectedItemType = $("#selItemType").val();
+        //alert(selectedItemType);
+
+        $('#selItemCode option').remove();
+
+        var itemsAdded = 0;
+        ItemMaster.forEach(function (element) {
+            if (element.ItemType == selectedItemType) {
+                itemsAdded++;
+                var opt = new Option(element.ItemCode + " (" + element.Unit + ")", element.ItemId);
+                $('#selItemCode').append(opt);
+            }
+        });
+
+        //alert(itemsAdded);
+    }
+
+    @Html.Raw("var ItemMaster =[];")
+
+    @foreach(var oh in itemMaster)
+    {
+        sb.AppendLine("var joh = { };");
+
+        sb.AppendLine($"joh.ItemId = '{oh.ItemId}';");
+        sb.AppendLine($"joh.ItemType = '{oh.Category}';");
+        //sb.AppendLine($"joh.ItemCode = '{oh.ItemCode.Replace('\'', ' ')}';");
+        sb.AppendLine($"joh.ItemCode = '{oh.ItemCode}';");
+        //sb.AppendLine($"joh.TypeName = '{oh.TypeName}';");
+        sb.AppendLine($"joh.Unit = '{oh.Unit}';");
+
+        sb.AppendLine("ItemMaster.push(joh);");
+    }
+    @Html.Raw(sb.ToString());
+
+    //ItemTypeSelectionChanged();
+</script>
+
+<script type="text/javascript">
+    function recalculateNumbers() {
+        var qty = $("#idQuantity").val();
+        var rate = $("#idRate").val();
+
+        if (isNaN(qty) || isNaN(rate))
+        {
+            return false;
+        }
+
+        var amt = qty * rate;
+        $('#idAmount').val(amt);
+    }
+
+    $('#idQuantity').on('input', function (e) {
+        recalculateNumbers();
+    });
+
+    $('#idRate').on('input', function (e) {
+        recalculateNumbers();
+    });
+</script>
+

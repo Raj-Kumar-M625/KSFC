@@ -1,0 +1,71 @@
+﻿@model EpicCrmWebApi.DashboardReportModel
+
+@{ 
+    int numColumn = Model.ReportDays.Count;
+}
+    <table class="table table-bordered table-striped table-condensed" id="dataTable">
+        @* need this row here as javascript code for SMS check box looks for column heading in 2nd row*@
+        <tr>
+            <td colspan="3">@Model.AppUsers.Count users data displayed.</td>
+            <td colspan="@numColumn" >&nbsp;</td>
+        </tr>
+
+        <tr>
+            <th>Employee Code</th>
+            <th>Employee Name</th>
+            <th>Employee Phone</th>
+            @foreach (var d in Model.ReportDays)
+            {
+                @* Count the number of employees for whom we have data on this date*@
+                @* DashboardDataSet is for all users; whereas AppUsers is the list of users we want to show 
+                for current logged in user. Hence we want to count the user as active user only 
+                if user is in AppUsers as well
+                *@
+            int empCount = Model.DashboardDataSet.Count(x => x.Date == d.DATE && Model.AppUsers.Any(y=> y.EmployeeId == x.TenantEmployeeId));
+            if (empCount == 0)
+            {
+                <th>@d.DATE.ToString("ddd MMM dd, yyyy")</th>
+                }
+                else
+                {
+                    string linkText = d.DATE.ToString("ddd MMM dd, yyyy") + " (" + empCount.ToString() + ")";
+                    <th>
+                        @Html.ActionLink(linkText, "SignedInEmployees", "EmployeeMap", new { requestDate = d.DATE }, new { target = "_new" })
+                    </th>
+                }
+            }
+        </tr>
+
+        @foreach (var employee in Model.AppUsers)
+        {
+            <tr>
+                <td>@employee.EmployeeCode</td>             
+                <td>@employee.Name</td>
+                <td>@Html.DisplayFor(modelItem => employee.Phone, "Phone")</td>
+                @foreach (var d in Model.ReportDays)
+                {
+                    var edr = Model.DashboardDataSet.Where(x => x.TenantEmployeeId == employee.EmployeeId && x.Date == d.DATE).FirstOrDefault();
+                    if (edr == null)
+                    {
+                        <td>&nbsp;</td>
+                    }
+                    else
+                    {
+                        var displayString = $"{decimal.Round(edr.TotalDistanceInMeters / 1000, 1)} km";
+
+                        <td>
+                            @Html.ActionLink(displayString, "Tracking", new { employeeDayId = edr.EmployeeDayId }, new { @class = "c_trackingLink", target="_new" })
+
+                            @if (edr.ActivityCount > 0)
+                            {
+
+                                var linkText = $" | {edr.ActivityCount} Activity";
+                                @Html.ActionLink(linkText, "Activity", new { employeeDayId = edr.EmployeeDayId }, new { @class = "c_activityLink", target = "_new" });
+                            }
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </table>
+

@@ -1,0 +1,1564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RealmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="FarmerId" Type="int" />
+          <Property Name="RetailerId" Type="int" />
+          <Property Name="TrackingId" Type="int" Nullable="false" />
+          <Property Name="CommentId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar" MaxLength="1024" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="CreditLimit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Outstanding" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="LongOutstanding" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="District" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="Branch" Type="nvarchar" MaxLength="50" />
+          <Property Name="Pincode" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrackingId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpenseItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenseId" Type="int" Nullable="false" />
+          <Property Name="CommentId" Type="int" />
+          <Property Name="SequenceNumber" Type="int" Nullable="false" />
+          <Property Name="ExpenseTypeCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpenseItemDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenseItemId" Type="int" Nullable="false" />
+          <Property Name="TransportTypeText" Type="nvarchar" MaxLength="20" />
+          <Property Name="OdometerStart" Type="int" Nullable="false" />
+          <Property Name="OdometerEnd" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpenseItemImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenseItemId" Type="int" Nullable="false" />
+          <Property Name="ImageId" Type="int" />
+          <Property Name="SequenceNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExpenseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisplaySequence" Type="int" Nullable="false" />
+          <Property Name="ExpenseTypeCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Farmer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Pincode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ContactPhone1" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ContactPhone2" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BinaryData" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrackingId" Type="int" Nullable="false" />
+          <Property Name="CustomerCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="OrderType" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="OrderDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="CommentId" Type="int" />
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
+          <Property Name="ProductCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UnitQuantity" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentModeId" Type="int" Nullable="false" />
+          <Property Name="TrackingId" Type="int" Nullable="false" />
+          <Property Name="CommentId" Type="int" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TotalAmount" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentId" Type="int" Nullable="false" />
+          <Property Name="ImageId" Type="int" />
+          <Property Name="SequenceNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PaymentMode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mode" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupId" Type="int" Nullable="false" />
+          <Property Name="ProductCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UOM" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="BrandName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ShelfLifeInMonths" Type="int" Nullable="false" />
+          <Property Name="MRP" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="PriceType" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Retailer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StaffCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Pincode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ContactPhone1" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ContactPhone2" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SalesPerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="StaffCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tracking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrackingTypeId" Type="int" Nullable="false" />
+          <Property Name="DateTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="Longitude" Type="decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="MNC" Type="int" Nullable="false" />
+          <Property Name="MCC" Type="int" Nullable="false" />
+          <Property Name="LAC" Type="int" Nullable="false" />
+          <Property Name="CellId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrackingType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TransportType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DisplaySequence" Type="int" Nullable="false" />
+          <Property Name="TransportTypeCode" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TransportTypeText" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ReimbursementRatePerUnit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Activity__Commen__403A8C7D">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Custom__3C69FB99">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Farmer__3D5E1FD2">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="FarmerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Retail__3E52440B">
+          <End Role="Retailer" Type="Self.Retailer" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="RetailerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Tracki__3F466844">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expense__Trackin__412EB0B6">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Comme__440B1D61">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="ExpenseItem" Type="Self.ExpenseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItem">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Expen__4222D4EF">
+          <End Role="Expense" Type="Self.Expense" Multiplicity="1" />
+          <End Role="ExpenseItem" Type="Self.ExpenseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expense">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItem">
+              <PropertyRef Name="ExpenseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Expen__44FF419A">
+          <End Role="ExpenseItem" Type="Self.ExpenseItem" Multiplicity="1" />
+          <End Role="ExpenseItemDetail" Type="Self.ExpenseItemDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItemDetail">
+              <PropertyRef Name="ExpenseItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Expen__6477ECF3">
+          <End Role="ExpenseItem" Type="Self.ExpenseItem" Multiplicity="1" />
+          <End Role="ExpenseItemImage" Type="Self.ExpenseItemImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItemImage">
+              <PropertyRef Name="ExpenseItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Image__656C112C">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="ExpenseItemImage" Type="Self.ExpenseItemImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItemImage">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__TrackingI__45F365D3">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Comme__47DBAE45">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Order__46E78A0C">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Comment__4AB81AF0">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Payment__48CFD27E">
+          <End Role="PaymentMode" Type="Self.PaymentMode" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="PaymentModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Trackin__49C3F6B7">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaymentIm__Image__571DF1D5">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="PaymentImage" Type="Self.PaymentImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentImage">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaymentIm__Payme__5629CD9C">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="PaymentImage" Type="Self.PaymentImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentImage">
+              <PropertyRef Name="PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__GroupId__4D94879B">
+          <End Role="ProductGroup" Type="Self.ProductGroup" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductPr__Produ__4E88ABD4">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductPrice" Type="Self.ProductPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductPrice">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tracking__Tracki__4F7CD00D">
+          <End Role="TrackingType" Type="Self.TrackingType" Multiplicity="1" />
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrackingType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tracking">
+              <PropertyRef Name="TrackingTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RealmModelStoreContainer">
+          <EntitySet Name="Activity" EntityType="Self.Activity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseItem" EntityType="Self.ExpenseItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseItemDetail" EntityType="Self.ExpenseItemDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseItemImage" EntityType="Self.ExpenseItemImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseType" EntityType="Self.ExpenseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Farmer" EntityType="Self.Farmer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderItem" EntityType="Self.OrderItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentImage" EntityType="Self.PaymentImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMode" EntityType="Self.PaymentMode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductGroup" EntityType="Self.ProductGroup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductPrice" EntityType="Self.ProductPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Retailer" EntityType="Self.Retailer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesPerson" EntityType="Self.SalesPerson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tracking" EntityType="Self.Tracking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackingType" EntityType="Self.TrackingType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransportType" EntityType="Self.TransportType" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Activity__Commen__403A8C7D" Association="Self.FK__Activity__Commen__403A8C7D">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Custom__3C69FB99" Association="Self.FK__Activity__Custom__3C69FB99">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Farmer__3D5E1FD2" Association="Self.FK__Activity__Farmer__3D5E1FD2">
+            <End Role="Farmer" EntitySet="Farmer" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Retail__3E52440B" Association="Self.FK__Activity__Retail__3E52440B">
+            <End Role="Retailer" EntitySet="Retailer" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Tracki__3F466844" Association="Self.FK__Activity__Tracki__3F466844">
+            <End Role="Tracking" EntitySet="Tracking" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expense__Trackin__412EB0B6" Association="Self.FK__Expense__Trackin__412EB0B6">
+            <End Role="Tracking" EntitySet="Tracking" />
+            <End Role="Expense" EntitySet="Expense" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Comme__440B1D61" Association="Self.FK__ExpenseIt__Comme__440B1D61">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="ExpenseItem" EntitySet="ExpenseItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Expen__4222D4EF" Association="Self.FK__ExpenseIt__Expen__4222D4EF">
+            <End Role="Expense" EntitySet="Expense" />
+            <End Role="ExpenseItem" EntitySet="ExpenseItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Expen__44FF419A" Association="Self.FK__ExpenseIt__Expen__44FF419A">
+            <End Role="ExpenseItem" EntitySet="ExpenseItem" />
+            <End Role="ExpenseItemDetail" EntitySet="ExpenseItemDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Expen__6477ECF3" Association="Self.FK__ExpenseIt__Expen__6477ECF3">
+            <End Role="ExpenseItem" EntitySet="ExpenseItem" />
+            <End Role="ExpenseItemImage" EntitySet="ExpenseItemImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Image__656C112C" Association="Self.FK__ExpenseIt__Image__656C112C">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="ExpenseItemImage" EntitySet="ExpenseItemImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__TrackingI__45F365D3" Association="Self.FK__Order__TrackingI__45F365D3">
+            <End Role="Tracking" EntitySet="Tracking" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Comme__47DBAE45" Association="Self.FK__OrderItem__Comme__47DBAE45">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="OrderItem" EntitySet="OrderItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Order__46E78A0C" Association="Self.FK__OrderItem__Order__46E78A0C">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="OrderItem" EntitySet="OrderItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Comment__4AB81AF0" Association="Self.FK__Payment__Comment__4AB81AF0">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Payment__48CFD27E" Association="Self.FK__Payment__Payment__48CFD27E">
+            <End Role="PaymentMode" EntitySet="PaymentMode" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Trackin__49C3F6B7" Association="Self.FK__Payment__Trackin__49C3F6B7">
+            <End Role="Tracking" EntitySet="Tracking" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentIm__Image__571DF1D5" Association="Self.FK__PaymentIm__Image__571DF1D5">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="PaymentImage" EntitySet="PaymentImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentIm__Payme__5629CD9C" Association="Self.FK__PaymentIm__Payme__5629CD9C">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="PaymentImage" EntitySet="PaymentImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__GroupId__4D94879B" Association="Self.FK__Product__GroupId__4D94879B">
+            <End Role="ProductGroup" EntitySet="ProductGroup" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductPr__Produ__4E88ABD4" Association="Self.FK__ProductPr__Produ__4E88ABD4">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductPrice" EntitySet="ProductPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tracking__Tracki__4F7CD00D" Association="Self.FK__Tracking__Tracki__4F7CD00D">
+            <End Role="TrackingType" EntitySet="TrackingType" />
+            <End Role="Tracking" EntitySet="Tracking" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RealmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Activity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="FarmerId" Type="Int32" />
+          <Property Name="RetailerId" Type="Int32" />
+          <Property Name="TrackingId" Type="Int32" Nullable="false" />
+          <Property Name="CommentId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK__Activity__Commen__403A8C7D" FromRole="Activity" ToRole="Comment" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Activity__Custom__3C69FB99" FromRole="Activity" ToRole="Customer" />
+          <NavigationProperty Name="Farmer" Relationship="Self.FK__Activity__Farmer__3D5E1FD2" FromRole="Activity" ToRole="Farmer" />
+          <NavigationProperty Name="Retailer" Relationship="Self.FK__Activity__Retail__3E52440B" FromRole="Activity" ToRole="Retailer" />
+          <NavigationProperty Name="Tracking" Relationship="Self.FK__Activity__Tracki__3F466844" FromRole="Activity" ToRole="Tracking" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Activities" Relationship="Self.FK__Activity__Commen__403A8C7D" FromRole="Comment" ToRole="Activity" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItem__Comme__47DBAE45" FromRole="Comment" ToRole="OrderItem" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK__Payment__Comment__4AB81AF0" FromRole="Comment" ToRole="Payment" />
+          <NavigationProperty Name="ExpenseItems" Relationship="RealmModel.FK__ExpenseIt__Comme__440B1D61" FromRole="Comment" ToRole="ExpenseItem" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustomerCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreditLimit" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Outstanding" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="LongOutstanding" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="District" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Branch" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pincode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Activities" Relationship="Self.FK__Activity__Custom__3C69FB99" FromRole="Customer" ToRole="Activity" />
+        </EntityType>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrackingId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Tracking" Relationship="Self.FK__Expense__Trackin__412EB0B6" FromRole="Expense" ToRole="Tracking" />
+          <NavigationProperty Name="ExpenseItems" Relationship="RealmModel.FK__ExpenseIt__Expen__4222D4EF" FromRole="Expense" ToRole="ExpenseItem" />
+        </EntityType>
+        <EntityType Name="ExpenseType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisplaySequence" Type="Int32" Nullable="false" />
+          <Property Name="ExpenseTypeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Farmer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pincode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactPhone1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactPhone2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Activities" Relationship="Self.FK__Activity__Farmer__3D5E1FD2" FromRole="Farmer" ToRole="Activity" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BinaryData" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ExpenseItemImages" Relationship="RealmModel.FK__ExpenseIt__Image__656C112C" FromRole="Image" ToRole="ExpenseItemImage" />
+          <NavigationProperty Name="PaymentImages" Relationship="RealmModel.FK__PaymentIm__Image__571DF1D5" FromRole="Image" ToRole="PaymentImage" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrackingId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Tracking" Relationship="Self.FK__Order__TrackingI__45F365D3" FromRole="Order" ToRole="Tracking" />
+          <NavigationProperty Name="OrderItems" Relationship="Self.FK__OrderItem__Order__46E78A0C" FromRole="Order" ToRole="OrderItem" />
+        </EntityType>
+        <EntityType Name="OrderItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="CommentId" Type="Int32" />
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
+          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UnitQuantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK__OrderItem__Comme__47DBAE45" FromRole="OrderItem" ToRole="Comment" />
+          <NavigationProperty Name="Order" Relationship="Self.FK__OrderItem__Order__46E78A0C" FromRole="OrderItem" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentModeId" Type="Int32" Nullable="false" />
+          <Property Name="TrackingId" Type="Int32" Nullable="false" />
+          <Property Name="CommentId" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalAmount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Comment" Relationship="Self.FK__Payment__Comment__4AB81AF0" FromRole="Payment" ToRole="Comment" />
+          <NavigationProperty Name="PaymentMode" Relationship="Self.FK__Payment__Payment__48CFD27E" FromRole="Payment" ToRole="PaymentMode" />
+          <NavigationProperty Name="Tracking" Relationship="Self.FK__Payment__Trackin__49C3F6B7" FromRole="Payment" ToRole="Tracking" />
+          <NavigationProperty Name="PaymentImages" Relationship="RealmModel.FK__PaymentIm__Payme__5629CD9C" FromRole="Payment" ToRole="PaymentImage" />
+        </EntityType>
+        <EntityType Name="PaymentMode">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK__Payment__Payment__48CFD27E" FromRole="PaymentMode" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupId" Type="Int32" Nullable="false" />
+          <Property Name="ProductCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UOM" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="BrandName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ShelfLifeInMonths" Type="Int32" Nullable="false" />
+          <Property Name="MRP" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ProductGroup" Relationship="Self.FK__Product__GroupId__4D94879B" FromRole="Product" ToRole="ProductGroup" />
+          <NavigationProperty Name="ProductPrices" Relationship="Self.FK__ProductPr__Produ__4E88ABD4" FromRole="Product" ToRole="ProductPrice" />
+        </EntityType>
+        <EntityType Name="ProductGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__Product__GroupId__4D94879B" FromRole="ProductGroup" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ProductPrice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="PriceType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="Self.FK__ProductPr__Produ__4E88ABD4" FromRole="ProductPrice" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Retailer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StaffCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Pincode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactPhone1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContactPhone2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Activities" Relationship="Self.FK__Activity__Retail__3E52440B" FromRole="Retailer" ToRole="Activity" />
+        </EntityType>
+        <EntityType Name="SalesPerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="StaffCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tracking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrackingTypeId" Type="Int32" Nullable="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Latitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="Longitude" Type="Decimal" Precision="9" Scale="6" Nullable="false" />
+          <Property Name="MNC" Type="Int32" Nullable="false" />
+          <Property Name="MCC" Type="Int32" Nullable="false" />
+          <Property Name="LAC" Type="Int32" Nullable="false" />
+          <Property Name="CellId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Activities" Relationship="Self.FK__Activity__Tracki__3F466844" FromRole="Tracking" ToRole="Activity" />
+          <NavigationProperty Name="Expenses" Relationship="Self.FK__Expense__Trackin__412EB0B6" FromRole="Tracking" ToRole="Expense" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Order__TrackingI__45F365D3" FromRole="Tracking" ToRole="Order" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK__Payment__Trackin__49C3F6B7" FromRole="Tracking" ToRole="Payment" />
+          <NavigationProperty Name="TrackingType" Relationship="Self.FK__Tracking__Tracki__4F7CD00D" FromRole="Tracking" ToRole="TrackingType" />
+        </EntityType>
+        <EntityType Name="TrackingType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Trackings" Relationship="Self.FK__Tracking__Tracki__4F7CD00D" FromRole="TrackingType" ToRole="Tracking" />
+        </EntityType>
+        <EntityType Name="TransportType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DisplaySequence" Type="Int32" Nullable="false" />
+          <Property Name="TransportTypeCode" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TransportTypeText" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReimbursementRatePerUnit" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Activity__Commen__403A8C7D">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Custom__3C69FB99">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Farmer__3D5E1FD2">
+          <End Role="Farmer" Type="Self.Farmer" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Farmer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="FarmerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Retail__3E52440B">
+          <End Role="Retailer" Type="Self.Retailer" Multiplicity="0..1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="RetailerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Activity__Tracki__3F466844">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Comme__47DBAE45">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Comment__4AB81AF0">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expense__Trackin__412EB0B6">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Order__TrackingI__45F365D3">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__OrderItem__Order__46E78A0C">
+          <End Role="Order" Type="Self.Order" Multiplicity="1" />
+          <End Role="OrderItem" Type="Self.OrderItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderItem">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Payment__48CFD27E">
+          <End Role="PaymentMode" Type="Self.PaymentMode" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMode">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="PaymentModeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Payment__Trackin__49C3F6B7">
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tracking">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="TrackingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Product__GroupId__4D94879B">
+          <End Role="ProductGroup" Type="Self.ProductGroup" Multiplicity="1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ProductPr__Produ__4E88ABD4">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductPrice" Type="Self.ProductPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductPrice">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tracking__Tracki__4F7CD00D">
+          <End Role="TrackingType" Type="Self.TrackingType" Multiplicity="1" />
+          <End Role="Tracking" Type="Self.Tracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrackingType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tracking">
+              <PropertyRef Name="TrackingTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RealmEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Activities" EntityType="Self.Activity" />
+          <EntitySet Name="Comments" EntityType="Self.Comment" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Expenses" EntityType="Self.Expense" />
+          <EntitySet Name="ExpenseTypes" EntityType="Self.ExpenseType" />
+          <EntitySet Name="Farmers" EntityType="Self.Farmer" />
+          <EntitySet Name="Images" EntityType="Self.Image" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="OrderItems" EntityType="Self.OrderItem" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="PaymentModes" EntityType="Self.PaymentMode" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="ProductGroups" EntityType="Self.ProductGroup" />
+          <EntitySet Name="ProductPrices" EntityType="Self.ProductPrice" />
+          <EntitySet Name="Retailers" EntityType="Self.Retailer" />
+          <EntitySet Name="SalesPersons" EntityType="Self.SalesPerson" />
+          <EntitySet Name="Trackings" EntityType="Self.Tracking" />
+          <EntitySet Name="TrackingTypes" EntityType="Self.TrackingType" />
+          <EntitySet Name="TransportTypes" EntityType="Self.TransportType" />
+          <AssociationSet Name="FK__Activity__Commen__403A8C7D" Association="Self.FK__Activity__Commen__403A8C7D">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Custom__3C69FB99" Association="Self.FK__Activity__Custom__3C69FB99">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Farmer__3D5E1FD2" Association="Self.FK__Activity__Farmer__3D5E1FD2">
+            <End Role="Farmer" EntitySet="Farmers" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Retail__3E52440B" Association="Self.FK__Activity__Retail__3E52440B">
+            <End Role="Retailer" EntitySet="Retailers" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Activity__Tracki__3F466844" Association="Self.FK__Activity__Tracki__3F466844">
+            <End Role="Tracking" EntitySet="Trackings" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Comme__47DBAE45" Association="Self.FK__OrderItem__Comme__47DBAE45">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Comment__4AB81AF0" Association="Self.FK__Payment__Comment__4AB81AF0">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expense__Trackin__412EB0B6" Association="Self.FK__Expense__Trackin__412EB0B6">
+            <End Role="Tracking" EntitySet="Trackings" />
+            <End Role="Expense" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Order__TrackingI__45F365D3" Association="Self.FK__Order__TrackingI__45F365D3">
+            <End Role="Tracking" EntitySet="Trackings" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__OrderItem__Order__46E78A0C" Association="Self.FK__OrderItem__Order__46E78A0C">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderItem" EntitySet="OrderItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Payment__48CFD27E" Association="Self.FK__Payment__Payment__48CFD27E">
+            <End Role="PaymentMode" EntitySet="PaymentModes" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Payment__Trackin__49C3F6B7" Association="Self.FK__Payment__Trackin__49C3F6B7">
+            <End Role="Tracking" EntitySet="Trackings" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Product__GroupId__4D94879B" Association="Self.FK__Product__GroupId__4D94879B">
+            <End Role="ProductGroup" EntitySet="ProductGroups" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ProductPr__Produ__4E88ABD4" Association="Self.FK__ProductPr__Produ__4E88ABD4">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ProductPrice" EntitySet="ProductPrices" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tracking__Tracki__4F7CD00D" Association="Self.FK__Tracking__Tracki__4F7CD00D">
+            <End Role="TrackingType" EntitySet="TrackingTypes" />
+            <End Role="Tracking" EntitySet="Trackings" />
+          </AssociationSet>
+          <EntitySet Name="ExpenseItems" EntityType="RealmModel.ExpenseItem" />
+          <EntitySet Name="ExpenseItemImages" EntityType="RealmModel.ExpenseItemImage" />
+          <EntitySet Name="PaymentImages" EntityType="RealmModel.PaymentImage" />
+          <AssociationSet Name="FK__ExpenseIt__Comme__440B1D61" Association="RealmModel.FK__ExpenseIt__Comme__440B1D61">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="ExpenseItem" EntitySet="ExpenseItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Expen__4222D4EF" Association="RealmModel.FK__ExpenseIt__Expen__4222D4EF">
+            <End Role="Expense" EntitySet="Expenses" />
+            <End Role="ExpenseItem" EntitySet="ExpenseItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Expen__6477ECF3" Association="RealmModel.FK__ExpenseIt__Expen__6477ECF3">
+            <End Role="ExpenseItem" EntitySet="ExpenseItems" />
+            <End Role="ExpenseItemImage" EntitySet="ExpenseItemImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExpenseIt__Image__656C112C" Association="RealmModel.FK__ExpenseIt__Image__656C112C">
+            <End Role="Image" EntitySet="Images" />
+            <End Role="ExpenseItemImage" EntitySet="ExpenseItemImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentIm__Image__571DF1D5" Association="RealmModel.FK__PaymentIm__Image__571DF1D5">
+            <End Role="Image" EntitySet="Images" />
+            <End Role="PaymentImage" EntitySet="PaymentImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PaymentIm__Payme__5629CD9C" Association="RealmModel.FK__PaymentIm__Payme__5629CD9C">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="PaymentImage" EntitySet="PaymentImages" />
+          </AssociationSet>
+          <EntitySet Name="ExpenseItemDetails" EntityType="RealmModel.ExpenseItemDetail" />
+          <AssociationSet Name="FK__ExpenseIt__Expen__44FF419A" Association="RealmModel.FK__ExpenseIt__Expen__44FF419A">
+            <End Role="ExpenseItem" EntitySet="ExpenseItems" />
+            <End Role="ExpenseItemDetail" EntitySet="ExpenseItemDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ExpenseItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseId" Type="Int32" Nullable="false" />
+          <Property Name="CommentId" Type="Int32" />
+          <Property Name="SequenceNumber" Type="Int32" Nullable="false" />
+          <Property Name="ExpenseTypeCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <NavigationProperty Name="Comment" Relationship="RealmModel.FK__ExpenseIt__Comme__440B1D61" FromRole="ExpenseItem" ToRole="Comment" />
+          <NavigationProperty Name="Expense" Relationship="RealmModel.FK__ExpenseIt__Expen__4222D4EF" FromRole="ExpenseItem" ToRole="Expense" />
+          <NavigationProperty Name="ExpenseItemImages" Relationship="RealmModel.FK__ExpenseIt__Expen__6477ECF3" FromRole="ExpenseItem" ToRole="ExpenseItemImage" />
+          <NavigationProperty Name="ExpenseItemDetails" Relationship="RealmModel.FK__ExpenseIt__Expen__44FF419A" FromRole="ExpenseItem" ToRole="ExpenseItemDetail" />
+        </EntityType>
+        <EntityType Name="ExpenseItemImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseItemId" Type="Int32" Nullable="false" />
+          <Property Name="ImageId" Type="Int32" />
+          <Property Name="SequenceNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ExpenseItem" Relationship="RealmModel.FK__ExpenseIt__Expen__6477ECF3" FromRole="ExpenseItemImage" ToRole="ExpenseItem" />
+          <NavigationProperty Name="Image" Relationship="RealmModel.FK__ExpenseIt__Image__656C112C" FromRole="ExpenseItemImage" ToRole="Image" />
+        </EntityType>
+        <EntityType Name="PaymentImage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentId" Type="Int32" Nullable="false" />
+          <Property Name="ImageId" Type="Int32" />
+          <Property Name="SequenceNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Image" Relationship="RealmModel.FK__PaymentIm__Image__571DF1D5" FromRole="PaymentImage" ToRole="Image" />
+          <NavigationProperty Name="Payment" Relationship="RealmModel.FK__PaymentIm__Payme__5629CD9C" FromRole="PaymentImage" ToRole="Payment" />
+        </EntityType>
+        <Association Name="FK__ExpenseIt__Comme__440B1D61">
+          <End Type="RealmModel.Comment" Role="Comment" Multiplicity="0..1" />
+          <End Type="RealmModel.ExpenseItem" Role="ExpenseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItem">
+              <PropertyRef Name="CommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Expen__4222D4EF">
+          <End Type="RealmModel.Expense" Role="Expense" Multiplicity="1" />
+          <End Type="RealmModel.ExpenseItem" Role="ExpenseItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Expense">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItem">
+              <PropertyRef Name="ExpenseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Expen__6477ECF3">
+          <End Type="RealmModel.ExpenseItem" Role="ExpenseItem" Multiplicity="1" />
+          <End Type="RealmModel.ExpenseItemImage" Role="ExpenseItemImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItemImage">
+              <PropertyRef Name="ExpenseItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ExpenseIt__Image__656C112C">
+          <End Type="RealmModel.Image" Role="Image" Multiplicity="0..1" />
+          <End Type="RealmModel.ExpenseItemImage" Role="ExpenseItemImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItemImage">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaymentIm__Image__571DF1D5">
+          <End Type="RealmModel.Image" Role="Image" Multiplicity="0..1" />
+          <End Type="RealmModel.PaymentImage" Role="PaymentImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentImage">
+              <PropertyRef Name="ImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PaymentIm__Payme__5629CD9C">
+          <End Type="RealmModel.Payment" Role="Payment" Multiplicity="1" />
+          <End Type="RealmModel.PaymentImage" Role="PaymentImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PaymentImage">
+              <PropertyRef Name="PaymentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ExpenseItemDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseItemId" Type="Int32" Nullable="false" />
+          <Property Name="TransportTypeText" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="OdometerStart" Type="Int32" Nullable="false" />
+          <Property Name="OdometerEnd" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ExpenseItem" Relationship="RealmModel.FK__ExpenseIt__Expen__44FF419A" FromRole="ExpenseItemDetail" ToRole="ExpenseItem" />
+        </EntityType>
+        <Association Name="FK__ExpenseIt__Expen__44FF419A">
+          <End Type="RealmModel.ExpenseItem" Role="ExpenseItem" Multiplicity="1" />
+          <End Type="RealmModel.ExpenseItemDetail" Role="ExpenseItemDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ExpenseItemDetail">
+              <PropertyRef Name="ExpenseItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RealmModelStoreContainer" CdmEntityContainer="RealmEntities">
+          <EntitySetMapping Name="Activities">
+            <EntityTypeMapping TypeName="RealmModel.Activity">
+              <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="FarmerId" ColumnName="FarmerId" />
+                <ScalarProperty Name="RetailerId" ColumnName="RetailerId" />
+                <ScalarProperty Name="TrackingId" ColumnName="TrackingId" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="RealmModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="RealmModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CreditLimit" ColumnName="CreditLimit" />
+                <ScalarProperty Name="Outstanding" ColumnName="Outstanding" />
+                <ScalarProperty Name="LongOutstanding" ColumnName="LongOutstanding" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expenses">
+            <EntityTypeMapping TypeName="RealmModel.Expense">
+              <MappingFragment StoreEntitySet="Expense">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TrackingId" ColumnName="TrackingId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseTypes">
+            <EntityTypeMapping TypeName="RealmModel.ExpenseType">
+              <MappingFragment StoreEntitySet="ExpenseType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+                <ScalarProperty Name="ExpenseTypeCode" ColumnName="ExpenseTypeCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Farmers">
+            <EntityTypeMapping TypeName="RealmModel.Farmer">
+              <MappingFragment StoreEntitySet="Farmer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="ContactPhone1" ColumnName="ContactPhone1" />
+                <ScalarProperty Name="ContactPhone2" ColumnName="ContactPhone2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="RealmModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BinaryData" ColumnName="BinaryData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="RealmModel.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TrackingId" ColumnName="TrackingId" />
+                <ScalarProperty Name="CustomerCode" ColumnName="CustomerCode" />
+                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderItems">
+            <EntityTypeMapping TypeName="RealmModel.OrderItem">
+              <MappingFragment StoreEntitySet="OrderItem">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="UnitQuantity" ColumnName="UnitQuantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="RealmModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PaymentModeId" ColumnName="PaymentModeId" />
+                <ScalarProperty Name="TrackingId" ColumnName="TrackingId" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentModes">
+            <EntityTypeMapping TypeName="RealmModel.PaymentMode">
+              <MappingFragment StoreEntitySet="PaymentMode">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Mode" ColumnName="Mode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="RealmModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UOM" ColumnName="UOM" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="ShelfLifeInMonths" ColumnName="ShelfLifeInMonths" />
+                <ScalarProperty Name="MRP" ColumnName="MRP" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductGroups">
+            <EntityTypeMapping TypeName="RealmModel.ProductGroup">
+              <MappingFragment StoreEntitySet="ProductGroup">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductPrices">
+            <EntityTypeMapping TypeName="RealmModel.ProductPrice">
+              <MappingFragment StoreEntitySet="ProductPrice">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="PriceType" ColumnName="PriceType" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Retailers">
+            <EntityTypeMapping TypeName="RealmModel.Retailer">
+              <MappingFragment StoreEntitySet="Retailer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="ContactPhone1" ColumnName="ContactPhone1" />
+                <ScalarProperty Name="ContactPhone2" ColumnName="ContactPhone2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesPersons">
+            <EntityTypeMapping TypeName="RealmModel.SalesPerson">
+              <MappingFragment StoreEntitySet="SalesPerson">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trackings">
+            <EntityTypeMapping TypeName="RealmModel.Tracking">
+              <MappingFragment StoreEntitySet="Tracking">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TrackingTypeId" ColumnName="TrackingTypeId" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="MNC" ColumnName="MNC" />
+                <ScalarProperty Name="MCC" ColumnName="MCC" />
+                <ScalarProperty Name="LAC" ColumnName="LAC" />
+                <ScalarProperty Name="CellId" ColumnName="CellId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackingTypes">
+            <EntityTypeMapping TypeName="RealmModel.TrackingType">
+              <MappingFragment StoreEntitySet="TrackingType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransportTypes">
+            <EntityTypeMapping TypeName="RealmModel.TransportType">
+              <MappingFragment StoreEntitySet="TransportType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DisplaySequence" ColumnName="DisplaySequence" />
+                <ScalarProperty Name="TransportTypeCode" ColumnName="TransportTypeCode" />
+                <ScalarProperty Name="TransportTypeText" ColumnName="TransportTypeText" />
+                <ScalarProperty Name="ReimbursementRatePerUnit" ColumnName="ReimbursementRatePerUnit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseItems">
+            <EntityTypeMapping TypeName="RealmModel.ExpenseItem">
+              <MappingFragment StoreEntitySet="ExpenseItem">
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ExpenseTypeCode" ColumnName="ExpenseTypeCode" />
+                <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
+                <ScalarProperty Name="CommentId" ColumnName="CommentId" />
+                <ScalarProperty Name="ExpenseId" ColumnName="ExpenseId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseItemImages">
+            <EntityTypeMapping TypeName="RealmModel.ExpenseItemImage">
+              <MappingFragment StoreEntitySet="ExpenseItemImage">
+                <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="ExpenseItemId" ColumnName="ExpenseItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentImages">
+            <EntityTypeMapping TypeName="RealmModel.PaymentImage">
+              <MappingFragment StoreEntitySet="PaymentImage">
+                <ScalarProperty Name="SequenceNumber" ColumnName="SequenceNumber" />
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseItemDetails">
+            <EntityTypeMapping TypeName="RealmModel.ExpenseItemDetail">
+              <MappingFragment StoreEntitySet="ExpenseItemDetail">
+                <ScalarProperty Name="OdometerEnd" ColumnName="OdometerEnd" />
+                <ScalarProperty Name="OdometerStart" ColumnName="OdometerStart" />
+                <ScalarProperty Name="TransportTypeText" ColumnName="TransportTypeText" />
+                <ScalarProperty Name="ExpenseItemId" ColumnName="ExpenseItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

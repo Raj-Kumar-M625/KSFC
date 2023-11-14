@@ -1,0 +1,109 @@
+﻿/* somehow the statements in this file give error during project build
+  hence commenting it; but otherwise this script is valid for the date
+  */
+--insert into dbo.CodeTable
+--(CodeType, CodeValue, CodeName, DisplaySequence, IsActive)
+--values
+----Leave Type
+--('LeaveType','Earned Leave','Earned Leave',10,1),
+--('LeaveType','Casual Leave','Casual Leave',20,1),
+--('LeaveType','Comp. Off Leave','Comp. Off Leave',30,1),
+
+---- Crop Type
+--('CropType', 'Apple', 'Apple', 10, 1),
+--('CropType', 'Aqua Culture', 'Aqua Culture', 20, 1),
+--('CropType', 'Arecanut', 'Arecanut', 30, 1),
+--('CropType', 'Betelwine', 'Betelwine', 40, 1),
+--('CropType', 'Cardamom', 'Cardamom', 50, 1),
+--('CropType', 'Cashew', 'Cashew', 60, 1),
+--('CropType', 'Cereals/Millets', 'Cereals/Millets', 70,1),
+--('CropType', 'Chillies', 'Chillies', 80, 1),
+--('CropType', 'Cinnamon', 'Cinnamon', 90, 1),
+--('CropType', 'Citrus', 'Citrus', 100, 1),
+--('CropType', 'Clove', 'Clove', 110, 1),
+--('CropType', 'Coconut', 'Coconut', 120, 1),
+--('CropType', 'Coffee', 'Coffee', 130, 1),
+--('CropType', 'Cotton', 'Cotton', 140, 1),
+--('CropType', 'Floriculture', 'Floriculture', 150, 1),
+--('CropType', 'Ginger', 'Ginger', 160, 1),
+--('CropType', 'Grams', 'Grams', 170, 1),
+--('CropType', 'Grapes', 'Grapes', 180, 1),
+--('CropType', 'Groundnut', 'Groundnut', 190, 1),
+--('CropType', 'Guava', 'Guava', 200, 1),
+--('CropType', 'Jute', 'Jute', 210, 1),
+--('CropType', 'Litchi', 'Litchi', 220, 1),
+--('CropType', 'Maize', 'Maize', 230, 1),
+--('CropType', 'Mango', 'Mango', 240, 1),
+--('CropType', 'Melons', 'Melons', 250, 1),
+--('CropType', 'Mustard', 'Mustard', 260, 1),
+--('CropType', 'Other', 'Other', 270, 1),
+--('CropType', 'Paddy', 'Paddy', 280, 1),
+--('CropType', 'Papaya', 'Papaya', 290, 1),
+--('CropType', 'Pea', 'Pea', 300, 1),
+--('CropType', 'Pepper', 'Pepper', 310, 1),
+--('CropType', 'Pomegranate', 'Pomegranate', 320, 1),
+--('CropType', 'Potato', 'Potato', 330, 1),
+--('CropType', 'Pulses', 'Pulses', 340, 1),
+--('CropType', 'Rubber', 'Rubber', 350, 1),
+--('CropType', 'Soyabean', 'Soyabean', 360, 1),
+--('CropType', 'Sugarcane', 'Sugarcane', 370, 1),
+--('CropType', 'Tea', 'Tea', 380, 1),
+--('CropType', 'Tobacco', 'Tobacco', 390, 1),
+--('CropType', 'Turmeric', 'Turmeric', 400, 1),
+--('CropType', 'Vegetables', 'Vegetables', 410, 1),
+--('CropType', 'Wheat', 'Wheat', 420, 1)
+--go
+
+--insert into dbo.CodeTable
+--(CodeType, CodeValue, CodeName, DisplaySequence, IsActive)
+--values
+--('StateCode', 'Haryana', 'Haryana', 10, 1),
+--('StateCode', 'Punjab', 'Punjab', 10, 1),
+--('StateCode', 'Bihar', 'Bihar', 10, 1),
+--('StateCode', 'Karnataka', 'Karnataka', 10, 1)
+--go
+
+--delete from dbo.CodeTable where CodeType = 'StateCode'
+--go
+--insert into dbo.CodeTable
+--(CodeType, CodeValue, CodeName, DisplaySequence, IsActive)
+--values
+
+--('StateCode', 'Andra Pradesh', 'Andra Pradesh', 10, 1),
+--('StateCode', 'Arunachal Pradesh', 'Arunachal Pradesh', 20, 1),
+--('StateCode', 'Assam', 'Assam', 30, 1),
+--('StateCode', 'Bihar', 'Bihar', 40, 1),
+--('StateCode', 'Chhattisgarh', 'Chhattisgarh', 50, 1),
+--('StateCode', 'Goa', 'Goa', 60, 1),
+--('StateCode', 'Gujarat', 'Gujarat', 70, 1),
+--('StateCode', 'Haryana','Haryana', 80, 1),
+--('StateCode', 'Himachal Pradesh','Himachal Pradesh', 90, 1),
+--('StateCode', 'Jammu and Kashmir','Jammu and Kashmir', 100, 1),
+--('StateCode', 'Jharkhand','Jharkhand', 110, 1),
+--('StateCode', 'Karnataka','Karnataka', 120, 1),
+--('StateCode', 'Kerala','Kerala', 130, 1),
+--('StateCode', 'Madya Pradesh','Madya Pradesh', 140, 1),
+--('StateCode', 'Maharashtra','Maharashtra', 150, 1),
+--('StateCode', 'Manipur','Manipur', 160, 1),
+--('StateCode', 'Meghalaya','Meghalaya', 170, 1),
+--('StateCode', 'Mizoram','Mizoram', 180, 1),
+--('StateCode', 'Nagaland','Nagaland', 190, 1),
+--('StateCode', 'Orissa','Orissa', 200, 1),
+--('StateCode', 'Punjab','Punjab', 210, 1),
+--('StateCode', 'Rajasthan','Rajasthan', 220, 1),
+--('StateCode', 'Sikkim','Sikkim', 230, 1),
+--('StateCode', 'Tamil Nadu','Tamil Nadu', 240, 1),
+--('StateCode', 'Telagana','Telagana', 250, 1),
+--('StateCode', 'Tripura','Tripura', 260, 1),
+--('StateCode', 'Uttaranchal','Uttaranchal', 270, 1),
+--('StateCode', 'Uttar Pradesh','Uttar Pradesh', 280, 1),
+--('StateCode', 'West Bengal','West Bengal', 290, 1),
+--('StateCode', 'Andaman and Nicobar Islands','Andaman and Nicobar Islands', 300, 1),
+--('StateCode', 'Chandigarh','Chandigarh', 310, 1),
+--('StateCode', 'Dadar and Nagar Haveli','Dadar and Nagar Haveli', 320, 1),
+--('StateCode', 'Daman and Diu','Daman and Diu', 330, 1),
+--('StateCode', 'Delhi','Delhi', 340, 1),
+--('StateCode', 'Lakshadeep','Lakshadeep', 350, 1),
+--('StateCode', 'Pondicherry','Pondicherry', 360, 1)
+
+go

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<EpicCrmWebApi.StockRequestModel>
+@{
+    int itemCount = Model.Count();
+    string displayString = $"{itemCount} rows displayed.";
+
+    long stockRequestTagId = ViewBag.StockRequestTagId;
+    string reqNumber = ViewBag.RequestNumber as String;
+    bool IsEditAllowed = ViewBag.IsEditAllowed;
+
+    var rowId = ViewBag.RowId as String;
+    var parentRowId = ViewBag.ParentRowId as String;
+}
+
+<h3>
+    <a href="" title="Refresh Items for Req # @reqNumber" onclick="refreshItemList('@parentRowId', '@rowId', '@stockRequestTagId');return false;">
+        <img height="25" width="25" src="~/Content/img/refresh.png" /></a>&nbsp;Line Items (@Model.Count())
+    @if (IsEditAllowed)
+    {
+    <a href="/admin/AddEditStockRequestItem?stockRequestTagId=@stockRequestTagId&stockRequestId=0" title="Add New Item" class="addInPopup">
+        <img height="15" width="15" src="~/Content/img/Add.png" />
+    </a>
+    }
+    </h3>
+
+@if (Model.Count() > 0)
+{
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th style="column-width:50px;">
+            <a href="" onclick="closeArea('@parentRowId', '@rowId');return false;" title="Close">
+                <img height="15" width="15" src="~/Content/img/Close.png" />
+            </a>
+        </th>
+      
+        <th>@Html.DisplayNameFor(model => model.Category)</th>
+
+        <th>@Html.DisplayNameFor(model => model.ItemDesc)</th>
+        <th>@Html.DisplayNameFor(model => model.Unit)</th>
+        <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+        <th>@Html.DisplayNameFor(model => model.Status)</th>
+        <th>@Html.DisplayNameFor(model => model.QuantityIssued)</th>
+        <th>@Html.DisplayNameFor(model => model.IssueDate)</th>
+        <th>@Html.DisplayNameFor(model => model.ReviewNotes)</th>
+        <th>@Html.DisplayNameFor(model => model.UpdatedBy)</th>
+        <th>@Html.DisplayNameFor(model => model.DateUpdated)</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (IsEditAllowed)
+                {
+                <a href="/admin/AddEditStockRequestItem?stockRequestTagId=@stockRequestTagId&stockRequestId=@item.Id" title="Edit" class="editInPopup">
+                    <img height="35" width="35" src="~/Content/img/Edit.png" />
+                </a>
+                }
+            </td>
+
+            <td>@Html.DisplayFor(modelItem => item.Category)</td>
+            <td>@Html.DisplayFor(modelItem => item.ItemCode)</td>
+            <td>@Html.DisplayFor(modelItem => item.Unit)</td>
+
+            <th>@Html.DisplayFor(modelItem => item.Quantity)</th>
+            <td>@Html.DisplayFor(modelItem => item.Status)</td>
+
+            <td>@Html.DisplayFor(modelItem => item.QuantityIssued)</td>
+            <td>@Html.DisplayFor(modelItem => item.IssueDate, "NullableDateTimeDate" )</td>
+            <td>@Html.DisplayFor(modelItem => item.ReviewNotes)</td>
+
+            @if (item.Status != DomainEntities.StockStatus.Pending.ToString())
+            {
+                <td>@Html.DisplayFor(modelItem => item.UpdatedBy)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateUpdated, "Datetime")</td>
+            }
+            else
+            {
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            }
+        </tr>
+    }
+</table>
+}

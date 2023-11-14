@@ -1,0 +1,18 @@
+﻿CREATE TABLE [dbo].[StockInput]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[StockInputTagId] BIGINT NOT NULL References dbo.[StockInputTag],
+
+	[LineNumber] INT NOT NULL,
+	[ItemMasterId] BIGINT NOT NULL REFERENCES dbo.ItemMaster,
+	[Quantity] INT NOT NULL,
+	[Rate] DECIMAL(19,2) NOT NULL,
+	[Amount] DECIMAL(19,2) NOT NULL,
+
+	[CyclicCount] BIGINT NOT NULL DEFAULT 1,
+
+	[CreatedBy] NVARCHAR(50) NOT NULL DEFAULT '',
+	[UpdatedBy] NVARCHAR(50) NOT NULL DEFAULT '',
+	[DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[DateUpdated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
+)

@@ -1,0 +1,117 @@
+﻿@model IEnumerable<EpicCrmWebApi.EntityBankDetailModel>
+
+<h3>
+    Bank Details (@Model.Count())
+    <a href="/admin/AddBankDetails?entityId=@ViewBag.EntityId" title="Add Bank Details" class="addInPopup">
+        <img height="15" width="15" src="~/Content/img/Add.png" />
+    </a>
+</h3>
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th colspan="2">&nbsp;</th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsSelfAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountHolderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountHolderPAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankIFSC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankBranch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageCount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        string guidForImage = Guid.NewGuid().ToString();
+        string imageDisplayWaitArea = Guid.NewGuid().ToString();
+        string imageDisplayArea = Guid.NewGuid().ToString();
+
+        <tr>
+            <td>
+                <a href="/admin/EditBankDetail?entityBankDetailId=@item.Id" title="Edit Bank Detail" class="editInPopup">
+                    <img height="35" width="35" src="~/Content/img/Edit.png" />
+                </a>
+            </td>
+            <td>
+                @if (item.ImageCount > 0)
+                {
+                    <a href="" title="Show Image for @item.BankAccount" onclick="displayBankDetailImage(@item.Id, @item.ImageCount, '@guidForImage', '@imageDisplayWaitArea', '@imageDisplayArea');return false;">
+                        <img height="20" width="20" src="~/Content/img/ImageSmall.png" />
+                    </a>
+                }
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.IsSelfAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountHolderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountHolderPAN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankIFSC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankBranch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageCount)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+        </tr>
+
+        <tr id="@imageDisplayWaitArea" style="display:none;">
+            <td colspan="22">
+                <span id=""><img src="~/Content/img/pleasewait.gif" /></span>
+            </td>
+        </tr>
+        <tr id="@imageDisplayArea" style="display:none;">
+            <td id="@guidForImage" colspan="22"></td>
+        </tr>
+    }
+
+</table>

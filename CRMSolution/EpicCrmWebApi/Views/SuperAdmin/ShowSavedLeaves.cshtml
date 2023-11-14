@@ -1,0 +1,93 @@
+﻿@model IEnumerable<EpicCrmWebApi.SqliteLeaveDisplayData>
+
+@{
+    ViewBag.Title = "Saved Leave Batch Items";
+    string pageTitle = String.Format("Saved Leave Batch Items [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneDbId)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaveType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaveReason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DaysCountExcludingHolidays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DaysCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsProcessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaveId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.BatchId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EmployeeId)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.PhoneDbId)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.StartDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EndDate)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LeaveType)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LeaveReason)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Comment)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DaysCountExcludingHolidays)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.DaysCount)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.IsProcessed)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.LeaveId)
+    </td>
+</tr>
+    }
+
+</table>

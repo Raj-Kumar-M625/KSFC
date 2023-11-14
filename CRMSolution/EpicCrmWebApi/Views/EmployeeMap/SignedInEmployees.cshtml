@@ -1,0 +1,31 @@
+﻿@model IEnumerable<SignedInEmployeeDataModel>
+
+@{
+    ViewBag.Title = "Signed In People";
+    var headerString = $"{Model.Count()} people in field on {ViewBag.ActivityDate.ToString("ddd MMM dd, yyyy")}";
+    var mapPoints = Model.Select(x => new MapPointModel()
+    {
+        Latitude = x.Latitude,
+        Longitude = x.Longitude,
+        Description = "<a href='/Dashboard/Activity?employeeDayId=" + x.EmployeeDayId + "'>" + x.EmployeeName + "</a>"
+    }).ToList();
+
+    string googleMapApiKey = CRMUtilities.Utils.GoogleMapApiKey;
+}
+
+<h2>@headerString</h2>
+@Html.Partial("_MapPoints", mapPoints)
+
+@section scripts{
+<script>
+        $(document).ready(
+            function () {
+                DrawMap();
+            }
+        );
+</script>
+}
+
+@section mapScripts{
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@googleMapApiKey&sensor=false"></script>
+}

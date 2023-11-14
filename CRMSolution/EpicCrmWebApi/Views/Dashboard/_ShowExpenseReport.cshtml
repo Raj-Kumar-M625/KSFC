@@ -1,0 +1,231 @@
+﻿@model ExpenseReportModel  
+
+@{ 
+    IEnumerable<ExpenseReportDataModel> reportData = Model.ExpenseReportData;
+    IEnumerable<OfficeHierarchyModel> officeHierarchy = Model.OfficeHierarchy;
+    OfficeHierarchyModel oh = null;
+}
+<table class="table table-bordered table-striped table-condensed">
+    <tr id="dataTableHeader">
+        <td colspan="1" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="37">@reportData.Count() rows displayed.</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().ExpenseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.StaffCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.StartPosition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.EndPosition)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().GetTravelPrivateOdometerReadings)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().GetTravelCompanyOdometerReadings)
+        </th>
+
+        <th>@Html.DisplayNameFor(model => model.ExpenseReportData.First().DALocalAmount)</th>
+        <th>@Html.DisplayNameFor(model => model.ExpenseReportData.First().DAOutstationAmount)</th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().Fuel.First().FuelQuantityInLiters)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().Fuel.First().Amount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().InternetAmount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().LodgeRent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().MiscellaneousAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().OwnStayAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().ParkingAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().TelephoneAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().TollTaxAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().TravelPrivate.First().Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().TravelPublic.First().TransportType)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().TravelPublic.First().Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().VehicleRepairAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.TotalExpenseAmount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.TrackingDistanceInMeters)
+        </th>
+        <th>Emp.KM</th>
+        <th>Difference</th>
+        <th>Difference %</th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.ActivityCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.TotalOrderAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseReportData.First().DailyConsolidation.TotalPaymentAmount)
+        </th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().ZoneCode)</th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().ZoneName)</th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().AreaCode)</th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().AreaName)</th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().TerritoryCode)</th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().TerritoryName)</th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().HQCode)</th>
+        <th>@Html.DisplayNameFor(model => model.OfficeHierarchy.First().HQName)</th>
+    </tr>
+
+@foreach (var item in reportData)
+{
+    oh = officeHierarchy.Where(x => x.HQCode == item.ExpenseHQCode).FirstOrDefault();
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExpenseDate, "DatetimeDate")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.StaffCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.StartPosition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.EndPosition)
+        </td>
+
+        <td>
+            @item.GetTravelPrivateOdometerReadings
+        </td>
+
+        <td>@item.GetTravelCompanyOdometerReadings</td>
+
+        <td>@Html.DisplayFor(modelItem => item.DALocalAmount)</td>
+        <td>@Html.DisplayFor(modelItem => item.DAOutstationAmount)</td>
+
+        <td>
+            @item.Fuel.Sum(x=> x.FuelQuantityInLiters).ToString("##0.00")
+        </td>
+
+        <td>
+            @item.Fuel.Sum(x=> x.Amount).ToString("###,##0.00")
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.InternetAmount)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.LodgeRent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiscellaneousAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OwnStayAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParkingAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelephoneAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TollTaxAmount)
+        </td>
+        <td>
+            @item.TravelPrivate.Sum(x=> x.Amount).ToString("###,##0.00")
+        </td>
+        <td>
+            @String.Join(",", item.TravelPublic.Select(x=> x.TransportType).ToArray())
+        </td>
+
+        <td>
+            @item.TravelPublic.Sum(x=> x.Amount).ToString("###,##0.00")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleRepairAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.TotalExpenseAmount)
+        </td>
+
+        <td>
+            @item.CalculatedTrackingDistanceInKm
+        </td>
+        <td>@item.TravelPrivateDistanceInKm</td>
+        <td>@item.DistanceDifference</td>
+        <td>@item.DistanceDifferenceInPercentage</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.ActivityCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.TotalOrderAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DailyConsolidation.TotalPaymentAmount)
+        </td>
+
+        @if (oh != null)
+        {
+            <td>@oh.ZoneCode</td>
+            <td>@oh.ZoneName</td>
+            <td>@oh.AreaCode</td>
+            <td>@oh.AreaName</td>
+            <td>@oh.TerritoryCode</td>
+            <td>@oh.TerritoryName</td>
+            <td>@oh.HQCode</td>
+            <td>@oh.HQName</td>
+        }
+        else
+        {
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        }
+    </tr>
+}
+
+</table>

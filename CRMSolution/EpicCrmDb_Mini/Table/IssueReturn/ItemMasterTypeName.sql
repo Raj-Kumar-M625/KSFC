@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[ItemMasterTypeName]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[ItemMasterId] BIGINT NOT NULL REFERENCES dbo.ItemMaster,
+	[TypeName] NVARCHAR(50) NOT NULL DEFAULT '',
+	[Rate] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[ReturnRate] DECIMAL(19,2) NOT NULL DEFAULT 0
+)

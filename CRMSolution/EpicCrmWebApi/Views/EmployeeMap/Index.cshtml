@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "Map";
+    string googleMapApiKey = CRMUtilities.Utils.GoogleMapApiKey;
+}
+
+<div id="idMapArea">
+
+</div>
+
+@section scripts{
+    <script>
+            $(document).ready(
+                function () {
+                            ShowSignedInPeopleOnMap();
+                    }
+            );
+
+            function ShowSignedInPeopleOnMap() {
+                var dt = new Date();
+                var todayDate = dt.getFullYear() + '-' + (dt.getMonth()+1) + '-' + dt.getDate() + ' ' +
+                            dt.getHours() + ':' + dt.getMinutes() + ':' + dt.getSeconds();
+                //var todayDate = new Date().toString('ddd yyyy-MM-dd hh:mm:ss tt');
+                $.ajax('/EmployeeMap/SignedInEmployeesPartial', {
+                    cache: false,
+                    type: "Get",
+                    contentType: "application/json",
+                    data: { requestDate: todayDate },
+                    success: function (data, textStatus, jqXHR) {
+                        $('#idMapArea').show();
+                        $('#idMapArea').html(data);
+                        DrawMap();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#idMapArea').hide();
+                    }
+                });
+            }
+    </script>
+}
+
+@section mapScripts{
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@googleMapApiKey&sensor=false"></script>
+}
+
+

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<DomainEntities.SmsLog>
+
+@{
+    ViewBag.Title = "Sms Log";
+}
+
+<h2>SMS Log (@Model.Count())</h2>
+@if (Model.Count() > 0)
+{
+<table class="table" id="dataTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SMSDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SmsType)
+        </th>
+        <th style="width:40%;">
+            @Html.DisplayNameFor(model => model.SMSText)
+        </th>
+        <th style="width:20%;">
+            @Html.DisplayNameFor(model => model.SmsApiResponse)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SenderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenantName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SMSDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SmsType)
+        </td>
+        <td>
+            <pre>@Html.DisplayFor(modelItem => item.SMSText)</pre>
+        </td>
+        <td>
+            <pre>@Html.DisplayFor(modelItem => item.SmsApiResponse)</pre>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SenderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenantName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+    </tr>
+}
+</table>
+}

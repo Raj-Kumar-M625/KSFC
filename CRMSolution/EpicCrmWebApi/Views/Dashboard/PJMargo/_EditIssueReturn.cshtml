@@ -1,0 +1,202 @@
+﻿@model IssueReturnModel
+@{
+    IEnumerable<DomainEntities.CodeTableEx> activityTypes = ViewBag.ActivityTypes;
+
+    IEnumerable<DomainEntities.CodeTableEx> itemTypes = ViewBag.ItemTypes;
+    IEnumerable<DomainEntities.CodeTableEx> statusValues = ViewBag.Status;
+
+    IEnumerable<DownloadItemMaster> itemMaster = ViewBag.ItemMaster as IEnumerable<DownloadItemMaster>;
+
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+    string trnDate = Model.TransactionDate.ToString("dd-MM-yyyy");
+}
+
+
+@using (Html.BeginForm("EditIssueReturn", "Dashboard", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">Edit Issue/Return</span>
+
+    <h4>@trnDate | @Model.TypeName | Agreement @Model.AgreementNumber | Slip # @Model.SlipNumber </h4>
+    <h5>@Model.EntityType: @Model.EntityName | @Model.EmployeeName (@Model.EmployeeCode) </h5>
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.TypeName)
+    @Html.HiddenFor(model => model.AgreementNumber)
+    @Html.HiddenFor(model => model.SlipNumber)
+
+    @Html.HiddenFor(model => model.EntityType)    
+    @Html.HiddenFor(model => model.EntityName)
+    @Html.HiddenFor(model => model.EmployeeName)
+    @Html.HiddenFor(model => model.EmployeeCode)
+    @Html.HiddenFor(model => model.CyclicCount)
+
+
+        <div class="form-group">
+
+            <div>
+                @Html.LabelFor(model => model.TransactionDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <input data-format="dd-MM-yyyy" type="text" name="TransactionDateAsText"
+                           class="form-control justDate" value="@Model.TransactionDateAsText" />
+                    @Html.ValidationMessageFor(model => model.TransactionDateAsText, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div>
+                @Html.LabelFor(model => model.AppliedTransactionType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <select class="form-control" id="selHq" name="AppliedTransactionType">
+                        @foreach (var o in activityTypes.OrderBy(x => x.CodeName))
+                        {
+                            if (o.Code.Equals(Model.AppliedTransactionType, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <option value="@o.Code" selected>@o.Code</option>
+                            }
+                            else
+                            {
+                                <option value="@o.Code">@o.Code</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.AppliedItemType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" name="AppliedItemType" onchange="ItemTypeSelectionChanged()" id="selItemType">
+                    @foreach (var o in itemTypes.OrderBy(x => x.DisplaySequence))
+                    {
+                        if (o.Code.Equals(Model.AppliedItemType, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="@o.Code" selected>@o.Code</option>
+                        }
+                        else
+                        {
+                            <option value="@o.Code">@o.Code</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.AppliedItemCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" name="AppliedItemMasterId" id="selItemCode">
+                    @foreach (var o in itemMaster
+                                        .Where(x=> x.Category.Equals(Model.AppliedItemType, StringComparison.OrdinalIgnoreCase))
+                                        .OrderBy(x => x.ItemCode))
+                    {
+                        if (o.ItemId == Model.AppliedItemMasterId)
+                        {
+                            <option value="@o.ItemId" selected>@o.ItemCode</option>
+                        }
+                        else
+                        {
+                            <option value="@o.ItemId">@o.ItemCode</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.AppliedQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.AppliedQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AppliedQuantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="form-control" id="selStatus" name="Status">
+                    <option value="">Select Status</option>
+                    @foreach (var o in statusValues.OrderBy(x => x.DisplaySequence))
+                    {
+                        if (o.Code.Equals(Model.Status, StringComparison.OrdinalIgnoreCase))
+                        {
+                            <option value="@o.Code" selected>@o.Code</option>
+                        }
+                        else
+                        {
+                            <option value="@o.Code">@o.Code</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comments)
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+<script type="text/javascript">
+
+    function ItemTypeSelectionChanged() {
+        var selectedItemType = $("#selItemType").val();
+        //alert(selectedItemType);
+
+        $('#selItemCode option').remove();
+
+        var itemsAdded = 0;
+        ItemMaster.forEach(function (element) {
+            if (element.ItemType == selectedItemType) {
+                itemsAdded++;
+                var opt = new Option(element.ItemCode, element.ItemId);
+                $('#selItemCode').append(opt);
+            }
+        });
+
+        //alert(itemsAdded + " items added");
+    }
+
+    @Html.Raw("var ItemMaster =[];")
+
+    @foreach(var oh in itemMaster)
+    {
+        sb.AppendLine("var joh = { };");
+
+        sb.AppendLine($"joh.ItemId = '{oh.ItemId}';");
+        sb.AppendLine($"joh.ItemType = '{oh.Category}';");
+        //sb.AppendLine($"joh.ItemCode = '{oh.ItemCode.Replace('\'', ' ')}';");
+        sb.AppendLine($"joh.ItemCode = '{oh.ItemCode}';");
+
+        sb.AppendLine("ItemMaster.push(joh);");
+    }
+    @Html.Raw(sb.ToString());
+
+</script>

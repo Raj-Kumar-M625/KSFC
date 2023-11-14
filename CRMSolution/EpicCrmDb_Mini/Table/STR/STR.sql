@@ -1,0 +1,34 @@
+﻿CREATE TABLE [dbo].[STR]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[STRTagId] BIGINT NOT NULL References dbo.[STRTag],
+	[EmployeeId] BIGINT NOT NULL References dbo.TenantEmployee,
+
+	[VehicleNumber] NVARCHAR(50) NOT NULL,
+	[DriverName] NVARCHAR(50) NOT NULL,
+	[DriverPhone] NVARCHAR(50) NOT NULL,
+	[DWSCount] BIGINT NOT NULL,
+	[BagCount] BIGINT NOT NULL,
+	[GrossWeight] DECIMAL(19,2) NOT NULL,
+	[NetWeight] DECIMAL(19,2) NOT NULL,
+	[StartOdometer] BIGINT NOT NULL,
+	[EndOdometer] BIGINT NOT NULL,
+	[IsNew] BIT NOT NULL,
+	[IsTransferred] BIT NOT NULL,
+	[TransfereeName] NVARCHAR(50) NOT NULL,
+	[TransfereePhone] NVARCHAR(50) NOT NULL,
+
+	[ImageCount] INT NOT NULL DEFAULT 0,
+	[ActivityId] BIGINT NOT NULL DEFAULT 0,
+	[ActivityId2] BIGINT NOT NULL DEFAULT 0,
+
+	[BatchId] BIGINT NOT NULL DEFAULT 0,
+	[Status] NVARCHAR(50) NOT NULL DEFAULT 'Pending',
+
+	[CreatedBy] NVARCHAR(50) NOT NULL DEFAULT '',
+	[UpdatedBy] NVARCHAR(50) NOT NULL DEFAULT '',
+	[DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[DateUpdated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+
+	[SqliteSTRId] BIGINT NOT NULL DEFAULT 0,
+)

@@ -1,0 +1,85 @@
+﻿@model AdvanceRequestModel
+
+
+@using (Html.BeginForm("ReviewAdvanceRequest", "Dashboard", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">Advance Request Review</span>
+
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.EntityName)
+    @Html.HiddenFor(model => model.AgreementNumber)
+    @Html.HiddenFor(model => model.Crop)
+    @Html.HiddenFor(model => model.AmountRequested)
+    @Html.HiddenFor(model => model.RequestDate)
+
+    <table class="table table-bordered table-striped table-condensed">
+        <thead>
+            <tr>
+                <th>@Html.LabelFor(model => model.EntityName, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.AgreementNumber, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.Crop, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+                <th>@Html.LabelFor(model => model.AmountRequested, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+
+                <th>@Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2" })</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(model => model.EntityName)</td>
+                <td>@Html.DisplayFor(model => model.AgreementNumber)</td>
+                <td>
+                    @Html.DisplayFor(model => model.Crop)
+                </td>
+                <td>@Html.DisplayFor(model => model.AmountRequested)</td>
+
+                <td>@Html.DisplayFor(model => model.RequestDate, "DateTimeDate")</td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td colspan="4">
+                    @Html.DisplayFor(model => model.RequestNote)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="padding:10px">
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.AmountApproved, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.AmountApproved, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.AmountApproved, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.ApproveNote, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-8">
+                    <textarea id="txtaComment" name="ApproveNote" maxlength="500" rows="3" cols="40" class="form-control">@Model.ApproveNote</textarea>
+                    @Html.ValidationMessageFor(model => model.ApproveNote, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            <input type="submit" value="Approve" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}
+
+
+

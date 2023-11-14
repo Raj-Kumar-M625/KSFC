@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Comment]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[Text] NVARCHAR(2048) NOT NULL
+)

@@ -1,0 +1,138 @@
+﻿@model IEnumerable<EpicCrmWebApi.SqlitePaymentDisplayData>
+
+@{
+    ViewBag.Title = "Saved Payment Batch Items";
+    string pageTitle = String.Format("Saved Payment Batch Items [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsProcessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneActivityId)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentDate, "DatetimeShort")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+        </td>
+        <td>
+            @if (item.ImageCount == 0)
+                {
+                @Html.DisplayFor(modelItem => item.ImageCount)
+            }
+            else
+            {
+                <a href="" class="paymentImage" onclick="DisplayImage(@item.Id, @item.ImageCount);return false;">@item.ImageCount</a>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsProcessed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneActivityId)
+        </td>
+    </tr>
+}
+</table>
+<div id="imageDisplayWaitArea">
+    <span>Getting Image...Please wait</span>
+</div>
+
+<div id="imageDisplayArea">
+    <hr />
+</div>
+
+
+@section scripts{
+<script>
+        $(document).ready(
+            function () {
+                $("#imageDisplayArea").hide();
+                $("#imageDisplayWaitArea").hide();
+            }
+        );
+
+        var isProcessing = false;
+        function DisplayImage(id, imageCount)
+        {
+            if (isProcessing)
+            {
+                return;
+            }
+            isProcessing = true;
+
+            var imagesRetrieved = 0;
+
+            $("#imageDisplayArea").show();
+            $("#imageDisplayWaitArea").show();
+            $('#imageDisplayArea').html('<span></span>');
+
+            for(i = imageCount; i > 0; i--)
+            {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var reader = new window.FileReader();
+                        reader.readAsDataURL(this.response);
+                        reader.onloadend = function ()
+                        {
+                            imagesRetrieved++;
+                            $('#imageDisplayArea').append('<img style="margin-left:20px;" height="300px" width="auto" src="' + reader.result + '"/>');
+                            if (imagesRetrieved == imageCount) // last image processed
+                            {
+                                isProcessing = false;
+                                $("#imageDisplayWaitArea").hide();
+                            }
+                        }
+                    }
+                }
+                xhr.open('GET', '/Admin/PaymentImageData?Id='+id+'&imageItem='+i);
+                xhr.responseType = 'blob';
+                xhr.send();
+            }
+        }
+</script>
+}

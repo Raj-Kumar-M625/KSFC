@@ -1,0 +1,152 @@
+﻿@model IEnumerable<SqliteExpenseDisplayData>
+
+@{
+    ViewBag.Title = "Saved Expense Batch Items";
+    string pageTitle = String.Format("Saved Expense Batch Items [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuelType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FuelQuantityInLiters)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OdometerStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsProcessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExpenseItemId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpenseType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuelType)
+            </td>
+            <td>
+                @if (item.FuelQuantityInLiters > 0)
+                {
+                    @Html.DisplayFor(modelItem => item.FuelQuantityInLiters)
+                }
+            </td>
+            <td>
+                @if (item.Amount > 0)
+                {
+                    @Html.DisplayFor(modelItem => item.Amount)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Odometer)
+            </td>
+            <td>
+                @if (item.ImageCount == 0)
+                {
+                    @Html.DisplayFor(modelItem => item.ImageCount)
+                }
+                else
+                {
+                    <a href="" class="expenseImage" onclick="DisplayImage(@item.Id, @item.ImageCount);return false;">@item.ImageCount</a>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsProcessed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExpenseItemId)
+            </td>
+        </tr>
+    }
+</table>
+
+<div id="imageDisplayWaitArea">
+    <span>Getting Image...Please wait</span>
+</div>
+
+<div id="imageDisplayArea">
+    <hr/>
+</div>
+
+<script src="/Scripts/jquery-1.10.2.js"></script>
+<script>
+        $(document).ready(
+            function () {
+                $("#imageDisplayArea").hide();
+                $("#imageDisplayWaitArea").hide();
+            }
+        );
+
+        var isProcessing = false;
+        function DisplayImage(id, imageCount)
+        {
+            if (isProcessing)
+            {
+                return;
+            }
+            isProcessing = true;
+            var imagesRetrieved = 0;
+
+            $("#imageDisplayArea").show();
+            $("#imageDisplayWaitArea").show();
+            $('#imageDisplayArea').html('<span></span>');
+
+            for(i = imageCount; i > 0; i--)
+            {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var reader = new window.FileReader();
+                        reader.readAsDataURL(this.response);
+                        reader.onloadend = function ()
+                        {
+                            imagesRetrieved++;
+                            $('#imageDisplayArea').append('<img style="margin-left:20px;" height="300px" width="auto" src="' + reader.result + '"/>');
+                            if (imagesRetrieved == imageCount) // last image processed
+                            {
+                                isProcessing = false;
+                                $("#imageDisplayWaitArea").hide();
+                            }
+                        }
+                    }
+                }
+                xhr.open('GET', '/Admin/ImageData?expenseId='+id+'&imageItem='+i);
+                xhr.responseType = 'blob';
+                xhr.send();
+            }
+        }
+</script>
+
+
+

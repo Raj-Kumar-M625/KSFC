@@ -1,0 +1,92 @@
+﻿@model IEnumerable<EpicCrmWebApi.SqliteReturnOrderDisplayData>
+
+@{
+    ViewBag.Title = "Saved Return Orders";
+    string pageTitle = String.Format("Saved Return Orders [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnOrderDate)
+        </th>
+        <th style="text-align:right;">
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReferenceNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsProcessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnOrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneActivityId)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnOrderDate, "DatetimeShort")
+        </td>
+        <td style="text-align:right;">
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerCode)
+        </td>
+        <td>
+            @if (item.ItemCount == 0)
+            {
+                @Html.DisplayFor(modelItem => item.ItemCount)
+            }
+            else
+            {
+                @Html.ActionLink(item.ItemCount.ToString(), "ShowSavedReturnItems", new { sqliteReturnOrderId = item.Id, empName = ViewBag.EmpName })
+            }
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReferenceNum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsProcessed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnOrderId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneActivityId)
+        </td>
+    </tr>
+}
+</table>

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<DomainEntities.DashboardProduct>
+    @{ 
+        int productCount = Model.Count();
+
+        string displayString = $"{productCount} Products matching your search criteria are displayed.";
+    }
+
+<table class="table">
+    <tr>
+        <td colspan="10">@displayString</td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GstCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GstCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+        </tr>
+
+        if (item.Prices != null)
+        {
+            foreach (var p in item.Prices)
+            {
+            <tr>
+                <td style="border-top:none;">&nbsp;</td>
+                <td colspan="3" style="border-top:none;">
+                    <table>
+                        <tr>
+                            <td style="border-top:none;">@String.Format("{0}", p.AreaCode)</td>
+                            <td style="border-top:none;">@String.Format("Stock: {0}", p.Stock)</td>
+                            <td style="border-top:none;">@String.Format("MRP: {0}", p.MRP)</td>
+                            <td style="border-top:none;">@String.Format("Dealer:{0}", p.DEALERPrice)</td>
+                            <td style="border-top:none;">@String.Format("Dist:{0}", p.DISTPrice)</td>
+                            <td style="border-top:none;">@String.Format("P.Dist:{0}", p.PDISTPrice)</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            }
+        }
+     }
+</table>

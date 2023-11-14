@@ -1,0 +1,837 @@
+﻿
+@{
+    ViewBag.Title = "KPI";
+    bool IsSuperAdmin = ViewBag.IsSuperAdmin;
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+}
+
+<h2>KPI</h2>
+<div class="well">
+    <div id="chartsDiv">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>Zone</label>
+                    <select class="form-control" id="selZone">
+                        <option value="All">All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>Area</label>
+                    <select class="form-control" id="selArea">
+                        <option value="All">All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>Territory</label>
+                    <select class="form-control" id="selTerritory">
+                        <option value="All">All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>HQ</label>
+                    <select class="form-control" id="selHQ">
+                        <option value="All">All</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div style="background-color:white;padding:10px;">
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>From (dd-mm-yyyy)</label>
+                                <input class="form-control js-datepicker" type="text" id="txtFromDate" placeholder="dd-mm-yyyy" data-date-format='dd-mm-yyyy'>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>To (dd-mm-yyyy)</label>
+                                <input class="form-control js-datepicker" type="text" id="txtToDate" placeholder="dd-mm-yyyy" data-date-format='dd-mm-yyyy'>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <input type="button" id="btnGo" value="Go" class="form-control btn-success" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="lineChartArea" style="display:none;">
+                        <div class="row no-margin">
+                            <canvas id="chart1"></canvas>
+                        </div>
+
+                        <div class="row no-margin" style="padding:10px;">
+                            <div class="pull-left col-md-6 col-sm-6 col-xs-12 graph2under">
+                                <i class="glyphicon glyphicon-list-alt"></i> &nbsp;<strong class="m-xs f30">ORDERS</strong>
+                                <hr />
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="order"></span>&nbsp;<small>(Total)</small>
+                                </h4>
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="orderAvg"></span>&nbsp;<small>(Daily)</small>
+                                </h4>
+                                <div class="stat-data" style="margin-top: 5px; margin-bottom: 5px;"></div>
+                                <strong class="m-xs f30">RETURNS</strong>
+                                <hr />
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="returns"></span>&nbsp;<small>(Total)</small>
+                                </h4>
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="returnsAvg"></span>&nbsp;<small>(Daily)</small>
+                                </h4>
+                            </div>
+
+                            <div class="pull-right col-md-6 col-sm-6 col-xs-12 graph1under">
+                                <i class="glyphicon glyphicon-hand-down fa-4x"></i>&nbsp;<strong class="m-xs f30">EXPENSES</strong>
+                                <hr />
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="expense"></span>&nbsp;<small>(Total)</small>
+                                </h4>
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="expenseAvg"></span>&nbsp;<small>(Daily)</small>
+                                </h4>
+                                <div class="stat-data" style="margin-top: 5px; margin-bottom: 5px;"></div>
+                                <strong class="m-xs f30">PAYMENTS</strong>
+                                <hr />
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="payment"></span>&nbsp;<small>(Total)</small>
+                                </h4>
+                                <h4 class="no-margins text-success Sec-Right">
+                                    <b class="fc">&#8377</b><span class="m-xs" id="paymentAvg"></span>&nbsp;<small>(Daily)</small>
+                                </h4>
+                            </div>
+                        </div>
+                        <!-- Table to display data returned for line chart -->
+                        <div id="lineChartDataArea" class="panel-body no-padding" style="display:none;">
+                            <table class="table table-condensed" style="margin-bottom:0px !important; min-height:180px;" id="lineChartDataTable">
+                                <tbody></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div id="lineChartMessageArea" style="display:none;">
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------->
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div style="background-color:white;padding:10px;">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>From (dd-mm-yyyy)</label>
+                                <input class="form-control js-datepicker" type="text" id="txtFromDate_Chart2" placeholder="dd-mm-yyyy" data-date-format='dd-mm-yyyy'>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>To (dd-mm-yyyy)</label>
+                                <input class="form-control js-datepicker" type="text" id="txtToDate_Chart2" placeholder="dd-mm-yyyy" data-date-format='dd-mm-yyyy'>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>&nbsp;</label>
+                                <input type="button" id="btnGo_Chart2" value="Go" class="form-control btn-success" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="barChartArea" style="display:none;">
+                        <div class="row no-margin" style="padding:5px">
+                            <canvas id="chart2"></canvas>
+                        </div>
+                    </div>
+                    <div id="barChartMessageArea" style="display:none;"></div>
+
+                    <!-- Table to display data returned for bar chart -->
+                    <div id="barChartDataArea" class="panel-body no-padding" style="display:none;">
+                        <table class="table table-condensed" style="margin-bottom:0px !important; min-height:180px;" id="barChartDataTable">
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                    <div id="topNumberArea" style="display:none;">
+                        <div class="row no-margin">
+                            <div class="pull-left col-lg-6 col-sm-12 col-xs-12 graphboxunder-1 z-grid" id="topProductsTable">
+                                <div class="specpanel no-padding">
+                                    <div class="panel-heading" style="font-size:14px !important">
+                                        <strong>Top @ViewBag.TopItemsCount selling Products</strong>
+                                    </div>
+                                    <div class="panel-body list no-padding">
+                                        <div class="panel no-padding" style="font-size:12px">
+                                            <div class="panel-body no-padding">
+                                                <table class="table table-condensed" style="margin-bottom:0px !important; min-height:180px;">
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pull-left col-lg-6 col-sm-12 col-xs-12 graphboxunder-2 z-grid" id="topReturnsTable">
+                                <div class="specpanel no-padding">
+                                    <div class="panel-heading" style="font-size:14px !important">
+                                        <strong>Top @ViewBag.TopItemsCount returned Products</strong>
+                                    </div>
+                                    <div class="panel-body list no-padding">
+                                        <div class="panel no-padding" style="font-size:12px">
+                                            <div class="panel-body no-padding">
+                                                <table class="table table-condensed" style="margin-bottom:0px !important; min-height:180px;">
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row no-margin">
+                            <div class="pull-left col-lg-6 col-sm-12 col-xs-12 graphboxunder-3 z-grid" id="topSalesOrderTable">
+                                <div class="specpanel no-padding">
+                                    <div class="panel-heading" style="font-size:14px !important">
+                                        <strong>Top @ViewBag.TopItemsCount Employees (Orders)</strong>
+                                    </div>
+                                    <div class="panel-body list no-padding">
+                                        <div class="panel no-padding" style="font-size:12px">
+                                            <div class="panel-body no-padding">
+                                                <table class="table table-condensed" style="margin-bottom:0px !important; min-height:180px;">
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pull-left col-lg-6 col-sm-12 col-xs-12 graphboxunder-4 z-grid" id="topSalesPaymentTable">
+                                <div class="specpanel no-padding">
+                                    <div class="panel-heading" style="font-size:14px !important">
+                                        <strong>Top @ViewBag.TopItemsCount Employees (Payments)</strong>
+                                    </div>
+                                    <div class="panel-body list no-padding">
+                                        <div class="panel no-padding" style="font-size:12px">
+                                            <div class="panel-body no-padding">
+                                                <table class="table table-condensed" style="margin-bottom:0px !important; min-height:180px;">
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // Office Hierarchy object
+        @Html.Raw("var OfficeHierarchy =[];")
+
+        @foreach(var oh in officeHierarchy)
+        {
+            sb.AppendLine("var joh = { };");
+
+            sb.AppendLine($"joh.ZoneCode = '{oh.ZoneCode}';");
+            sb.AppendLine($"joh.ZoneName = '{oh.ZoneName}';");
+            sb.AppendLine($"joh.AreaCode = '{oh.AreaCode}'; ");
+            sb.AppendLine($"joh.AreaName = '{oh.AreaName}';");
+            sb.AppendLine($"joh.TerritoryCode = '{oh.TerritoryCode}'; ");
+            sb.AppendLine($"joh.TerritoryName = '{oh.TerritoryName}'; ");
+            sb.AppendLine($"joh.HQCode = '{oh.HQCode}'; ");
+            sb.AppendLine($"joh.HQName = '{oh.HQName}';");
+            sb.AppendLine("OfficeHierarchy.push(joh);");
+        }
+    @Html.Raw(sb.ToString());
+
+</script>
+
+
+@section scripts{
+    <script src="~/Scripts/chart.js/dist/Chart.bundle.min.js"></script>
+    <script src="~/Scripts/chart.js/samples/utils.js"></script>
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/Scripts/init-datepicker.js"></script>
+
+    <script>
+        var isSuperAdmin = false;
+        @if(IsSuperAdmin)
+        {
+            @Html.Raw("isSuperAdmin = true;");
+        }
+
+        $(document).ready(
+            function () {
+                $("#btnGo").off('click').on('click', GoButtonClicked);
+                $("#btnGo_Chart2").off('click').on('click', GoButton_Chart2Clicked);
+
+                // once user changes selection boxes, clear results area;
+                $('Select').change(function () { ClearResults(); });
+                $('input').change(function () { ClearResults(); });
+
+                ShowWeeklyDataChart();
+                ShowMonthlyDataChart();
+
+                // zone/Area/Territory/HQ changed
+                $('#selZone').change(function () { ZonesSelectionChanged(); })
+                $('#selArea').change(function () { AreasSelectionChanged(); })
+                $('#selTerritory').change(function () { TerritoriesSelectionChanged(); })
+            }
+        );
+
+        function ClearResults() {
+            $('#lineChartArea').hide();
+            $('#lineChartMessageArea').hide();
+            $('#barChartArea').hide();
+            $('#barChartMessageArea').hide();
+            $('#barChartDataArea').hide();
+            $('#topNumberArea').hide();
+        }
+
+        function ShowWeeklyDataChart() {
+            var endDate = Date.today();
+            var startDate = Date.today().add(-6).days();
+
+            $("#txtFromDate").val(startDate.toString("dd-MM-yyyy"));
+            $("#txtToDate").val(endDate.toString("dd-MM-yyyy"));
+
+            DrawLineChart();
+        }
+
+        function ShowMonthlyDataChart() {
+            var endDate = Date.today();
+            var startDate = Date.today().add(-6).months();
+
+            $("#txtFromDate_Chart2").val(startDate.toString("dd-MM-yyyy"));
+            $("#txtToDate_Chart2").val(endDate.toString("dd-MM-yyyy"));
+
+            DrawMonthlyChartAndTopItems();
+        }
+
+        var chartColors = {
+            red: 'rgb(212, 63, 58)',
+            orange: 'rgb(238, 162, 54)',
+            yellow: 'rgb(255, 205, 86)',
+            green: 'rgb(76, 174, 76)',
+            blue: 'rgb(53, 126, 189)',
+            purple: 'rgb(153, 102, 255)',
+            grey: 'rgb(201, 203, 207)'
+        };
+
+        var GoButton_Chart2Clicked = function (event) {
+            ClearBarChartData();
+            ClearBarChartTableData();
+            DrawMonthlyChartAndTopItems();
+        }
+
+        function DrawMonthlyChartAndTopItems()
+        {
+            DrawBarChart();
+            SetTopItemsData();
+        }
+
+        function SetTopItemsData()
+        {
+            $("#topNumberArea").hide();
+
+            $.ajax('/api/TOPPRS', {
+                cache: false,
+                type: "Get",
+                contentType: "application/json",
+                data: CaptureSearchCriteria_Chart2(),
+                success: function (data, textStatus, jqXHR)
+                {
+                    if (data.StatusCode == 400) {
+                        //alert("Please select a valid date range, comprising of maximum 12 months.");
+                        return;
+                    }
+
+                    $("#topNumberArea").show();
+
+                    if (data.Products != null && data.Products.length > 0) {
+                        ShowDataInTable(data.Products, "topProductsTable");
+                    }
+                    else {
+                        $("#topProductsTable").hide();
+                        $("#topProductsTable").removeClass("col-lg-6 col-sm-12 col-xs-12");
+                        $("#topReturnsTable").removeClass("col-lg-6").addClass("col-lg-12");
+                    }
+
+                    //Returns
+                    if (data.Returns != null && data.Returns.length > 0) {
+                        ShowDataInTable(data.Returns, "topReturnsTable");
+                    }
+                    else {
+                        $("#topReturnsTable").hide();
+                        $("#topReturnsTable").removeClass("col-lg-6 col-sm-12 col-xs-12");
+                        $("#topProductsTable").removeClass("col-lg-6").addClass("col-lg-12");
+                    }
+                    //SalesPersons - Returns
+                    if (data.SalesPersons != null && data.SalesPersons.length > 0) {
+                        ShowDataInTable(data.SalesPersons, "topSalesOrderTable");
+                    }
+                    else {
+                        $("#topSalesOrderTable").hide();
+                        $("#topSalesOrderTable").removeClass("col-lg-6 col-sm-12 col-xs-12");
+                        $("#topSalesPaymentTable").removeClass("col-lg-6").addClass("col-lg-12");
+                    }
+                    //SalesPersons - Payments
+                    if (data.SalesPersonsByPayments != null && data.SalesPersonsByPayments.length > 0) {
+                        ShowDataInTable(data.SalesPersonsByPayments, "topSalesPaymentTable");
+                    }
+                    else {
+                        $("#topSalesPaymentTable").hide();
+                        $("#topSalesPaymentTable").removeClass("col-lg-6 col-sm-12 col-xs-12");
+                        $("#topSalesOrderTable").removeClass("col-lg-6").addClass("col-lg-12");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured while getting data for selected date range.")
+                }
+            });
+        }
+
+
+        function ShowDataInTable(data, elementId) {
+            var row = "";
+            $.each(data, function (index, obj) {
+                var row = '<tr><td class="person-list xwidth"> ' + obj.Name + ' </td> <td class="price-list xwidth"> ' + "₹ " + obj.Amount + '</td> </tr>'
+                $("#" + elementId + " tbody").append(row);
+            });
+
+            $("#" + elementId).show();
+        }
+
+        function DrawBarChart()
+        {
+            $("#barChartArea").hide();
+            $("#barChartDataArea").hide();
+
+            $("#barChartMessageArea").show();
+            $("#barChartMessageArea").html("Please wait...");
+
+            $.ajax('/api/EORP/DataByMonth', {
+                cache: false,
+                type: "Get",
+                contentType: "application/json",
+                data: CaptureSearchCriteria_Chart2(),
+                success: function (data, textStatus, jqXHR)
+                {
+                    if (data.StatusCode == 400)
+                    {
+                        $("#barChartMessageArea").show();
+                        $("#barChartMessageArea").html("Please select a valid date range, comprising of maximum 12 months.");
+                        return;
+                    }
+
+                    if (data.EORPMonths.length == 0)
+                    {
+                        $("#barChartArea").hide();
+                        $("#barChartMessageArea").show();
+                        $("#barChartMessageArea").html("Data is not available for selected date range.");
+                        return;
+                    }
+
+                    $("#barChartArea").show();
+                    $("#barChartMessageArea").hide();
+
+                    // do it only for super admin
+                    if (isSuperAdmin)
+                    {
+                        $("#barChartDataArea").show();
+                    }
+
+                    // show the data in bar chart data Area
+                    ShowBarChartData(data.EORPMonths);
+
+
+                    var barChartConfig = {
+                        type: 'bar',
+                        data: {
+                            labels: getBarChartLabels(data.EORPMonths),
+                            datasets: getBarChartDataSets(data.EORPMonths)
+                        },
+                        options: {
+                            responsive: true,
+                            title: {
+                                display: true,
+                            }
+                        }
+                    };
+
+                    var ctx = document.getElementById("chart2").getContext("2d");
+                    window.myLine = new Chart(ctx, barChartConfig);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#barChartMessageArea").show();
+                    $("#barChartMessageArea").html("An error occured while getting data for selected date range.");
+                }
+            });
+        }
+
+        var GoButtonClicked = function (event) {
+            DrawLineChart();
+        }
+
+        function DrawLineChart() {
+            ClearLineChartData();
+            $("#lineChartDataArea").hide();
+            $("#lineChartArea").hide();
+            $("#lineChartMessageArea").show();
+            $("#lineChartMessageArea").html("Please wait...");
+
+            var searchCriteria = CaptureSearchCriteria();
+
+            $.ajax('/api/EORP/DataByDay', {
+                cache: false,
+                type: "Get",
+                contentType: "application/json",
+                data: searchCriteria,
+                success: function (data, textStatus, jqXHR)
+                {
+                    // alert(JSON.stringify(data));
+                    if (data.StatusCode == 400) {
+                        $("#lineChartMessageArea").show();
+                        $("#lineChartMessageArea").html("Please select a valid date range.");
+
+                        return;
+                    }
+
+                    if (data.EORPDays.length == 0)
+                    {
+                        $("#lineChartArea").hide();
+                        $("#lineChartMessageArea").show();
+                        $("#lineChartMessageArea").html("Data is not available for selected date range.");
+                        return;
+                    }
+
+                    $("#lineChartArea").show();
+                    $("#lineChartMessageArea").hide();
+
+                    // do this for super admin only
+                    if (isSuperAdmin)
+                    {
+                        $("#lineChartDataArea").show();
+                    }
+
+                    // show the data in line chart data Area
+                    ShowLineChartData(data.EORPDays);
+
+                    var chartConfig = {
+                        type: 'line',
+                        data: {
+                            labels: getLineChartLabels(data.EORPDays),
+                            datasets: getLineChartDataSets(data.EORPDays)
+                        },
+                        options: {
+                            responsive: true,
+                            title: {
+                                display: true,
+                            }
+                        }
+                    };
+
+                    var ctx = document.getElementById("chart1").getContext("2d");
+                    window.myLine = new Chart(ctx, chartConfig);
+
+                    // show summary data
+                    $("#order").html(data.EORPSummary.OrderTotalDisplay);
+                    $("#expense").html(data.EORPSummary.ExpenseTotalDisplay);
+                    $("#returns").html(data.EORPSummary.ReturnOrderTotalDisplay);
+                    $("#payment").html(data.EORPSummary.PaymentTotalDisplay);
+                    $("#orderAvg").html(data.EORPSummary.OrderAverageDisplay);
+                    $("#expenseAvg").html(data.EORPSummary.ExpenseAverageDisplay);
+                    $("#returnsAvg").html(data.EORPSummary.ReturnOrderAverageDisplay);
+                    $("#paymentAvg").html(data.EORPSummary.PaymentAverageDisplay);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#lineChartMessageArea").show();
+                    $("#lineChartMessageArea").html("An error occured while getting data for selected date range.");
+                }
+            });
+        }
+
+        function ClearLineChartData()
+        {
+            var ctx = document.getElementById("chart1").getContext("2d");
+            window.myLine = new Chart(ctx,null);
+            $("#order").html("");
+            $("#expense").html("");
+            $("#returns").html("");
+            $("#payment").html("");
+            $("#orderAvg").html("");
+            $("#expenseAvg").html("");
+            $("#returnsAvg").html("");
+            $("#paymentAvg").html("");
+            $("#lineChartDataTable tbody").find('tr').remove();
+        }
+
+        function ClearBarChartData()
+        {
+            var ctx = document.getElementById("chart2").getContext("2d");
+            window.myLine = new Chart(ctx, null);
+        }
+
+
+        function getLineChartLabels(dataByDay) {
+            var labels = [];
+            for (var i = 0; i < dataByDay.length; i++) {
+                labels.push(dataByDay[i].Date);
+            }
+            return labels;
+        }
+
+        function getLineChartDataSets(dataByDay) {
+            var data = [];
+
+            var headings = ["Payment", "Order", "Expense", "Return Order"];
+            var colors = [chartColors.green, chartColors.orange, chartColors.blue, chartColors.red];
+            for (var i = 0; i < 4; i++) {
+                var model =
+                    {
+                        label: headings[i],
+                        backgroundColor: colors[i],
+                        borderColor: colors[i],
+                        data: getLineChartValue(headings[i], dataByDay),
+                        fill: false
+                    };
+                data.push(model);
+            }
+            return data;
+        }
+
+        function getLineChartValue(type, dataByDay) {
+            var data = [];
+            for (var i = 0; i < dataByDay.length; i++) {
+                var item = dataByDay[i];
+                switch (type) {
+                    case "Payment": { data.push(item.PaymentAmount); } break;
+                    case "Order": { data.push(item.OrderAmount); } break;
+                    case "Expense": { data.push(item.ExpenseAmount); } break;
+                    case "Return Order": { data.push(item.ReturnOrderAmount); } break;
+                }
+            }
+            return data;;
+        }
+
+        function getBarChartLabels(dataByMonth) {
+            var labels = [];
+            for (var i = 0; i < dataByMonth.length; i++) {
+                labels.push(dataByMonth[i].DisplayMonth);
+            }
+            return labels;
+        }
+
+        function getBarChartDataSets(dataByMonth) {
+            var data = [];
+
+            var headings = ["Payment", "Order", "Expense", "Return Order"];
+            var colors = [chartColors.green, chartColors.orange, chartColors.blue, chartColors.red];
+            for (var i = 0; i < headings.length; i++) {
+                var model =
+                    {
+                        label: headings[i],
+                        backgroundColor: colors[i],
+                        borderColor: colors[i],
+                        data: getBarChartValue(headings[i], dataByMonth),
+                        fill: false
+                    };
+                data.push(model);
+            }
+            return data;
+        }
+
+        function getBarChartValue(type, dataByMonth) {
+            var data = [];
+            for (var i = 0; i < dataByMonth.length; i++) {
+                var item = dataByMonth[i];
+                switch (type) {
+                    case "Payment": { data.push(item.PaymentAmount); } break;
+                    case "Order": { data.push(item.OrderAmount); } break;
+                    case "Expense": { data.push(item.ExpenseAmount); } break;
+                    case "Return Order": { data.push(item.ReturnOrderAmount); } break;
+                }
+            }
+            return data;;
+        }
+
+        function CaptureSearchCriteria() {
+             var searchCriteria = {};
+             searchCriteria.Zone = $("#selZone").val();
+             searchCriteria.Area = $("#selArea").val();
+             searchCriteria.Territory = $("#selTerritory").val();
+             searchCriteria.HQ = $("#selHQ").val();
+             searchCriteria.DateFrom = $("#txtFromDate").val();
+             searchCriteria.DateTo = $("#txtToDate").val();
+             return searchCriteria;
+        }
+
+        function CaptureSearchCriteria_Chart2() {
+            var searchCriteria = {};
+            searchCriteria.Zone = $("#selZone").val();
+            searchCriteria.Area = $("#selArea").val();
+            searchCriteria.Territory = $("#selTerritory").val();
+            searchCriteria.HQ = $("#selHQ").val();
+            searchCriteria.DateFrom = $("#txtFromDate_Chart2").val();
+            searchCriteria.DateTo = $("#txtToDate_Chart2").val();
+            searchCriteria.TopItemCount = @ViewBag.TopItemsCount;
+            return searchCriteria;
+        }
+
+        function ShowBarChartData(dataByMonth)
+        {
+            var row = "";
+            var row =   '<tr><th>Month</th><th class="price-list">Payment</th><th class="price-list">Order</th><th class="price-list">Expense</th><th class="price-list">Returns</th></tr>';
+            $("#barChartDataTable tbody").append(row);
+
+            for (var i = 0; i < dataByMonth.length; i++)
+            {
+                var row =   '<tr><td>' + dataByMonth[i].DisplayMonth + '</td>';
+                row = row     + '<td class="price-list">' + dataByMonth[i].PaymentAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+                row = row     + '<td class="price-list">' + dataByMonth[i].OrderAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+                row = row     + '<td class="price-list">' + dataByMonth[i].ExpenseAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+                row = row     + '<td class="price-list">' + dataByMonth[i].ReturnOrderAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+
+                row = row   + '</tr>'
+
+                $("#barChartDataTable tbody").append(row);
+            }
+        }
+
+        function ShowLineChartData(dataByDay)
+        {
+            var row = "";
+            var row =   '<tr><th>Date</th><th class="price-list">Payment</th><th class="price-list">Order</th><th class="price-list">Expense</th><th class="price-list">Returns</th></tr>';
+            $("#lineChartDataTable tbody").append(row);
+
+            for (var i = 0; i < dataByDay.length; i++)
+            {
+                var row =   '<tr><td>' + dataByDay[i].Date + '</td>';
+                row = row     + '<td class="price-list">' + dataByDay[i].PaymentAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+                row = row     + '<td class="price-list">' + dataByDay[i].OrderAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+                row = row     + '<td class="price-list">' + dataByDay[i].ExpenseAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+                row = row     + '<td class="price-list">' + dataByDay[i].ReturnOrderAmount.toLocaleString('en-US', {maximumFractionDigits:2, minimumFractionDigits: 2}) + '</td>';
+
+                row = row   + '</tr>'
+
+                $("#lineChartDataTable tbody").append(row);
+            }
+        }
+
+        function ClearBarChartTableData()
+        {
+            $("#topProductsTable tbody").find('tr').remove();
+            $("#topReturnsTable tbody").find('tr').remove();
+            $("#topSalesOrderTable tbody").find('tr').remove();
+            $("#topSalesPaymentTable tbody").find('tr').remove();
+
+            // do it only for super admin
+            $("#barChartDataTable tbody").find('tr').remove();
+        }
+
+        $(document).ready(
+            function () {
+                var selectedObj = {};
+                for (i = 0; i < OfficeHierarchy.length; i++) {
+                    var o = OfficeHierarchy[i];
+                        selectedObj[o.ZoneName] = o.ZoneCode;
+                }
+                Object.keys(selectedObj).sort().forEach(function (element) {
+                    var opt = new Option(element, selectedObj[element]);
+                    $('#selZone').append(opt);
+                });
+            });
+       
+        function ZonesSelectionChanged() {
+            $('#selArea option:not(:first-child)').remove();
+            $('#selTerritory option:not(:first-child)').remove();
+            $('#selHQ option:not(:first-child)').remove();
+
+            // get current value of Zone
+            var selectedZone = $("#selZone").val();
+            FillAreasForZone(selectedZone);
+        }
+
+        function FillAreasForZone(z) {
+            var selectedObj = {};
+            for (i = 0; i < OfficeHierarchy.length; i++) {
+                var o = OfficeHierarchy[i];
+                if (o.ZoneCode == z) {
+                    // use Area Name as key so we can sort by name
+                    selectedObj[o.AreaName] = o.AreaCode;
+                }
+            }
+            Object.keys(selectedObj).sort().forEach(function (element) {
+                var opt = new Option(element, selectedObj[element]);
+                $('#selArea').append(opt);
+            });
+        }
+
+        function AreasSelectionChanged() {
+            $('#selTerritory option:not(:first-child)').remove();
+            $('#selHQ option:not(:first-child)').remove();
+            var selectedZone = $("#selZone").val();
+            var selectedArea = $("#selArea").val();
+            FillTerritories(selectedZone, selectedArea);
+        }
+
+        // zone and area
+        function FillTerritories(zo, ar) {
+            var selectedObj = {};
+            for (i = 0; i < OfficeHierarchy.length; i++) {
+                var o = OfficeHierarchy[i];
+                if (o.ZoneCode == zo && o.AreaCode == ar) {
+                    selectedObj[o.TerritoryName] = o.TerritoryCode;
+                }
+            }
+            Object.keys(selectedObj).sort().forEach(function (element) {
+                var opt = new Option(element, selectedObj[element]);
+                $('#selTerritory').append(opt);
+            });
+        }
+
+        function TerritoriesSelectionChanged() {
+            $('#selHQ option:not(:first-child)').remove();
+            var selectedZone = $("#selZone").val();
+            var selectedArea = $("#selArea").val();
+            var selectedTerritory = $("#selTerritory").val();
+            FillHQ(selectedZone, selectedArea, selectedTerritory);
+        }
+
+        // zone, area, tr
+        function FillHQ(zo, ar, tr) {
+            var selectedObj = {};
+            for (i = 0; i < OfficeHierarchy.length; i++) {
+                var o = OfficeHierarchy[i];
+                if (o.ZoneCode == zo && o.AreaCode == ar && o.TerritoryCode == tr) {
+                    selectedObj[o.HQName] = o.HQCode;
+                }
+            }
+            Object.keys(selectedObj).sort().forEach(function (element) {
+                var opt = new Option(element, selectedObj[element]);
+                $('#selHQ').append(opt);
+            });
+        }
+
+    </script>
+}

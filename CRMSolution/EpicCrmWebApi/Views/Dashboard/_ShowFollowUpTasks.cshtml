@@ -1,0 +1,204 @@
+﻿@model IEnumerable<EpicCrmWebApi.FollowUpTaskViewModel>
+
+@{
+    int itemCount = Model.Count();
+
+    bool isSuperAdmin = ViewBag.IsSuperAdmin;
+
+    string guidForDetailRow = Guid.NewGuid().ToString();
+}
+
+
+<div>
+    <h3>
+        <a href="" title="Refresh Search Result" onclick="btnSearchClicked();return false;">
+            <img height="25" width="25" src="~/Content/img/refresh.png" />
+        </a>&nbsp;FollowUP/Tasks Details (@itemCount)
+        <a href="/dashboard/AddFollowUpTask" title="Add New FollowUp/Task Data" class="addInPopup">
+            <img height="15" width="15" src="~/Content/img/Add.png" />
+        </a>
+    </h3>
+</div>
+
+
+@if (itemCount > 0)
+{
+    <table class="table table-bordered table-striped table-condensed" id="dataTable">
+        <thead>
+            <tr>
+                <th style="column-width:45px;" id="downloadLinkArea" class="removeFromDownload">&nbsp;</th>
+                <th style="column-width:45px;" id="downloadLinkArea" class="removeFromDownload">&nbsp;</th>
+                <th style="column-width:45px;" id="downloadLinkArea" class="removeFromDownload">&nbsp;</th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.XRefProjectId)
+                </th>*@
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProjectName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActivityType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientName)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.ClientCode)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.PlannedStartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlannedEndDate)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.ActualStartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActualEndDate)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ActivityCount)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.CyclicCount)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsCreatedOnPhone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateCreated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateUpdated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UpdatedBy)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string guidForRow = Guid.NewGuid().ToString();
+
+                <tr id="@guidForRow">
+                    @*@if (isSuperAdmin)
+                    {*@
+                    <td class="removeFromDownload">
+                        <a href="/dashboard/EditFollowUpTask?TaskId=@item.Id" title="Edit FollowUp/Task Data" class="editInPopup">
+                            <img height="35" width="35" src="~/Content/img/Edit.png" />
+                        </a>
+                    </td>
+                    <td class="removeFromDownload">
+                        <a href="/dashboard/EditFollowUpTaskEntity?TaskId=@item.Id" title="Add/Edit FollowUp/Task Entity Data" class="editInPopup">
+                            <img height="35" width="35" src="~/Content/img/ActivityImages/ActivityType_10.png" />
+                        </a>
+                    </td>
+                    @*}
+                    else
+                    {
+                        <td class="removeFromDownload">&nbsp;</td>
+                    }*@
+                    <td class="removeFromDownload">
+                        <a href="" title="Show Assignments for Task : @item.Description" onclick="additionalAnchorClicked('@guidForRow', '@guidForDetailRow', '@item.Id'); return false;">
+                            <img height="25" width="25" src="~/Content/img/ListIcon.png" />
+                        </a>
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActivityType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClientType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ClientName)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.ClientCode)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlannedStartDate, "DateTimeDate")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlannedEndDate, "DateTimeDate")
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.ActualStartDate, "DateTimeDate")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActualEndDate, "DateTimeDate")
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Comments)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @if (item.ActivityCount > 0)
+                        {
+                            var count = item.ActivityCount.ToString();
+                            @*@Html.ActionLink(count, "GetTaskAction");*@
+                            @Html.ActionLink(count, "GetTaskAction", "Dashboard", new { taskId = item.Id }, new { @class = "c_activityLink", target = "_new", title = "Show FollowUp Activity" })
+                        }
+                        else
+                        {
+                           @Html.DisplayFor(modelItem => item.ActivityCount);
+                        }
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.CyclicCount)
+                    </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsActive)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsCreatedOnPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateCreated, "DateTimeShort")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateUpdated, "DateTimeShort")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedBy)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="@guidForDetailRow">
+    </div>
+}
+

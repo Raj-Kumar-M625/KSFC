@@ -1,0 +1,82 @@
+﻿@model IEnumerable<EpicCrmWebApi.AdvanceRequestModel>
+@{ 
+    int rowCount = Model.Count();
+    string displayString = $"{rowCount} rows displayed.";
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr id="dataTableHeader">
+        <td colspan="2" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="14">
+            <a href="" title="Refresh Search Result" onclick="btnSearchClicked();return false;">
+                <img height="25" width="25" src="~/Content/img/refresh.png" /></a>&nbsp;@displayString</td>
+    </tr>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.EmployeeCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+        <th>@Html.DisplayNameFor(model => model.HQCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EntityName)</th>
+
+        <th>@Html.DisplayNameFor(model => model.AgreementNumber)</th>
+        <th>@Html.DisplayNameFor(model => model.AgreementStatus)</th>
+
+        <th>@Html.DisplayNameFor(model => model.Crop)</th>
+
+        <th>@Html.DisplayNameFor(model => model.SeasonName)</th>
+        <th>@Html.DisplayNameFor(model => model.AmountRequested)</th>
+        <th>@Html.DisplayNameFor(model => model.RequestDate)</th>
+        <th>@Html.DisplayNameFor(model => model.AdvanceReqStatus)</th>
+        <th>@Html.DisplayNameFor(model => model.AmountApproved)</th>
+        
+        <th>@Html.DisplayNameFor(model => model.ApprovalDate)</th>
+        <th>@Html.DisplayNameFor(model => model.ReviewedBy)</th>
+        <th>@Html.DisplayNameFor(model => model.ApproveNote)</th>
+        <th>Activity Detail</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.EmployeeCode)</td>
+        <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+        <td>@Html.DisplayFor(modelItem => item.HQCode)</td>
+        <td>@Html.DisplayFor(modelItem => item.EntityName)</td>
+        <td>@Html.DisplayFor(modelItem => item.AgreementNumber)</td>
+
+        <td>@Html.DisplayFor(modelItem => item.AgreementStatus)</td>
+
+        <td>@Html.DisplayFor(modelItem => item.Crop)</td>
+
+        <td>@Html.DisplayFor(modelItem => item.SeasonName)</td>
+        <td><a href="/Dashboard/ReviewAdvanceRequest?Id=@item.Id" title="Review Advance Request for (@item.EntityName)" class="editInPopup">@Html.DisplayFor(modelItem => item.AmountRequested)</a></td>
+
+        <td>@Html.DisplayFor(modelItem => item.RequestDate,"DateTimeDate")</td>
+        <td>@Html.DisplayFor(modelItem => item.AdvanceReqStatus)</td>
+        <td>@Html.DisplayFor(modelItem => item.AmountApproved)</td>
+
+        <td>
+            @if (item.AdvanceReqStatus.Equals("pending", StringComparison.OrdinalIgnoreCase))
+            {
+                <p></p>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.ApprovalDate)
+            }
+        </td>
+        <td>@Html.DisplayFor(modelItem => item.ReviewedBy)</td>
+        <td>@Html.DisplayFor(modelItem => item.ApproveNote)</td>
+        <td>
+            @if (item.ActivityId > 0)
+            {
+                @Html.ActionLink("Detail", "ActivityOne", new { activityId = item.ActivityId }, new { @class = "c_activityLink", target = "_new" })
+            }
+            else
+            {
+               <p></p>
+            }
+        </td>
+    </tr>
+        
+    }
+</table>

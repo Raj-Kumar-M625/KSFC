@@ -1,0 +1,549 @@
+﻿@model FeatureControlModel
+
+
+@using (Html.BeginForm("EditRights", "SuperAdmin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <span style="font-size:large;">Edit Rights [@Model.UserName]</span>
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.SecurityContextUser, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.SecurityContextUser, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <h6>Enter a valid staff code or leave empty</h6>
+        </div>
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.UserName)
+
+        <div class="well">
+            <div class="row">
+                <div class="col-sm-4">
+                    <h4>Dashboard</h4>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ActivityFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ActivityFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OrderFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.OrderFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PaymentFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.PaymentFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OrderReturnFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.OrderReturnFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExpenseFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ExpenseFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IssueReturnFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.IssueReturnFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AdvanceRequestModule, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AdvanceRequestModule)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RedFarmerModule, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.RedFarmerModule)
+                        </div>
+                    </div>
+                    @* Author:Ajith; Purpose: Dealer Questionnaire ; Date: 11/06/2021 *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.QuestionnaireFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.QuestionnaireFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FollowUpTaskOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.FollowUpTaskOption)
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <h4>Report</h4>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExpenseReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ExpenseReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FieldActivityReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.FieldActivityReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EntityProgressReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EntityProgressReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AttendanceReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AttendanceReportFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AttendanceSummaryReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AttendanceSummaryReportFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AttendanceRegister, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AttendanceRegister)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AbsenteeReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AbsenteeReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AppSignUpReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AppSignUpReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AppSignInReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AppSignInReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ActivityReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ActivityReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ActivityByTypeReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ActivityByTypeReportFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.KPIFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.KPIFeature)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MAPFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.MAPFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeExpenseReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmployeeExpenseReport)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeExpenseReport2, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EmployeeExpenseReport2)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DistanceReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DistanceReport)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WrongLocationReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.WrongLocationReport)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UnSownReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.UnSownReport)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SurveyFormReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.SurveyFormReport)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DayPlanReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DayPlanReport)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FarmerSummaryReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.FarmerSummaryReport)
+                        </div>
+                    </div>
+                    @*Author:Venkatesh, Purpose: Get Dealers Not Met Report on: 2022/11/23*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DealersNotMetReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DealersNotMetReport)
+                        </div>
+                    </div>
+                    @*Author:Swetha M, Purpose: Get Dealers Summary Report on: 2023/01/02*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DealersSummaryReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DealersSummaryReport)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GeoTaggingReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.GeoTaggingReport)
+                        </div>
+                    </div>  <div class="form-group">
+                        @Html.LabelFor(model => model.AgreementsReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AgreementsReport)
+                        </div>
+                    </div>
+                    @*Author:GAgana, Purpose: Get Duplicate Farmers Report on: 2023/01/02*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DuplicateFarmersReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DuplicateFarmersReport)
+                        </div>
+                    </div>
+                    @*Author:GAgana, Purpose: Get Farmer Bank Account Report on: 2023/03/03*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FarmersBankAccountReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.FarmersBankAccountReport)
+                        </div>
+                    </div>
+                    <div class="form-group"></div>
+                    <div class="form-group"></div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SuperAdminPage, htmlAttributes: new { @class = "control-label col-md-6", style = "color:red;" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.SuperAdminPage)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsReadOnlyUser, htmlAttributes: new { @class = "control-label col-md-6", style = "color:red;" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.IsReadOnlyUser)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ExtraAdminOption, htmlAttributes: new { @class = "control-label col-md-6", style = "color:red;" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ExtraAdminOption)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <h4>Admin</h4>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SalesPersonFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.SalesPersonFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CustomerFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.CustomerFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProductFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ProductFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CrmUserFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.CrmUserFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AssignmentFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.AssignmentFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UploadDataFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.UploadDataFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OfficeHierarchyFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.OfficeHierarchyFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.BankAccountFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.BankAccountFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EntityFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.EntityFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GstRateFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.GstRateFeature)
+                        </div>
+                    </div>
+
+                    <hr style="height:1px;border-width:0;color:gray;background-color:gray;" />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.STRFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.STRFeature)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.STRWeighControl, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.STRWeighControl)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DWSApproveWeightOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DWSApproveWeightOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DWSApproveAmountOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DWSApproveAmountOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DWSPaymentOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DWSPaymentOption)
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.BonusCalculationOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.BonusCalculationOption)
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.BonusCalculationPaymentOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.BonusCalculationPaymentOption)
+                        </div>
+                    </div>
+
+                    <hr style="height:1px;border-width:0;color:gray;background-color:gray;" />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DWSPaymentReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.DWSPaymentReport)
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.BonusPaymentReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.BonusPaymentReport)
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TransporterPaymentReport, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.TransporterPaymentReport)
+                        </div>
+                    </div>
+
+                    <hr style="height:1px;border-width:0;color:gray;background-color:gray;" />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockReceiveOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockReceiveOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockReceiveConfirmOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockReceiveConfirmOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockRequestOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockRequestOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockRequestFulfillOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockRequestFulfillOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockLedgerOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockLedgerOption)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockBalanceOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockBalanceOption)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockRemoveOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockRemoveOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockRemoveConfirmOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockRemoveConfirmOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockAddOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockAddOption)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StockAddConfirmOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.StockAddConfirmOption)
+                        </div>
+                    </div>
+
+                    <hr style="height:1px;border-width:0;color:gray;background-color:gray;" />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ProjectOption, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.ProjectOption)
+                        </div>
+                    </div>
+
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.WorkFlowReportFeature, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.WorkFlowReportFeature)
+                            </div>
+                        </div>*@
+
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+            </div>
+        </div>
+    </div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}

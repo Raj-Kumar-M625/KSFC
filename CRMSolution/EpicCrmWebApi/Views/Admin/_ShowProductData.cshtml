@@ -1,0 +1,110 @@
+﻿@model IEnumerable<DomainEntities.DownloadProductEx>
+
+@{ 
+    string areaCode = (string)ViewBag.AreaCode;
+    DateTime today = (DateTime)ViewBag.Today;
+
+    int totalItems = (int)ViewBag.TotalItems;
+    int displayedItems = (int)ViewBag.DisplayedItems;
+
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th colspan="14">@Model.Count() of @totalItems Products for Area Code @areaCode</th>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UOM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MRP)
+        </th>
+        <th>Dealer</th>
+        <th>Dist.</th>
+        <th>P.Dist.</th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AreaCode)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.GstCode)
+        </th>
+        <th>Gst Rate Date</th>
+        <th>
+            @Html.DisplayNameFor(model => model.GstPercent)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    var dealerPrice = item.PriceList.Where(x => x.CustomerType == "DEALER").Select(x => x.BillingPrice).FirstOrDefault();
+    var distPrice = item.PriceList.Where(x => x.CustomerType == "DISTRIBUTOR").Select(x => x.BillingPrice).FirstOrDefault();
+    var pdistPrice = item.PriceList.Where(x => x.CustomerType == "P.DISTRIBUTOR").Select(x => x.BillingPrice).FirstOrDefault();
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UOM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MRP)
+        </td>
+        <td>@dealerPrice</td>
+        <td>@distPrice</td>
+        <td>@pdistPrice</td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AreaCode)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.GstCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => today, "DatetimeShort")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GstPercent)
+        </td>
+    </tr>
+}
+
+</table>
+
+@section styles
+{
+    <style type="text/css">
+    body {
+            font-size:10px;
+    }
+
+    </style>
+}

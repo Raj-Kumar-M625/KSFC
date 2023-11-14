@@ -1,0 +1,114 @@
+﻿@model IEnumerable<EpicCrmWebApi.DWSModel>
+@{
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    int itemCount = Model.Count();
+    string displayString = $"{itemCount} rows displayed.";
+}
+
+<div>
+    <h3>
+        <a href="" title="Refresh Search Result" onclick="btnSearchClicked();return false;">
+            <img height="25" width="25" src="~/Content/img/refresh.png" /></a>&nbsp;DWS Details (@Model.Count())
+    </h3>
+</div>
+@if (Model.Count() > 0)
+{
+    <table class="table table-bordered table-striped" id="dataTable">
+        <tr>
+            <th style="column-width:45px;" id="downloadLinkArea" class="removeFromDownload">&nbsp;</th>
+            <th>@Html.DisplayNameFor(model => model.DWSDate)</th>
+            <th>@Html.DisplayNameFor(model => model.STRNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.DWSNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.Agreement)</th>
+            <th>@Html.DisplayNameFor(model => model.TypeName)</th>
+            <th>@Html.DisplayNameFor(model => model.EntityName)</th>
+            <th>@Html.DisplayNameFor(model => model.BagCount)</th>
+            <th>@Html.DisplayNameFor(model => model.GoodsWeight)</th>
+            <th>@Html.DisplayNameFor(model => model.SiloDeductPercent)</th>
+            <th>@Html.DisplayNameFor(model => model.SiloDeductWt)</th>
+            <th>@Html.DisplayNameFor(model => model.SiloDeductWtOverride)</th>
+            <th>@Html.DisplayNameFor(model => model.NetPayableWt)</th>
+
+            <th>@Html.DisplayNameFor(model => model.RatePerKg)</th>
+            <th>@Html.DisplayNameFor(model => model.GoodsPrice)</th>
+            <th>@Html.DisplayNameFor(model => model.DeductAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.NetPayable)</th>
+
+            <th>Zone</th>
+            <th>Area</th>
+            <th>Territory</th>
+            <th>HQ</th>
+
+            <th class="removeFromDownload">&nbsp;</th>
+            <th>@Html.DisplayNameFor(model => model.Comments)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+
+            <th>@Html.DisplayNameFor(model => model.BankAccountName)</th>
+            <th>@Html.DisplayNameFor(model => model.BankName)</th>
+            <th>@Html.DisplayNameFor(model => model.BankAccount)</th>
+            <th>@Html.DisplayNameFor(model => model.BankIFSC)</th>
+            <th>@Html.DisplayNameFor(model => model.BankBranch)</th>
+
+        </tr>
+        @foreach (var item in Model)
+        {
+            DomainEntities.OfficeHierarchy ohRec = officeHierarchy?
+                            .Where(x => x.HQCode.Equals(item.HQCode, StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault();
+
+            var zoneName = ohRec?.ZoneName ?? "";
+            var areaName = ohRec?.AreaName ?? "";
+            var territoryName = ohRec?.TerritoryName ?? "";
+            var hqName = ohRec?.HQName ?? "";
+
+            bool IsEditAllowed = item.Status.Equals(DomainEntities.STRDWSStatus.WeightApproved.ToString(), StringComparison.OrdinalIgnoreCase);
+            <tr>
+                <td class="removeFromDownload">
+                    @if (IsEditAllowed)
+                    {
+                        <a href="/admin/ApproveDWSAmount?dwsId=@item.Id" title="Pay DWS # @item.DWSNumber" class="editInPopup">
+                            <img height="35" width="35" src="~/Content/img/Edit.png" />
+                        </a>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.DWSDate, "DateTimeDate")</td>
+                <td>@Html.DisplayFor(modelItem => item.STRNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.DWSNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Agreement)</td>
+                <td>@Html.DisplayFor(modelItem => item.TypeName)</td>
+                <td>@Html.DisplayFor(modelItem => item.EntityName)</td>
+                <td>@Html.DisplayFor(modelItem => item.BagCount)</td>
+                <td>@Html.DisplayFor(modelItem => item.GoodsWeight)</td>
+                <td>@Html.DisplayFor(modelItem => item.SiloDeductPercent)</td>
+                <td>@Html.DisplayFor(modelItem => item.SiloDeductWt)</td>
+                <td>@Html.DisplayFor(modelItem => item.SiloDeductWtOverride)</td>
+                <th>@Html.DisplayFor(modelItem => item.NetPayableWt)</th>
+
+                <td>@Html.DisplayFor(modelItem => item.RatePerKg)</td>
+                <td>@Html.DisplayFor(modelItem => item.GoodsPrice)</td>
+                <td>@Html.DisplayFor(modelItem => item.DeductAmount)</td>
+                <th>@Html.DisplayFor(modelItem => item.NetPayable)</th>
+
+                <td>@Html.DisplayFor(modelItem => zoneName)</td>
+                <td>@Html.DisplayFor(modelItem => areaName)</td>
+                <td>@Html.DisplayFor(modelItem => territoryName)</td>
+                <td>@Html.DisplayFor(modelItem => hqName)</td>
+
+                <td class="removeFromDownload">
+                    @if (item.ActivityId > 0)
+                    {
+                        @Html.ActionLink("Activity", "ActivityOne", "Dashboard", new { activityId = item.ActivityId }, new { @class = "c_activityLink", target = "_new", title = "Show DWS Activity" })
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.Comments)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+
+                <td>@Html.DisplayFor(model => item.BankAccountName)</td>
+                <td>@Html.DisplayFor(model => item.BankName)</td>
+                <td>@Html.DisplayFor(model => item.BankAccount)</td>
+                <td>@Html.DisplayFor(model => item.BankIFSC)</td>
+                <td>@Html.DisplayFor(model => item.BankBranch)</td>
+            </tr>
+        }
+    </table>
+}

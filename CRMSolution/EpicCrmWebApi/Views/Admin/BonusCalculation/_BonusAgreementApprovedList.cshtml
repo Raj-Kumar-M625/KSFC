@@ -1,0 +1,224 @@
+﻿@model IEnumerable<BonusCalculationModel>
+@{
+    Layout = "";
+    int itemCount = Model.Count();
+    string displayString = $"{itemCount} rows displayed.";
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    ViewBag.Title = "Prepare Bonus Payment";
+    string guidForBonusRow = Guid.NewGuid().ToString();
+
+}
+
+<div>
+    <h3>
+        <a href="" title="Refresh Agreement Bonus Details" onclick="btnSearchClicked();return false;">
+            <img height="25" width="25" src="~/Content/img/refresh.png" />
+        </a>&nbsp;Agreement Bonus Details (@Model.Count())
+    </h3>
+</div>
+@if (Model.Count() > 0)
+{
+<div class="removeFromDownload">
+    <label style="font-size:large;">Info:&nbsp; </label><label style="color:red">"Agreements"&nbsp;</label><label> are &nbsp;</label><label style="color:red"> "Approved"&nbsp; </label><label> and&nbsp; </label><label style="color:red"> "All DWS No."&nbsp; </label><label> for that Agreement are in &nbsp; </label><label style="color:red"> "Paid" &nbsp; </label><label> Status</label>
+</div>
+        <table class="table table-bordered table-striped" id="dataTable">
+        @*Display to Search table*@
+        <tr>
+            <th style="column-width:45px;" id="downloadLinkArea" class="removeFromDownload">&nbsp;</th>
+            <th class="removeFromDownload checkboxCell">All<input class='check-box allRecMark' type='checkbox' /></th>
+
+            <th> @Html.DisplayNameFor(model => model.AgreementDate) </th>
+            <th> @Html.DisplayNameFor(model => model.AgreementNumber) </th>
+            <th> @Html.DisplayNameFor(model => model.EntityName) </th>
+            <th> @Html.DisplayNameFor(model => model.SeasonName) </th>
+            <th> @Html.DisplayNameFor(model => model.TypeName) </th>
+            <th> @Html.DisplayNameFor(model => model.LandSizeInAcres) </th>
+            <th> @Html.DisplayNameFor(model => model.BonusRate) </th>
+            <th> @Html.DisplayNameFor(model => model.NetPayableWt) </th>
+            <th> @Html.DisplayNameFor(model => model.NetPayable) </th>
+            <th> @Html.DisplayNameFor(model => model.BonusAmountPayable) </th>
+            <th> @Html.DisplayNameFor(model => model.BonusAmountPaid) </th>
+            <th> @Html.DisplayName("Bonus Status") </th>
+            <th> @Html.DisplayNameFor(model => model.PaymentReference) </th>
+            <th> @Html.DisplayName("Zone") </th>
+            <th> @Html.DisplayName("Area") </th>
+            <th> @Html.DisplayName("Territory") </th>
+            <th> @Html.DisplayName("HQ Name") </th>
+            <th> @Html.DisplayName("Notes") </th>
+            <th> @Html.DisplayNameFor(model => model.BankName) </th>
+            <th> @Html.DisplayNameFor(model => model.AccountHolderName) </th>
+            <th> @Html.DisplayNameFor(model => model.BankAccount) </th>
+            <th> @Html.DisplayNameFor(model => model.BankBranch) </th>
+            <th> @Html.DisplayNameFor(model => model.BankIFSC) </th>
+
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            DomainEntities.OfficeHierarchy ohRec = officeHierarchy?
+            .Where(x => x.HQCode.Equals(item.HQCode, StringComparison.OrdinalIgnoreCase))
+            .FirstOrDefault();
+
+            var zoneName = ohRec?.ZoneName ?? "";
+            var areaName = ohRec?.AreaName ?? "";
+            var territoryName = ohRec?.TerritoryName ?? "";
+            var hqName = ohRec?.HQName ?? "";
+            string guidForRow = Guid.NewGuid().ToString();
+
+    <tr id="@guidForRow">
+        <td class="removeFromDownload">
+        </td>
+        <td class="removeFromDownload checkboxCell">
+            <input class='check-box oneRecMark' type='checkbox' data-id="@item.AgreementId" />
+        </td>
+
+        <td> @Html.DisplayFor(modelItem => item.AgreementDate, "DateTimeDate") </td>
+        <td> @Html.DisplayFor(modelItem => item.AgreementNumber) </td>
+        <td> @Html.DisplayFor(modelItem => item.EntityName) </td>
+        <td> @Html.DisplayFor(modelItem => item.SeasonName) </td>
+        <td> @Html.DisplayFor(modelItem => item.TypeName) </td>
+        <td> @Html.DisplayFor(modelItem => item.LandSizeInAcres) </td>
+        <td> @Html.DisplayFor(modelItem => item.BonusRate) </td>
+        <td> @Html.DisplayFor(modelItem => item.NetPayableWt) </td>
+        <td> @Html.DisplayFor(modelItem => item.NetPayable) </td>
+        <td> @Html.DisplayFor(modelItem => item.BonusAmountPayable) </td>
+        <td> @Html.DisplayFor(modelItem => item.BonusAmountPaid) </td>
+        <td> @Html.DisplayFor(modelItem => item.BonusStatus) </td>
+        <td> @Html.DisplayFor(modelItem => item.PaymentReference) </td>
+        <td> @Html.DisplayFor(modelItem => zoneName)</td>
+        <td> @Html.DisplayFor(modelItem => areaName)</td>
+        <td> @Html.DisplayFor(modelItem => territoryName)</td>
+        <td> @Html.DisplayFor(modelItem => hqName)</td>
+        <td> @Html.DisplayFor(modelItem => item.Comments) </td>
+        <td> @Html.DisplayFor(modelItem => item.BankName) </td>
+        <td> @Html.DisplayFor(modelItem => item.AccountHolderName) </td>
+        <td> @Html.DisplayFor(modelItem => item.BankAccount) </td>
+        <td> @Html.DisplayFor(modelItem => item.BankBranch) </td>
+        <td> @Html.DisplayFor(modelItem => item.BankIFSC) </td>
+
+    </tr>
+        }
+        <tr class="buttonActions" id="idApproveBtnRow">
+            <td colspan='29'>
+                <input style='width:200px;' type='button' id='btnShowMarked' value='Show Selected' title='Show checked rows' class='form-control btn-warning' />
+                <input style='width:200px;' type='button' id='btnShowUnMarked' value='Show Un-selected' title='Show un-selected rows' class='form-control btn-warning' />
+                <input style='width:200px;' type='button' id='btnShowAll' value='Show All' title='Show all rows' class='form-control btn-warning' />
+                <input style='width:200px;' type='button' id='btnPay' value='Proceed to Payment' class='form-control btn-success' />
+                <span class="removeFromDownload" style="font-size:13px;color:#333;font-family:Arial,sans-serif;">* You can review the payments on next screen, before it's final.</span>
+            </td>
+        </tr>
+    </table>
+    <div id="@guidForBonusRow">
+    </div>
+}
+
+<script>
+    var status = $("#selBonusstatus").val();
+    if (status == "Paid") {
+        $("#idApproveBtnRow").hide();
+    }
+    // if there are no rows with check box, then hide action button row
+    if ($("input.oneRecMark").length == 0)
+    {
+        $(".buttonActions").hide();
+        //$("input.allRecMark").hide();
+        $(".checkboxCell").each(function (index, element) {
+            $(element).remove();
+        });
+    }
+    else
+    {
+        $("input.allRecMark").click(function () {
+            $("input.oneRecMark").prop('checked', $(this).prop('checked'));
+        });
+    }
+
+    $('input#btnPay').click(payButtonClicked);
+    $('input#btnShowMarked').click(showMarkedRowsClicked);
+    $('input#btnShowUnMarked').click(showUnMarkedRowsClicked);
+    $('input#btnShowAll').click(showAllRowsClicked);
+
+    $('input#btnPay').css('display', 'inline');
+    $('input#btnShowMarked').css('display', 'inline');
+    $('input#btnShowUnMarked').css('display', 'inline');
+    $('input#btnShowAll').css('display', 'inline');
+
+    function payButtonClicked() {
+        //$('input#btnPay').hide();
+        var selectedAgreement = [];
+
+        $("input.oneRecMark").each(function (index, element) {
+            if ($(element).is(':checked')) {
+                //var v = $(element).parent().parent().find('td:nth-child(' + colNumForDWSNumber + ')').text().trim();
+
+                @*each check box has id stored as data-id attribute*@
+                var v = $(element).attr('data-id');
+
+                // store in array only if it does not exist
+                if (/^[0-9]+$/.test(v) && selectedAgreement.indexOf(v) === -1) {
+                    selectedAgreement.push(v);
+                }
+            }
+        });
+
+        if (selectedAgreement.length == 0) {
+            alert('Please mark Agreements to approve and Try Again!!!');
+            $('input#btnApprove').show();
+            return;
+        }
+
+        var transmitData = { agreeIds: selectedAgreement };
+        showGlass();
+        showWaitMessage();
+
+        $.ajax('/Admin/MakeBonusPayment', {
+            traditional: true,
+            cache: false,
+            type: "Get",
+            contentType: "application/json",
+            data: transmitData,
+            success: function (data, textStatus, jqXHR) {
+                    // clear message and uncheck all check boxes;
+                    $("input.allRecMark").prop('checked', false);
+                    $("input.oneRecMark").prop('checked', false);
+
+                    SetCallbackFunction(btnSearchClicked);
+                    ShowFormOnGlass(data);
+
+                $('input#btnApprove').show();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("An error occured. Please refresh the page and try again.")
+                hideGlass();
+                $('input#btnApprove').show();
+            }
+        });
+
+        $('input#btnApprove').show();
+    }
+
+    function showMarkedRowsClicked() {
+        $("input.oneRecMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            ($(element).is(':checked')) ? trow.show() : trow.hide();
+        });
+    }
+
+    function showUnMarkedRowsClicked() {
+        $("input.oneRecMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            ($(element).is(':checked')) ? trow.hide() : trow.show();
+        });
+    }
+
+    function showAllRowsClicked() {
+        $("input.oneRecMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            trow.show();
+        });
+    }
+
+</script>
+
+
+

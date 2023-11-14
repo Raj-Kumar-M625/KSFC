@@ -1,0 +1,26 @@
+﻿@model IEnumerable<DomainEntities.ExcelUploadError>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Cell Reference</th>
+            <th>Description</th>
+            <th>Expected Value</th>
+            <th>Actual Value</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.MessageType</td>
+                <td>@s.CellReference</td>
+                <td>@s.Description</td>
+                <td>@s.ExpectedValue</td>
+                <td>@s.ActualValue</td>
+            </tr>
+        }
+    </tbody>
+</table>

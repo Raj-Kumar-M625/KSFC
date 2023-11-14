@@ -1,0 +1,294 @@
+﻿@model IEnumerable<BonusCalculationModel>
+@{
+    int itemCount = Model.Count();
+    string displayString = $"{itemCount} rows displayed.";
+
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+    decimal totalNetAmount = 0;
+    int count = 0;
+
+    int maxCommentsLength = ViewBag.MaxNotesLength;
+
+    string caption = $"Payment for Bonus Agreement";
+
+
+    ICollection<BankAccountViewModel> RemitterBankAccounts =
+        ViewBag.RemitterBankAccounts != null ?
+                ViewBag.RemitterBankAccounts : new List<BankAccountViewModel>();
+
+    ICollection<DomainEntities.CodeTableEx> PaymentTypes = ViewBag.PaymentTypes != null ?
+        ViewBag.PaymentTypes : new List<DomainEntities.CodeTableEx>();
+}
+
+@using (Html.BeginForm("MakeBonusPayment", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+<div class="form-horizontal">
+    <span style="font-size:large;">@caption</span>
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#paymentData">Payment Info</a></li>
+        <li><a data-toggle="tab" href="#relatedFarmerData">Selected Agreements (@Model.Count())</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="relatedFarmerData" class="tab-pane fade in">
+            <table class="table table-bordered table-striped table-condensed" id="idMakePaymentTable">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.AgreementDate)</th>
+                    <th>@Html.DisplayNameFor(model => model.AgreementNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.EntityName)</th>
+                    <th>@Html.DisplayNameFor(model => model.SeasonName)</th>
+                    <th>@Html.DisplayNameFor(model => model.TypeName)</th>
+                    <th>@Html.DisplayNameFor(model => model.NetPayableWt)</th>
+                    <th>@Html.DisplayNameFor(model => model.BonusAmountPaid)</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    totalNetAmount += (decimal)item.BonusAmountPaid;
+                    count++;
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.AgreementDate, "DateTimeDate")</td>
+                <td>@Html.DisplayFor(modelItem => item.AgreementNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.EntityName)</td>
+                <td>@Html.DisplayFor(modelItem => item.SeasonName)</td>
+                <td>@Html.DisplayFor(modelItem => item.TypeName)</td>
+                <td>@Html.DisplayFor(modelItem => item.NetPayableWt)</td>
+                <td>@Html.DisplayFor(modelItem => item.BonusAmountPaid)</td>
+            </tr>
+                }
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <th colspan="3">Total Amount for @count Bonus (Rs.)</th>
+                    <th>@Html.DisplayFor(modelItem => totalNetAmount)</th>
+                </tr>
+            </table>
+        </div>
+        <div id="paymentData" class="tab-pane fade in active">
+            <div class="form-group">
+                <div class="col-md-offset-1">
+                    <br />
+                    <table class="table table-bordered table-striped table-condensed" id="idMakePaymentTable">
+                        <tr>
+                            <th>Total Amount for @count Bonus Agreement is (Rs.)</th>
+                            <th>@Html.DisplayFor(modelItem => totalNetAmount)</th>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <label class="control-label col-md-2">Payment Reference</label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" maxlength="50" id="idPaymentReference" autocomplete="off" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="control-label col-md-2">Sender Info</label>
+                    <div class="col-md-4">
+                        <input type="text" maxlength="50" id="idSenderInfo" name="SenderInfo" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label class="control-label col-md-2">Remitter Account</label>
+                    <div class="col-md-4">
+                        @if ((RemitterBankAccounts?.Count ?? 0) == 1)
+                        {
+                            <select class="form-control" id="idSourceAccount" name="RemitterAccountId" readonly="true">
+                                @foreach (var o in RemitterBankAccounts.OrderBy(x => x.BankName))
+                                {
+                                    <option value="@o.Id">@o.BankName (@o.AccountNumber)</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-control" id="idSourceAccount" name="RemitterAccountId">
+                                <option value="-1">Select</option>
+                                @foreach (var o in RemitterBankAccounts.OrderBy(x => x.BankName))
+                                {
+                                    <option value="@o.Id">@o.BankName (@o.AccountNumber)</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                    <label class="control-label col-md-2">Payment Type</label>
+                    <div class="col-md-4">
+                        @if ((PaymentTypes?.Count ?? 0) == 1)
+                        {
+                            <select class="form-control" id="idPaymentType" name="PaymentType" readonly="true">
+                                @foreach (var o in PaymentTypes.OrderBy(x => x.DisplaySequence))
+                                {
+                                    <option value="@o.Code">@o.Code</option>
+                                }
+                            </select>
+                        }
+                        else
+                        {
+                            <select class="form-control" id="idPaymentType" name="PaymentType">
+                                <option value="">Select</option>
+                                @foreach (var o in PaymentTypes.OrderBy(x => x.DisplaySequence))
+                                {
+                                    <option value="@o.Code">@o.Code</option>
+                                }
+                            </select>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div>
+                    <label class="control-label col-md-2">Notes</label>
+                    <div class="col-md-6">
+                        <textarea name="Comments" rows="3" cols="40" maxlength="@maxCommentsLength" class="form-control" id="idComments"></textarea>
+                        <label class="control-label" style="margin-top:0px;font-weight:normal;color:red;font-size:smaller">Max characters allowed : 100</label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="button" value="Pay Rs. @totalNetAmount" class="btn btn-success" id="approveButton" onclick="validateForm()" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+    </div>
+        }
+
+        <div id="resultArea">
+            <img id="idWait" src="/Content/img/pleasewait.gif" />
+        </div>
+
+        @{
+            Html.RenderPartial("_CodeSnippetPopupCancelLink");
+            Html.RenderPartial("_CodeSnippetConfirmBox");
+        }
+
+
+        <script type="text/javascript">
+    $("#idWait").hide();
+    @Html.Raw("var MaxCommentsLength = " + maxCommentsLength.ToString() + ";");
+    @Html.Raw("var TotalNetAmount = " + totalNetAmount.ToString() + ";");
+
+    @Html.Raw("var BonusData =[];")
+
+    @foreach(var item in Model)
+    {
+        sb.AppendLine("var modelData = { };");
+        sb.AppendLine($"modelData.AgreementId = '{item.AgreementId}';");
+        sb.AppendLine("BonusData.push(modelData);");
+    }
+    @Html.Raw(sb.ToString());
+
+
+    function Save() {
+
+        var paymentReference = $("#idPaymentReference").val().trim();
+        var senderInfo = $("#idSenderInfo").val().trim();
+        var sourceAccountId = $("#idSourceAccount").val();
+        var paymentType = $("#idPaymentType").val();
+        var commentsText = $("#idComments").val().trim();
+
+        @*@foreach(var item in Model)
+        {
+            @:STRData.push("@item.STRTagId");
+        }*@
+        // Submit data using Ajax now.
+        var transmitData = {};
+        transmitData.BonusPayments = BonusData;
+        transmitData.Comments = commentsText;
+        transmitData.PaymentReference = paymentReference;
+        transmitData.TotalBonusAmount = TotalNetAmount;
+        transmitData.RemitterAccountId = sourceAccountId;
+        transmitData.SenderInfo = senderInfo;
+        transmitData.PaymentType = paymentType;
+
+        $("#idTitle").hide();
+        $("#idMakePaymentTable").hide();
+        $("#popupForm").hide();
+        $("#idWait").show();
+
+
+        // remove cancel link container from success message box.
+        $('#idCancelLinkContainer').remove();
+
+        $.ajax('/Admin/MakeBonusPayment', {
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(transmitData),
+            success: function (data, textStatus, jqXHR) {
+
+                $formHtml = $(data); // make it Jquery object
+                $("#resultArea").html($formHtml);
+
+                $formContainer = $("div#divOverGlass");
+
+                // attach event on cancel
+                $formHtml.find("#popupCancelLink").click(
+                    {
+                        formContainer: $formContainer,
+                        form: $formHtml
+                    }, cancelLinkClickOnGlassForm);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("An error occured. Please refresh the page and try again.")
+                $formContainer = $("div#divOverGlass");
+                HideGlassForm({
+                    formContainer: $formContainer
+                })
+            }
+        });
+    }
+
+    function validateForm()
+    {
+        var paymentReference = $("#idPaymentReference").val().trim();
+
+        if (/^[a-zA-Z0-9_\- :]{10,50}$/.test(paymentReference) == false) {
+            ShowAlertArea("Error!", 'Invalid Payment Ref., Required: Min-10, Max-50 alphanumeric characters.', true);
+            return false;
+        }
+
+        var senderInfo = $("#idSenderInfo").val().trim();
+        if (/^[a-zA-Z0-9_\-\. ]{1,50}$/.test(senderInfo) == false) {
+            ShowAlertArea("Error!", 'Invalid Sender Info, Required: Min-10, Max-50 alphanumeric characters.', true);
+            return false;
+        }
+
+        var sourceAccountId = $("#idSourceAccount").val();
+        if (sourceAccountId == undefined || sourceAccountId < 0) {
+            ShowAlertArea("Error!", "Please select Remitter's account.", true);
+            return false;
+        }
+
+        var paymentType = $("#idPaymentType").val();
+        if (paymentType == undefined || paymentType == "") {
+            ShowAlertArea("Error!", "Please select Payment Type.", true);
+            return false;
+        }
+
+        // get the number of characters in comments
+        var commentsText = $("#idComments").val().trim();
+        if (commentsText != undefined && commentsText.length > MaxCommentsLength)
+        {
+            ShowAlertArea("Error!", "Notes can be maximum @maxCommentsLength characters. Currently Notes has " + commentsText.length + " characters.", true);
+            return false;
+        }
+
+        // confirm
+        ShowAlertArea("Confirm!", "Once payment is confirmed, it can't be changed. Please click Yes to 'Approve' or No to go back.", false);
+    }
+        </script>
+
+        <script src="~/Scripts/CustomScripts/EpicCrmCustomPopup.js"></script>
+
+

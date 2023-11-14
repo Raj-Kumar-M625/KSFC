@@ -1,0 +1,71 @@
+﻿@model IEnumerable<SqliteActionProcessLogModel>
+
+@{
+    ViewBag.Title = "Datafeed Process Log";
+    //string currentUtcDateTime = String.Format("{0:yyyy-MM-dd hh:mm:ss tt}", DateTime.UtcNow);
+}
+
+<h2>Datafeed Process Log (@Model.Count())</h2>
+
+@if (Model.Count() > 0)
+{
+<table class="table" id="dataTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenantId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProcessName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LockAcquiredStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HasCompleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HasFailed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.At)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenantId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProcessName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LockAcquiredStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HasCompleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HasFailed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.At)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timestamp)
+        </td>
+    </tr>
+}
+
+</table>
+}

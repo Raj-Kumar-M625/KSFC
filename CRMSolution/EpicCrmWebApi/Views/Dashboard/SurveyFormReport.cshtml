@@ -1,0 +1,147 @@
+﻿@model EpicCrmWebApi.ModelFilter
+@{
+    IEnumerable<DomainEntities.CodeTableEx> statusValues = ViewBag.AgreementStatus;
+    IEnumerable<DomainEntities.CodeTable> activeCrops = ViewBag.ActiveCrops;
+
+    bool uniqueIdEnabled = CRMUtilities.Utils.SiteConfigData.EntityModuleUniqueIdVisible;
+
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+    bool SMSOnDemandFeatureEnabled = (bool)ViewBag.SMSOnDemandFeatureEnabled;
+    int MaxSMSTextSize = (int)ViewBag.MaxSMSTextSize;
+}
+
+@{
+    string t = $"Survey Form Report";
+    Html.RenderPartial("_CodeSnippetPageHeader", t);
+}
+
+
+<div class="well" id="idSearchWell">
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Zone</label>
+                <select class="form-control" id="selZone">
+                    <option value="All">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Area</label>
+                <select class="form-control" id="selArea">
+                    <option value="All">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Territory</label>
+                <select class="form-control" id="selTerritory">
+                    <option value="All">All</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>HQ</label>
+                <select class="form-control" id="selHQ">
+                    <option value="All">All</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Crop</label>
+                <select class="form-control" id="selCrop">
+                    <option value="All">All</option>
+                    @foreach (var o in activeCrops.OrderBy(x => x.Code))
+                    {
+                        <option value="@o.Code">@o.Code</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Client Name</label>
+                <input type="text" class="form-control" id="clientName" />
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Client Type</label>
+                <select class="form-control" id="selClientType">
+                    <option value="All">All</option>
+                    @foreach (var o in Model.ClientType.OrderBy(x => x.DisplaySequence))
+                    {
+                        <option value="@o.Code">@o.Code</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Employee Code</label>
+                <input type="text" class="form-control" id="employeeCode" />
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>Employee Name</label>
+                <input type="text" class="form-control" id="employeeName" />
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        @if (uniqueIdEnabled)
+        {
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>UniqueId</label>
+                    <input type="text" class="form-control" id="uniqueId" />
+                </div>
+            </div>
+        }
+
+        <div class="col-sm-2">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <input type="button" id="btnSearch" value="Search" class="form-control btn-success" />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dataArea">
+</div>
+
+<script type="text/javascript">
+    // Office Hierarchy object
+        @Html.Raw("var OfficeHierarchy =[];")
+
+        @foreach(var oh in officeHierarchy)
+        {
+            sb.AppendLine("var joh = { };");
+
+            sb.AppendLine($"joh.ZoneCode = '{oh.ZoneCode}';");
+            sb.AppendLine($"joh.ZoneName = '{oh.ZoneName}';");
+            sb.AppendLine($"joh.AreaCode = '{oh.AreaCode}'; ");
+            sb.AppendLine($"joh.AreaName = '{oh.AreaName}';");
+            sb.AppendLine($"joh.TerritoryCode = '{oh.TerritoryCode}'; ");
+            sb.AppendLine($"joh.TerritoryName = '{oh.TerritoryName}'; ");
+            sb.AppendLine($"joh.HQCode = '{oh.HQCode}'; ");
+            sb.AppendLine($"joh.HQName = '{oh.HQName}';");
+            sb.AppendLine("OfficeHierarchy.push(joh);");
+        }
+    @Html.Raw(sb.ToString());
+    @Html.Raw($"var SMSOnDemandFeatureEnabled={SMSOnDemandFeatureEnabled.ToString().ToLower()}");
+</script>
+

@@ -1,0 +1,375 @@
+﻿@model ICollection<DomainEntities.TableSchema>
+@{
+    string dataType = ViewData["DataType"] as string;
+    int cols = Model.Count;
+    int i = 0;
+
+    IEnumerable<string> AvailableOperators = ViewBag.AvailableOperators;
+    string tableName = ViewBag.TableName;
+}
+
+<h2>Table Schema for @dataType</h2>
+<table class="table schemaTable">
+    <tr>
+        <th></th>
+        <th>Column Name</th>
+        <th>Format</th>
+        <th class="removeFromDownload checkboxCell">Data<input class='check-box allRecMark' type='checkbox' /></th>
+
+        <th class="removeFromDownload checkboxCell">Filter<input class='check-box allFilterMark' type='checkbox' /></th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var r in Model.OrderBy(x => x.Position))
+    {
+        i++;
+        string trGuid = Guid.NewGuid().ToString();
+        string opGuid = Guid.NewGuid().ToString();
+        string conditionValueGuid = Guid.NewGuid().ToString();
+
+        @* this is used on UI here to limit the type of characters in a text box.*@
+        string textBoxDataType = "text";
+        if (r.IsNumberDataType || r.IsDecimalDataType || r.IsBooleanDataType)
+        {
+            textBoxDataType = "number";
+        }
+
+        @* this is sent to server*@
+        string columnDataType = "S";
+        if (r.IsDateDataType)
+        {
+            columnDataType = "D";
+        }
+        else if (r.IsDecimalDataType || r.IsNumberDataType || r.IsBooleanDataType)
+        {
+            columnDataType = "N";
+        }
+
+        <tr id="@trGuid">
+            <th class="tableSchemaHead">@Helper.GetExcelColumnLabel(i)</th>
+            <td>@r.ColumnName</td>
+            <td>@r.DataTypeDisplayName</td>
+
+            <td class="removeFromDownload checkboxCell">
+                <input class='check-box oneRecMark' type='checkbox' 
+                       title="@r.ColumnName"
+                       data-selectColName="@r.ColumnName" />
+            </td>
+
+            <td class="removeFromDownload checkboxCell">
+                <input class='check-box oneFilterMark' type='checkbox' data-filterColName="@r.ColumnName"
+                       data-opSelectId="@opGuid"
+                       data-condTextId="@conditionValueGuid"
+                       data-columnDataType="@columnDataType"
+                       title="@r.ColumnName"
+                        />
+            </td>
+
+            <td>
+                <select class="form-control operatorSelect" id="@opGuid" title="@r.ColumnName">
+                    @foreach (var o in AvailableOperators)
+                    {
+                        <option value="@o">@o</option>
+                    }
+                </select>
+            </td>
+
+            <td>
+                <input type="@textBoxDataType" class="form-control col-md-4 conditionValueText"
+                       title="@r.ColumnName" maxlength="15"
+                        id="@conditionValueGuid"/>
+            </td>
+        </tr>
+    }
+</table>
+
+<div class="well buttonActions">
+    <div class="row">
+        <div class="col-sm-2">
+            <input style='width:200px;' type='button' id='btnShowMarked' value='Show Selected' title='Show checked rows' class='form-control btn-warning' />
+        </div>
+        <div class="col-sm-2">
+            <input style='width:200px;' type='button' id='btnShowUnMarked' value='Show Un-selected' title='Show un-selected rows' class='form-control btn-warning' />
+        </div>
+        <div class="col-sm-2">
+            <input style='width:200px;' type='button' id='btnShowAll' value='Show All' title='Show all rows' class='form-control btn-warning' />
+        </div>
+        <div class="col-sm-2">
+            <input style='width:200px;' type='button' id='btnData' value='Proceed to Data &gt;&gt;' title="Show Data" class='form-control btn-success' />
+        </div>
+        <div class="col-sm-2">
+            <input style='width:200px;' type='button' id='btnQuery' value='Show Query' title="Show Query" class='form-control btn-info' />
+        </div>
+        <div class="col-sm-2">
+            <input style='width:200px;' type='button' id='btnCount' value='Get Count' title="Show Count of rows matching your selection" class='form-control btn-info' />
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // if there are no rows with check box, then hide action button row
+    if ($("input.oneRecMark").length == 0) {
+        $(".buttonActions").hide();
+        $(".checkboxCell").each(function (index, element) {
+            $(element).remove();
+        });
+    }
+    else {
+        $("input.allRecMark").click(function () {
+            $("input.oneRecMark").prop('checked', $(this).prop('checked'));
+        });
+
+        $("input.allFilterMark").click(function () {
+            $("input.oneFilterMark").prop('checked', $(this).prop('checked'));
+        });
+
+        // when user clicks on filter check box - show or hide corresponding boxes
+        $("input.oneFilterMark").click(function () {
+            var v1 = $(this).attr('data-opSelectId');
+            var v2 = $(this).attr('data-condTextId');
+            if ($(this).prop('checked') == true) {
+                $('#' + v1).show();
+                $('#' + v2).show();
+            }
+            else
+            {
+                $('#' + v1).hide();
+                $('#' + v2).hide();
+            }
+        });
+
+        @* hide operator select and condition value text boxes 
+           these are visible only when user selects condition check box.*@
+        $(".operatorSelect").each(function (index, element) {
+            $(element).hide();
+        });
+        $(".conditionValueText").each(function (index, element) {
+            $(element).hide();
+        });
+    }
+
+    $('input#btnQuery').click({ ShowQuery: 'True', GetCountOnly : 'False'}, dataButtonClicked);
+    $('input#btnData').click({ ShowQuery: 'False', GetCountOnly: 'False' }, dataButtonClicked);
+    $('input#btnCount').click({ ShowQuery: 'False', GetCountOnly: 'True' }, dataButtonClicked);
+    $('input#btnShowMarked').click(showMarkedRowsClicked);
+    $('input#btnShowUnMarked').click(showUnMarkedRowsClicked);
+    $('input#btnShowAll').click(showAllRowsClicked);
+
+    $('input#btnData').css('display', 'inline');
+    $('input#btnShowMarked').css('display', 'inline');
+    $('input#btnShowUnMarked').css('display', 'inline');
+    $('input#btnShowAll').css('display', 'inline');
+
+
+    function dataButtonClicked(event) {
+        $('input#btnData').hide();
+
+        var selectedColumns = [];
+
+        $("input.oneRecMark").each(function (index, element) {
+            if ($(element).is(':checked')) {
+
+                @*each check box has name stored as data-selectColName attribute*@
+                var v = $(element).attr('data-selectColName');
+
+                // store in array only if it does not exist
+                if (/^[0-9a-zA-Z_ ]+$/.test(v) && selectedColumns.indexOf(v) === -1) {
+                    selectedColumns.push(v);
+                }
+            }
+        });
+
+        if (selectedColumns.length == 0) {
+            alert('Please mark Columns and try again.');
+            $('input#btnData').show();
+            return;
+        }
+
+
+        var filterSet = [];
+        var isCriteriaValid = true;
+        $("input.oneFilterMark").each(function (index, element) {
+            if ($(element).is(':checked')) {
+                @*each check box has name stored as data-filterColName attribute*@
+                var v = $(element).attr('data-filterColName');
+
+                var v1 = $(element).attr('data-opSelectId');
+                var v2 = $(element).attr('data-condTextId');
+                
+                var filterCriteria = {};
+
+                filterCriteria.ColumnName = v;
+                filterCriteria.Operator = $('#' + v1).val();
+                filterCriteria.ConditionText = $('#' + v2).val().trim();
+                filterCriteria.ColumnDataType = $(element).attr('data-columnDataType');
+
+                if (filterCriteria.ConditionText != '' &&
+                    /^[0-9a-zA-Z_\- ]+$/.test(filterCriteria.ConditionText))
+                {
+                    filterSet.push(filterCriteria);
+                }
+                else
+                {
+                    isCriteriaValid = false;
+                }
+            }
+        });
+
+        if (isCriteriaValid == false)
+        {
+            alert("One or more specified selection criteria is not valid.");
+            $('input#btnData').show();
+            return;
+        }
+
+        $('#dataArea2').html(waitImage);
+
+        var transmitData = {
+            TableName: "@tableName",
+            SelectColumns: selectedColumns,
+            FilterSet: filterSet,
+            ShowQuery: event.data.ShowQuery,
+            GetCountOnly: event.data.GetCountOnly
+        };
+        //alert(JSON.stringify(transmitData));
+
+        //showGlass();
+        //showWaitMessage();
+
+        $.ajax('/SuperAdmin/GetTableData', {
+            //traditional: true,
+            //cache: false,
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(transmitData),
+            success: function (data, textStatus, jqXHR) {
+
+                var $dataAsHtml = $(data);
+                $('#dataArea2').html($dataAsHtml);
+
+                if (document.getElementById("downloadLinkArea") != null) {
+                    // create link to download the data as excel
+                    // do some text replacements - remove links etc.
+                    var dataToSave = data.replace(/<a.*\">/g, "").replace(/<\/a>/g, "");
+
+                    // Checked check box to be turned into 'Yes'
+                    dataToSave = dataToSave.replace(/<input checked=\"checked\" class=\"check-box\" disabled=\"disabled\" type=\"checkbox\" \/>/g, "Yes");
+                    // UnChecked check box to be turned into 'No'
+                    dataToSave = dataToSave.replace(/<input .* type=\"checkbox\" \/>/g, "No");
+
+                    // now create html and remove header row from downloadable data
+                    var $dataAsHtml = $(dataToSave);
+                    $dataAsHtml.find("#dataTableHeader").remove();
+                    // remove all rows that are there to show order details inline
+                    // it will be there only for orders;
+                    $dataAsHtml.find(".removeFromDownload").remove();
+
+                    // replace Employee Status to Active / In-Active value
+
+                    dataToSave = $('<div>').append($dataAsHtml).html();
+
+                    var blob = new Blob([dataToSave], { type: "application/x-msexcel" });
+                    var url = URL.createObjectURL(blob);
+
+                    var m = document.createElement('img');
+                    m.height = "25";
+                    m.width = "25";
+                    m.src = "/Content/img/download_3.png";
+
+                    var a = document.createElement('a');
+                    a.download = "DownloadReport.xls";
+                    a.href = url;
+                    //a.textContent = "Download as Excel";
+                    a.title = "Download as Excel";
+                    a.appendChild(m);
+
+                    document.getElementById("downloadLinkArea").appendChild(a);
+                }
+
+                $('input#btnData').show();
+                if ($('#dataTable').length)
+                {
+                    HideSearch();
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("An error occured. Please refresh the page and try again.");
+                $('input#btnData').show();
+            }
+        });
+
+        $('input#btnData').show();
+    }
+
+    function showMarkedRowsClicked() {
+        $("input.oneRecMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            if (($(element).is(':checked'))) {
+                trow.show();
+            }
+            else {
+                trow.hide();
+            }
+        });
+
+        // show rows which are marked for filter
+        $("input.oneFilterMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            if (($(element).is(':checked'))) {
+                trow.show();
+            }
+        });
+    }
+
+    function showUnMarkedRowsClicked() {
+        $("input.oneRecMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            if (($(element).is(':checked'))) {
+                trow.hide();
+            }
+            else {
+                trow.show();
+            }
+        });
+
+        // hide rows which are marked for filter
+        $("input.oneFilterMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            if (($(element).is(':checked'))) {
+                trow.hide();
+            }
+        });
+    }
+
+    function showAllRowsClicked() {
+        $("input.oneRecMark").each(function (index, element) {
+            var trow = $(element).parent().parent();
+            trow.show();
+        });
+    }
+
+</script>
+
+
+
+
+
+@section styles{
+    <style>
+        .tableSchemaHead, th {
+            text-align: center !important;
+            background-color: lightgrey !important;
+        }
+
+        table.schemaTable tr td {
+            text-align: center !important;
+        }
+
+        td {
+            text-align: center !important;
+        }
+    </style>
+}

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<DealersNotMetReportDataModel>
+@{
+    Layout = "";
+    ViewBag.Title = "Dealers Not Met";
+    int customers = Model.Count();
+    string displayString = $"{customers} Customers are matching as per search criteria.";
+
+    string guidForRow = Guid.NewGuid().ToString();
+}
+<table class="table table-bordered table-striped table-condensed">
+    <tr id="dataTableHeader">
+        <td colspan="2" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="9">@Model.Count() rows displayed.</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastActivity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HQCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HQName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastActivity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HQCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HQName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+        </tr>
+    }
+</table>
+
+

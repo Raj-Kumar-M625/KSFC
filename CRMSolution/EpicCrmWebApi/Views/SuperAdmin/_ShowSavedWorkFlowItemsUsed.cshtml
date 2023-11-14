@@ -1,0 +1,19 @@
+﻿@model IEnumerable<string>
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th>
+            Item Name
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item)
+            </td>
+        </tr>
+    }
+</table>
+

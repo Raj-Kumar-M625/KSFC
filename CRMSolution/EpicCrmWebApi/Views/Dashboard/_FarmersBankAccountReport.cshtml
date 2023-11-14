@@ -1,0 +1,119 @@
+﻿
+@model IEnumerable<FarmersBankAccountReportDataModel>
+
+@{
+    Layout = "";
+    IEnumerable<FarmersBankAccountReportDataModel> reportData = Model;
+
+}
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr id="dataTableHeader">
+        <td colspan="1" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="13">@reportData.Count() rows displayed.</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeCode)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.EntityName)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.EntityNumber)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.IsSelfAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountHolderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountHolderPAN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankAccount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankIFSC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankBranch)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TerritoryName)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.HQName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+
+    </tr>
+
+    @foreach (var item in reportData)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.EmployeeCode)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.EmployeeName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.EntityName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.EntityNumber)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.IsSelfAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.AccountHolderName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.AccountHolderPAN)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.BankAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.BankIFSC)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.BankBranch)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.TerritoryName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.HQName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Status)
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[SqliteSTRDWS]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[SqliteSTRId] BIGINT NOT NULL REFERENCES SqliteSTR(Id),
+
+	[EntityId] BIGINT NOT NULL,
+	[EntityName] NVARCHAR(50) NOT NULL,
+
+	[AgreementId] BIGINT NOT NULL,
+	[Agreement] NVARCHAR(50) NOT NULL,
+	[EntityWorkFlowDetailId] BIGINT NOT NULL,
+	[TypeName] NVARCHAR(50) NOT NULL,
+	[TagName] NVARCHAR(50) NOT NULL,
+
+	[DWSNumber] NVARCHAR(50) NOT NULL,
+	[BagCount] BIGINT NOT NULL,
+	[FilledBagsWeightKg] DECIMAL(19,2) NOT NULL,
+	[EmptyBagsWeightKg] DECIMAL(19,2) NOT NULL,
+
+	[DWSDate] DATETIME2 NOT NULL,
+
+	[ActivityId] NVARCHAR(50) NOT NULL DEFAULT '',
+
+	[IsProcessed] BIT NOT NULL DEFAULT 0,  
+	[DWSId] BIGINT NOT NULL DEFAULT 0,
+)

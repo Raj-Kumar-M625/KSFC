@@ -1,0 +1,112 @@
+﻿@model IEnumerable<ModelOrder>
+@{
+    decimal total = (Model != null) ? Model.Sum(s => s.NetAmount) : 0;
+    int orderCount = (Model != null) ? Model.Count() : 0;
+
+    decimal totalRevisedNetAmount = (Model != null) ? Model.Sum(s => s.RevisedNetAmount) : 0;
+    decimal totalApprovedAmount = (Model != null) ? Model.Sum(s => s.ApprovedAmt) : 0;
+
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr id="dataTableHeader">
+        <td colspan="2" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="2" id="detailDownloadLinkArea">
+            <a href="" title="Download Details in Excel" onclick="detailOrderDownloadClicked(); return false;">Save Order Items as Excel</a>
+        </td>
+        <td colspan="4" style="text-align:right;"><strong>Total @orderCount Order(s):</strong></td>
+        <td style="text-align:right;"><strong>@total.ToString("##,##,##,##0.00")</strong></td>
+        <td style="text-align:right;"><strong>@totalRevisedNetAmount.ToString("##,##,##,##0.00")</strong></td>
+        <td style="text-align:right;"><strong>@totalApprovedAmount.ToString("##,##,##,##0.00")</strong></td>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model=> model.IsApproved)
+        </th>
+        <th style="text-align:right;">
+            @Html.DisplayNameFor(model => model.NetAmount)
+        </th>
+
+        <th style="text-align:right;">
+            @Html.DisplayNameFor(model => model.RevisedNetAmount)
+        </th>
+
+        <th style="text-align:right;">
+            @Html.DisplayNameFor(model => model.ApprovedAmt)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        string guidForRow = Guid.NewGuid().ToString();
+        string guid = Guid.NewGuid().ToString();
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate, "DatetimeShort")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone, "Phone")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerCode)
+            </td>
+            <td title="@item.CustomerName">
+                <a href="" title="Show items" onclick="customerAnchorClicked('@guidForRow', '@guid', '@item.Id'); return false;">@item.CustomerName</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsApproved)
+            </td>
+            <td style="text-align:right;">
+                @Html.ActionLink(item.NetAmount.ToString("##,##,##,##0.00"), "ShowApprovePage", new { Id = item.Id, ReportType=ViewBag.ReportType }, new { target = "_new"})
+            </td>
+
+            <td style="text-align:right;">
+                @Html.DisplayFor(modelItem => item.RevisedNetAmount)
+            </td>
+
+            <td style="text-align:right;">
+                @Html.DisplayFor(modelItem => item.ApprovedAmt)
+            </td>
+        </tr>
+
+        <tr class="orderDetailRow" id="@guidForRow">
+            <td style="border-top:none;font-weight:bold;">&nbsp;</td>
+            <td style="border-top:none;" id="@guid" colspan="10">&nbsp;</td>
+        </tr>
+    }
+</table>
+
+
+

@@ -1,0 +1,66 @@
+﻿@model EpicCrmWebApi.PaymentModel
+@{
+    string desc = $"{Model.EmployeeName} ({Model.EmployeeCode}) has collected Rs. {Model.TotalAmount} from {Model.CustomerName} on {Model.PaymentDate.ToString("ddd dd-MM-yyyy")}";
+}
+
+<input type="hidden" id="amountVal" value="@Model.TotalAmount" />
+<input type="hidden" id="tableTitleVal" value="@desc" />
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentType)
+        </th>
+        <th style="text-align:right;">
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+    </tr>
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.PaymentDate, "DatetimeShort")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.CustomerCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.PaymentType)
+            </td>
+            <td style="text-align:right;">
+                @Html.DisplayFor(modelItem => Model.TotalAmount)
+            </td>
+        </tr>
+
+        <tr>
+            <td style="border-top:none;">
+                &nbsp;
+            </td>
+            <td colspan="4" style="border-top:none;">
+                Comment: @Model.Comment
+            </td>
+            <td style="border-top:none;text-align:right;">
+                @if (Model.ImageCount > 0)
+                {
+                    <a href="" class="paymentImage" onclick="DisplayImage(@Model.Id, @Model.ImageCount, 'Payment');return false;">Image</a>
+                }
+            </td>
+        </tr>
+</table>

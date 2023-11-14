@@ -1,0 +1,50 @@
+﻿CREATE TABLE [dbo].[Entity]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY IDENTITY,
+	[EmployeeId] BIGINT NOT NULL REFERENCES TenantEmployee(Id),
+	[DayId] BIGINT NOT NULL REFERENCES dbo.[Day](Id),
+	[HQCode] NVARCHAR(10) NULL,
+
+	[ContactCount] INT NOT NULL DEFAULT 0,
+	[CropCount] INT NOT NULL DEFAULT 0,
+	[ImageCount] INT NOT NULL DEFAULT 0,
+	[AgreementCount] INT NOT NULL DEFAULT 0,
+
+	[AtBusiness] BIT NOT NULL, 
+    [EntityType] NVARCHAR(50) NOT NULL, 
+    [EntityName] NVARCHAR(50) NOT NULL, 
+
+	[EntityNumber] NVARCHAR(50) NULL,
+	[FatherHusbandName] NVARCHAR(50) NULL,
+	[HQName] NVARCHAR(50) NULL,
+	[TerritoryCode] NVARCHAR(10) NULL,
+	[TerritoryName] NVARCHAR(50) NULL,
+
+	--[MajorCrop] NVARCHAR(50) NULL,
+	--[LastCrop] NVARCHAR(50) NULL,
+	--[WaterSource] NVARCHAR(50) NULL,
+	--[SoilType] NVARCHAR(50) NULL,
+	--[SowingType] NVARCHAR(50) NULL,
+	--[SowingDate] DATETIME2 NULL,
+
+	[EntityDate] DATETIME2 NOT NULL,
+    [Address] NVARCHAR(100) NULL, 
+    [City] NVARCHAR(50) NULL, 
+    [State] NVARCHAR(50) NULL, 
+    [Pincode] NVARCHAR(10) NULL, 
+    [LandSize] NVARCHAR(50) NULL , 
+    [Latitude] DECIMAL(19, 9) NOT NULL, 
+    [Longitude] DECIMAL(19, 9) NOT NULL, 
+
+	[UniqueIdType] NVARCHAR(50) NOT NULL DEFAULT '',
+	[UniqueId] NVARCHAR(50) NOT NULL DEFAULT '',
+	[TaxId] NVARCHAR(50) NOT NULL DEFAULT '',
+
+	[DateCreated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[DateUpdated] DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
+	[SqliteEntityId] BIGINT NOT NULL,
+	[UpdatedBy] NVARCHAR(50) NOT NULL DEFAULT '',
+
+	IsActive BIT NOT NULL DEFAULT 1,
+	--[Consent]  BIT NOT NULL  DEFAULT 0
+)

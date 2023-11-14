@@ -1,0 +1,87 @@
+﻿@model IEnumerable<EpicCrmWebApi.StockLedgerModel>
+@{
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    int itemCount = Model.Count();
+}
+
+<div>
+    <h3>
+        <a href="" title="Refresh Search Result" onclick="btnSearchClicked();return false;">
+            <img height="25" width="25" src="~/Content/img/refresh.png" /></a>&nbsp;Stock Ledger (@itemCount)
+@if (itemCount > 0)
+{
+        <span id="downloadLinkArea"></span>
+}
+    </h3>
+</div>
+@if (itemCount > 0)
+{
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <thead>
+        <tr>
+            <th width="100px">@Html.DisplayNameFor(model => model.TransactionDate)</th>
+            <th>@Html.DisplayNameFor(model => model.ReferenceNo)</th>
+            <th>@Html.DisplayNameFor(model => model.LineNumber)</th>
+
+            <th>@Html.DisplayNameFor(model => model.Category)</th>
+            <th>@Html.DisplayNameFor(model => model.ItemDesc)</th>
+            <th>@Html.DisplayNameFor(model => model.Unit)</th>
+            <th>@Html.DisplayNameFor(model => model.IssueQuantity)</th>
+            <th>@Html.DisplayNameFor(model => model.ReceiveQuantity)</th>
+
+            <th>@Html.DisplayNameFor(model => model.ZoneCode)</th>
+            <th>@Html.DisplayNameFor(model => model.AreaCode)</th>
+            <th>@Html.DisplayNameFor(model => model.TerritoryCode)</th>
+            <th>@Html.DisplayNameFor(model => model.HQCode)</th>
+            <th>@Html.DisplayNameFor(model => model.StaffCode)</th>
+            <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+
+            <th>@Html.DisplayNameFor(model => model.CreatedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.DateCreated)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string ZoneName = officeHierarchy.Where(x => x.ZoneCode.Equals(item.ZoneCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.ZoneName ?? item.ZoneCode;
+
+            string AreaName = officeHierarchy.Where(x => x.AreaCode.Equals(item.AreaCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.AreaName ?? item.AreaCode;
+
+            string TerritoryName = officeHierarchy.Where(x => x.TerritoryCode.Equals(item.TerritoryCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.TerritoryName ?? item.TerritoryCode;
+
+            string HQName = officeHierarchy.Where(x => x.HQCode.Equals(item.HQCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.HQName ?? item.HQCode;
+
+
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TransactionDate, "DatetimeDate")</td>
+                <td>@Html.DisplayFor(modelItem => item.ReferenceNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.LineNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Category)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.ItemDesc)</td>
+                <td>@Html.DisplayFor(modelItem => item.Unit)</td>
+                <td>@Html.DisplayFor(modelItem => item.IssueQuantity)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReceiveQuantity)</td>
+
+
+                <td>@Html.DisplayFor(modelItem => ZoneName)</td>
+                <td>@Html.DisplayFor(modelItem => AreaName)</td>
+                <td>@Html.DisplayFor(modelItem => TerritoryName)</td>
+                <td>@Html.DisplayFor(modelItem => HQName)</td>
+                <td>@Html.DisplayFor(modelItem => item.StaffCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.CreatedBy)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateCreated, "Datetime")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+
+

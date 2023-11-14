@@ -1,0 +1,99 @@
+﻿@model IEnumerable<EpicCrmWebApi.UnSownModel>
+@{
+    bool uniqueIdEnabled = CRMUtilities.Utils.SiteConfigData.EntityModuleUniqueIdVisible;
+
+    int totalColumns = 14;
+    if (uniqueIdEnabled == false)
+    {
+        totalColumns -= 2;
+    }
+
+    ICollection<DomainEntities.EntityAgreement> agreementData = ViewBag.AgreementData as ICollection<DomainEntities.EntityAgreement>;
+
+     int rowCount = (from e in Model
+                        join d in agreementData on e.Id equals d.EntityId
+                        select e.Id).Count();
+
+    string displayString = $"{rowCount} rows displayed.";
+}
+
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <tr id="dataTableHeader">
+        <td colspan="4" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="@totalColumns">@displayString</td>
+    </tr>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.EmployeeCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+        <th>@Html.DisplayNameFor(model => model.HQCode)</th>
+        <th>@Html.DisplayNameFor(model => model.EntityType)</th>
+        <th>@Html.DisplayNameFor(model => model.EntityName)</th>
+
+        @if (uniqueIdEnabled)
+        {
+            <th>@Html.DisplayNameFor(model => model.UniqueIdType)</th>
+            <th>@Html.DisplayNameFor(model => model.UniqueId)</th>
+        }
+        <th>@Html.DisplayNameFor(model => model.LandSize)</th>
+
+        <th>Crop</th>
+        <th>Agreement Number</th>
+        <th>Agreement Status</th>
+        <th>Input Issue Count</th>
+        <th>Total Advance Requested</th>
+        <th>Total Advance Approved</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        int agreementCount = agreementData?.Count(x => x.EntityId == item.Id) ?? 0;
+        if (agreementCount == 0)
+        {
+            continue;
+        }
+
+        var agreements = agreementData.Where(x => x.EntityId == item.Id).ToList();
+
+        foreach (var ag in agreements)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.EmployeeCode)</td>
+            <td>@Html.DisplayFor(modelItem => item.EmployeeName)</td>
+            <td>@Html.DisplayFor(modelItem => item.HQCode)</td>
+            <td>@Html.DisplayFor(modelItem => item.EntityType)</td>
+            <td>@Html.DisplayFor(modelItem => item.EntityName)</td>
+
+            @if (uniqueIdEnabled)
+            {
+                <td>@Html.DisplayFor(modelItem => item.UniqueIdType)</td>
+                <td>@Html.DisplayFor(modelItem => item.UniqueId)</td>
+            }
+
+            <td>@Html.DisplayFor(modelItem => item.LandSize)</td>
+            <td>@ag.TypeName</td>
+            <td>@ag.AgreementNumber</td>
+            <td>@ag.Status</td>
+            <td>@ag.ActivityCount</td>
+
+            @if (ag.TotalAdvanceRequested.HasValue)
+            {
+            <td>@Html.DisplayFor(modelItem => ag.TotalAdvanceRequested)</td>
+            }
+            else
+            {
+                <td>&nbsp;</td>
+            }
+
+            @if (ag.TotalAdvanceApproved.HasValue)
+            {
+            <td>@Html.DisplayFor(modelItem => ag.TotalAdvanceApproved)</td>
+            }
+            else
+            {
+                <td>&nbsp;</td>
+            }
+        </tr>
+        }
+    }
+</table>
+

@@ -1,0 +1,372 @@
+﻿
+@{
+    long Id = ViewBag.Id;
+    string reportType = ViewBag.reportType;
+}
+
+@* https://www.w3schools.com/Bootstrap/bootstrap_scrollspy.asp
+    http://www.eyecon.ro/bootstrap-datepicker/
+    https://tarruda.github.io/bootstrap-datetimepicker/
+*@
+
+<h2 id="title">@reportType Item(s)</h2>
+
+<div class="well">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="card h-100">
+                <h4 class="card-header" id="cardHeader"></h4>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 table-responsive">
+                            <table class="table table-bordered  table-sortable">
+                                <tr>
+                                    <th class="text-center">
+                                        Reference #
+                                    </th>
+                                    <th class="text-center">
+                                        Approve Amount
+                                    </th>
+                                    <th class="text-center">
+                                        Comments
+                                    </th>
+                                    <th colspan="2">
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" name="name1" class="form-control" id="txtRefNum" maxlength="255"></td>
+                                    <td><input type="number" class="form-control" id="txtAmt" /></td>
+                                    <td><textarea name="desc1" placeholder="Approval Notes" class="form-control" id="txtComments" maxlength="2048"></textarea></td>
+
+                                    <td style="text-align: center">
+                                        <div id="divNotApproved" style="visibility:hidden;">
+                                            <button id="btnApprove" class="btn btn-success">Approve</button>
+                                        </div>
+                                        <div id="divApproved" style="visibility:hidden;">
+                                            <span class="text-muted" id="txtApprovedBy">&nbsp;</span><br/>
+                                            <span class="text-success"><strong>Approved on</strong></span><br/>
+                                            <span class="text-muted" id="txtApprovedDt">&nbsp;</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dataArea">
+</div>
+
+<div id="imageDisplayWaitArea">
+    <span>Getting Image...Please wait</span>
+</div>
+
+<div id="imageDisplayArea">
+    <hr />
+</div>
+
+    @section scripts{
+        <script>
+            $(document).ready(
+                function () {
+                    $("#btnApprove").off('click').on('click', ApproveButtonClicked);
+
+                    $("#imageDisplayArea").hide();
+                    $("#imageDisplayWaitArea").hide();
+
+                    GetItemDetails();
+                    GetCurrentApprovedData();
+                }
+            );
+
+            function SetTitle()
+            {
+                // #tableTitleVal is set by each partial view as a hidden field;
+                $('#cardHeader').text($('#tableTitleVal').val());
+            }
+
+            function FillApproveAmount()
+            {
+                // #tableTitleVal is set by each partial view as a hidden field;
+                //var txtAmt = $('#txtAmt').val();
+                //if (isNaN(txtAmt))
+                //{
+                //    $('#txtAmt').val($('#idRevisedExpense').val());
+                //}
+                var approvalCount = $('#idApprovalCount').val()
+                if (approvalCount == 0)
+                {
+                    $('#txtAmt').val($('#idRevisedExpense').val());
+                }
+                //$('#txtAmt').val($('#idRevisedExpense').val());
+
+            }
+
+            function GetItemDetails()
+            {
+                $.ajax('/Dashboard/GetItemDetails', {
+                    cache: false,
+                    type: "Get",
+                    contentType: "application/json",
+                    data: { Id: @Id, reportType: '@reportType'},
+                    success: function (data, textStatus, jqXHR) {
+                        $('#dataArea').html(data);
+                        $(".editInPopup").off('click').on('click', editPopupLinkClicked);
+                        SetTitle();
+                        FillApproveAmount();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("An error occured while getting item details. Please refresh the page and try again.")
+                    }
+                });
+            }
+
+            function GetCurrentApprovedData()
+            {
+                $.ajax('/Dashboard/GetApprovedData', {
+                    cache: false,
+                    type: "Get",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: { Id: @Id, reportType: '@reportType'},
+                    success: function (data, textStatus, jqXHR) {
+                        var status = data.IsApproved;
+                        if (status == true)
+                        {
+                            $('#txtApprovedBy').text(data.ApprovedBy);
+                            $('#txtApprovedDt').text(data.ApproveDate);
+                            $('#txtRefNum').val(data.RefNo);
+                            $('#txtAmt').val(data.ApproveAmount);
+                            $('#txtComments').val(data.Comment);
+
+                            $('#divApproved').css("visibility", "visible");
+                        }
+                        else
+                        {
+                            $('#divNotApproved').css("visibility", "visible");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        alert("An error occured while getting current approval data - please refresh the page and try again.")
+                    }
+                });
+            }
+
+            var ApproveButtonClicked = function (event)
+            {
+                var approveData = GetApproveData();
+                if (approveData == null)
+                {
+                    return;
+                }
+                else {
+                    $('#divNotApproved').css("visibility", "hidden");
+                    $.ajax('/Dashboard/ApproveAmount', {
+                        cache: false,
+                        type: "Get",
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: approveData,
+                        success: function (data, textStatus, jqXHR) {
+                            var status = data.Status;
+                            if (status == 0) {
+                                alert(data.Message);
+                                setTimeout(function () { location.reload(1); }, 500);
+                                $('#divNotApproved').css("visibility", "visible");
+                            }
+                            else if (status == 1)
+                            {
+                                $('#divApproved').css("visibility", "visible");
+                                $('#txtApprovedDt').text(approveData.ApproveDate);
+                                //$('#txtApprovedBy').text(data.ApprovedBy);
+                                location.reload();
+                            }
+                            else
+                            {
+                                alert(data.Message);
+                                $('#divNotApproved').css("visibility", "visible");
+                            }
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            alert("An error occured while approving amount - please refresh the page and try again.")
+                        }
+                    });
+                }
+            }
+
+            function Validate(refNo, approveAmt, comment)
+            {
+                var amount = $("#amountVal").val();
+                amount = Number(amount);
+                approveAmt = Number(approveAmt);  // to make these numbers
+
+                if (refNo.length < 1)
+                {
+                    alert("Please enter Reference # and try again.");
+                    return false;
+                }
+                if (approveAmt < 0)
+                {
+                    alert("Please enter a valid Amount and try again.");
+                    return false;
+                }
+                if (approveAmt > amount)
+                {
+                    alert("Approved Amount " + approveAmt + " is greater than actual amount " + amount);
+                    return false;
+                }
+
+                return true;
+            }
+
+            function GetApproveData() {
+                var refNo = $('#txtRefNum').val();
+                var approveAmt = $("#txtAmt").val();
+                var comment = $("#txtComments").val();
+                if (Validate(refNo, approveAmt, comment) == true)
+                {
+                    var approvalData = {};
+                    approvalData.Id = @Id;
+                    approvalData.RefNo = refNo;
+                    approvalData.ApproveAmount = approveAmt;
+                    approvalData.Comment = comment;
+                    approvalData.ApproveDate = new Date().toString('ddd yyyy-MM-dd hh:mm:ss tt');
+                    approvalData.ReportType = '@reportType';
+                    return approvalData;
+                }
+                else {
+                    return null;
+                }
+            }
+
+            // function used from expense Items and payments to show image
+            var isProcessing = false;
+            function DisplayImage(id, imageCount, reportType)
+            {
+                if (isProcessing) {
+                    return;
+                }
+                isProcessing = true;
+                var imagesRetrieved = 0;
+
+                $("#imageDisplayArea").show();
+                $("#imageDisplayWaitArea").show();
+                $('#imageDisplayArea').html('<span></span>');
+
+                for(i = imageCount; i > 0; i--)
+                {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var reader = new window.FileReader();
+                            reader.readAsDataURL(this.response);
+                            reader.onloadend = function ()
+                            {
+                                imagesRetrieved++;
+                                $('#imageDisplayArea').append('<img style="margin-left:20px;" height="300px" width="auto" src="' + reader.result + '"/>');
+                                if (imagesRetrieved == imageCount) // last image processed
+                                {
+                                    isProcessing = false;
+                                    $("#imageDisplayWaitArea").hide();
+                                }
+                            }
+                        }
+                    }
+
+                    var url = '';
+                    if (reportType == 'Expense')
+                    {
+                        url = '/Dashboard/ExpenseItemImage?expenseItemId=';
+                    }
+                    else if (reportType == 'Payment')
+                    {
+                        url = '/Dashboard/PaymentImage?paymentId=';
+                    }
+                    else if(reportType == 'Order')
+                    {
+                        url = '/Dashboard/OrderImage?orderId=';
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    xhr.open('GET', url+id+'&imageItem='+i);
+                    xhr.responseType = 'blob';
+                    xhr.send();
+                }
+            }
+
+        </script>
+    }
+
+
+    @section styles{
+        <style>
+
+        /*.card-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, .03);
+            border: 1px solid rgba(0, 0, 0, .125)
+        }
+
+        .card-header:first-child {
+            border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
+        }*/
+
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem
+}
+
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%
+}
+
+
+            /*.h4, h4 {
+                font-size: 1.07rem !important;
+            }*/
+
+            .h1, h1 {
+                font-size: 2.01rem;
+            }
+
+            hr {
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+                border: none !important;
+            }
+
+            .search-form {
+                background-color: #fff;
+                border-radius: 5px;
+                padding: 20px 0;
+            }
+
+            .form-inline .form-control, .form-inline .form-control {
+                background: none repeat scroll 0 0 #eeeeee;
+                border-radius: 1px;
+                color: #333;
+                font-style: italic;
+                height: 40px;
+                margin-right: 10px;
+                width: 195px;
+            }
+
+            .no-padding {
+                padding-left: 0px !important;
+                padding-right: 0px !important;
+            }
+        </style>
+
+    }

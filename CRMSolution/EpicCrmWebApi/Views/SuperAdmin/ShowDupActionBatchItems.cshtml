@@ -1,0 +1,128 @@
+﻿@model IEnumerable<DomainEntities.SqliteActionDisplayData>
+
+@{
+    ViewBag.Title = "Duplicate Action Batch Items";
+    string pageTitle = String.Format("Duplicate Action Batch Items [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.At)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AtBusiness)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MCC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MNC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LAC)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CellId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneDbId)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.At)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactCount)
+        </td>
+        <td>
+            @Html.CheckBoxFor(modelItem => item.AtBusiness)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Latitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Longitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MCC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MNC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LAC)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CellId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClientType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comments)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneDbId)
+        </td>
+    </tr>
+    }
+
+</table>

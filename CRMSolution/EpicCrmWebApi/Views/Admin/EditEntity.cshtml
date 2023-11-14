@@ -1,0 +1,176 @@
+﻿@model EntityModel
+@{
+    IEnumerable<DomainEntities.CodeTableEx> headQuarters = ViewBag.HeadQuarters;
+
+    bool uniqueIdEnabled = CRMUtilities.Utils.SiteConfigData.EntityModuleUniqueIdVisible;
+    bool taxIdEnabled = CRMUtilities.Utils.SiteConfigData.EntityModuleTaxIdVisible;
+    bool addressEnabled = CRMUtilities.Utils.SiteConfigData.IsAddressVisible;
+}
+
+
+@using (Html.BeginForm("EditEntity", "Admin", FormMethod.Post, new { Id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <span style="font-size:large;">Edit</span>
+
+    <hr />
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.UniqueIdType)
+    @Html.HiddenFor(model => model.EntityType)
+
+    @Html.HiddenFor(model => model.FatherHusbandName)
+
+    @if (uniqueIdEnabled == false)
+    {
+        <input type="hidden" name="UniqueId" value="123456123456"/>
+        //Html.HiddenFor(model => model.UniqueId, new { value = "123456123456" });
+    }
+
+        <div class="form-group">
+            <div>
+                <label class="control-label col-md-2">@Model.EntityType</label>
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.EntityName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EntityName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.HQCode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    <select class="form-control" id="selHq" name="HqCode">
+                        @foreach (var o in headQuarters.OrderBy(x => x.CodeName))
+                        {
+                            if (o.Code.Equals(Model.HQCode, StringComparison.OrdinalIgnoreCase))
+                            {
+                                <option value="@o.Code" selected>@o.CodeName (@o.Code)</option>
+                            }
+                            else
+                            {
+                                <option value="@o.Code">@o.CodeName (@o.Code)</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.LandSize, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.LandSize, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LandSize, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.AtBusiness, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.AtBusiness)
+                </div>
+            </div>
+        </div>
+
+    @if (uniqueIdEnabled || taxIdEnabled)
+    {
+        <div class="form-group">
+            @if (taxIdEnabled)
+            {
+                <div>
+                    @Html.LabelFor(model => model.TaxId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.TaxId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.TaxId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            }
+            @if (uniqueIdEnabled)
+            {
+                <div>
+                    <label class="control-label col-md-2">@Model.UniqueIdType</label>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.UniqueId, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.UniqueId, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+            }
+        </div>
+    }
+
+    @if (addressEnabled)
+    {
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Pincode, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Pincode, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Pincode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    }
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div>
+            @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+  
+    <div class="form-group">
+        <div>
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.IsActive)
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-5 col-md-4">
+            <input type="submit" value="Save" class="btn btn-success" id="popupSaveButton" />
+        </div>
+    </div>
+</div>
+}
+
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+}

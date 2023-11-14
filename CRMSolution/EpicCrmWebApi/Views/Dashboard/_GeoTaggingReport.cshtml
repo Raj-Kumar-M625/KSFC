@@ -1,0 +1,82 @@
+﻿@model IEnumerable<GeoTagReportDataModel>
+
+@{
+    IEnumerable<GeoTagReportDataModel> reportData = Model;
+
+}
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr id="dataTableHeader">
+        <td colspan="1" id="downloadLinkArea">&nbsp;</td>
+        <td colspan="9">@reportData.Count() rows displayed.</td>
+    </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeCode)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZoneName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DivisionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.GeoTagStatus)
+        </th>
+
+    </tr>
+
+    @foreach (var item in reportData)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.EmployeeCode)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.ZoneName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.BranchName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.DivisionName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CustomerType)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CustomerCode)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.CustomerName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(model => item.GeoTagStatus)
+            </td>
+        </tr>
+    }
+</table>

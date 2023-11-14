@@ -1,0 +1,279 @@
+﻿@model IEnumerable<EpicCrmWebApi.SqliteSTRDisplayData>
+
+@{
+    ViewBag.Title = "Saved STR Batch Items";
+    string pageTitle = String.Format("Saved STR Batch Items [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.STRId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STRNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STRDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ImageCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DWSCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DriverName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DriverPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BagCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GrossWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NetWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartOdometer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndOdometer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsNew)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsTransferred)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransfereeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransfereePhone)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneDbId)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.IsProcessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeStamp2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityId2)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    string guidForImage = Guid.NewGuid().ToString();
+    string imageDisplayWaitArea = Guid.NewGuid().ToString();
+    string imageDisplayArea = Guid.NewGuid().ToString();
+
+    string guidForAdditionalRow = Guid.NewGuid().ToString();
+    string guidForAdditionalCellHead = Guid.NewGuid().ToString();
+    string guidForAdditionalCell = Guid.NewGuid().ToString();
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.STRId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.STRNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.STRDate)
+        </td>
+
+        <td>
+            @if (item.ImageCount > 0)
+                {
+                <a href="" onclick="displayImage(@item.Id, @item.ImageCount, '@guidForImage', '@imageDisplayWaitArea', '@imageDisplayArea');return false;">@item.ImageCount</a>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.ImageCount)
+            }
+        </td>
+        <td>
+            @if (item.DWSCount > 0)
+            {
+                <a href="" title="Show DWS" onclick="additionalAnchorClicked('@guidForAdditionalRow', '@guidForAdditionalCell', '@guidForAdditionalCellHead', '@item.Id', 'DWS'); return false;">@item.DWSCount</a>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.DWSCount)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VehicleNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DriverName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DriverPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BagCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GrossWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NetWeight)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.StartOdometer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndOdometer)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.IsNew)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsTransferred)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TransfereeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransfereePhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneDbId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsProcessed)
+        </td>
+
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeStamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityId)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeStamp2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityId2)
+        </td>
+    </tr>
+    <tr id="@imageDisplayWaitArea" style="display:none;">
+        <td colspan="23">
+            <span id="">Getting Image...Please wait</span>
+        </td>
+    </tr>
+    <tr id="@imageDisplayArea" style="display:none;">
+        <td id="@guidForImage" colspan="23"></td>
+    </tr>
+
+    <tr class="customerRow" id="@guidForAdditionalRow" style="display:none;">
+        <td style="border-top:none;font-weight:bold;" id="@guidForAdditionalCellHead"></td>
+        <td style="border-top:none;" id="@guidForAdditionalCell" colspan="22">&nsbp;</td>
+    </tr>
+}
+
+</table>
+<script>
+    var isProcessing = {};
+    var openAssociationBlocks = {};
+
+    function additionalAnchorClicked(rowGuid, targetGuid, targetGuidHead, sqliteSTRId, displayStringHead)
+    {
+        if (openAssociationBlocks[rowGuid] === undefined || openAssociationBlocks[rowGuid] === '' || openAssociationBlocks[rowGuid] !== displayStringHead) // never opened or closed after open
+        {
+            openAssociationBlocks[rowGuid] = displayStringHead;  // first time click
+            $('#' + rowGuid).show();
+            $('#' + targetGuidHead).html('<p>' + displayStringHead + '</p>');
+            $('#' + targetGuid).html('<p>Please wait</p>');
+            var uri = '/SuperAdmin/ShowSavedSTR' + displayStringHead;
+            $.ajax(uri, {
+                cache: false,
+                type: "Get",
+                contentType: "application/json",
+                data: { 'sqliteSTRId': sqliteSTRId },
+                success: function (data, textStatus, jqXHR) {
+                    $('#' + targetGuid).html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured while getting data.")
+                }
+            });
+        }
+        else // already open - close it now;
+        {
+            $('#' + rowGuid).hide();
+            openAssociationBlocks[rowGuid] = '';
+        }
+    }
+
+
+    function displayImage(id, imageCount, displayImage, imageDisplayWaitArea, imageDisplayArea) {
+        if (openAssociationBlocks[displayImage] === undefined || openAssociationBlocks[displayImage] === '') // never opened or closed after open
+        {
+            if (isProcessing[displayImage] === 'image' || isProcessing[displayImage] === undefined) {
+
+                isProcessing[displayImage] = '';
+
+                var imagesRetrieved = 0;
+                $('#' + imageDisplayArea).show();
+                $('#' + imageDisplayWaitArea).show();
+                $('#' + displayImage).html('<span></span>');
+
+                for (i = imageCount; i > 0; i--) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var reader = new window.FileReader();
+                            reader.readAsDataURL(this.response);
+                            reader.onloadend = function () {
+                                imagesRetrieved++;
+                                $('#' + displayImage).append('<img style="margin-left:20px;" height="300px" width="auto" src="' + reader.result + '"/>');
+                                if (imagesRetrieved == imageCount) // last image processed
+                                {
+                                    $('#' + imageDisplayArea).show();
+                                    isProcessing[displayImage] = 'image';
+                                    $('#' + imageDisplayWaitArea).hide();
+                                }
+                            }
+                        }
+                    }
+                    xhr.open('GET', '/SuperAdmin/SqliteSTRImageData?Id=' + id + '&imageItem=' + i);
+                    xhr.responseType = 'blob';
+                    xhr.send();
+                }
+                openAssociationBlocks[displayImage] = 'displaying';
+            } else {
+                return;
+            }
+        } else {
+            $('#' + imageDisplayArea).hide();
+            $('#' + imageDisplayWaitArea).hide();
+            openAssociationBlocks[displayImage] = '';
+        }
+    }
+</script>

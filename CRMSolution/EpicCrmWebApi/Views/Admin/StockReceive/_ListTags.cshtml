@@ -1,0 +1,133 @@
+﻿@model IEnumerable<EpicCrmWebApi.StockInputTagModel>
+@{
+    IEnumerable<DomainEntities.OfficeHierarchy> officeHierarchy = (IEnumerable<DomainEntities.OfficeHierarchy>)ViewBag.OfficeHierarchy;
+    int itemCount = Model.Count();
+    string guidForDetailRow = Guid.NewGuid().ToString();
+
+    bool hasEditPermission = ViewBag.HasEditPermission;
+    bool hasConfirmPermission = ViewBag.HasConfirmPermission;
+}
+@* Parent view is ReceiveStock.cshtml *@
+
+<div>
+    <h3>
+        <a href="" title="Refresh Search Result" onclick="btnSearchClicked();return false;">
+            <img height="25" width="25" src="~/Content/img/refresh.png" /></a>&nbsp;Stock Received (@itemCount)
+
+        @if (hasEditPermission)
+        {
+            <a href="/admin/AddEditStockInputTag?stockInputTagId=0" title="Add Stock Header" class="addInPopup">
+                <img height="15" width="15" src="~/Content/img/Add.png" />
+            </a>
+        }
+    </h3>
+</div>
+@if (itemCount > 0)
+{
+<table class="table table-bordered table-striped table-condensed" id="dataTable">
+    <thead>
+        <tr>
+            <th class="removeFromDownload" style="column-width:45px;" id="downloadLinkArea"></th>
+
+            <th id="detailDownloadLinkArea" class="removeFromDownload">
+                <a href="" title="Detailed Excel Download" onclick="detailDownloadClicked(); return false;">
+                    <img width="25" height="25" src="~/Content/img/download_4.png" />
+                </a>
+            </th>
+
+            <th>@Html.DisplayNameFor(model => model.GRNNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.ReceiveDate)</th>
+            <th>@Html.DisplayNameFor(model => model.VendorName)</th>
+            <th>@Html.DisplayNameFor(model => model.VendorBillNo)</th>
+            <th>@Html.DisplayNameFor(model => model.VendorBillDate)</th>
+            <th>@Html.DisplayNameFor(model => model.TotalItemCount)</th>
+            <th>@Html.DisplayNameFor(model => model.TotalAmount)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.Notes)</th>
+
+            <th>@Html.DisplayNameFor(model => model.ZoneCode)</th>
+            <th>@Html.DisplayNameFor(model => model.AreaCode)</th>
+            <th>@Html.DisplayNameFor(model => model.TerritoryCode)</th>
+            <th>@Html.DisplayNameFor(model => model.HQCode)</th>
+
+            <th>@Html.DisplayNameFor(model => model.CreatedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.DateCreated)</th>
+
+            <th>@Html.DisplayNameFor(model => model.ReviewedBy)</th>
+            <th>@Html.DisplayNameFor(model => model.ReviewDate)</th>
+            <th>@Html.DisplayNameFor(model => model.ReviewNotes)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string guidForRow = Guid.NewGuid().ToString();
+
+            string ZoneName = officeHierarchy.Where(x => x.ZoneCode.Equals(item.ZoneCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.ZoneName ?? item.ZoneCode;
+
+            string AreaName = officeHierarchy.Where(x => x.AreaCode.Equals(item.AreaCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.AreaName ?? item.AreaCode;
+
+            string TerritoryName = officeHierarchy.Where(x => x.TerritoryCode.Equals(item.TerritoryCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.TerritoryName ?? item.TerritoryCode;
+
+            string HQName = officeHierarchy.Where(x => x.HQCode.Equals(item.HQCode, StringComparison.OrdinalIgnoreCase))
+                                    .FirstOrDefault()?.HQName ?? item.HQCode;
+
+
+            <tr id="@guidForRow">
+                <td colspan="2" class="removeFromDownload">
+                    @if (item.IsEditAllowed && hasEditPermission)
+                    {
+                    <a href="/admin/AddEditStockInputTag?stockInputTagId=@item.Id" title="View/Edit Stock Header" class="editInPopup">
+                        <img height="35" width="35" src="~/Content/img/Edit.png" />
+                    </a>
+                    }
+
+                    @if (item.IsEditAllowed && hasConfirmPermission)
+                    {
+                        <a href="/admin/ReviewStockInputTag?stockInputTagId=@item.Id" title="Review Stock Input" class="editInPopup">
+                            <img height="35" width="35" src="~/Content/img/review.png" />
+                        </a>
+                    }
+
+                    <a href="" title="Show Details for GRN # @item.GRNNumber" onclick="additionalAnchorClicked('@guidForRow', '@guidForDetailRow', '@item.Id'); return false;">
+                        <img height="25" width="25" src="~/Content/img/ListIcon.png" />
+                    </a>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.GRNNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReceiveDate, "DatetimeDate")</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorName)
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.VendorBillNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.VendorBillDate, "DatetimeDate")</td>
+                <td>@Html.DisplayFor(modelItem => item.TotalItemCount)</td>
+                <td>@Html.DisplayFor(modelItem => item.TotalAmount)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>@Html.DisplayFor(modelItem => item.Notes)</td>
+
+
+                <td>@Html.DisplayFor(modelItem => ZoneName)</td>
+                <td>@Html.DisplayFor(modelItem => AreaName)</td>
+                <td>@Html.DisplayFor(modelItem => TerritoryName)</td>
+                <td>@Html.DisplayFor(modelItem => HQName)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.CreatedBy)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateCreated, "Datetime")</td>
+
+                <td>@Html.DisplayFor(modelItem => item.ReviewedBy)</td>
+                <td>@Html.DisplayFor(modelItem => item.ReviewDate, "MinimumDateTimeDate")</td>
+                <td>@Html.DisplayFor(modelItem => item.ReviewNotes)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="@guidForDetailRow">
+</div>
+}
+
+
+

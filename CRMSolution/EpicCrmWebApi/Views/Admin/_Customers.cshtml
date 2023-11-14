@@ -1,0 +1,104 @@
+﻿@model IEnumerable<CustomerModel>
+
+@{
+    string areaCode = (string)ViewBag.AreaCode;
+    string staffCode = (string)ViewBag.StaffCode;
+    bool isSuperAdmin = (bool)ViewBag.IsSuperAdmin;
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+    int colCount = (isSuperAdmin) ? 10 : 7;
+
+    decimal totalOutstanding = Model.Sum(x => x.Outstanding);
+    decimal totalLongOutstanding = Model.Sum(x => x.LongOutstanding);
+    decimal totalTarget = Model.Sum(x => x.Target);
+    decimal totalSales = Model.Sum(x => x.Sales);
+    decimal totalPayment = Model.Sum(x => x.Payment);
+}
+
+<table class="table table-bordered table-striped table-condensed">
+    <tr>
+        <th colspan="@colCount">@Model.Count() Customers for Employee code @staffCode in Area Code @areaCode</th>
+    </tr>
+
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreditLimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Outstanding)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LongOutstanding)
+        </th>
+        @if (isSuperAdmin)
+        {
+            <th>@Html.DisplayNameFor(model => model.Target)</th>
+            <th>@Html.DisplayNameFor(model => model.Sales)</th>
+            <th>@Html.DisplayNameFor(model => model.Payment)</th>
+        }
+    </tr>
+    @if (isSuperAdmin)
+    {
+        <tr>
+            <th colspan="4">&nbsp;</th>
+            <th>Totals</th>
+            <th>@String.Format("{0:###,##0.00}", totalOutstanding)</th>
+            <th>@String.Format("{0:###,##0.00}", totalLongOutstanding)</th>
+            <th>@String.Format("{0:###,##0.00}", totalTarget)</th>
+            <th>@String.Format("{0:###,##0.00}", totalSales)</th>
+            <th>@String.Format("{0:###,##0.00}", totalPayment)</th>
+        </tr>
+    }
+
+@foreach (var item in Model) {
+    <tr>
+        <td style="border-top:none;">
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td style="border-top:none;">
+            @item.HQCode: @item.Name
+        </td>
+        <td style="border-top:none;">
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td style="border-top:none;">
+            @Html.DisplayFor(modelItem => item.Type)
+        </td>
+        <td style="border-top:none;">
+            @Html.DisplayFor(modelItem => item.CreditLimit)
+        </td>
+        <td style="border-top:none;">
+            @Html.DisplayFor(modelItem => item.Outstanding)
+        </td>
+        <td style="border-top:none;">
+            @Html.DisplayFor(modelItem => item.LongOutstanding)
+        </td>
+        @if (isSuperAdmin)
+        {
+            <td>@Html.DisplayFor(modelItem => item.Target)</td>
+            <td>@Html.DisplayFor(modelItem => item.Sales)</td>
+            <td>@Html.DisplayFor(modelItem => item.Payment)</td>
+        }
+    </tr>
+}
+</table>
+
+@section styles
+{
+    <style type="text/css">
+        body {
+            font-size: 10px;
+        }
+    </style>
+}

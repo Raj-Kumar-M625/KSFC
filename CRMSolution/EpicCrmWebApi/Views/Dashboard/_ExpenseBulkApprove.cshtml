@@ -1,0 +1,48 @@
+﻿@model BulkApproveExpensesModel
+@{
+    var caption = "Approve Rs." + Model.TotalAmount;
+    List<long> id = Model.ExpenseId.ToList();
+}
+
+@using (Html.BeginForm("BulkApproveExpenses", "Dashboard", FormMethod.Post, new { Id = "popupForm" }))
+{
+    <div class="form-horizontal">
+        <span style="font-size:large;">Approve Expenses</span>
+        <hr />
+        <div class="form-group">
+            @for (int i = 0; i < id.Count; i++)
+            {
+                @Html.HiddenFor(model => model.ExpenseId, new { Value = @id[i] })
+            }
+
+            <div>
+                @Html.LabelFor(model => model.SelectedEmployees, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.SelectedEmployees, new { htmlAttributes = new { @class = "form-control", @readOnly = "true" } })
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                @Html.LabelFor(model => model.TotalAmount, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.TotalAmount, new { htmlAttributes = new { @class = "form-control", @readOnly = "true" } })
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-4">
+                <input type="submit" value="@caption" class="btn btn-success" id="popupSaveButton" />
+            </div>
+
+        </div>
+    </div>
+
+}
+@{
+    Html.RenderPartial("_CodeSnippetPopupCancelLink");
+    Html.RenderPartial("_CodeSnippetConfirmBox");
+}
+<script src="~/Scripts/CustomScripts/EpicCrmCustomPopup.js"></script>

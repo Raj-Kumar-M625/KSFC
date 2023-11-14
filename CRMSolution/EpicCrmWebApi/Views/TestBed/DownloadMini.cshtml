@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutTestBed.cshtml";
+}
+
+<h2>Download (Mini) Test bed</h2>
+    <div>
+        <form id="downloadForm" method="post" action="" enctype="application/x-www-form-urlencoded">
+            <div><label>Employee Id</label></div>
+            <div><input id="employeeId" name="EmployeeId" type="text" value="36" /></div>
+            <div>
+                <label>IMEI</label>
+            </div>
+            <div>
+                <input name="IMEI" type="text" />
+            </div>
+
+            <div>
+                <input type="Submit" value="Submit" />
+            </div>
+
+            <div>
+                <p id="downloadCompleteResponse" />
+            </div>
+        </form>
+    </div>
+    <hr />
+
+
+@section scripts{
+    <script>
+
+    $(document).ready(function () {
+
+        $("#downloadForm").submit(function () {
+            ClearAllResponseFields();
+
+            $.ajax('/api/DownloadMini', {
+                type: "Get",
+                contentType: "application/json",
+                dataType: "json",
+                data: $('#downloadForm').serialize(),
+                success: function (data, textStatus, jqXHR) { $('#downloadCompleteResponse').text(JSON.stringify(data)) }
+            });
+
+            return false;
+        });
+    });
+
+
+    function ClearAllResponseFields()
+    {
+        $('#downloadCompleteResponse').text('');
+    }
+    </script>
+}
+
+@section styles{
+<style type="text/css">
+    div {
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+</style>
+    }

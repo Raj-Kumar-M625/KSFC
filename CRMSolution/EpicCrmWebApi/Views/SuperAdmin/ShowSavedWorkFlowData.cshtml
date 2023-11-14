@@ -1,0 +1,280 @@
+﻿@model IEnumerable<EpicCrmWebApi.SqliteWorkFlowDisplayData>
+
+@{
+    ViewBag.Title = "Saved WorkFlow Batch Items";
+    string pageTitle = String.Format("Saved WorkFlow Batch Items [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EntityId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntityType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AgreementId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Agreement)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.EntityWorkFlowDetailId)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.TypeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phase)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FollowUpCount)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FieldVisitDate)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.IsStarted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaterialType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaterialQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GapFillingRequired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GapFillingSeedQuantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LaborCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PercentCompleted)
+        </th>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.BatchNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LandSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DWSEntry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ItemsUsedCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YieldExpected)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BagsIssued)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HarvestDate)
+        </th>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.IsProcessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntityWorkFlowId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Timestamp)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    string guidForFollowUpRow = Guid.NewGuid().ToString();
+    string guidForFollowUpCellHead = Guid.NewGuid().ToString();
+    string guidForFollowUpCell = Guid.NewGuid().ToString();
+
+    string guidForItemsUsedRow = Guid.NewGuid().ToString();
+    string guidForItemsUsedCellHead = Guid.NewGuid().ToString();
+    string guidForItemsUsedCell = Guid.NewGuid().ToString();
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntityId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntityType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntityName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AgreementId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Agreement)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.EntityWorkFlowDetailId)
+        </td>
+
+
+        <td>
+            @Html.DisplayFor(modelItem => item.TypeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phase)
+        </td>
+
+        <td>
+            @if (item.FollowUpCount > 0)
+                {
+                <a href="" title="Show Follow Ups" onclick="additionalAnchorClicked('@guidForFollowUpRow', '@guidForFollowUpCell', '@guidForFollowUpCellHead', '@item.Id', 'FollowUps'); return false;">@item.FollowUpCount</a>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.FollowUpCount)
+            }
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.FieldVisitDate, "DatetimeShort")
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.IsStarted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date, "DatetimeShort")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaterialType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaterialQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GapFillingRequired)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GapFillingSeedQuantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LaborCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PercentCompleted)
+        </td>
+
+
+        <td>
+            @Html.DisplayFor(modelItem => item.BatchNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LandSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DWSEntry)
+        </td>
+        <td>
+            @if (item.ItemsUsedCount > 0)
+            {
+                <a href="" title="Show Items Used" onclick="additionalAnchorClicked('@guidForItemsUsedRow', '@guidForItemsUsedCell', '@guidForItemsUsedCellHead', '@item.Id', 'ItemsUsed'); return false;">@item.ItemsUsedCount</a>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.ItemsUsedCount)
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YieldExpected)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BagsIssued)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HarvestDate, "DateTimeShort")
+        </td>
+
+
+        <td>
+            @Html.DisplayFor(modelItem => item.IsProcessed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntityWorkFlowId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Timestamp)
+        </td>
+    </tr>
+    <tr id="@guidForFollowUpRow" style="display:none;">
+        <td style="border-top:none;font-weight:bold;" id="@guidForFollowUpCellHead"></td>
+        <td style="border-top:none;" id="@guidForFollowUpCell" colspan="15">&nsbp;</td>
+    </tr>
+
+    <tr id="@guidForItemsUsedRow" style="display:none;">
+        <td style="border-top:none;font-weight:bold;" id="@guidForItemsUsedCellHead"></td>
+        <td style="border-top:none;" id="@guidForItemsUsedCell" colspan="15">&nsbp;</td>
+    </tr>
+
+}
+</table>
+
+<script>
+    var openAssociationBlocks = {};
+    function additionalAnchorClicked(rowGuid, targetGuid, targetGuidHead, recId, displayStringHead) {
+        if (openAssociationBlocks[rowGuid] === undefined || openAssociationBlocks[rowGuid] === '' || openAssociationBlocks[rowGuid] !== displayStringHead) // never opened or closed after open
+        {
+            openAssociationBlocks[rowGuid] = displayStringHead;  // first time click
+            $('#' + rowGuid).show();
+            $('#' + targetGuidHead).html('<p>' + displayStringHead + '</p>');
+            $('#' + targetGuid).html('<p>Please wait</p>');
+            var uri = '/SuperAdmin/Show' + displayStringHead;
+            $.ajax(uri, {
+                cache: false,
+                type: "Get",
+                contentType: "application/json",
+                data: { 'ewfId': recId },
+                success: function (data, textStatus, jqXHR) {
+                    $('#' + targetGuid).html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("An error occured while getting data.")
+                }
+            });
+        }
+        else // already open - close it now;
+        {
+            $('#' + rowGuid).hide();
+            openAssociationBlocks[rowGuid] = '';
+        }
+    }
+</script>

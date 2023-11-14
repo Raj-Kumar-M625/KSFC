@@ -1,0 +1,21 @@
+﻿CREATE TABLE [dbo].[StaffDailyReportData]
+(
+	[Id] BIGINT NOT NULL PRIMARY KEY Identity,
+	[DATE] DATE NOT NULL,
+	[TenantId] BIGINT NOT NULL REFERENCES dbo.Tenant,
+	[StaffCode] [nvarchar](10) NOT NULL, --*
+
+	[DivisionCode] [nvarchar](20) NOT NULL, --*
+	[SegmentCode] [NVARCHAR](20) NOT NULL,
+	[AreaCode] [NVARCHAR](20) NOT NULL DEFAULT '',
+
+	[TargetOutstandingYTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[TotalCostYTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[CGAYTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[GT180YTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[CollectionTargetYTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[CollectionActualYTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[SalesTargetYTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+	[SalesActualYTD] DECIMAL(19,2) NOT NULL DEFAULT 0,
+)
+GO

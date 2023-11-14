@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutTestBed.cshtml";
+}
+
+<div>
+    <a href="/TestBed">Go Back to Test Bed page</a>
+</div>
+
+
+<h2>Download Image Test</h2>
+<h3>This will try to get image either from web server or from S3 (if enabled)</h3>
+<div class="well">
+    <div class="row">
+        <form id="downloadForm" method="post" action="" enctype="application/x-www-form-urlencoded">
+            <div>
+                <label>Image File Name</label>
+            </div>
+            <div>
+                <input name="ImageFileName" id="imageFileName" type="text" size="75" class="form-control" />
+            </div>
+
+            <div class="col-sm-2">
+                <input type="Submit" value="Submit" class="form-control btn-info" />
+            </div>
+
+            <div>
+                <p id="downloadCompleteResponse" />
+            </div>
+        </form>
+    </div>
+</div>
+<hr />
+<div id="imageDisplayArea">
+
+</div>
+
+
+    @section scripts{
+        <script>
+
+            $(document).ready(function () {
+
+                $("#downloadForm").submit(function () {
+                    ClearAllResponseFields();
+                    var fileName = $("#imageFileName").val();
+                    if (fileName == undefined || fileName == '') {
+                        alert('Please input file name');
+                        return false;
+                    }
+
+                    DisplayImage(fileName);
+                    return false;
+                });
+            });
+
+            var isProcessing = false;
+            function DisplayImage(imageFileName) {
+                if (isProcessing) {
+                    return;
+                }
+                isProcessing = true;
+
+                $("#imageDisplayArea").show();
+                $('#imageDisplayArea').html('<p>Please wait...</p>');
+
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var reader = new window.FileReader();
+                        reader.readAsDataURL(this.response);
+                        reader.onloadend = function () {
+                            $('#imageDisplayArea').append('<img style="margin-left:20px;" height="300px" width="auto" src="' + reader.result + '"/>');
+                            $('#imageDisplayArea p').remove();
+                            isProcessing = false;
+                        }
+                    }
+                }
+                xhr.open('GET', '/TestBed/GetImageData?fileName=' + imageFileName);
+                xhr.responseType = 'blob';
+                xhr.send();
+            }
+
+            function ClearAllResponseFields() {
+                $('#downloadCompleteResponse').text('');
+            }
+        </script>
+    }
+
+    @section styles{
+        <style type="text/css">
+            div {
+                margin-top: 10px;
+                margin-left: 10px;
+            }
+        </style>
+    }

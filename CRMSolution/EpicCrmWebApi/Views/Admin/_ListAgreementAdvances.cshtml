@@ -1,0 +1,50 @@
+﻿@model ICollection<AdvanceRequestModel>
+@{
+}
+
+@if (Model.Count > 0)
+{
+    decimal totalRequestAmount = Model.Sum(x => x.AmountRequested);
+    decimal totalApproveAmount = Model.Sum(x => x.AmountApproved);
+
+    <table class="table table-bordered table-striped table-condensed">
+        <tr>
+            <th>@Html.LabelFor(model => Model.First().RequestDate)</th>
+            <th>@Html.LabelFor(model => Model.First().AgreementNumber)</th>
+            <th>@Html.LabelFor(model => Model.First().Crop)</th>
+            <th>@Html.LabelFor(model => Model.First().SeasonName)</th>
+            <th>@Html.DisplayNameFor(model => Model.First().AmountRequested)</th>
+            <th>@Html.DisplayNameFor(model => Model.First().AdvanceReqStatus)</th>
+            <th>@Html.DisplayNameFor(model => Model.First().AmountApproved)</th>
+        </tr>
+        @foreach (var item in Model.OrderBy(x => x.RequestDate))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.RequestDate, "DateTimeShort")</td>
+                <td>@Html.DisplayFor(modelItem => item.AgreementNumber)</td>
+                <td>@Html.DisplayFor(modelItem => item.Crop)</td>
+                <td>@Html.DisplayFor(modelItem => item.SeasonName)</td>
+
+                <td>@Html.DisplayFor(modelItem => item.AmountRequested)</td>
+                <td>@Html.DisplayFor(modelItem => item.AdvanceReqStatus)</td>
+                <td>@Html.DisplayFor(modelItem => item.AmountApproved)</td>
+            </tr>
+        }
+
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <th>Totals</th>
+            <td>@Html.DisplayFor(modelItem => totalRequestAmount)</td>
+            <td>&nbsp;</td>
+            <th>@Html.DisplayFor(modelItem => totalApproveAmount)</th>
+        </tr>
+
+    </table>
+}
+else
+{
+    <div>There are zero items to show here.</div>
+}
+

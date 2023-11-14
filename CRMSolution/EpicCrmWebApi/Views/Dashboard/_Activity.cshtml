@@ -1,0 +1,56 @@
+﻿@model IEnumerable<DomainEntities.ActivityRecord>
+
+
+@{
+    ViewBag.Title = "Activity";
+    var employeeName = ViewBag.EmployeeName;
+    var headerString = $"{ViewBag.EmployeeName}'s activities for {ViewBag.ActivityDate.ToString("MMM dd, yyyy")}";
+}
+
+<h2>@headerString</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.At)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClientType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.At.ToString("hh:mm tt")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    <a href="Cancel" id="cancelLink">Cancel</a>
+</p>

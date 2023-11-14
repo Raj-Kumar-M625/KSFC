@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EpicCrmWebApi.SqliteCancelledLeaveDisplayData>
+
+@{
+    ViewBag.Title = "Saved Cancelled Leave Batch Items";
+    string pageTitle = String.Format("Saved Cancelled Leave Batch Items [Batch Id:{0}; Employee Name: {1}]", ViewBag.BatchId, ViewBag.EmpName);
+}
+
+<h2>@pageTitle</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BatchId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaveId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsProcessed)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BatchId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsProcessed)
+            </td>
+        </tr>
+    }
+
+</table>

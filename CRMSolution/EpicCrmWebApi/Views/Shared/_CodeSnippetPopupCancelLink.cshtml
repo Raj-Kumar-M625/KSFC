@@ -1,0 +1,17 @@
+﻿<div style="font-size:small;" id="idCancelLinkContainer">
+    <a href="Cancel" title="Close without saving" id="popupCancelLink">
+        <img width="20" height="20" src="~/Content/img/RedCloseRoundSmall.png" />
+    </a>
+</div>
+
+<script type="text/javascript">
+
+    $formContainer = $("div#divOverGlass");
+    var x = $formContainer.position();
+
+    $("#idCancelLinkContainer").css({
+        left: x.left + $formContainer.width() -10,
+        top: x.top +15,
+        position: 'fixed'
+    });
+</script>

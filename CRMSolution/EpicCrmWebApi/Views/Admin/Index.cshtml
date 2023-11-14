@@ -1,0 +1,429 @@
+﻿@{
+    ViewBag.Title = "Admin";
+    FeatureData featureSet = ViewBag.FeatureSet as FeatureData;
+}
+
+<div class="well">
+    <div class="row">
+        @if (featureSet.SalesPersonFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showStaffButton" value="Field Staff" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.CrmUserFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showTenantEmployeeButton" value="CRM Users" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.AssignmentFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showSalesAssociationButton" value="Assignments" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.UploadDataFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="uploadFeedButton" value="Upload Data" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.OfficeHierarchyFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showOfficeHierarchy" value="Office Hierarchy" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.BankAccountFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showBankAccountButton" value="Bank Accounts" class="form-control btn-success" />
+            </div>
+        }
+    </div>
+
+    <div class="row">
+        @if (featureSet.EntityFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showEntityButton" value="Profile" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.CustomerFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showCustomerButton" value="Customers" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.ProductFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showProductButton" value="Products" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.GstRateFeature)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showGstRateButton" value="GST Rates" class="form-control btn-success" />
+            </div>
+        }
+
+        @if (featureSet.ProjectOption)
+        {
+            <div class="col-sm-2">
+                <input type="button" id="showProjectButton" value="Projects" class="form-control btn-success" />
+            </div>
+        }
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 dropdown" id="stockButtonDiv">
+            <input type="button" value="&nbsp;&nbsp;&nbsp;&nbsp;Stock&nbsp;&nbsp;&nbsp;&nbsp;" class="btn dropdown-toggle btn-success" data-toggle="dropdown" />
+            <span class="caret"></span>
+            @*<button class="btn dropdown-toggle btn-success" type="button" data-toggle="dropdown">
+                    Stock
+                    <span class="caret"></span>
+                </button>*@
+            <ul class="dropdown-menu" id="stockOptionList">
+                @if (featureSet.StockReceiveOption)
+                {
+                    <li><a href="#" onclick="stockReceiveButtonClicked(); return false;">Receive Stock</a></li>
+                }
+                @if (featureSet.StockReceiveConfirmOption)
+                {
+                    <li><a href="#" onclick="stockReceiveConfirmButtonClicked(); return false;">Confirm Stock Receipt</a></li>
+                }
+                @if (featureSet.StockRequestOption)
+                {
+                    <li><a href="#" onclick="requestStockButtonClicked(); return false;">Stock Issue Request</a></li>
+                }
+                @if (featureSet.StockRequestFulfillOption)
+                {
+                    <li><a href="#" onclick="fulfillStockRequestButtonClicked(); return false;">Fulfill Stock Request</a></li>
+                }
+                @if (featureSet.StockRemoveOption)
+                {
+                    <li><a href="#" onclick="stockRemoveButtonClicked(); return false;">Stock Clear Request</a></li>
+                }
+                @if (featureSet.StockRemoveConfirmOption)
+                {
+                    <li><a href="#" onclick="stockRemoveConfirmButtonClicked(); return false;">Confirm Stock Clear</a></li>
+                }
+
+                @if (featureSet.StockAddOption)
+                {
+                    <li><a href="#" onclick="stockAddButtonClicked(); return false;">Stock Add Request</a></li>
+                }
+                @if (featureSet.StockAddConfirmOption)
+                {
+                    <li><a href="#" onclick="stockAddConfirmButtonClicked(); return false;">Confirm Stock Add</a></li>
+                }
+
+                @if (featureSet.StockLedgerOption)
+                {
+                    <li><a href="#" onclick="stockLedgerButtonClicked(); return false;">Stock Ledger</a></li>
+                }
+                @if (featureSet.StockBalanceOption)
+                {
+                    <li><a href="#" onclick="stockBalanceButtonClicked(); return false;">Stock Balance</a></li>
+                }
+            </ul>
+        </div>
+
+
+        <div class="col-sm-2 dropdown" id="strButtonDiv">
+            <input type="button" value="STR / DWS" class="btn dropdown-toggle btn-success" data-toggle="dropdown" />
+            <span class="caret"></span>
+
+            @*<button class="btn dropdown-toggle btn-success" type="button" data-toggle="dropdown">
+                    STR / DWS
+                    <span class="caret"></span>
+                </button>*@
+            <ul class="dropdown-menu" id="strOptionList">
+                @if (featureSet.STRFeature)
+                {
+                    <li><a href="#" onclick="strButtonClicked(); return false;">STR</a></li>
+                }
+                @if (featureSet.STRWeighFeature)
+                {
+                    <li><a href="#" onclick="strWeighButtonClicked(); return false;">Weighment / Silo</a></li>
+                }
+                @if (featureSet.DWSApproveWeightOption)
+                {
+                    <li><a href="#" onclick="strApproveWeightButtonClicked(); return false;">Approve DWS Wt.</a></li>
+                }
+                @if (featureSet.DWSApproveAmountOption)
+                {
+                    <li><a href="#" onclick="strApproveAmountButtonClicked(); return false;">Approve DWS Amount</a></li>
+                }
+                @if (featureSet.DWSPaymentOption)
+                {
+                    <li><a href="#" onclick="strPreparePaymentButtonClicked(); return false;">Prepare Payment File</a></li>
+                    <li><a href="#" onclick="strDownloadPaymentButtonClicked(); return false;">Download Payment File</a></li>
+                }
+            </ul>
+        </div>
+
+        @*</div>
+
+            <div class="row">*@
+
+        @*Author - SA,Kartik; Date:20/05/2021; Purpose: Transporter Payment feature*@
+        @if (featureSet.TransporterPaymentReportFeature)
+        {
+            <div class="col-sm-2 dropdown" id="vendorButtonDiv">
+                <input type="button" value="Transporter Payment" class="btn dropdown-toggle btn-success" data-toggle="dropdown" />
+                <span class="caret"></span>
+
+                <ul class="dropdown-menu" id="vendorOptionList">
+                    <li><a href="#" onclick="approveVendorButtonClicked(); return false;">Add or Approve</a></li>
+                    <li><a href="#" onclick="vendorPreparePaymentButtonClicked(); return false;">Prepare Payment File</a></li>
+                    <li><a href="#" onclick="vendorDownloadPaymentButtonClicked(); return false;">Download Payment File</a></li>
+
+                </ul>
+            </div>
+        }
+
+        @if (featureSet.BonusCalculationPaymentOption)
+        {
+            <div class="col-sm-2 dropdown" id="bonusButtonDiv">
+                <input type="button" value="Agreement Bonus" class="btn dropdown-toggle btn-success" data-toggle="dropdown" />
+                <span class="caret"></span>
+
+                <ul class="dropdown-menu" id="bonusOptionList">
+
+                    <li><a href="#" onclick="bonusCalculationButtonClicked(); return false;">Approve Agreement </a></li>
+                    <li><a href="#" onclick="bonusPreparePaymentButtonClicked(); return false;">Prepare Payment File</a></li>
+                    <li><a href="#" onclick="bonusDownloadPaymentButtonClicked(); return false;">Download Payment File </a></li>
+                </ul>
+            </div>
+        }
+
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="/Scripts/date.js"></script>
+    <script>
+        $(document).ready(
+            function () {
+                $("#showStaffButton").off('click').on('click', ShowStaffClicked);
+                $("#showCustomerButton").off('click').on('click', showCustomerClicked);
+                $("#showProductButton").off('click').on('click', showProductClicked);
+                $("#showTenantEmployeeButton").off('click').on('click', ShowTenantEmployeeClicked);
+                $("#showSalesAssociationButton").off('click').on('click', showSalesAssociationClicked);
+                $("#uploadFeedButton").off('click').on('click', uploadFeedButtonClicked);
+                $("#showOfficeHierarchy").off('click').on('click', showOfficeHierarchyClicked);
+                $('#showBankAccountButton').off('click').on('click', showBankAccountClicked);
+                $('#showEntityButton').off('click').on('click', showEntityClicked);
+                $('#showGstRateButton').off('click').on('click', showGstRateClicked);
+                $('#showSalesRegAssociationButton').off('click').on('click', showSalesRegAssociationClicked);
+                $('#showProjectButton').off('click').on('click', showProjectClicked);
+
+                if ($("#stockOptionList").find("li").size() == 0) {
+                    $("#stockButtonDiv").hide();
+                }
+
+                if ($("#strOptionList").find("li").size() == 0) {
+                    $("#strButtonDiv").hide();
+                }
+
+                $('.caret').off('click').on('click', caretClicked);
+            }
+        );
+
+
+        var caretClicked = function(event)
+        {
+            //alert('Caret Clicked');
+            //$(event.target).parent().find("input").trigger("click");
+            //$(event.target).parent().addClass('open');
+        }
+
+        var ShowStaffClicked = function (event) {
+            var targetUrl = '/Admin/ShowStaff'
+            window.location = targetUrl;
+        }
+
+        var showCustomerClicked = function (event) {
+            var targetUrl = '/Admin/ShowCustomers'
+            window.location = targetUrl;
+        }
+
+        var showProductClicked = function (event) {
+            var targetUrl = '/Admin/ShowProducts'
+            window.location = targetUrl;
+        }
+
+        var ShowTenantEmployeeClicked = function (event) {
+            var targetUrl = '/Admin/ShowRegisteredUsers'
+            window.location = targetUrl;
+        }
+
+        var showSalesAssociationClicked = function (event) {
+            var targetUrl = '/Admin/ManageSalesPersons'
+            window.location = targetUrl;
+        }
+
+        var uploadFeedButtonClicked = function (event) {
+            var targetUrl = '/Excel'
+            window.location = targetUrl;
+        }
+
+        var showOfficeHierarchyClicked = function (event) {
+            var targetUrl = '/Admin/ShowOfficeHierarchy';
+            window.location = targetUrl;
+        }
+
+        var showBankAccountClicked = function (event) {
+            var targetUrl = '/Admin/BankAccounts';
+            window.location = targetUrl;
+        }
+
+        var showEntityClicked = function (event) {
+            var targetUrl = '/Admin/ShowEntities';
+            window.location = targetUrl;
+        }
+
+        var showGstRateClicked = function (event) {
+            var targetUrl = '/Admin/GstRate';
+            window.location = targetUrl;
+        }
+
+        var strButtonClicked = function (event) {
+            var targetUrl = '/Admin/STR';
+            window.location = targetUrl;
+        }
+
+        var strWeighButtonClicked = function (event) {
+            var targetUrl = '/Admin/STRWeigh';
+            window.location = targetUrl;
+        }
+
+        var strApproveWeightButtonClicked = function (event) {
+            var targetUrl = '/Admin/DWSApproveWeight';
+            window.location = targetUrl;
+        }
+
+        var strApproveAmountButtonClicked = function (event) {
+            var targetUrl = '/Admin/DWSApproveAmount';
+            window.location = targetUrl;
+        }
+
+        var strPreparePaymentButtonClicked = function (event) {
+            var targetUrl = '/Admin/DWSPreparePaymentFile';
+            window.location = targetUrl;
+        }
+
+        var strDownloadPaymentButtonClicked = function (event) {
+            var targetUrl = '/Admin/DWSDownloadPaymentFile';
+            window.location = targetUrl;
+        }
+
+        var showSalesRegAssociationClicked = function (event) {
+            var targetUrl = '/Admin/ManageSalesPersonAssignmentData'
+            window.location = targetUrl;
+        }
+
+        var stockReceiveButtonClicked = function(event)
+        {
+            var targetUrl = '/Admin/ReceiveStock'
+            window.location = targetUrl;
+        }
+
+        var stockReceiveConfirmButtonClicked = function (event) {
+            var targetUrl = '/Admin/ConfirmStock'
+            window.location = targetUrl;
+        }
+
+        var requestStockButtonClicked = function (event) {
+            var targetUrl = '/Admin/RequestStock'
+            window.location = targetUrl;
+        }
+
+        var fulfillStockRequestButtonClicked = function (event) {
+            var targetUrl = '/Admin/FulfillStockRequest'
+            window.location = targetUrl;
+        }
+
+        var stockLedgerButtonClicked = function (event) {
+            var targetUrl = '/Admin/StockLedger'
+            window.location = targetUrl;
+        }
+        var stockBalanceButtonClicked = function (event) {
+            var targetUrl = '/Admin/StockBalance'
+            window.location = targetUrl;
+        }
+        var stockRemoveButtonClicked = function (event) {
+            var targetUrl = '/Admin/StockRemove'
+            window.location = targetUrl;
+        }
+
+        var stockRemoveConfirmButtonClicked = function (event) {
+            var targetUrl = '/Admin/ConfirmStockRemove'
+            window.location = targetUrl;
+        }
+
+
+        var stockAddButtonClicked = function (event) {
+            var targetUrl = '/Admin/StockAdd'
+            window.location = targetUrl;
+        }
+
+        var stockAddConfirmButtonClicked = function (event) {
+            var targetUrl = '/Admin/ConfirmStockAdd'
+            window.location = targetUrl;
+        }
+
+        @* Author - Rajesh V; Date: 28/07/2021; Purpose: BonusPayment feature *@
+
+        var bonusCalculationButtonClicked = function (event) {
+            var targetUrl = '/Admin/ApproveAgreementBonus'
+            window.location = targetUrl;
+        }
+
+        var bonusPreparePaymentButtonClicked = function (event) {
+            var targetUrl = '/Admin/BonusPreparePaymentFile'
+            window.location = targetUrl;
+        }
+
+        var bonusDownloadPaymentButtonClicked = function (event) {
+            var targetUrl = '/Admin/BonusDownloadPaymentFile'
+            window.location = targetUrl;
+        }
+
+        @* Author - SA; Date: 20/05/2021; Purpose: VendorPayment feature *@
+               
+        var approveVendorButtonClicked = function (event) {
+            var targetUrl = '/Admin/AddOrApproveVendorPayment'
+            window.location = targetUrl;
+        }
+
+        var vendorPreparePaymentButtonClicked = function (event) {
+            var targetUrl = '/Admin/VendorPreparePaymentFile'
+            window.location = targetUrl;
+        }
+
+        var vendorDownloadPaymentButtonClicked = function (event) {
+            var targetUrl = '/Admin/VendorDownloadPaymentFile'
+            window.location = targetUrl;
+        }
+
+        var showProjectClicked = function (event) {
+            var targetUrl = '/Admin/ShowProjects'
+            window.location = targetUrl;
+        }
+
+    </script>
+}

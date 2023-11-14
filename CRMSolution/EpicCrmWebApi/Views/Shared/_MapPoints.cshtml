@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MapPointModel>
+
+@{
+    int modelItemCount = Model.Count();
+    int i = 0;
+    System.Text.StringBuilder sb = new System.Text.StringBuilder();
+}
+
+@Html.Raw("<script type='text/javascript'>")
+@Html.Raw("var markers =[")
+@foreach (var item in Model)
+{
+    i++;
+    sb.AppendLine("{");
+    sb.AppendLine(String.Format("description:\"{0}\",lat:{1},lng:{2}",
+        item.Description,
+        item.Latitude ,
+        item.Longitude 
+        ));
+    sb.AppendLine("}");
+    if (i < modelItemCount)
+    {
+        sb.AppendLine(",");
+    }
+}
+@Html.Raw(sb.ToString())
+@Html.Raw("]")
+@Html.Raw("</script>")
+
+<script type="text/javascript">
+    function DrawMap()
+    {
+        if (markers.length > 0) {
+            //window.onload = function () {
+                var mapOptions = {
+                    center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                    zoom: 8,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var infoWindow = new google.maps.InfoWindow();
+                var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+                for (i = 0; i < markers.length; i++) {
+                    var data = markers[i]
+                    var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                    var marker = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        name: data.name
+                    });
+                    (function (marker, data) {
+                        google.maps.event.addListener(marker, "click", function (e) {
+                            infoWindow.setContent(data.description);
+                            infoWindow.open(map, marker);
+                        });
+                    })(marker, data);
+                }
+            //}
+        }
+    }
+</script>
+
+<div id="dvMap" style="width:1000px; height: 500px;">
+</div>
