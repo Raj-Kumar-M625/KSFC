@@ -1,0 +1,260 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgImportMachineryDTO
+
+@{
+    Layout = null;
+}
+
+<div>
+    <form id="importMachineryAd" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Item No  </label></strong>
+                <input type="Number" asp-for="DimcItmNo" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" readonly="readonly" />
+                <span asp-validation-for="DimcItmNo" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Item Details</label></strong>
+                <textarea asp-for="DimcDets" class="form-control" disabled></textarea>
+                <span asp-validation-for="DimcDets" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Name Of Supplier  </label></strong>
+                <input type="text" asp-for="DimcSup" class="form-control" disabled />
+                <span asp-validation-for="DimcSup" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Address Of Supplier  </label></strong>
+                <input type="text" asp-for="DimcSupAdr1" class="form-control" disabled />
+                <span asp-validation-for="DimcSupAdr1" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Quantity</label>
+                </strong>
+                <input type="number" asp-for="DimcQty" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled />
+                <span asp-validation-for="DimcQty" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Currency</label>
+                </strong>
+                @Html.DropDownListFor(m => m.DimcCrncy, new SelectList(ViewBag.CurrencyList, "CurrencyId", "CurrencyDesc"),"---Select  Currency---", new { @class = "form-select", id="curncy" ,@disabled = "disabled"})
+                <span asp-validation-for="DimcCrncy" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Basic Cost(in selected currency)</label>
+                </strong>
+                <input asp-for="DimcCurBasicAmt" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled style="text-align:right" />
+                <span asp-validation-for="DimcCurBasicAmt" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Exchange Rate </label>
+                </strong>
+                <input type="number" asp-for="DimcExrd" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled style="text-align:right" />
+                <span asp-validation-for="DimcExrd" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Basic Cost(in Rs)</label></strong>
+                <input asp-for="DimcBasicAmt" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled style="text-align:right" />
+                <span asp-validation-for="DimcBasicAmt" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Status </label></strong>
+                @Html.DropDownListFor(m => m.DimcStat, new SelectList(ViewBag.ProcureList, "ProcureId", "ProcureDesc"),"---Select  Status---", new { @class = "form-select",@disabled = "disabled"})
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">GST </label>
+                </strong>
+                <input asp-for="DimcGST" class="form-control" disabled style="text-align:right" />
+                <span asp-validation-for="DimcGST" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Other Expenses</label>
+                </strong>
+                <input asp-for="DimcOthExp" class="form-control" min="0" disabled style="text-align:right" />
+                <span asp-validation-for="DimcOthExp" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Entry Tax </label></strong>
+                <input type="number" asp-for=" DimcEntry" class="form-control" min="0" disabled style="text-align:right" />
+                <span asp-validation-for=" DimcEntry" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Entry Imported</label>
+                </strong>
+                <input type="number" asp-for="DimcEntryI" class="form-control" disabled style="text-align:right" />
+                <span asp-validation-for="DimcEntryI" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong> <label class="from-label">CIF</label> </strong>
+                <input type="number" asp-for="DimcCif" class="form-control" min="0" disabled style="text-align:right" />
+                <span asp-validation-for="DimcCif" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Total Cost(Mem)</label></strong>
+                @Html.TextBoxFor(m => m.DimcTotalCostMem,"{0:n2}", new { @class = "form-control",@disabled = "disabled",@style="text-align:right"})
+                <span asp-validation-for="DimcTotalCostMem" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Total Cost </label></strong>
+                <input asp-for=" DimcTotCost" class="form-control" min="0" disabled style="float:right" />
+                <span asp-validation-for=" DimcTotCost" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong> <label class="from-label">Total Cost (Actual) </label></strong>
+                @Html.TextBoxFor(m => m.DimcActualCost,"{0:n2}", new { @class = "form-control",disabled = "disabled" ,@style="text-align:right"})
+                <span asp-validation-for="DimcActualCost" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Total Security Created  </label></strong>
+                <input type="Number" asp-for="Dimcsec" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled style="text-align:right" />
+                <span asp-validation-for="Dimcsec" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong> <label class="from-label">Security Considered For Release  </label></strong>
+                <input type="Number" asp-for="DimcsecRel" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled style="text-align:right" />
+                <span asp-validation-for="DimcsecRel" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Eligibility Till Previous Inspection </label></strong>
+                @Html.TextBoxFor(m => m.DimcsecElig, new { @class = "form-control",@maxlength = "10", @id = "reviseLdArea", @readonly = "true"})
+                <span asp-validation-for="DimcsecElig" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-md-4">
+                <strong><label class="from-label">Contingency (%)  </label></strong>
+                <input type="number" asp-for="DimcCpct" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled />
+                <span asp-validation-for="DimcCpct" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Contingency Amount </label>
+                </strong>
+                @Html.TextBoxFor(m => m.DimcCamt,"{0:n2}", new { @class = "form-control",@disabled = "disabled",@style="text-align:right"})
+                <span asp-validation-for="DimcCamt" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Status </label></strong>
+                @Html.DropDownListFor(m => m.DimcStat, new SelectList(ViewBag.ProcureList, "ProcureId", "ProcureDesc"),"---Select  Status---", new { @class = "form-select",@disabled ="disabled"})
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Bank Advice </label></strong>
+                <input type="text" asp-for="DimcBankAdivce" class="form-control" disabled />
+                <span asp-validation-for="DimcBankAdivce" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Bank Advice Date</label>
+                </strong>
+                @Html.TextBoxFor(m => m.DimcBankAdvDate,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date", @id = "InvoiceDate",onkeydown="return false",@disabled = "disabled"})
+                <span asp-validation-for="DimcBankAdvDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Status Description</label></strong>
+                @Html.TextAreaFor(m => m.DimcStatDesc, new { @class = "form-control", @maxlength = "100" ,@disabled = "disabled"})
+                <span asp-validation-for="DimcStatDesc" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Delivery (Weeks)</label>
+                </strong>
+                <input type="number" asp-for="DimcDelry" class="form-control" disabled />
+                <span asp-validation-for="DimcDelry" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div id="ImportMachine">
+            <p><h4>Imported Machinery Release Details</h4></p>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquisition Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.DimcAqrdStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Not Acquired",Value = "0"},
+                    new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                    new SelectListItem(){Text="Acquired",Value = "2"}
+                    },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@required = "required"})
+                    <span asp-validation-for="DimcAqrdStat" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DimcStatChgDate, "{0:yyyy-MM-dd}",new { @class = "form-control",@id = "Acqdate", type="date",onkeydown="return false", @readonly = "true",@required = "required"})
+                    <span asp-validation-for="DimcStatChgDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered For Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcSecAmt , new { @class = "form-control", @id = "secamt",@style="text-align:right", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="IrPlmcSecAmt " class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcAamt,"{0:n2}", new { @class = "form-control", @id = "actualvalue",@style="text-align:right" })
+                    <span asp-validation-for="IrPlmcAamt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcTotalRelease, new { @class = "form-control", @type="number",@style="text-align:right", @id = "totalrelease", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="IrPlmcTotalRelease" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcRelseStat, new { @class = "form-control", @id = "relstat",readOnly="true",@type="number" ,onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="3"})
+                    <span asp-validation-for="IrPlmcRelseStat" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Machinery Document Details </label>
+                </strong>
+                <input type="text" asp-for="DimcMacDocuments" class="form-control" required maxlength="20" disabled />
+            </div>
+        </div>
+    </form>
+</div>

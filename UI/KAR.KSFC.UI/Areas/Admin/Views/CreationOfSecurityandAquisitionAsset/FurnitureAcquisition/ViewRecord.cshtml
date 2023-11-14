@@ -1,0 +1,88 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset
+@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.TblIdmIrFurnDTO
+@{
+    Layout = null;
+    var furn = ViewBag.Furniture;
+}
+
+<div>
+    <div>
+        <form id="FurnitureAcquistionDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormac();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item No.</label></strong>
+                    @Html.TextBoxFor(m => m.IrfItem, new { @class = "form-control",@maxlength = "200", @id = "IrfId",@disabled = "disabled"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item Details</label></strong>
+                    @Html.TextAreaFor(m => m.IrfItemDets, new { @class = "form-control",@maxlength = "200", @id = "IrfItemDets",@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Name of Supplier</label></strong>
+                    @Html.TextBoxFor(m => m.IrfSupplier, new { @class = "form-control",@maxlength = "200", @id = "IrfSupplier",@disabled = "disabled"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Actual Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrfAamt, new { @class = "form-control",@maxlength = "200", @id = "IrfAamt",@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Mem Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrfAmt,"{0:n2}", new { @class = "form-control",@maxlength = "200", @id = "IrfAmt",@disabled = "disabled"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security Considered for Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrfSecAmt,"{0:n2}", new { @class = "form-control",@maxlength = "200", @id = "IrfSecAmt",@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Acquired Status(Y/N)</label></strong>
+                    @Html.DropDownListFor(m => m.IrfAqrdStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "true"},
+                    new SelectListItem(){Text="No",Value = "false"}
+                    }, "--- Select Acquired Status ---", new { @class = "form-select", @id="IrfAqrdStat", @disabled= "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @Html.TextBoxFor(m => m.IrfRelStat, new { @class = "form-control",@maxlength = "200", @id = "IrfRelStat ",@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Total Realease</label></strong>
+                    @Html.TextBoxFor(m => m.IrfTotalRelease, new { @class = "form-control",@maxlength = "200", @id = "IrfTotalRelease",@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        var secamt = ($("#IrfSecAmt").val());
+        var furniture = @furn;
+        var ratio = (parseInt($("#IrfSecAmt").val()) / furniture) * 100;
+        $("#IrfRelStat").val(ratio);
+    })
+
+    $("#IrfSecAmt").on("change", function () {
+        debugger
+        var secamt = ($("#IrfSecAmt").val());
+        var furniture = @furn;
+        var ratio = (parseInt($("#IrfSecAmt").val()) / furniture) * 100;
+        $("#IrfRelStat").val(ratio);
+    })
+</script>

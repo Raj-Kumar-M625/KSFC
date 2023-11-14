@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "SwitchRole";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    <h3>Click the role you want switch.</h3>
+</div>
+
+@if (ViewBag.AccessableRoles != null)
+{
+    foreach (var item in ViewBag.AccessableRoles)
+    {
+        
+        <div class="row pt-4">
+            <div class="form-group">                                 
+                <div class="col-md-4">
+                    <a class="btn btn-primary form-control" href="@Url.Action("SetSwitchRole", "Home", new { Role = item })">@item</a>
+                </div>               
+            </div>
+        </div>
+    }
+
+}
+
+
+        

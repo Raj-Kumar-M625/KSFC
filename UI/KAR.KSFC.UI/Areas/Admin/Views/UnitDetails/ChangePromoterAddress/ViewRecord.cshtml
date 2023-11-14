@@ -1,0 +1,42 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmPromAddressDTO
+@{
+     Layout = null;
+}
+<div>
+    <div>
+        <form id="UDPromotorAddress" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+               <div class="col-md-4">
+                    <strong><label class="form-label">Name of Promotor</label></strong>
+                     @Html.DropDownListFor(m => m.PromoterCode, new SelectList(ViewBag.AllPromoterNames, "Value", "Text"),"---Select Promoter Name---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Address</label></strong>
+                     @Html.TextAreaFor(m => m.PromAddress,  new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">State</label></strong>
+                    @Html.DropDownListFor(m => m.PromStateCd, new SelectList(ViewBag.AllPromoterState, "Value", "Text"), "---Select State---", new { @class = "form-select" , @disabled = "disabled"})
+                </div>
+            </div>
+            <br/>  
+           <div class="row">                 
+                 <div class="col-md-4">
+                    <strong><label class="form-label">District</label></strong>
+                      @Html.DropDownListFor(m => m.PromDistrictCd, new SelectList(ViewBag.AllPromoterDistrict, "Value", "Text"), "---Select District---", new { @class = "form-select" , @disabled = "disabled"})
+                </div>  
+                 <div class="col-md-4">
+                    <strong><label class="form-label">Pincode</label></strong>
+                    @Html.DropDownListFor(m => m.PromPincode,new SelectList(ViewBag.AllPromoterPincode, "Text", "Text"), "---Select Pincode---", new { @class = "form-select", @id="Pincode", @disabled = "disabled"})
+                </div>
+                 <div class="col-md-4" id="check">
+                       @Html.CheckBoxFor(m => m.AdrPermanent, new { @class = "form-check-inline", @id="WhetherPermanent",@disabled = "disabled" })
+                       <strong><label class="form-label">Whether Permanent Address</label></strong>
+                </div> 
+           </div>
+        </form>
+        <br/>
+    </div>
+</div>

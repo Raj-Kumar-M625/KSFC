@@ -1,0 +1,77 @@
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+--
+-- Host: ksfccsgdb.c3d9d6stfnzl.ap-south-1.rds.amazonaws.com    Database: ksfc_csg
+-- ------------------------------------------------------
+-- Server version	8.0.28
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET @MYSQLDUMP_TEMP_LOG_BIN = @@SESSION.SQL_LOG_BIN;
+SET @@SESSION.SQL_LOG_BIN= 0;
+
+--
+-- GTID state at the beginning of the backup 
+--
+
+SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '';
+
+--
+-- Table structure for table `empsession_tab`
+--
+
+DROP TABLE IF EXISTS `empsession_tab`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `empsession_tab` (
+  `EMPSESSION_ID` tinyint NOT NULL AUTO_INCREMENT,
+  `EMP_ID` varchar(8) DEFAULT NULL COMMENT 'Employee ID',
+  `LOGIN_DATE_TIME` datetime(6) DEFAULT NULL COMMENT 'Date and Time of Login',
+  `LOGOUT_DATE_TIME` datetime(6) DEFAULT NULL COMMENT 'Date and Time of Logout',
+  `IPADRESS` varchar(200) DEFAULT NULL COMMENT 'To track device ip',
+  `ACCESSTOKEN` varchar(2000) DEFAULT NULL,
+  `REFRESHTOKEN` varchar(2000) DEFAULT NULL,
+  `ACCESSTOKENREVOKE` tinyint(1) DEFAULT NULL,
+  `REFRESHTOKENREVOKE` tinyint(1) DEFAULT NULL,
+  `ACCESSTOKENEXPIRYDATETIME` datetime(6) DEFAULT NULL,
+  `REFRESHTOKENEXPIRYDATETIME` datetime(6) DEFAULT NULL,
+  `SESSION_STATUS` tinyint(1) DEFAULT NULL COMMENT 'Status of Session',
+  `is_active` bit(1) DEFAULT NULL,
+  `is_deleted` bit(1) DEFAULT NULL,
+  `created_by` varchar(2) DEFAULT NULL,
+  `modified_by` varchar(2) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL,
+  `modified_date` datetime DEFAULT NULL,
+  `unique_id` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`EMPSESSION_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Employee Session Details';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `empsession_tab`
+--
+
+LOCK TABLES `empsession_tab` WRITE;
+/*!40000 ALTER TABLE `empsession_tab` DISABLE KEYS */;
+INSERT INTO `empsession_tab` VALUES (1,'00000001','2022-06-03 15:42:48.109410','2022-06-03 16:02:16.333640','10.96.158.118','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvZnRhc2hpczQ1QGdhbWFpbC5jb20iLCJ1c2VyaWQiOiIwMDAwMDAwMSIsImdpdmVuX25hbWUiOiJBYmhpc2hlayIsInBob25lbnVtYmVyIjoiOTEyMDI3NjMzNiIsInBhbiI6IkZUR1BLOTg2M3kiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJFbXBsb3llZSIsIklwQWRkcmVzcyI6IjEwLjk2LjE1OC4xMTgiLCJleHAiOjE2NTQyNTIwNjgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjQ0Mzc5IiwiYXVkIjoiVXNlciJ9.AEuR2xXKfehMsoXM6mVx43f2wVaW17S6VR2qbu7rTe4','CSYoLeDaeKKGvNCuianu9q1o1Pqq0jE4UVccIyS7cFo=',0,0,'2022-06-03 15:57:48.109411','2022-06-03 16:42:48.109419',0,_binary '',_binary '\0',NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `empsession_tab` ENABLE KEYS */;
+UNLOCK TABLES;
+SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-06-28 19:19:04

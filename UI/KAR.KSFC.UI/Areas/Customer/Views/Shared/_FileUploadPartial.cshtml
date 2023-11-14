@@ -1,0 +1,72 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.Masters.DocumentUploadDTO
+
+<div class="form-group">
+    <div class="col-md-12">
+        @if (Model.UploadType == "DetailedProject")
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="1" />
+        }
+        else if (Model.UploadType == "ProofofResidence")
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="2" />
+        }
+        else if (Model.UploadType == "buildingcostestimates")
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="3" />
+        }
+        else if (Model.UploadType == "existingmachinery")
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="4" />
+        }
+        else if (Model.UploadType == "AuditedBalance")
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="5" />
+        }
+        else if (Model.UploadType == "Taxreturnsfiled")
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="6" />
+        }
+        else if (Model.UploadType == "LandandBuilding")
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="7" />
+        }
+        else
+        {
+            <input type="hidden" id="Type_@Model.UploadType" value="8" />
+        }
+
+
+        @if (Model.OperationType == "Edit" && @Model.Id != 0 && !string.IsNullOrEmpty(@Model.UniqueId))
+        {
+            <input type="hidden" id="Id_@Model.UploadType" value="@Model.Id" />
+            <input type="hidden" id="UniqueId_@Model.UploadType" value="@Model.UniqueId" />
+            <input id="File_@Model.UploadType" class="form-control" name="files" type="file" disabled="disabled" style="display:none" />
+            <button class="btn btn-success" id="Upload_@Model.UploadType" style="display:none;" disabled onclick="UploadDocument('@Model.UploadType');">Upload</button>
+            <button class="btn btn-danger" id="Delete_@Model.UploadType" onclick="DeleteUploadFile('@Model.UploadType');">Remove</button>
+            <button class="btn btn-primary" id="View_@Model.UploadType" onclick="ViewUploadFile('@Model.UploadType');">View</button>
+        }
+        else if (Model.OperationType == "View")
+        {
+            <input type="hidden" id="Id_@Model.UploadType" value="@Model.Id" />
+            <input type="hidden" id="UniqueId_@Model.UploadType" value="@Model.UniqueId" />
+            @if (Model.Id > 0 && !string.IsNullOrEmpty(Model.UniqueId))
+            {
+                <button class="btn btn-primary" id="View_@Model.UploadType" onclick="ViewUploadFile('@Model.UploadType');">View</button>
+            }else
+            {
+                <label class="text-danger">No File Uploaded</label>
+            }
+
+        }
+        else
+        {
+            <input type="hidden" id="Id_@Model.UploadType" />
+            <input type="hidden" id="UniqueId_@Model.UploadType" />
+            <input id="File_@Model.UploadType" class="form-control" name="files" type="file" />
+            <button class="btn btn-success" id="Upload_@Model.UploadType" onclick="UploadDocument('@Model.UploadType');">Upload</button>
+            <button class="btn btn-danger invisible" id="Delete_@Model.UploadType" onclick="DeleteUploadFile('@Model.UploadType');">Remove</button>
+            <button class="btn btn-primary invisible" id="View_@Model.UploadType" onclick="ViewUploadFile('@Model.UploadType');">View</button>
+        }
+
+    </div>
+</div>

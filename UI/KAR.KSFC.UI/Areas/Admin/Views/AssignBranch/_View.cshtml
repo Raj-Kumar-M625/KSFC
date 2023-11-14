@@ -1,0 +1,105 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.AdminModule.AssignOfficeDto>
+
+@if (Model.Count > 0)
+{
+
+    <div class="pre-scollable mt-3" id="employeeListingSection">
+
+        <div class="row mt-3">
+
+            <div class="col-3">
+                @foreach (var items in Model.Select((v, i) => new { Value = v, Index = i }))
+                {
+                    <ul>
+                        <li><b>Employee ID :</b> @items.Value.TeyTicketNum</li>
+                        <li><b>Name :</b> @items.Value.EmpoyeeName</li>
+                        <li><b>Email :</b> @items.Value.Email</li>
+                        <li><b>Mobile :</b> @items.Value.MobileNumber.ToString().Split('.')[0]</li>
+                    </ul>
+                }
+            </div>
+            <div class="col-9">
+                <button style="position:relative; float:right" title="View" onclick="showInPopUpEmployeeDetails('@Url.Action("GetEmpDetailById", "AssignBranch", new {id=Model[0].TeyTicketNum}, Context.Request.Scheme)', 'Employee Details', 'add')"
+                    data-bs-toggle="modal" data-bs-target="#ksfcEmpDetails" type="button"
+                    tooltip="Assign Office" class="btn btn-primary">
+                    Assign Office
+                </button>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblEmpAssignOffice">
+                            <thead>
+                                <tr>
+                                    <th>Employee No</th>
+                                    <th>Employee Offices</th>
+                                    <th>Employee Chairs</th>
+                                    <th>Employee Designation</th>
+                                    <th>From Date</th>
+                                    <th colspan="5">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ((Model[0].AssignOfficeDataDto.Count > 0))
+                                {
+                                    @foreach (var items in Model[0].AssignOfficeDataDto.Select((v, i) => new { Value = v, Index = i }))
+                                    {
+
+                                        <tr>
+                                            <td>
+                                                @items.Value.EmployeeId
+                                            </td>
+                                            <td>
+                                                @items.Value.OfficeName
+                                            </td>
+
+                                            <td>
+                                                @items.Value.ChairName
+                                            </td>
+                                            <td>
+                                                @items.Value.OpDesigName
+                                            </td>
+                                            <td>
+                                                @items.Value.FromDate.ToString().Split(' ')[0]
+                                            </td>
+
+                                            <td><button type="button" onclick="checkOut('@Url.Action("AssignBranch", "Checkout", new {id=items.Value.EmployeeId}, Context.Request.Scheme)', 'Employee Details','@items.Value.EmployeeId', '@items.Value.OfficeCode', '@items.Value.ChairCode', '@items.Value.OpDesigCode')" data-bs-toggle="modal" data-bs-target="#ksfcAlertModal" title="Delete" tooltip="Delete" class="btn btn-danger">Checkout</button></td>
+                                        </tr>
+                                    }
+
+
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="10">
+                                            <div class="alert alert-info text-md-center">No Data Found</div>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mt-3">
+        <div class="row">
+            <div class="alert alert-info text-md-center">
+                <p>No Result Found</p>
+            </div>
+        </div>
+    </div>
+}

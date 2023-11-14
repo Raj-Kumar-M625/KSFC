@@ -1,0 +1,71 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorDetailsDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateOrEdit" asp-route-id="@Model.EnqGuarId" onsubmit="return jQueryAjaxPostPGGD(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqGuarId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Guarantor</label>
+                @Html.TextBoxFor(model => model.GuarName, new { @class = "form-control" })
+                <span asp-validation-for="GuarName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Pan of Guarantor</label>
+                @Html.TextBoxFor(model => model.Pan, new { @class = "form-control" })
+                <span asp-validation-for="Pan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Domicile Status</label>
+                @Html.DropDownListFor(model => model.DomCd, new SelectList(ViewBag.ListDomicileStatus, "Value", "Text"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="DomCd" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name Of Bank</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarBankname, new { @class = "form-control" })
+                <span asp-validation-for="GuarantorBankDetails.GuarBankname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name as in Bank Account</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarAccName, new { @class = "form-control" })
+                <span asp-validation-for="GuarantorBankDetails.GuarAccName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Bank Account No.</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarBankaccno, new { @class = "form-control" })
+                <span asp-validation-for="GuarantorBankDetails.GuarBankaccno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">IFSC</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarIfsc, new { @class = "form-control" })
+                <span asp-validation-for="GuarantorBankDetails.GuarIfsc" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Mobile No.</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterMobno, new { @class = "form-control", @type = "number" })
+                <span asp-validation-for="PromoterMaster.PromoterMobno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">E-Mail</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterEmailid, new { @class = "form-control" })
+                <span asp-validation-for="PromoterMaster.PromoterEmailid" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    @if (!ViewBag.IsEdit)
+                    {
+                        <input type="reset" value="Reset" class="btn btn-secondary" />
+                    }
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

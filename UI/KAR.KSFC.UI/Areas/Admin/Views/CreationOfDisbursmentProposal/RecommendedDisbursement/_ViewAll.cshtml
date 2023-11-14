@@ -1,0 +1,61 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal.IdmDsbdetsDTO>
+@{
+    int count = 0;
+    var account = ViewBag.AccountNumber;
+    var loansub = ViewBag.LoanSub;
+}
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblRecommDisbursementDatatable" aria-labelledby="RecommendedDisbursementData-tab">
+        <thead>
+            <tr>
+                <th class="th1">S. No.</th>
+               
+                <th class="th3">Allocation Details</th>
+                <th class="th2">Allocation Amount</th>
+                <th class="th2">Recommended Amount</th>
+                <th class="th2">Released Amount</th>
+                <th class="th4a">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    count++;
+
+               
+                <tr>
+                        <td>@count</td>
+                   
+                    <td>@Html.DisplayFor(modelItem => item.AllocationDetails)</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.AlocAmt)</td>
+                     <td align="right">@Html.DisplayFor(modelItem => item.DsbAmt)</td>
+                     <td align="right">@Html.DisplayFor(modelItem => item.DsbEstAmt)</td>
+                    <td id="textCenter">
+                        <a onclick="showInPopup('@Url.Action("ViewRecord","RecommDisbursement",new {id=item.UniqueId},Context.Request.Scheme)','View Recommended Disbursement Details','Recommended Disbursement')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                            <a onclick="showInPopup('@Url.Action("Edit","RecommDisbursement",new {id=item.UniqueId},Context.Request.Scheme)','Edit Recommended Disbursement Details','Recommended Disbursement')" class="btn btn-primary text-white"> <i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                            @*<a class="btn btn-danger" onclick="return fxnDeleteRecommendDisbursement('@item.UniqueId')" ><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>*@
+
+                            <input type="button" value="Send for Approval" class="btn btn-info" />
+                    </td>
+                </tr>
+                }
+            }
+            else
+            {
+            <tr>
+                <td colspan="8">
+                    No Data Available.
+                </td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblRecommDisbursementDatatable').DataTable();
+    });
+</script>

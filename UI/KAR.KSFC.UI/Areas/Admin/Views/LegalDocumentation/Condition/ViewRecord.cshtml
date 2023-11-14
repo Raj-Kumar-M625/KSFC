@@ -1,0 +1,60 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.LDConditionDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> ConditionDetails = ViewBag.Documentlist;
+}
+
+<div>
+    <div>
+        <form id="LDConditionDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Condition</label></strong>
+                    @Html.DropDownListFor(m => m.CondType,new SelectList(ViewBag.ConditionTypes, "Value", "Text"), new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Condition Description</label></strong>
+                    @Html.DropDownListFor(m => m.CondDetails, new SelectList(ViewBag.ConditionDescriptions, "Value", "Text"), new { @class = "form-select", @disabled = "disabled" ,@style = "white-space: pre-wrap;"})
+                    <input type="text" asp-for="CondDetails" class="form-control" hidden="hidden" id="txtDescp" readonly />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Condition Stage</label></strong>
+                    @Html.DropDownListFor(m => m.CondStg, new SelectList(ViewBag.ConditionStages, "Value", "Text"),new { @class = "form-select" ,@disabled = "disabled"})
+                </div>
+                @*<div class="col-md-6">
+                    <strong><label class="form-label">Compliance</label></strong>
+                    @Html.DropDownListFor(m => m.Compliance, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "YES"},
+                    new SelectListItem(){Text="NO",Value = "NO"}
+                    },"---Select Compliance---", new { @class = "form-select", @id = "Compliance",@disabled = "disabled"})
+                    <span asp-validation-for="Compliance" class="text-danger"></span>
+                </div>*@
+
+
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",ConditionDetails)
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var type = $('#CondType :selected').text();
+    if (type == "Normal") {
+        $("#CondDetails").attr("hidden", false);
+        $("#txtDescp").attr("hidden", true);
+    } else {
+        $("#CondDetails").attr("hidden", true);
+        $("#txtDescp").attr("hidden", false);
+    }
+</script>

@@ -1,0 +1,23 @@
+﻿using System;
+
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+namespace KAR.KSFC.Components.Common.Dto.EnquirySubmission.Masters
+{
+    public class ProjSecurityMasterDTO
+    {
+        [DisplayName("Security Code")]
+       // [Required(ErrorMessage = "The Security Code is required")]
+        public int SecCode { get; set; }
+
+        [DisplayName("Security Details")]
+        //[Required(ErrorMessage = "The Security Details is required")]
+        public string SecDets { get; set; }
+
+        [DisplayName("Security Flag")]
+        public byte? SecFlg { get; set; }
+
+        [DisplayName("Unique Id")]
+        public string UniqueId { get; set; }
+    }
+}

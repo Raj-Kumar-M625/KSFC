@@ -1,0 +1,147 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit
+@model List<KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmBuildingMaterialSiteInspectionDTO>
+@{
+    int count = 0;
+    var Acc = ViewBag.AccountNumber;
+    bool firstinspection = ViewBag.firstbuildingmaterialinspection;
+    var inspNo = ViewBag.InspectionId;
+    List<IdmDspInspDTO> inspdetails = ViewBag.inspectiondetails;
+    var lastCreatedDate = inspdetails.Max(x => x.CreatedDate);
+    var inspnumber = inspdetails.Where(x => x.CreatedDate == lastCreatedDate && x.DinNo == inspNo).Select(x => x.DinNo).Any();
+}
+@if (firstinspection)
+{
+    <a onclick="showInPopup('@Url.Action("Create","BuildMatSiteInspection",new {accountNumber = @ViewBag.AccountNumber ,LoanSub=@ViewBag.LoanSub,OffcCd=@ViewBag.OffcCd,InspectionId = @ViewBag.InspectionId,firstinspection = firstinspection},Context.Request.Scheme)','New Building Material Inspection','BuildMatSiteInspection')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add New Building Material</a>
+}
+else if (inspnumber)
+{
+    <a onclick="showInPopup('@Url.Action("Create","BuildMatSiteInspection",new {accountNumber = @ViewBag.AccountNumber ,LoanSub=@ViewBag.LoanSub,OffcCd=@ViewBag.OffcCd,InspectionId = @ViewBag.InspectionId,firstinspection = firstinspection},Context.Request.Scheme)','New Building Material Inspection','BuildMatSiteInspection')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add New Building Material</a>
+}
+
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblBuildMatSiteInspectionDatatable" aria-labelledby="BuildingMatInspection-tab">
+        <thead>
+            <tr>
+                <th class="th2">S. No.</th>
+                <th class="th2">Item No.</th>
+                <th class="th2">Material Description</th>
+                <th class="th2">Unit</th>
+                <th class="th2">Quantity</th>
+                <th class="th2a">Amount</th>
+                <th class="th6">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0 && inspnumber)
+            {
+                @foreach (var item in Model)
+                {
+                    if (item.IsActive == true)
+                    {
+                          count++;
+                      <tr class="trow">
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelItem => item.IrbmItem)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IrbmMat)</td>
+                        <td>@Html.DisplayFor(modelItem => item.UmoDesc)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IrbmQty)</td>
+                        <td align="right">@Html.DisplayFor(modelItem => item.IrbmAmt)</td>
+                            @if (item.IsActive == false && item.IsDeleted == false)
+                            {
+                                <td class="textCenter">
+                                    <a onclick="showInPopup('@Url.Action("ViewRecord","BuildMatSiteInspection",new {id=item.UniqueId},Context.Request.Scheme)','View Building Material Inspection Details','BuildMatSiteInspection')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="textCenter">
+                                    <a onclick="showInPopup('@Url.Action("ViewRecord","BuildMatSiteInspection",new {id=item.UniqueId},Context.Request.Scheme)','View Building Material Inspection Details','BuildMatSiteInspection')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                                    <a onclick="showInPopup('@Url.Action("Edit","BuildMatSiteInspection",new {InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','Edit Building Material Inspection Details','BuildMatSiteInspection')" class="btn btn-primary text-white"> <em class="fa fa-pencil" aria-hidden="true"></em>   Edit</a>
+                                    <a onclick="JqueryInspectionDeleteMethod('@Url.Action("Delete","BuildMatSiteInspection",new {InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','BuildMatAtSite')" class="btn btn-danger"><em class="fa fa-trash-o" aria-hidden="true"></em> Delete </a>
+                                </td>
+                            }
+                           
+                      </tr> 
+                    }
+
+                     
+                }
+            }
+            else if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    if (item.IsDeleted == false)
+                    {
+
+                        count++;
+                        if (item.IrbmIno == inspNo)
+                        {
+                            <tr class="trow">
+                                <td>@count</td>
+                                <td>@Html.DisplayFor(modelItem => item.IrbmItem)</td>
+                                <td>@Html.DisplayFor(modelItem => item.IrbmMat)</td>
+                                <td>@Html.DisplayFor(modelItem => item.UmoDesc)</td>
+                                <td>@Html.DisplayFor(modelItem => item.IrbmQty)</td>
+                                <td align="right">@Html.DisplayFor(modelItem => item.IrbmAmt)</td>
+                                @if (item.IsActive == false && item.IsDeleted == false)
+                                {
+                                    <td class="textCenter">
+                                        <a onclick="showInPopup('@Url.Action("ViewRecord","BuildMatSiteInspection",new {id=item.UniqueId},Context.Request.Scheme)','View Building Material Inspection Details','BuildMatSiteInspection')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="textCenter">
+                                        <a onclick="showInPopup('@Url.Action("ViewRecord","BuildMatSiteInspection",new {id=item.UniqueId},Context.Request.Scheme)','View Building Material Inspection Details','BuildMatSiteInspection')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                                        <a onclick="showInPopup('@Url.Action("Edit","BuildMatSiteInspection",new {InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','Edit Building Material Inspection Details','BuildMatSiteInspection')" class="btn btn-primary text-white"> <em class="fa fa-pencil" aria-hidden="true"></em>   Edit</a>
+                                        <a onclick="JqueryInspectionDeleteMethod('@Url.Action("Delete","BuildMatSiteInspection",new {InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','BuildMatAtSite')" class="btn btn-danger"><em class="fa fa-trash-o" aria-hidden="true"></em> Delete </a>
+                                    </td>
+                                }
+
+                            </tr>
+
+                        }
+                    }
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="col-md-4 mt-2 mb-5 float-end Amount">
+        <div id="">
+            <strong><label>Total Amount In lakhs: </label></strong>
+            <input type="number" id="totalamount" disabled />
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tblBuildMatSiteInspectionDatatable').DataTable();
+    });
+
+    $("#tblBuildMatSiteInspectionDatatable .trow").each(function() {
+        var total = 0;
+        var totalvalue = ($(this).find("td:eq(5)").text());
+        total = parseInt(totalvalue);
+        var res = $("#totalamount").val();
+        if (res > 0 || res != "") {
+            var sum = total + parseInt(res);
+            var sum = sum.toFixed(2);
+            $("#totalamount").val(sum);
+        }
+        else {
+            var total = total.toFixed(2);
+            $("#totalamount").val(total);
+        }
+    });
+</script>

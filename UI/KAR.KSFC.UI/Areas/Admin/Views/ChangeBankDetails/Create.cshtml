@@ -1,0 +1,179 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmChangeBankDetailsDTO
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+}
+
+<div>
+    
+    <form id="ChangeBankDetails" asp-action="Create" onsubmit="return JqueryCUIAddMethod(this,'ChangeBankDetails'); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+        <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" /> 
+        <input type="hidden" value="@ViewBag.InUnit" asp-for="UtCd" />
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label calss="from-label">Bank IFSC <span id="spanDet1"> *</span> </label></strong>
+               @* @Html.DropDownListFor(m => m.BankIfscId, new SelectList(@ViewBag.IfscCodeDDL, "Value", "Text"), "---Select IFSC---", new { @class = "form-select", required = "required",@id="ifsc"})*@
+                @Html.TextBoxFor(m => m.UtIfsc, new { @class = "form-control", @maxlength = "11", @id = "ifsc",required="required"})
+                <span asp-validation-for="UtIfsc" class="text-danger"></span>
+            </div>
+            <div class="col-md-2 mt-4">
+                <input type="button" id="getdetailscr" value="Get Details" class="btn btn-info next" />
+            </div>
+           <div class="col-md-6">
+                <strong> <label calss="from-label">Name of Bank<span id="spanDet1"> *</span> </label></strong>
+                <input type="text" asp-for="UtBank" id="bnkName" readonly class="form-control"/>
+                <span asp-validation-for="UtBank" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name of Branch<span id="spanDet1"> *</span> </label></strong>
+                <input type="text"  asp-for="UtBankBranch" id="brnName" readonly class="form-control"/>
+                <span asp-validation-for="UtBankBranch" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">Bank Address<span id="spanDet1"> *</span> </label></strong>
+                <textarea  asp-for="UtBankAddress" id="bnkAdr" readonly class="form-control"></textarea>
+                <span asp-validation-for="UtBankAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">State<span id="spanDet1"> *</span> </label></strong>
+                <input type="text" asp-for="UtBankState" id="bnkState" readonly class="form-control"/>
+                <span asp-validation-for="UtBankState" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">District<span id="spanDet1"> *</span></label></strong>
+                <input type="text" asp-for="UtBankDistrict" id="bnkDist" required class="form-control" readonly />
+                <span asp-validation-for="UtBankDistrict" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Taluka<span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="text" asp-for="UtBankTaluka" id="bnkTlk" required class="form-control" readonly />
+                <span asp-validation-for="UtBankTaluka" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Pin Code<span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="number" asp-for="UtBankPincode" required class="form-control" min="0" onkeydown="return event.keyCode !== 69"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" maxlength="6" />
+                <span asp-validation-for="UtBankPincode" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Banker Phone <span id="spanDet1"> *</span> </label></strong>
+                <input type="number" asp-for="UtBankPhone" class="form-control" required min="0" onkeydown="return event.keyCode !== 69" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" maxlength="10" />
+                <span asp-validation-for="UtBankPhone" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Bank Account Number<span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="number" asp-for="UtBankAccno" required class="form-control" min="0" onkeydown="return event.keyCode !== 69" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" maxlength="15" />
+                <span asp-validation-for="UtBankAccno" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name of Account Holder<span id="spanDet1"> *</span></label></strong>
+                <input type="text" asp-for="UtBankHolderName" class="form-control", maxlength = "100" required/>
+                <span asp-validation-for="UtBankHolderName" class="text-danger"></span>
+                 <span id="spanDet">Max:100 Characters</span>
+            </div>
+            <div class="col-md-6">
+                 <strong><label calss="from-label">Type of Account<span id="spanDet1"> *</span></label></strong>
+                @Html.DropDownListFor(m => m.UtAccType, new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="Current Account",Value = "1"},
+                //new SelectListItem(){Text="Saving Account",Value = "2"}
+                }, new { @class = "form-control",@readOnly="true",@id="ChargeTypeCd"})
+                <span asp-validation-for="UtAccType" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                @Html.CheckBoxFor(m => m.UtBankPrimary , new{@id="WhetherPrimary"})
+                    <strong><label class="form-label">&nbsp;&nbsp;Whether Primary Bank</label></strong>
+                <span asp-validation-for="UtBankPrimary" class="text-danger"></span>
+
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-2 text-center float-end submit3">
+                <input type="submit" value="Submit" disabled id="submit" class="btn btn-primary" />
+            </div>
+        </div>
+        <br />
+    </form>
+</div>
+<script>
+    $('input[class="form-control"],select[class="form-select"],input[id="WhetherPrimary"]').change(function () {
+
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    $("#getdetailscr").click(function () {
+       debugger;
+        var IFSC = $('#ifsc').val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.IfscBankDetails));
+        var code = ItemNo.find(x => x.ifscCode === IFSC);
+   
+        if (code) {
+            $("#bnkName").val(code.bankName);
+            $("#brnName").val(code.branchName);
+            $("#bnkAdr").val(code.bankAddress);
+            $("#bnkState").val(code.bankState);
+            $("#bnkDist").val(code.bankDistrict);
+            $("#bnkTlk").val(code.bankTaluk);
+     
+            //$("#ifscrowid").val(code.ifscRowID);
+            return true;
+        }
+        else {
+
+           swal.fire({
+                    title: 'Ifsc Code Does not Exist',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ok',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+           })     
+
+            $("#bnkName").val('');
+            $("#brnName").val('');
+            $("#bnkAdr").val('');
+            $("#bnkState").val('');
+            $("#bnkDist").val('');
+            $("#bnkTlk").val('');
+        }
+  
+    });
+
+    $('#ChargeTypeCd').bind('click mousedown dblclick', function (e) {
+        e.preventDefault()
+     
+    });
+
+</script>
+
+ 

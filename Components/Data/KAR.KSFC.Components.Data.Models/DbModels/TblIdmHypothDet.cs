@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace KAR.KSFC.Components.Data.Models.DbModels
+{
+    /// <summary>
+    ///  Author: Gagana K; Module: Hypothecation; Date:21/07/2022
+    /// </summary>
+    public partial class TblIdmHypothDet
+    {
+        public int IdmHypothDetId { get; set; }
+        public long? LoanAcc { get; set; }
+        public int? LoanSub { get; set; }
+        public byte? OffcCd { get; set; }   
+        public long? AssetCd { get; set; }
+        public string HypothNo { get; set; }
+        public string HypothDesc { get; set; }
+        public decimal? AssetValue { get; set; }
+        public DateTime? ExecutionDate { get; set; }
+        public string HypothUpload { get; set; }
+        public string ApprovedEmpId { get; set; }
+        public bool? IsActive { get; set; }
+        public bool? IsDeleted { get; set; }
+        public string CreateBy { get; set; }
+        public string ModifiedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
+        public string AssetName { get; set; }
+        public string AssetDet { get; set; }
+
+        //public int UtCd { get; set; }
+        //public long AssetItemNo { get; set; }
+        //public int AssetQty { get; set; }
+        //public int UtSlno { get; set; }
+        public virtual TblAssetRefnoDet TblAssetRefnoDet { get; set; }
+        //public virtual TblAssettypeCdtab TblAssettypeCdtab { get; set; }
+        //public virtual TblIdmCersaiRegistration TblIdmCersaiRegistration { get; set; }
+
+    }
+}

@@ -1,0 +1,129 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgBuildingDetDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="BlInspectionDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label calss="from-label">Item No </label></strong>
+                    <input type="Number" asp-for="DcBdgItmNo" class="form-control" disabled />
+                </div>
+                <br />
+                <div class="col-md-6">
+                    <strong> <label calss="from-label">Item Details </label></strong>
+                    <input type="text" asp-for="DcBdgDets" class="form-control" disabled />
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong> <label calss="from-label">Mem Area </label></strong>
+                    <input type="Number" asp-for="DcBdgPlnth" class="form-control" disabled />
+                </div>
+                <br />
+                <div class="col-md-6">
+                    <strong><label calss="from-label">Mem Value </label></strong>
+                    @Html.TextBoxFor(m => m.DcBdgUcost,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@disabled = "disabled",@style="text-align:right" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label calss="from-label">Actual Area </label></strong>
+                    <input type="Number" asp-for="DcBdgAplnth" class="form-control" disabled />
+                </div>
+                <br />
+                <div class="col-md-6">
+                    <strong><label calss="from-label">Actual Value </label></strong>
+                    @Html.TextBoxFor(m => m.DcBdgAtCost,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@disabled = "disabled",@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label calss="from-label">Security Created </label></strong>
+                    <input type="Number" asp-for="DcBdgSecCreatd" class="form-control" disabled style="float:right" />
+                </div>
+                <br />
+                <div class="col-md-6">
+                    <strong><label class="form-label">Roof Type</label></strong>
+                    @Html.TextBoxFor(m => m.RoofType, new { @class = "form-control", @id="rfType",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="50", @disabled = "disabled" })
+                    <span asp-validation-for="RoofType" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label calss="from-label">Release Status </label> </strong>
+                    @Html.DropDownListFor(m => m.DcBdgRqrdStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="No Release Yet",Value = "0"},
+                    new SelectListItem(){Text="Partially Released",Value = "1"},
+                    new SelectListItem(){Text="Fully Released",Value = "2"}
+                    },"---Select Release Status---", new { @class = "form-select" ,@id="release",@disabled = "disabled"})
+                    <span asp-validation-for="DcBdgRqrdStat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label calss="from-label">Security Considered for Release </label> </strong>
+                    @Html.TextBoxFor(m => m.DcBdgSecCreatd, new { @class = "form-control",@maxlength = "20",onkeypress="return event.charCode >= 46 && event.charCode <= 57", @disabled = "disabled",@style="text-align:right",@id="SecRel"})
+                    <span asp-validation-for="DcBdgSecCreatd" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div id="buildingAcquisition">
+                <p><h4>Building Release Details</h4></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong><label class="form-label">Acquisition Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                        @Html.DropDownListFor(m => m.DcBdgStat, new List<SelectListItem>()
+                        {
+                        new SelectListItem(){Text="Not Completed",Value = "0"},
+                        new SelectListItem(){Text="Partially Completed",Value = "1"},
+                        new SelectListItem(){Text="Fully Completed",Value = "2"},
+                        new SelectListItem(){Text="Construction Canceled",Value = "3"},
+                        },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@disabled = "disabled"})
+                        <span asp-validation-for="DcBdgStat" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong><label class="form-label">Actual Unit Cost per Sq.Mtr(B)</label></strong>
+                        @Html.TextBoxFor(m => m.IrbUnitCost,"{0:n2}", new { @class = "form-control", @id="ActualCostPerSq",@disabled = "disabled",@style="text-align:right"})
+                        <span asp-validation-for="IrbUnitCost" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                        @Html.TextBoxFor(m => m.DcBdgStatChgDate, "{0:yyyy-MM-dd}", new { @class = "form-control",@id = "Acqdate", type="date",onkeydown="return false",@disabled = "disabled"})
+                        <span asp-validation-for="DcBdgStatChgDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong><label class="form-label">Percentage Completed(D)</label></strong>
+                        @Html.TextBoxFor(m => m.IrbPercentage, new { @class = "form-control",@id="Percentage",@type="number",@disabled = "disabled"})
+                        <span asp-validation-for="IrbPercentage" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong><label class="form-label">Building Construction Status</label></strong>
+                        @Html.TextBoxFor(m => m.IrbBldgConstStatus, new { @class = "form-control",@id="BuildingStatus",@disabled = "disabled" })
+                        <span asp-validation-for="IrbBldgConstStatus" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong><label class="form-label">Security Considered for Release</label></strong>
+                        @Html.TextBoxFor(m => m.IrbSecValue, new { @class = "form-control",@id="Percentage",@type="number",@disabled = "disabled" })
+                        <span asp-validation-for="IrbSecValue" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+            </div>
+            <br />
+        </form>
+    </div>
+</div>

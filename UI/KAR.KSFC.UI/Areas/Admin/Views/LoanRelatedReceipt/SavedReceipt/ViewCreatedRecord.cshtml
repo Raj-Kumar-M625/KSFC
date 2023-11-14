@@ -1,0 +1,82 @@
+﻿@using KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt
+@model KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="SavedReceipt" asp-action="ViewRecord" onsubmit="ClosePopupFormLA();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*@Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })*@
+            <div class="row">
+                <div class="col-md-4">
+                    <b><label class="form-label">Receipt Reference Number </label></b>
+                    @Html.TextBoxFor(m => m.TblLaReceiptDet.ReceiptRefNo, new { @class = "form-control", @id="rcptamt",required = "required",@disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">Transaction Type</label></b>
+                    @Html.DropDownListFor(m => m.TblLaReceiptDet.TransTypeId, new SelectList(ViewBag.AllTransactionTypes,"Id", "CodeValue"), "---Select Transaction Type---", new { @class = "form-select",@id="trnsctype",required = "required",@disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">Amount Due</label></b>
+                    @Html.TextBoxFor(m => m.TblLaReceiptDet.AmountDue, new { @class = "form-control", @id="rcptamt", @disabled="disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <b><label class="form-label">Amount Paid</label></b>
+                    @Html.TextBoxFor(m => m.PaymentAmt, new { @class = "form-control", @id="rcptamt", @disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">Balance</label></b>
+                    @Html.TextBoxFor(m => m.BalanceAmt, new { @class = "form-control", @id="rcptamt", @disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">Date of Generation</label></b>
+                    @Html.TextBoxFor(m => m.TblLaReceiptDet.DateOfGeneration, "{0:yyyy-MM-dd}", new { @class = "form-control",@id ="dueDt", type="date", @disabled="disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <b><label class="form-label">Due Date for Payment</label></b>
+                    @Html.TextBoxFor(m => m.TblLaReceiptDet.DueDatePayment, "{0:yyyy-MM-dd}", new { @class = "form-control",@id ="payDt", type="date", @disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">Payment Reference Number</label></b>
+                    @Html.TextBoxFor(m => m.TblLaPaymentDet.PaymentRefNo, new { @class = "form-control", @id="rcptamt", @disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">Mode of Payment</label></b>
+                    @Html.DropDownListFor(m => m.TblLaPaymentDet.PaymentMode, new SelectList(ViewBag.AllPaymemtTypes,"Id", "CodeValue"), "---Select Payment Type---", new { @class = "form-select", @id="rcptamt",required = "required",@disabled="disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <b><label class="form-label">Date of Transaction</label></b>
+                    @Html.TextBoxFor(m => m.TblLaPaymentDet.PaidDate, "{0:yyyy-MM-dd}", new { @class = "form-control",@id ="payDt", type="date", @disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">Total Pay Amount</label></b>
+                    @Html.TextBoxFor(m => m.TblLaPaymentDet.ActualAmt, new { @class = "form-control", @id="rcptamt", @disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <b><label class="form-label">KSFC Date Of Payment</label></b>
+                    @Html.TextBoxFor(m => m.TblLaPaymentDet.PaidDate, "{0:dd-MM-yyyy}", new { @class = "form-control", @id="rcptamt", @disabled="disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <b><label class="form-label">Remarks/Comments</label></b>
+                    @Html.TextAreaFor(m => m.TblLaReceiptDet.Remarks, new { @class = "form-control",@id ="payDt", type="date", @disabled="disabled"})
+                </div>
+                
+            </div>
+            <br />
+        </form>
+    </div>
+</div>

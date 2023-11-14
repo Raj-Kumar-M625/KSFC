@@ -1,0 +1,27 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.BankDetailsDTO
+<div class="accordion-body">
+    <form id="UnitDetailBankDetails">
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Name of Bank</label>
+            @Html.TextBoxFor(m => m.EnqBankname, new { @class = "form-control", @disabled = "disabled", @id = "txtBoxNameOfBank" })
+        </div>
+        <div class="col-md-6">
+            <label  class="form-label">Name of Branch</label>
+            @Html.TextBoxFor(m => m.EnqBankbr, new { @class = "form-control", @disabled = "disabled", @id = "txtBoxNameOfBranch" })
+        </div>
+        <div class="col-md-6">
+            <label  class="form-label">Name as in Bank Account</label>
+            @Html.TextBoxFor(m => m.EnqAccName, new { @class = "form-control", @disabled = "disabled", @id = "txtBoxNameAsInBankAccount" })
+        </div>
+        <div class="col-md-6">
+            <label  class="form-label">Bank Account Number</label>
+            @Html.TextBoxFor(m => m.EnqBankaccno, new { @class = "form-control", @disabled = "disabled", @id = "txtBoxBankAccountNumber" })
+        </div>
+        <div class="col-md-6">
+            <label  class="form-label">IFSC</label>
+            @Html.TextBoxFor(m => m.EnqIfsc, new { @class = "form-control", @disabled = "disabled", @id = "txtBoxBankIfscCode" })
+        </div>
+    </form>
+    <br />
+    <br />
+</div>

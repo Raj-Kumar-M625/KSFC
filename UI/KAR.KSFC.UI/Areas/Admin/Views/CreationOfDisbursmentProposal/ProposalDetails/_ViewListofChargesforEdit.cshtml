@@ -1,0 +1,491 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal
+@{
+    int count = 0;
+    var account = ViewBag.AccountNumber;
+    TblIdmReleDetlsDTO item = ViewBag.ProposalDetails;
+    var otherdbit = ViewBag.otherdebitMast;
+    var dsbChargeMap = ViewBag.dsbChargeMap;
+    var loansub = ViewBag.LoanSub;
+    var otherdebitmast = ViewBag.otherdebitMast;
+    var totalAmount = ViewBag.TotalAmount;
+    decimal deduction = 0;
+}
+
+<a onclick="showDocumentPopup('@Url.Action("CreateChargeList","DisbursmentProposalDetails",new {AccountNumber = account,LoanSub = loansub,OffCd = @ViewBag.OffCd,uniqid = item.UniqueId},Context.Request.Scheme)','Add Charges')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add Charges</a>
+
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProposalDetailsDatatableedit" aria-labelledby="ProposalDetails-tab">
+        <thead>
+            <tr>
+                <th class="th1">S. No.</th>
+                <th class="th4">Type of charge</th>
+
+                <th class="th4">Amount</th>
+                <th class="th6">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+               @if (item.ReleBnkChg != null)
+                    {
+
+                        count++;
+                deduction += (decimal)item.ReleBnkChg;
+                <tr class="trow">
+                            <td>@count</td>
+
+                            <td>Bank Chargers</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleBnkChg)</td>
+
+                            <td id="textCenter">
+                                @* <a onclick="showInPopup('@Url.Action("ViewRecord","DisbursmentProposalDetails",new {unqid=item.UniqueId},Context.Request.Scheme)','View Disbursment Proposal Details','Disbursment Proposal')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>*@
+                                <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="bankcharge",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                                <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="bankcharge",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                            </td>
+                        </tr>
+
+               }
+                    @if (item.ReleDocChg != null)
+                    {
+
+                        count++;
+                deduction += (decimal)item.ReleDocChg;
+                       <tr class="trow">
+                            <td>@count</td>
+
+                            <td>Documentation Chargers</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleDocChg)</td>
+
+                            <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="documentationcharge",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="documentationcharge",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                            </td>
+                       </tr>
+
+                    }
+            @if (item.AddlAmt1 != null)
+            {
+
+                count++;
+              deduction += (decimal) item.AddlAmt1;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Insurance chargers</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.AddlAmt1)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="insurancecharge",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="insurancecharge",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+             @if (item.AddlAmt2 != null)
+            {
+
+                count++;
+              deduction += (decimal) item.AddlAmt2;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Legal Chargers</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.AddlAmt2)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="legalcharge",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="legalcharge",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+                </tr>
+
+            }
+            @if (item.AddlAmt3 != null)
+            {
+
+                count++;
+              deduction += (decimal) item.AddlAmt3;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Penalty</td> 
+                    <td align="right">@Html.DisplayFor(modelItem => item.AddlAmt3)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="penalty",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="penalty",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+             @if (item.ReleAtParAmount != null)
+            {
+
+                count++;
+              deduction += (decimal) item.ReleAtParAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>At Par Amount</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleAtParAmount )</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="atparamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="atparamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+             @if (item.ReleUpFrtAmount!= null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleUpFrtAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Upfront Charges</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleUpFrtAmount)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="upcharge",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="upcharge",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleComChg != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleComChg;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Commission Charges</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleComChg)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="commissioncharge",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="commissioncharge",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleFdAmount != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleFdAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>FD Amount</td> 
+                    <td>@Html.DisplayFor(modelItem => item.ReleFdAmount)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="fdamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="fdamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleOthAmount != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleOthAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Other Amount</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleOthAmount)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="othamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="othamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleAdjAmount != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleAdjAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Adjustment Amount</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleAdjAmount)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="adjamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="adjamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleAddUpFrtAmount!= null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleAddUpFrtAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Additional Upfront Amount</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleAddUpFrtAmount)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="addupamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="addupamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleAddlafdAmount!= null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleAddlafdAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Additinal FD Amount</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleAddlafdAmount)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="addfdamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="addfdamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleSertaxAmount != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleSertaxAmount;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Service Tax Amount</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleSertaxAmount)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="servicetaxamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="servicetaxamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+
+            @if (item.ReleCersai != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleCersai;
+                <tr>
+                    <td>@count</td>
+
+                    <td>Cersai Amount</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleCersai)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="cersaiamt",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="cersaiamt",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleSwachcess != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleSwachcess;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Swach Cess</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleSwachcess)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="swachcess",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="swachcess",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.Relekrishikalyancess!= null)
+            {
+
+                count++;
+                deduction += (decimal)item.Relekrishikalyancess;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>KrishiKalyan Cess</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.Relekrishikalyancess)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="krishicess",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="krishicess",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.ReleCollGuaranteeFee != null)
+            {
+
+                count++;
+                deduction += (decimal)item.ReleCollGuaranteeFee;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>Collateral Guarantee Fee</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.ReleCollGuaranteeFee)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="collguarfee",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="collguarfee",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.AddlAmt4 != null)
+            {
+
+                count++;
+                deduction += (decimal)item.AddlAmt4;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>additional_amount1</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.AddlAmt4)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="addamt1",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="addamt1",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+            @if (item.AddlAmt5 != null)
+            {
+
+                count++;
+                deduction += (decimal)item.AddlAmt5;
+                <tr class="trow">
+                    <td>@count</td>
+
+                    <td>additional_amount2</td>
+                    <td align="right">@Html.DisplayFor(modelItem => item.AddlAmt5)</td>
+
+                    <td id="textCenter">
+                        <a onclick="showDocumentPopup('@Url.Action("ViewChargeList","DisbursmentProposalDetails",new {bankdisc="addamt2",unqid=item.UniqueId},Context.Request.Scheme)','View List of Charges')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("DeleteCharges","DisbursmentProposalDetails",new {bankdisc="addamt2",unqid=item.UniqueId},Context.Request.Scheme)','deletecharge')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+
+                    </td>
+                </tr>
+
+            }
+
+
+
+                
+        </tbody>
+    </table>
+    <div class="col-md-2 text-center float-end" style="margin-right:-2px">
+        <div id="">
+            <strong><label>Total Amount</label></strong>
+            <input type="text" id="totalamountedit" readonly value="@(totalAmount - deduction)" style="text-align:right" />
+        </div>
+        <div>
+            <a class="btn btn-default bg-primary text-white" onclick="Save()" style="margin-left: 20px; float: right" id="return">Save</a>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="DownloadPanel" class="even_spacing"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblProposalDetailsDatatable').DataTable();
+    });
+
+    function Save() {
+        debugger;
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: GetRoute('/DisbursmentProposalDetails/CreateNewProp'),
+
+            success: function (res) {
+                debugger
+                var acc = res.data;
+                if (res.isValid) {
+                    swal.fire(
+                        'Created',
+                        'Created Loan Account Number:' + acc + ' Details for Disbursment Proposal Details.',
+                        'success'
+                    )
+
+                    $('#view-all-ProposalDetails').html(res.html);
+                    $('#modelProposalDetails').modal('hide');
+                    //$('#modelProposalDetails .modal-body').html('');
+                    //$('#modelProposalDetails .modal-title').html('');
+                    ReloadProposalDetails();
+
+                }
+
+            },
+
+        })
+    }
+
+     $(document).ready(function () {
+
+        $('#tblProposalDetailsDatatableedit').DataTable();
+    });
+
+    $(document).ready(function () {
+        debugger;
+        $("#tblProposalDetailsDatatableedit.trow").each(function () {
+            debugger;
+            var total = 0;
+            var totalvalue = ($(this).find("td:eq(2)").text());
+            total = parseInt(totalvalue);
+            var res = $("#totalamountedit").val();
+           @* if (res > 0 || res != "") {
+                var sum = total + parseInt(res);
+                $("#totalamountedit").val(sum);
+            }
+            else {
+                $("#totalamountedit").val(total);
+            }*@
+
+
+        });
+    });
+
+
+
+</script>

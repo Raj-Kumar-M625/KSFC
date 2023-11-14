@@ -1,0 +1,639 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.EnquiryDTO
+@using KAR.KSFC.Components.Common.Dto.EnquirySubmission.Masters
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<div id="myDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="Unit-tab" data-bs-toggle="tab" data-bs-target="#Unit" type="button" role="tab" aria-controls="Unit" aria-selected="true">Unit</button>
+            <div class="progress">
+                <div id="unitDetailsProgressBar" class="progress-bar @ViewBag.UnitTab" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Promoter-tab" data-bs-toggle="tab" data-bs-target="#Promoter" type="button" role="tab" aria-controls="Promoter" aria-selected="false">Promoter and Guarantor</button>
+            <div class="progress">
+                <div id="PGDProgressBar" class="progress-bar  @ViewBag.PromoterTab" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Associate-tab" data-bs-toggle="tab" data-bs-target="#Associate" type="button" role="tab" aria-controls="Associate" aria-selected="false">Associate / Sister Concerns</button>
+            <div class="progress">
+                <div id="ASCDDetailsProgressBar" class="progress-bar @ViewBag.SisterConcern" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Project-tab" data-bs-toggle="tab" data-bs-target="#Project" type="button" role="tab" aria-controls="Project" aria-selected="false">Project</button>
+            <div class="progress">
+                <div id="ProjectDetailsProgressBar" class="progress-bar @ViewBag.ProjectTab" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Security-tab" data-bs-toggle="tab" data-bs-target="#Security" type="button" role="tab" aria-controls="Security" aria-selected="false">Security and Documents</button>
+            <div class="progress">
+                <div id="SADetailsProgressBar" class="progress-bar @ViewBag.SecurityTab" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Review-tab" data-bs-toggle="tab" data-bs-target="#Review" type="button" role="tab" aria-controls="Review" aria-selected="false">Review and Submit</button>
+            <div class="progress">
+                <div id="ReviewSetailsProgressBar" class="progress-bar @ViewBag.ReviewTab" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="modal" id="modalAlertEnq" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Enquiry</h5>
+                </div>
+                <div id="divModelAlertPup" class="modal-body">
+                    <div id="divEnquiryAlertPopup"  ></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModal" class="btn btn-primary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="Unit" role="tabpanel" aria-labelledby="Unit-tab">
+
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" id="basic_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <b>Basic Details</b>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        @await Html.PartialAsync("_UnitDetailBasicDetailPartial", Model.UnitDetails.BasicDetails)
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h3 class="accordion-header" id="headingTwo">
+                        <button id="add_accor_btn" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <b>Address Details</b>
+                        </button>
+                    </h3>
+
+                    <div id="collapseTwo" name="divCollapseTwoBasicDetails" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div id="view-all">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/UnitDetails/Address/_ViewAll.cshtml", Model.UnitDetails.ListAddressDetail)
+                            </div>
+
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-address">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupForm();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" id="bank_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <b>Bank Details</b>
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        @await Html.PartialAsync("_UnitDetailBankDetailPartial", Model.UnitDetails.BankDetails)
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button collapsed" id="regd_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <b>Registration Details</b>
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div id="view-all-rd">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/UnitDetails/RegistrationDetails/_ViewAll.cshtml", Model.UnitDetails.ListRegDetails)
+                            </div>
+
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-rd">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormRD();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <input type="submit" class="btn btn-info btn-lg next" id="btnTabUnitDetails" value="Save Unit Details & Continue" />
+        </div>
+        <div class="tab-pane fade" id="Promoter" role="tabpanel" aria-labelledby="Promoter-tab">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" id="btn_panelsStayOpen" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Promoter Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <div id="view-all-pgpd">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/PromAndGuarDetails/Promoter/_ViewAll.cshtml", Model.PromoterAllDetailsDTO)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-pgpd">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormPGPD();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <b>Guarantor Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-pggd">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/PromAndGuarDetails/Guarantor/_ViewAll.cshtml", Model.GuarantorAllDetailsDTO)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-pggd">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormPGGD();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <button id="PAGpreviousBTN" class="btn btn-info btn-lg previous">Previous</button>
+            <button id="PAGsaveBTN" class="btn btn-info btn-lg next">Save Promoter and Guarantor Details & Continue</button>
+        </div>
+
+        <div class="tab-pane fade" id="Associate" role="tabpanel" aria-labelledby="Associate-tab">
+
+            <div class="accordion" id="associate-accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Associate / Sister Concern Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne" data-bs-parent="#accordionPanelsStayOpenExample">
+                        <div class="accordion-body">
+                            <div id="view-all-asd">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/AssociateSisterConcerns/AssociateSisterDetails/_ViewAll.cshtml", Model.AssociateConcernDetails.ListAssociates)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-asd">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormASD();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-body">
+                            <div id="view-all-asfd">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/AssociateSisterConcerns/AssociateSisterFYDetails/_ViewAll.cshtml", Model.AssociateConcernDetails.ListFYDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-asfd">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormASFD();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <button id="ASCDpreviousBTN" class="btn btn-info btn-lg previous">Previous</button>
+            <button id="ASCDsaveBTN" class="btn btn-info btn-lg next">Save Associate Details & Continue</button>
+            <button id="ASCDskipBTN" class="btn btn-info btn-lg next">Skip Associate Details & Continue</button>
+        </div>
+        <div class="tab-pane fade" id="Project" role="tabpanel" aria-labelledby="Project-tab">
+
+            <div class="accordion" id="project-accordian">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Working Capital Arrangement Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+
+                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ProjectDetails/WorkingCapital/WorkingCapital.cshtml", Model?.ProjectDetails?.CapitalDtls)
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <b>Project Cost (Rs. in Lakhs)</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-pdpc">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ProjectDetails/ProjectCost/_ViewAll.cshtml", Model?.ProjectDetails?.ListPrjctCost)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-pdpc">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormPDPC();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                            <b>Means of Finance (in Lakhs)</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+
+                            <div id="view-all-pdmf">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ProjectDetails/ProjectMeansOfFinance/_ViewAll.cshtml", Model?.ProjectDetails?.ListMeansOfFinance)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-pdmf">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormPDMF();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                            <b>Previous years Financial Details (in case of Additional Loan) – minimum of past 3 years</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                        <div class="accordion-body">
+                            <div id="view-all-pdpy">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ProjectDetails/ProjectPrevFYDetails/_ViewAll.cshtml", Model?.ProjectDetails?.ListPrevYearFinDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-pdpy">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormPDPY();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <button id="PDpreviousBTN" class="btn btn-info btn-lg previous">Previous</button>
+            <button id="PDsaveBTN" class="btn btn-info btn-lg next">Save Project Details & Continue</button>
+
+        </div>
+        <div class="tab-pane fade" id="Security" role="tabpanel" aria-labelledby="Security-tab">
+
+            <div class="accordion" id="security-accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Details of Security</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <div id="view-all-sdds">
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/SecurityAndDocuments/SecurityDetails/_ViewAll.cshtml", Model.SecurityDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="form-modal-sdds">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormSDDS();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <b>Documents</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div class="m-4" id="docUploads">
+                                <ul class="nav nav-tabs" id="myTab">
+                                    <li class="nav-item">
+                                        <a href="#GeneralDocuments" class="nav-link active" data-bs-toggle="tab">General Documents</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#TechnicalDocuments" class="nav-link" data-bs-toggle="tab">Technical Documents</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#FinancialDocuments" class="nav-link" data-bs-toggle="tab">Financial Documents</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#LegalDocuments" class="nav-link" data-bs-toggle="tab">Legal Documents</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade active show" id="GeneralDocuments">
+                                        <h4 class="mt-2">Upload General Documents</h4>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="DetailedProjectReport" class="form-label">Detailed Project Report</label>
+                                                    @{
+                                                        var GD1 = Model.DocumentList.Where(x => x.DocSection == "GeneralDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                    }
+                                                    @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "DetailedProject", OperationType = "Edit", Id = (GD1 != null ? GD1.Id : 0), UniqueId = (GD1 != null ? GD1.UniqueId : string.Empty) })
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="ProofofResidence" class="form-label">Proof of Residence and Net Worth declared by Promoters / Guarantors</label>
+                                                    @{
+                                                        var GD2 = Model.DocumentList.Where(x => x.DocSection == "GeneralDocument2" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                    }
+                                                    @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "ProofofResidence", OperationType = "Edit", Id = (GD2 != null ? GD2.Id : 0), UniqueId = (GD2 != null ? GD2.UniqueId : string.Empty) })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="TechnicalDocuments">
+                                        <h4 class="mt-2">Upload Technical Documents</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                @{
+                                                    var TD1 = Model?.DocumentList?.Where(x => x.DocSection == "TechnicalDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                }
+                                                <label for="buildingcostestimates" class="form-label">Approved site and building plans along with building cost estimates</label>
+                                                @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "buildingcostestimates", OperationType = "Edit", Id = (TD1 != null ? TD1.Id : 0), UniqueId = (TD1 != null ? TD1.UniqueId : string.Empty) })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @{
+                                                    var TD2 = Model?.DocumentList?.Where(x => x.DocSection == "TechnicalDocument2" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                }
+                                                <label for="existingmachinery" class="form-label">List of existing machinery and building facilities in case of existing units</label>
+                                                @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "existingmachinery", OperationType = "Edit", Id = (TD2 != null ? TD2.Id : 0), UniqueId = (TD2 != null ? TD2.UniqueId : string.Empty) })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="FinancialDocuments">
+                                        <h4 class="mt-2">Upload Financial Documents</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                @{
+                                                    var FD1 = Model?.DocumentList?.Where(x => x.DocSection == "FinancialDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                }
+                                                <label for="AuditedBalance" class="form-label">Audited Balance Sheet and Profit & Loss Account for last 2 years</label>
+                                                @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "AuditedBalance", OperationType = "Edit", Id = (FD1 != null ? FD1.Id : 0), UniqueId = (FD1 != null ? FD1.UniqueId : string.Empty) })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @{
+                                                    var FD2 = Model?.DocumentList?.Where(x => x.DocSection == "FinancialDocument2" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                }
+                                                <label for="Taxreturnsfiled" class="form-label">Copies of Income Tax / Wealth Tax returns filed</label>
+                                                @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "Taxreturnsfiled", OperationType = "Edit", Id = (FD2 != null ? FD2.Id : 0), UniqueId = (FD2 != null ? FD2.UniqueId : string.Empty) })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="LegalDocuments">
+                                        <h4 class="mt-2">Upload Legal Documents</h4>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                @{
+                                                    var LD1 = Model?.DocumentList?.Where(x => x.DocSection == "LegalDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                }
+                                                <label for="LandandBuilding" class="form-label">Documents related to Land and Building (Both Primary and Collateral)</label>
+                                                @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "LandandBuilding", OperationType = "Edit", Id = (LD1 != null ? LD1.Id : 0), UniqueId = (LD1 != null ? LD1.UniqueId : string.Empty) })
+                                            </div>
+                                            <div class="col-md-6">
+                                                @{
+                                                    var LD2 = Model?.DocumentList?.Where(x => x.DocSection == "LegalDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                }
+                                                <label for="onLease" class="form-label">If Land and Building is taken on Lease - Registered Lease Deed / Lease Agreement</label>
+                                                @await Html.PartialAsync("_FileUploadPartial", new DocumentUploadDTO() { UploadType = "onLease", OperationType = "Edit", Id = (LD2 != null ? LD2.Id : 0), UniqueId = (LD2 != null ? LD2.UniqueId : string.Empty) })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <button id="SADpreviousBTN" class="btn btn-info btn-lg previous">Previous</button>
+            <button id="SADsaveBTN" class="btn btn-info btn-lg next">Save Security and Documents & Continue</button>
+        </div>
+        <div class="tab-pane fade" id="Review" role="tabpanel" aria-labelledby="Review-tab">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="enquirySubmisionHeader">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#enquirySubmisionAccordian" aria-expanded="false" aria-controls="enquirySubmisionAccordian">
+                        <b>Submit Application</b>
+                    </button>
+                </h2>
+                <div id="enquirySubmisionAccordian" class="accordion-collapse collapse" aria-labelledby="enquirySubmisionHeader">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="SubmissionNote" class="form-label">Submission Note</label>
+                                    <textarea class="form-control" id="SubmissionNote" rows="4"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary " id="btnReviewGenerateOtp" style="margin-top : 100px">Generate OTP</button>
+                                <button type="button" class="btn btn-primary " id="btnReviewResendOtp" style="margin-top : 100px">Resend OTP</button>
+                                <p style="display:none;" class="text-success" id="pMsgCountdownTimerEnq">OTP has been successfully sent, You can resend OTP after <span id="spanTimeCountdownTimer"></span> Seconds</p>
+
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="txtReviewEntOtp" placeholder="Enter OTP">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-primary" id="btnReviewValOtp">Verify OTP</button>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                        <b>Declaration</b>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                    <div class="accordion-body">
+                        @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/SecurityAndDocuments/Declaration/Declaration.cshtml", Model.Declaration)
+                    </div>
+                </div>
+            </div>
+
+
+            <button id="btnpreviousSubmitCompleteEnquiry" class="btn btn-info btn-lg previous">Previous</button>
+            <a value="View Enquiry" class="btn btn-info btn-lg next" href="/Customer/Enquiry/ReviewEnquiry" target="_blank">View Enquiry</a>
+            <button id="btnSubmitCompleteEnquiry" disabled class="btn btn-info btn-lg next">Submit Enquiry</button>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script src="~/js/Enquiry.js?v=10"></script>
+    <script src="~/lib/bootstrap/dist/js/jquery.dataTables.min.js"></script>
+    <link href="~/lib/bootstrap/dist/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery-datetimepicker/jquery.datetimepicker.min.js"></script>
+    <script>
+        $('#form-modal-pgpd').on('shown.bs.modal', function () {
+            var maxBirthdayDate = new Date();
+            var minBirthdayDate = new Date();
+            maxBirthdayDate.setFullYear(maxBirthdayDate.getFullYear() - 118);
+            minBirthdayDate.setFullYear(minBirthdayDate.getFullYear() - 118);
+            $('#txtProDateOfBirth').datepicker({
+                format: "dd-mm-yyyy",
+                //startDate: "01-01-2019",
+                autoclose: true,
+                //changeMonth: true,
+                changeYear: true,
+                //minDate: '-100Y',
+                maxDate: '-18Y'
+                //yearRange: '-99:-18'
+                //minDate: "-100y"
+                //maxDate: maxBirthdayDate
+                //todayHighlight: true,
+                //container: '#YourModalBodyDiv'
+            });
+        });
+
+
+
+        $(document).ready(function () {
+            ReloadAddressDetails();
+            ReloadRegistration();
+            ReloadPromoter();
+            ReloadPromoterAsset();
+            ReloadPromoterLiability();
+            ReloadPromoterNetWorth();
+            ReloadGuarantor();
+            ReloadGuarantorAsset();
+            ReloadGuaratorLiability();
+            ReloadGuaratorNetWorth();
+            ReloadAssoSisterCD();
+            ReloadAssoSisterFY();
+            ReloadProjectCost();
+            ReloadProjectMOF();
+            ReloadProjectPFY();
+            ReloadDetailsOfSecurity();
+        });
+
+    </script>
+
+}

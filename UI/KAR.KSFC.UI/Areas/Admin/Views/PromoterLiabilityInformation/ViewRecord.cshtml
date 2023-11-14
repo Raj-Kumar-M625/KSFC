@@ -1,0 +1,34 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.TblPromoterLiabDetDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;   
+}
+
+<div>
+    <div>
+        <form id="PDLiaiblityinfo" asp-action="Create" onsubmit="return LiabilityInfoPost(this); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />            
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Name of Promoter</label></strong>
+                    @Html.DropDownListFor(m => m.PromoterCode, new SelectList(ViewBag.AllPromoterNames, "PromoterCode", "PromName"),"---Select Promoter Name---", new { @class = "form-select", @id="PromotorName", @disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Liability Description</label></strong>
+                    @Html.TextBoxFor(m => m.LiabDesc, new { @class = "form-control",@maxlength = "100",required = "required",@disabled = "disabled"})                    
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Value (In Lakhs)</label></strong>
+                    @Html.TextBoxFor(m => m.LiabVal,"{0:n2}", new { @class = "form-control",@disabled = "disabled" ,@style="text-align:right"})
+                    
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>

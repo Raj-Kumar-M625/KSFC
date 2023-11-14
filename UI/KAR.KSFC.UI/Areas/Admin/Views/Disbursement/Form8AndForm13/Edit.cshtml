@@ -1,0 +1,95 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.Disbursement.Form8AndForm13DTO
+
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var loansub = ViewBag.LoanSub;
+    var offc = ViewBag.OffcCd;
+    List<ldDocumentDto> form8and13Details = ViewBag.Documentlist;
+    var subModuleId = ViewBag.SubModuleId;
+    var subModuleType = ViewBag.SubModuleType;
+    var mainModule = ViewBag.MainModule;
+
+}
+
+<div>
+    <div>
+        <form id="Form8AndForm13Details" asp-action="Edit" onsubmit="return JqueryDisbursmentEditMethod(this,'Form8and13');ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="DF813LoanAcc" />
+            <input type="hidden" value="@loansub" asp-for="DF813Sno" />
+            <input type="hidden" value="@offc" asp-for="DF813Offc" />
+            <input type="hidden" value="@ViewBag.InUnit" asp-for="DF813Unit" />
+            <input type="hidden" value="@Model.UniqueId" asp-for="UniqueId" />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Form</label></strong>
+                    @Html.DropDownListFor(m => m.DF813t1,
+                    new SelectList(ViewBag.Form8and13list,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select", @id = "formType"})
+                    <span asp-validation-for="DF813t1" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Date of Filing</label></strong>
+                    @Html.TextBoxFor(m => m.DF813Dt, "{0:yyyy-MM-dd}", new { @class = "form-control",@id = "dtFill", type="date" ,onkeydown = "return false"})
+                    <span asp-validation-for="DF813Dt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Receipt No</label></strong>
+                    @Html.TextBoxFor(m => m.DF813Ref, new {@onkeypress="allowAlphaNumericSpace(event)", @class = "form-control", @id = "RecptNo",  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="100"})
+                    <span id="spanDet">Max: 100 Characters</span><br />
+                    <span asp-validation-for="DF813Ref" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Requested Date</label></strong>
+                    @Html.TextBoxFor(m => m.DF813RqDt, "{0:yyyy-MM-dd}", new { @class = "form-control",@id ="reqDt", type="date",onkeydown = "return false"})
+                    <span asp-validation-for="DF813RqDt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Registration as Charge Certificate</label></strong>
+                    @Html.TextBoxFor(m => m.DF813cc, new { @class = "form-control", @id = "RecNo",  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="100"})
+                    <span id="spanDet">Max: 100 Characters</span><br />
+                    <span asp-validation-for="DF813cc" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",form8and13Details)
+
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>            
+            <br />
+        </form>
+    </div>
+</div>
+<script>
+    $('input[id="dtFill"], input[id="RecptNo"], input[id="reqDt"],input[id="RecNo"],select[id="formType"]').change(function () {
+
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>
+
+<script>
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+        if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+   </script>

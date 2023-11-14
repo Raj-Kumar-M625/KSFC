@@ -1,0 +1,80 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.SecurityDocumentsDetails.SecurityDetailsDTO>
+@inject KAR.KSFC.UI.Utility.SessionManager _session;
+
+<h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Details of Security</h3>
+@if (_session.GetOperationType() != "View")
+{
+    <a onclick="showInPopupSDDS('@Url.Action("CreateOrEdit","SecurityDetails",new {id=0},null)','New Security Details')" class="btn btn-primary text-white mb-2 mt-2"><i class="fa fa-plus"></i> Add New Security Details</a>
+}
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblDetailsOfSecDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SecCdNavigation.SecDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSecName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSecDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSecValue)
+                </th>
+                 <th> </th>
+                @if (_session.GetOperationType() != "View")
+                {
+                   
+                    <th> </th>
+                    <th> </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqSecId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SecCdNavigation.SecDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqSecName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqSecDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqSecValue)
+                        </td>
+                        <td>
+                            <a onclick="showInPopupSDDS('@Url.Action("ViewRecord","SecurityDetails",new {id=item.EnqSecId},Context.Request.Scheme)','View  Security Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                        </td>
+                        @if (_session.GetOperationType() != "View")
+                        {
+                            <td>
+                                <a onclick="showInPopupSDDS('@Url.Action("CreateOrEdit","SecurityDetails",new {id=item.EnqSecId},Context.Request.Scheme)','Update Security Details')" class="btn btn-primary text-white"><i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                            </td>
+                            <td>
+                                <form asp-action="Delete" asp-controller="SecurityDetails" asp-route-id="@item.EnqSecId" onsubmit="return jQueryAjaxDeleteSDDS(this)" class="d-inline">
+                                    <input type="hidden" asp-for="@item.EnqSecId" />
+                                    <input type="submit" value="Delete" class="btn btn-danger" />
+                                </form>
+                            </td>
+                        }
+                    </tr>
+                }
+
+            }
+        </tbody>
+    </table>
+</div>
+

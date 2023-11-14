@@ -1,0 +1,60 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorDetailsDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecord" onsubmit="ClearPopupFormPGGD();">
+            @Html.HiddenFor(model => model.EnqGuarId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Guarantor</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterName, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Gender</label>
+                @Html.DropDownListFor(model => model.PromoterMaster.PromoterGender, new SelectList(ViewBag.Gender, "Value", "Text"), "-- Please select --", new { @disabled = "disabled" ,@class = "form-select" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Pan of Guarantor</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterPan, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Domicile Status</label>
+                @Html.DropDownListFor(model => model.DomCd,
+               new SelectList(ViewBag.ListDomicileStatus, "Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name Of Bank</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarBankname, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name as in Bank Account</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarAccName, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Bank Account No.</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarBankaccno, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">IFSC</label>
+                @Html.TextBoxFor(model => model.GuarantorBankDetails.GuarIfsc, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Mobile No.</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterMobno, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">E-Mail</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterEmailid, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

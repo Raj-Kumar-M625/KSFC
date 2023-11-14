@@ -1,0 +1,29 @@
+﻿@using KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails;
+@model RegistrationNoDetailsDTO
+@{
+    Layout = null;
+}
+
+<form asp-action="ViewRecord" asp-route-id="@Model.EnqRegnoId" onsubmit="ClearPopupFormRD();">
+
+    @Html.HiddenFor(model => model.EnqRegnoId)
+    <div class="form-group">
+        <label for="inputEmail4" class="form-label">Registration Type</label>
+        @Html.DropDownListFor(model => model.RegrefCd, new SelectList(ViewBag.ListRegnType, "Value", "Text"), "-- Please select --", new { @class = "form-select", @id = "ddlRegistrationTypesBDRD", @disabled = "disabled" })
+    </div>
+    <div class="form-group">
+        <label for="inputEmail4" class="form-label">Registration Number</label>
+        @Html.TextBoxFor(model => model.EnqRegno, new { @class = "form-control", @disabled = "disabled" })
+        <span asp-validation-for="EnqRegno" class="text-danger"></span>
+    </div>
+
+    <div class="form-group text-center">
+        <div class="col-md-6 offset-md-3">
+            <input type="submit" value="Close" class="btn btn-primary" />
+
+        </div>
+    </div>
+</form>
+
+
+

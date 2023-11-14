@@ -1,0 +1,67 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.TblIdmDhcgAllcDTO
+@{
+    Layout = null;
+}
+<div>
+    <div>
+        <form id="AllocationDetails" asp-action="Edit" onsubmit="return AjaxSingleTabUpdateMethod(this,'LoanAllocation'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-4">
+                     <strong><label class="form-label">Allocation Code</label></strong>
+                      @Html.DropDownListFor(m => m.DcalcCd, new SelectList(ViewBag.AllocationCodes, "Value", "Text"), "---Select Type---", new { @class = "form-select", @disabled = "disabled"})
+                       <span asp-validation-for="DcalcCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Allocation Details</label></strong>
+                    @Html.TextAreaFor(m => m.DcalcDetails, new { @class = "form-control", @readonly = "true" })
+                    <span asp-validation-for="DcalcDetails" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label"> Orginal Allocation Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcAmt,"{0:n2}", new { @class = "form-control",@readonly = "true",style="text-align:right" })
+                    <span asp-validation-for="DcalcAmt" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Revised Allocation Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcAmtRevised,"{0:n2}", new { @class = "form-control",@id="AmtRevised", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "8",style="text-align:right"})
+                    <span asp-validation-for="DcalcAmtRevised" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Request</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcRqdt ,"{0:yyyy-MM-dd}", new { @class = "form-control" ,type="date",@readonly = "true",onkeydown="return false" })
+                    <span asp-validation-for="DcalcRqdt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of communication</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcComdt ,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date", @required="required",  @id="DtComm",onkeydown="return false" })
+                    <span asp-validation-for="DcalcComdt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group submit5">
+                <div class="col-md-2 text-center float-end">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>
+<script>
+    $('input[class="form-control"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

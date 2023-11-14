@@ -1,0 +1,121 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@using KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal
+@{
+    List<TblIdmReleDetlsDTO> ProposalDetails = ViewBag.ProposalDetailsList;
+    var AccountNumber = ViewBag.AccountNumber;
+    //List<IdmDsbdetsDTO> idmDsbdetslist = ViewBag.AllRecomDisbursementList;
+    TblIdmBenfDetDTO beneficiaryDetails = ViewBag.BeneficiaryDetails;
+
+}
+<div><h2 id="textCenter">Creation of Recommended Disbursement Proposal</h2></div>
+
+<div id="DisburmnetPropsalDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @* <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="RecommDisbursementDetails-tab" data-bs-toggle="tab" data-bs-target="#RecommDisbursementDetails" type="button" role="tab" aria-controls="RecommDisbursementDetails" aria-selected="false">Recommended Disbursment Details</button>
+        <div class="progress">
+        <div id="RecommDisbursementDetailsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        </li>
+        *@
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="ProposalDetails-tab" data-bs-toggle="tab" data-bs-target="#ProposalDetails" type="button" role="tab" aria-controls="ProposalDetails" aria-selected="false">Disbursment Proposal Details</button>
+            <div class="progress">
+                <div id="ProposalDetailsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        @await Html.PartialAsync("_Loader")
+        @* <div class="tab-pane fade show active" id="RecommDisbursementDetails" role="tabpanel" aria-labelledby="RecommDisbursementDetails-tab">
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+        @await Html.PartialAsync("_AccountNumber")
+        </div>
+        <div class="accordion">
+        <div class="accordion-item">
+        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+        <button class="accordion-button" id="Audit_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+        <strong>List of Recommended Disbursement Details</strong>
+        </button>
+        </h2>
+        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+        <div class="accordion-body">
+        <div id="view-all-RecommDisbursementDetails">
+        @await Html.PartialAsync("/Areas/Admin/Views/CreationOfDisbursmentProposal/RecommendedDisbursement/_ViewAll.cshtml",idmDsbdetslist)
+        </div>
+        <div class="modal" tabindex="-1" role="dialog" id="modelRecommDisbursementDetails">
+        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+        </div>
+        </div>
+        </div>
+        </div>
+        <a href="/Admin/CreationOfDisbursmentProposal/" class="btn btn-info btn-lg text-white mb-2 mt-2" style="margin-top:20px;">Back</a>
+        <input type="submit" class="btn btn-info btn-lg submit float-end" id="btnTabRecommDisbursementDetails" value="Next" style="margin-top: 10px;" />
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>*@
+
+        <div class="tab-pane fade show active" id="ProposalDetails" role="tabpanel" aria-labelledby="ProposalDetails-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Proposal_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Disbursment Proposal Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-ProposalDetails">
+                                @await Html.PartialAsync("/Areas/Admin/Views/CreationOfDisbursmentProposal/ProposalDetails/_ViewAll.cshtml",ProposalDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelProposalDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<a href="/Admin/CreationOfDisbursmentProposal/" class="btn btn-info btn-lg text-white mb-2 mt-2" style="margin-top:20px;">Back</a>*@
+
+                            <input type="submit" class="btn btn-info btn-lg submit float-end" onclick="onclick=showLoader()" id="btnTabProposalDetailsNext" value="Save" style="margin-top: 10px;"  />
+                            <br/>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+      
+      
+    </div>
+</div>
+
+<script src="~/js/IDM.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    ReloadRecommendedDisbursementDetails();
+    $(".modal-content").draggable();
+</script>

@@ -1,0 +1,45 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorNetWorthDetailsDTO>
+
+<h3><i class="fas fa-comments-dollar text-success"></i>NET WORTH</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Guarantor Name
+                </th>
+                <th>
+                    Net Worth (Lakhs)
+                </th>
+            </tr>
+        </thead>
+        @if (ViewBag != null)
+        {
+            @foreach (var item in ViewBag)
+            {
+                <tbody>
+
+                    <tr>
+                        <td>@item.Id</td>
+
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Networth
+                        </td>
+                    </tr>
+                </tbody>
+            }           }
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Guarentor NET WORTH details</b></p>
+}
+

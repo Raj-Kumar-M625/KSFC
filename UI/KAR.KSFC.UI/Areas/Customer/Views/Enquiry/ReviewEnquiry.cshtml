@@ -1,0 +1,548 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.EnquiryDTO
+
+<div class='row'>
+    <div class="col-md-10"><h3>Application Summary</h3></div>
+    <div class="col-md-2">
+        <button class='btn-outline-primary btn-sm' id="printsummary" onclick=printSummary()>Print</button>
+    </div>
+</div>
+<div class="accordion" id="ViewSummary">
+    <div class="accordion-item">
+        <div class="accordion-body">
+            <div class="accordion-item">
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <img src="/images/logo/KSFC_logo.jpg">
+                        </td>
+                        <td style="padding-left:4%">
+                            <h4><b>Karnataka State Financial Corporation</b></h4>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="accordion-item">
+        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+            <div class="accordion-body">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="UnitDetailsHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#unitDetailsAccordian" aria-expanded="false" aria-controls="unitDetailsAccordian">
+                            <b>Unit Details</b>
+                        </button>
+                    </h2>
+
+                    <div id="unitDetailsAccordian" class="accordion-collapse collapse" aria-labelledby="UnitDetailsHeader">
+                        <div class="accordion-body">
+                            <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Basic Details</h5>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Fullname :</label>
+                                    <label> @Model.BasicDetails?.EnqApplName </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Address :</label>
+                                    <label>@Model.BasicDetails?.EnqAddress</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Place :</label>
+                                    <label>@Model.BasicDetails?.EnqPlace</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>PIN Code :</label>
+                                    <label>@Model.BasicDetails?.EnqPincode</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>E-Mail :</label>
+                                    <label>@Model.BasicDetails?.EnqEmail</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>KSFC Branch :</label>
+                                    <label>@Model.BasicDetails?.EnqPlace</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Name of Unit :</label>
+                                    <label>@Model.BasicDetails?.UnitName</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Purpose of Loan :</label>
+                                    <label>@Model.BasicDetails?.PurposeOfLoan</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Period of Repayment incuding Moratorium :</label>
+                                    <label>@Model.BasicDetails?.EnqRepayPeriod</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Constitution Type :</label>
+                                    <label>@Model.BasicDetails?.ConstType</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Size of Firm :</label>
+                                    <label>@Model.BasicDetails?.SizeOfFirm</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Name of Product/Activity :</label>
+                                    <label>@Model.BasicDetails?.ProdCd</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Type of Industry :</label>
+                                    <label>@Model.BasicDetails?.TypeOfIndustry</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Expected Loan Amount (In Lakhs.):</label>
+                                    <label>@Model.BasicDetails?.EnqLoanamt</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Distric :</label>
+                                    <label>@Model.BasicDetails?.District</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Taluka :</label>
+                                    <label>@Model.BasicDetails?.Taluk</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Hobli :</label>
+                                    <label>@Model.BasicDetails?.Hobli</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Village :</label>
+                                    <label>@Model.BasicDetails?.VillageName</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Nature of Premises :</label>
+                                    <label>@Model.BasicDetails?.PremCode</label>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div id="sum-Address">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Address Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/AddressdataView.cshtml", Model?.AddressDetails)
+                            </div>
+                            <br />
+                            <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Bank Details</h5>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Name of Bank :</label>
+                                    <label>@Model.BankDetails?.EnqBankname</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Name of Branch :</label>
+                                    <label>@Model.BankDetails?.EnqBankbr</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Pincode :</label>
+                                    <label>@Model.BankDetails?.BankPinCode</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Name as in Bank Ac :</label>
+                                    <label>@Model.BankDetails?.EnqAccName</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Bank Account Number :</label>
+                                    <label>@Model.BankDetails?.EnqBankaccno</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>IFSC :</label>
+                                    <label>@Model.BankDetails?.EnqIfsc</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Type of Account :</label>
+                                    <label>@Model.BankDetails?.EnqAcctype</label>
+                                </div>
+                            </div>
+
+                            <br />
+                            <div id="sumRegistration">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Registration Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getRegistrationData.cshtml", Model?.RegistrationDetails)
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                @*Unit details accordian ends*@
+                <br />
+                @*Promoter details accordian start*@
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="PromoterHeading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#PromoterHeadingAccordian" aria-expanded="false" aria-controls="PromoterHeadingAccordian">
+                            <b>Promoter Details</b>
+                        </button>
+                    </h2>
+                    <div id="PromoterHeadingAccordian" class="accordion-collapse collapse" aria-labelledby="PromoterHeading">
+                        <div class="accordion-body">
+                            <div id="sumPromoter">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Promoter Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPromoterData.cshtml", Model?.PromoterDetails)
+                            </div>
+                            <br />
+                            <div id="sumPromoterAsset">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Promoter Assets Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPromoterAssetData.cshtml", Model?.PromoterAssetsDetails)
+                            </div>
+                            <br />
+                            <div id="sumPromoterLiability">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Promoter Liablity Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPromoterLiabilityData.cshtml", Model?.PromoterLiability)
+                            </div>
+                            <div id="sumPromoterNetWorth">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Promoter Net Worth Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPromoterNetWorthData.cshtml", Model?.PromoterNetWorth)
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+                @*Promoter details accordian ends*@
+                <br />
+                @*guarenter details accordian start*@
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="GuarantorHeading">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#GuarantorAccordian" aria-expanded="false" aria-controls="GuarantorAccordian">
+                            <b>Guarantor Details</b>
+                        </button>
+                    </h2>
+                    <div id="GuarantorAccordian" class="accordion-collapse collapse" aria-labelledby="GuarantorHeading">
+                        <div class="accordion-body">
+                            <div id="sumGuarantor">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Guarantor Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getGuarantorData.cshtml", Model?.GuarantorDetails)
+                            </div>
+                            <br />
+                            <div id="sumGuarentorAsset">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Guarantor Assets Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getGuarentorAssetData.cshtml", Model?.GuarantorAssetsDetails)
+                            </div>
+                            <br />
+                            <div id="sumGuarentorLiability">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Guarantor Liablity Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getGuarentorLiabilityData.cshtml", Model?.GuarantorLiability)
+                            </div>
+                            <div id="sumGuarentorNetWorth">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Guarantor Net Worth Details</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getGuarentorNetWorthData.cshtml", Model?.GuarantorNetWorth)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*guarenter details accordian ends*@
+                <br />
+                @*ASC details accordian start*@
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="ConcernDetailsHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ConcernDetailsAccordian" aria-expanded="false" aria-controls="ConcernDetailsAccordian">
+                            <b>Associate / Sister Concern Details</b>
+                        </button>
+                    </h2>
+                    <div id="ConcernDetailsAccordian" class="accordion-collapse collapse" aria-labelledby="ConcernDetailsHeader">
+                        @if (ViewBag.SisterConcernNotApplicable == true)
+                        {
+                            <p style="color: red;padding:20px"><b>Not Applicable</b></p>
+                        }
+                        else
+                        {
+                            <div class="accordion-body">
+                                <div id="sumAssociate">
+                                    <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Associate / Sister Concern Details</h5>
+                                    @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getAssociateData.cshtml", Model?.SisterConcernDetails)
+                                </div>
+                                <br />
+                                <div id="sumPrevFY">
+                                    <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i> Previous years Financial Details (minimum of past 3 years)</h5>
+                                    @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPrevFYData.cshtml", Model?.SisterConcernFinancialDetails)
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                @*ASC details accordian ends*@
+                <br />
+                @*project details accordian start*@
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="ProjectHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ProjectAccordian" aria-expanded="false" aria-controls="ProjectAccordian">
+                            <b>Project Details</b>
+                        </button>
+                    </h2>
+                    <div id="ProjectAccordian" class="accordion-collapse collapse" aria-labelledby="ProjectHeader">
+                        <div class="accordion-body">
+                            <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Working Capital Arrangement Details</h5>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Name of Bank :</label>
+                                    <label>@Model?.WorkingCapitalDetails?.EnqWcBank</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>Name of Bank Branch :</label>
+                                    <label>@Model?.WorkingCapitalDetails?.EnqWcBranch </label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label>IFSC :</label>
+                                    <label>@Model?.WorkingCapitalDetails?.EnqWcIfsc </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label>Amount (In Lakhs.) :</label>
+                                    <label>@Model?.WorkingCapitalDetails?.EnqWcAmt</label>
+                                </div>
+                            </div>
+                            <br />
+                            <div id="sumProjectCost">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Project Cost</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getProjectCostData.cshtml", Model?.ProjectCostDetails)
+                            </div>
+                            <br />
+                            <div id="sumProjectMeansOfFinance">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Means of Finance (In Lakhs)</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getProjectMeansOfFinanceData.cshtml", Model?.ProjectMeansOfFinanceDetails)
+                            </div>
+                            <br />
+                            <div id="sumProjectPrevFY">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Previous years Financial Details (in case of Additional Loan) – minimum of past 3 years</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getProjectPrevFYData.cshtml", Model?.ProjectFinancialYearDetails)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*project details accordian ends*@
+                <br />
+                @*Documents and security accordian start*@
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="SecurityHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#SecurityAccordian" aria-expanded="false" aria-controls="SecurityAccordian">
+                            <b>Security and Documents</b>
+                        </button>
+                    </h2>
+                    <div id="SecurityAccordian" class="accordion-collapse collapse" data-bs-parent="#SecurityHeader" aria-labelledby="SecurityHeader">
+                        <div class="accordion-body">
+                            <br />
+                            <div id="sumSecurity">
+                                <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Security</h5>
+                                @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getSecurityData.cshtml", Model?.SecurityDetails)
+                            </div>
+                            <br />
+                            <h5 class="text-left"><i class="fas fa-comments-dollar text-success"></i>Documents Uploaded</h5>
+                            <div class="accordion-body">
+                                <div class="m-4" id="docUploads">
+                                    <div class="tab-content">
+                                        <div class="tab-pane fade active show" id="GeneralDocuments">
+                                            <div class="form-group">
+                                                <table class="table table-striped table-bordered table-sm table-responsive-xl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Section</th>
+                                                            <th scope="col">Document Name</th>
+                                                            <th scope="col">Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>General Document</td>
+                                                            <td>Detailed Project Report</td>
+                                                            <td>
+                                                                @{
+                                                                    var GD1 = Model.DocumentList.Where(x => x.DocSection == "GeneralDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (GD1 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>General Document</td>
+                                                            <td>Proof of Residence and Net Worth declared by Promoters / Guarantors</td>
+                                                            <td>
+                                                                @{
+                                                                    var GD2 = Model.DocumentList.Where(x => x.DocSection == "GeneralDocument2" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (GD2 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">3</th>
+                                                            <td>Technical Document</td>
+                                                            <td>Approved site and building plans along with building cost estimates</td>
+                                                            <td>
+                                                                @{
+                                                                    var TD1 = Model?.DocumentList?.Where(x => x.DocSection == "TechnicalDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (TD1 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">4</th>
+                                                            <td>Technical Document</td>
+                                                            <td>List of existing machinery and building facilities in case of existing units</td>
+                                                            <td>
+                                                                @{
+                                                                    var TD2 = Model?.DocumentList?.Where(x => x.DocSection == "TechnicalDocument2" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (TD2 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">5</th>
+                                                            <td>Financial Document</td>
+                                                            <td>Audited Balance Sheet and Profit & Loss Account for last 2 years</td>
+                                                            <td>
+                                                                @{
+                                                                    var FD1 = Model?.DocumentList?.Where(x => x.DocSection == "FinancialDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (FD1 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">6</th>
+                                                            <td>Financial Document</td>
+                                                            <td>Copies of Income Tax / Wealth Tax returns filed</td>
+                                                            <td>
+                                                                @{
+                                                                    var FD2 = Model?.DocumentList?.Where(x => x.DocSection == "FinancialDocument2" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (FD2 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">7</th>
+                                                            <td>Legal Document</td>
+                                                            <td>Documents related to Land and Building (Both Primary and Collateral)</td>
+                                                            <td>
+                                                                @{
+                                                                    var LD1 = Model?.DocumentList?.Where(x => x.DocSection == "LegalDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (LD1 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">8</th>
+                                                            <td>Lagal Document</td>
+                                                            <td>If Land and Building is taken on Lease - Registered Lease Deed / Lease Agreement</td>
+                                                            <td>
+                                                                @{
+                                                                    var LD2 = Model?.DocumentList?.Where(x => x.DocSection == "LegalDocument1" && x.Process == "EnquirySubmission").FirstOrDefault();
+                                                                }
+                                                                @if (LD2 != null)
+                                                                {
+                                                                    <label class="text-success"> File Uploaded</label>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <label class="text-danger"> No File Uploaded</label>
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="ProjectHeader">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#Declaration" aria-expanded="false" aria-controls="ProjectAccordian">
+                            <b>Declaration</b>
+                        </button>
+                    </h2>
+                    <div id="Declaration" class="accordion-collapse collapse" aria-labelledby="Declaration">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <b>I hereby declare that the information furnished above is true to the best of my knowledge. I take full liability for the correctness of the information</b>
+                                </div>
+                            </div>
+
+                            <div class="row" style="padding-top:100px;text-align:right;">
+                                   
+                                <div class="col-sm-12" >
+                                    <div style="padding-right:155px;">Signature</div>
+                                    <br />
+                                    <label>................................................................... </label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

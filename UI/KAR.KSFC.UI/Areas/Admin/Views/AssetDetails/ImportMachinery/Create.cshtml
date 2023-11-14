@@ -1,0 +1,579 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgImportMachineryDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var inspectionId = ViewBag.InspectionId;
+}
+
+<div>
+    <form id="ImportMachineryListAd" asp-action="Create" asp-controller="ImportMachineryAd" onsubmit="return JqueryInspectionAddMethod(this,'ImportMachineryAd'); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+        <input type="hidden" value="@inspectionId" asp-for="DimcIno" />
+        <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+
+       
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Item No <span id="spanDet1"> *</span> </label></strong>
+                <input type="Number" asp-for="DimcItmNo" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" readonly="readonly" />
+                <span asp-validation-for="DimcItmNo" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Item Details<span id="spanDet1"> *</span></label></strong>
+                <textarea asp-for="DimcDets" class="form-control" required></textarea>
+                <span asp-validation-for="DimcDets" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Name of Supplier <span id="spanDet1"> *</span> </label></strong>
+                <input type="text" asp-for="DimcSup" class="form-control" required />
+                <span asp-validation-for="DimcSup" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Address of Supplier <span id="spanDet1"> *</span> </label></strong>
+                <input type="text" asp-for="DimcSupAdr1" class="form-control" required />
+                <span asp-validation-for="DimcSupAdr1" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Quantity <span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="number" asp-for="DimcQty" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                <span asp-validation-for="DimcQty" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Currency<span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.DropDownListFor(m => m.DimcCrncy, new SelectList(ViewBag.CurrencyList, "CurrencyId", "CurrencyDesc"),"---Select  Currency---", new { @class = "form-select", id="curncy"})
+                <span asp-validation-for="DimcCrncy" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4"> 
+                <strong><label class="from-label">Basic Cost (In selected currency)</label></strong>
+                @Html.TextBoxFor(m => m.DimcCurBasicAmt,"{0:n2}", new { @class = "form-control",readOnly="true", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,id="cost",@style="text-align:right"})
+                <span asp-validation-for=" DimcCurBasicAmt" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Exchange Rate <span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DimcExrd,"{0:n2}", new { @class = "form-control",readOnly="true", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,id="exchange",@style="text-align:right"})
+                <span asp-validation-for="DimcExrd" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Basic Cost(in Rs)<span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DimcBasicAmt,"{0:n2}", new { @class = "form-control",@readonly = "false", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,id="basic",@style="text-align:right"})
+                <span asp-validation-for="DimcBasicAmt " class="text-danger"></span>
+            </div>
+
+
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Custom Duty<span id="spanDet1"> *</span> </label></strong>
+                @Html.TextBoxFor(m => m.DimcCduty,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,id="custom",@style="text-align:right"})
+                <span asp-validation-for="DimcCduty" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">GST <span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DimcGST,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,id="gst",@style="text-align:right"})
+                <span asp-validation-for="DimcGST" class="text-danger"></span>
+                <span asp-validation-for="DimcGST" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Other Expenses<span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DimcOthExp,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,id="otherexp",@style="text-align:right"})
+                <span asp-validation-for="DimcOthExp" class="text-danger"></span>
+            </div>
+         </div>
+         <br />
+
+         <div class="row">
+             <div class="col-md-4">
+                <strong><label class="from-label">Entry Tax<span id="spanDet1"> *</span> </label></strong>
+                <input type="number" asp-for=" DimcEntry" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required maxlength="10" style="text-align:right"/>
+                <span asp-validation-for=" DimcEntry" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Entry Imported<span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="number" asp-for="DimcEntryI" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required maxlength="10" style="text-align:right"/>
+                <span asp-validation-for="DimcEntryI" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">CIF<span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="number" asp-for="DimcCif" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required maxlength="10" style="text-align:right" />
+                <span asp-validation-for="DimcCif" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Total Cost(Mem Value)<span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DimcTotalCostMem,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,@style="text-align:right" ,@id ="Memvalue"})
+                <span asp-validation-for="DimcTotalCostMem" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Total Cost<span id="spanDet1"> *</span> </label></strong>
+                @Html.TextBoxFor(m => m.DimcTotCost,"{0:n2}", new { @class = "form-control",@readonly = "true", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,id="totalcst",@style="text-align:right"})
+                <span asp-validation-for=" DimcTotCost" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong> <label class="from-label">Total Cost (Actual)<span id="spanDet1"> *</span> </label></strong>
+                @Html.TextBoxFor(m => m.DimcActualCost,"{0:n2}", new { @class = "form-control",@id="TotCostActual",@readonly = "true", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,@style="text-align:right"})
+                <span asp-validation-for="DimcActualCost" class="text-danger"></span>
+            </div>
+
+
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Total Security Created <span id="spanDet1"> *</span> </label></strong>
+                @Html.TextBoxFor(m => m.Dimcsec, new { @class = "form-control", @type="number", @id = "SecCreated", @required = "required",@onkeypress="return event.charCode >= 46 && event.charCode <= 57" ,@style="text-align:right",@readonly=true,@min="0"})
+                <input type="Number" hidden  style="text-align:right" id="SecCreated2" value="@ViewBag.Eligibility"/>
+                <span asp-validation-for="Dimcsec" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong> <label class="from-label">Security Considered For Release <span id="spanDet1"> *</span> </label></strong>
+                <input type="Number" asp-for="DimcsecRel" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required style="text-align:right" />
+                <span asp-validation-for="DimcsecRel" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Eligibility Till Previous Inspection </label></strong>
+                @Html.TextBoxFor(m => m.DimcsecElig, new { @class = "form-control",@maxlength = "10", @id = "eligibility", @readonly = "true"})
+                <span asp-validation-for="DimcsecElig" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-md-4">
+                <strong><label class="from-label">Contingency (%)  <span id="spanDet1"> *</span></label></strong>
+                <input type="number" asp-for="DimcCpct" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                <span asp-validation-for="DimcCpct" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Contingency Amount <span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DimcCamt,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", @id="promMobileNo", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,@style="text-align:right"})
+                <span asp-validation-for="DimcCamt" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Status</label></strong>
+                @Html.DropDownListFor(m => m.DimcStat, new SelectList(ViewBag.ProcureList, "ProcureId", "ProcureDesc"),"---Select Machinary Aquired Status---", new { @class = "form-select"})
+                <span asp-validation-for="DimcStat" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="from-label">Bank Advice<span id="spanDet1"> *</span> </label></strong>
+                <input type="text" asp-for="DimcBankAdivce" class="form-control" required />
+                <span asp-validation-for="DimcBankAdivce" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Bank Advice Date<span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DimcBankAdvDate,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date", @id = "InvoiceDate",onkeydown="return false" })
+                <span asp-validation-for="DimcBankAdvDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label class="from-label">Status Description</label></strong>
+                @Html.TextAreaFor(m => m.DimcStatDesc, new { @class = "form-control", @maxlength = "100" })
+                <span asp-validation-for="DimcStatDesc" class="text-danger"></span>
+                <span id="spanDet">Max:100 Characters</span>
+            </div>
+
+
+        </div>
+        <br />
+
+        <div class="row">
+           
+
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Delivery (Weeks)<span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="number" asp-for="DimcDelry" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required maxlength="2" />
+                <span asp-validation-for="DimcDelry" class="text-danger"></span>
+            </div>
+
+        </div>
+        <br />
+        <div id="ImportMachine">
+            <p><h4>Imported Machinery Release Details</h4></p>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquisition Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.DimcAqrdStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Not Acquired",Value = "0"},
+                    new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                    new SelectListItem(){Text="Acquired",Value = "2"}
+                    },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@required = "required"})
+                    <span asp-validation-for="DimcAqrdStat" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DimcStatChgDate, "{0:yyyy-MM-dd}",new { @class = "form-control",@id = "Acqdate", type="date",onkeydown="return false", @readonly = "true",@required = "required"})
+                    <span asp-validation-for="DimcStatChgDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered For Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcSecAmt , new { @class = "form-control", @id = "secamt",@style="text-align:right", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="IrPlmcSecAmt " class="text-danger"></span>
+                </div>
+               
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcAamt,"{0:n2}", new { @class = "form-control", @id = "actualvalue",@style="text-align:right" })
+                    <span asp-validation-for="IrPlmcAamt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcTotalRelease, new { @class = "form-control", @type="number",@style="text-align:right", @id = "totalrelease", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="IrPlmcTotalRelease" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status</label></strong>
+                    @Html.DropDownListFor(m => m.IrPlmcRelseStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="No Release Yet",Value = "0"},
+                    new SelectListItem(){Text="Partially Released",Value = "1"},
+                    new SelectListItem(){Text="Fully Released",Value = "2"}
+                    },"---Select Acquisition Status---", new { @class = "form-select", @id = "relstat",@required = "required"})
+                    <span asp-validation-for="IrPlmcRelseStat" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <strong>
+                    <label class="from-label">Machinery Document Details <span id="spanDet1"> *</span></label>
+                </strong>
+                <input type="text" asp-for="DimcMacDocuments" class="form-control" required maxlength="20" />
+                <span asp-validation-for="DimcMacDocuments" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('input[class="form-control"],select[class="form-select"],textarea[class="form-control"],select[class="form-control"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    var maxDate = new Date().toISOString().split('T')[0];
+    document.getElementById('Acqdate').value = maxDate
+  
+    $("#curncy").change(function () {
+        debugger;
+        var status = $('#curncy :selected').val();
+        if (status == 4) {
+            document.getElementById('cost').readOnly = false
+            document.getElementById('exchange').readOnly = false
+             document.getElementById('basic').readOnly = true
+
+        }
+        else {
+            document.getElementById('cost').readOnly = true
+            document.getElementById('exchange').readOnly =  true
+             document.getElementById('basic').readOnly = false
+        }
+    });
+
+   
+        var MacNo = @ViewBag.Eligibility;
+        $("#SecCreated").val(MacNo);
+    
+
+   
+        debugger;
+        $("#TotCostActual").on("change", function () {
+            debugger
+            var sec = ($("#TotCostActual").val());
+
+            var value = ($("#Memvalue").val());
+            if (sec < value) {
+                debugger;
+                swal.fire(
+                    'Error',
+                    'Actual Value should be greater than or equal to Mem Value',
+                    'error'
+                )
+                $('#TotCostActual').val("");
+            }
+
+            var furn = $("#SecCreated2").val();
+            var total = (Number(furn) + Number(sec));
+            $("#SecCreated").val(total);
+
+        });
+
+    
+
+    $("#Memvalue").on("change", function () {
+        document.getElementById('TotCostActual').readOnly = false
+    });
+
+    $("#DimcItmNo").on("change", function() {
+        var ItmNo = $(this).val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+        for (i = 0; i < ItemNo.length; i++) {
+            if (ItmNo == ItemNo[i])
+                swal.fire({
+                    title: 'Item Number already exists',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+
+    });
+
+    
+        debugger
+        var MacNo = @ViewBag.Eligibility;
+        $("#eligibility").val(MacNo);
+    
+
+
+    $("#cost").on("change", function () {
+        debugger
+        var cost = parseInt($(this).val());
+        var exc = parseInt($("#exchange").val());
+        var totalcst = parseInt(cost) * parseInt(exc)
+        $("#basic").val(totalcst);
+    });
+
+
+    $("#exchange").on("change", function (e) {
+        debugger
+        var exc = parseInt($(this).val());
+        var cost = parseInt($("#cost").val());
+              
+        if (isNaN(cost)) {
+           
+            var total = parseInt(exc)
+            var totalcst = parseInt(exc)
+
+        }
+        else {
+           
+            var total = (parseInt(cost) * parseInt(exc) )
+            var totalcst = (parseInt(cost) * parseInt(exc) )
+        }
+       
+        $("#basic").val(total);
+        $("#totalcst").val(totalcst);
+    });
+
+
+     $("#custom").on("change", function (e) {
+        debugger
+        var custom = parseInt($(this).val());
+        var basic = parseInt($("#basic").val());
+              
+        if (isNaN(custom)) {
+    
+            var totalcst = parseInt(basic) 
+        }
+        else {
+               
+            var totalcst = (parseInt(custom) + parseInt(basic) )
+        }
+          $("#totalcst").val(totalcst);      
+     
+    });
+
+      $("#gst").on("change", function (e) {
+        debugger
+        var gst = parseInt($(this).val());
+        var basic = parseInt($("#basic").val());
+        var custom = parseInt($("#custom").val());
+              
+        if (isNaN(gst)) {
+    
+            var totalcst = parseInt(basic)+parseInt(custom)
+        }
+        else {
+               
+            var totalcst = (parseInt(custom) + parseInt(basic) + parseInt(gst)  )
+        }
+          $("#totalcst").val(totalcst);      
+     
+    });
+
+     $("#otherexp").on("change", function (e) {
+        debugger
+        var otherexp = parseInt($(this).val());
+        var basic = parseInt($("#basic").val());
+        var gst = parseInt($("#gst").val());
+        var custom = parseInt($("#custom").val());
+
+        if (isNaN(otherexp)) {
+
+            var totalcst = parseInt(basic) + parseInt(gst) + parseInt(custom)
+        }
+        else {
+                var totalcst = parseInt(basic)  + parseInt(gst) + parseInt(otherexp) + parseInt(custom)
+        }
+        $("#totalcst").val(totalcst);
+    });
+
+
+    
+     $("#basic").on("change", function (e) {
+        debugger
+        var basic = parseInt($(this).val());
+        var totalcst = parseInt(basic) 
+
+           $("#totalcst").val(totalcst);
+
+                   
+    });
+
+    
+    //$("#AcqStg").change(function() {
+    //    debugger;
+    //    var status = $('#AcqStg :selected').val();
+    //    if (status == 1 || status == 2) {
+    //        document.getElementById('Acqdate').readOnly = false 
+            
+    //    }
+    //    else {
+    //        $("#AcqStg").click(function () {
+    //            $("#Acqdate").val("0");
+    //        });
+         
+    //    }
+
+
+
+    //   $("#AcqStg").change(function () {
+    //        //debugger;
+    //        var status = $('#AcqStg :selected').val();
+    //        if (status == 0) {
+    //            document.getElementById('Acqdate').readOnly = true
+    //        }
+           
+            
+    //   });
+
+    //});
+        //debugger;
+        //if ('@ViewBag.firstimportMachine' == 'True') {
+        //    Swal.fire({
+        //        title: 'Are you sure Want To Add?',
+        //        text: 'Import Machinery Inspection Details is not Added in Previous Inspection',
+        //        icon: 'warning',
+        //        showCancelButton: true,
+        //        confirmButtonText: 'Yes',
+        //        cancelButtonText: 'No',
+        //    }).then((result) => {
+        //        // If the user clicks "Yes"
+        //        if (result.isConfirmed) {
+        //            // Open the form
+        //            $('#ImportMachineryList').show();
+        //        }
+        //        else {
+        //            $('#modelImportMachineryList .modal-body').html('');
+        //            $('#modelImportMachineryList .modal-title').html('');
+        //            $('#ImportMachineryList').modal('hide');
+        //        }
+        //    });
+
+   //}
+
+    Swal.fire({
+        text: "Modification of deed is pending and it needs to be done before the last 10% of the Disbursement.",
+        icon: 'warning',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        denyButtonText: "Don't save"
+    })
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+   
+
+
+

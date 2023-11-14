@@ -1,0 +1,55 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.TblIdmBuildingAcquisitionDetailsDTO>
+@{
+    int count = 0;
+    var account = ViewBag.AccountNumber;
+    var loansub = ViewBag.LoanSub;
+}
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblBuildingAcquisitionDatatable" aria-labelledby="BuildingAcquisitionData-tab">
+        <thead>
+            <tr>
+                <th class="th1">Sl No.</th>
+                <th class="th2">Item No</th>
+                <th class="th2">Building Details</th>
+                <th class="th3">Roof Type</th>
+                <th class="th3">Cost</th>
+                <th class="th3a">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelItem => item.IrbItem)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IrbBldgDetails)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RoofType)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IrbValue)</td>>
+                        <td class="textCenter">
+                            <a onclick="showInPopup('@Url.Action("ViewRecord","BuildingAcquisition",new {id=item.UniqueId},Context.Request.Scheme)','View Building Acquisition Details','Building Acquisition')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                            <a onclick="showInPopup('@Url.Action("Edit","BuildingAcquisition",new {id=item.UniqueId},Context.Request.Scheme)','Edit Building Acquisition Details','Building Acquisition')" class="btn btn-primary text-white"> <i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                            
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                    <tr>
+                        <td colspan="8">
+                            No Data Available.
+                        </td>
+                    </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblBuildingAcquisitionDatatable').DataTable();
+    });
+</script>

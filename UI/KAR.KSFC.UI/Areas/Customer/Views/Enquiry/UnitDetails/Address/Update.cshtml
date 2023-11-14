@@ -1,0 +1,73 @@
+﻿@using KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails;
+@model AddressDetailsDTO
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Update" asp-route-id="@Model.EnqAddresssId" onsubmit="return jQueryAjaxPost(this); ClearPopupForm();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqAddresssId)
+            @Html.HiddenFor(model => model.AddtypeCd)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Address Type</label>
+                <div class="col-md-6" id="divAllCheckBoxAddress">
+                    @{ var i = 1;}
+                    @foreach (var addressType in ViewBag.AddressTypes)
+                    {
+                        @if (ViewData[addressType.Value] != null && ViewData[addressType.Value])
+                        {
+                            string name = "chkBox" + Convert.ToString(i);
+                            <input type="checkbox" disabled name="@name" value=@addressType.Value checked="@ViewData[addressType.Value]">
+                            <label for="html" class="form-label">@addressType.Text</label><br>
+                        }
+
+                        i++;
+                    }
+
+                </div>
+                @if (ViewBag.CheckBoxError != null)
+                {
+                    <span class="text-danger" id="spanErrMsgAddressType">@ViewBag.CheckBoxError</span>
+                }
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Address</label>
+                @Html.TextAreaFor(model => model.UniitAddress, new { @class = "form-control" })
+                <span asp-validation-for="UniitAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Pin Code</label>
+                @Html.TextBoxFor(model => model.UnitPincode, new { @class = "form-control", @type = "number", onKeyPress = "if(this.value.length == 6 ) return false;" })
+                <span asp-validation-for="UnitPincode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Telephone Number</label>
+                @Html.TextBoxFor(model => model.UnitTelNo, new { @class = "form-control", @type = "number", onKeyPress = "if(this.value.length == 10 ) return false;" })
+                <span asp-validation-for="UnitTelNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Mobile Number</label>
+                @Html.TextBoxFor(model => model.UnitMobileNo, new { @class = "form-control", @type = "number", onKeyPress = "if(this.value.length == 10 ) return false;" })
+                <span asp-validation-for="UnitMobileNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Email Id</label>
+                @Html.TextBoxFor(model => model.UnitEmail, new { @class = "form-control" })
+                <span asp-validation-for="UnitEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Fax Number</label>
+                @Html.TextBoxFor(model => model.UnitFax, new { @class = "form-control", @type = "number" })
+                <span asp-validation-for="UnitFax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

@@ -1,0 +1,111 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.LDConditionDetailsDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var loansub = ViewBag.LoanSub;
+    var offccd = ViewBag.OffcCd;
+}
+
+<div>
+    <div>
+        <form id="DisbursementConditionDetails" asp-action="Create" onsubmit="return JqueryDisbursmentAddMethod(this,'Disbursement'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@loansub" asp-for="LoanSub" />
+            <input type="hidden" value="@offccd" asp-for="OffcCd" />
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Condition<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.CondType, new SelectList(ViewBag.ConditionTypes, "Value", "Text"), "---Select Condition Type---", new { @class = "form-select", @id = "CondType",@required = "required" })
+                    <span asp-validation-for="CondType" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Condition Stage<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.CondStg, new SelectList(ViewBag.ConditionStages, "Value", "Text"),"---Select Condition Stage---", new { @class = "form-select", @id = "CondStg", @required = "required"})
+                    <span asp-validation-for="CondStg" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Condition Details<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.CondDetails, new SelectList(ViewBag.ConditionDescriptions, "Text", "Text"),"---Select Description---", new { @class = "form-select", @disabled = "disabled",required = "required",@style="white-space: pre-wrap"})
+                    @Html.TextAreaFor(m => m.CondDetails, new { @class = "form-control",@maxlength = "200",@id="txtDescp" })
+                    <span id="condval">Max:200 Characters</span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Remarks</label></strong>
+                    @Html.TextAreaFor(m => m.CondRemarks, new { @class = "form-control",@maxlength = "200", @id = "Remark"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="CondRemarks" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Whether Relaxation Can Be Sought</label></strong>
+                    @Html.DropDownListFor(m => m.WhRelaxation, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "true"},
+                    new SelectListItem(){Text="NO",Value = "false"}
+                    },"---Select Relaxation Sought---", new { @class = "form-select", @id = "relax"})
+                    <span asp-validation-for="WhRelaxation" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Compliance</label></strong>
+                    @Html.DropDownListFor(m => m.Compliance, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "YES"},
+                    new SelectListItem(){Text="NO",Value = "NO"}
+                    },"---Select Compliance---", new { @class = "form-select", @id = "Compliance"})
+                    <span asp-validation-for="Compliance" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end" style="margin-right: -55px;margin-top: 35px;">
+                    <input type="submit" value="Submit" class="btn btn-primary" id="submit" disabled="disabled" />
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+<script>
+
+    var Type = $('#CondType :selected').text();
+    if (Type == "Normal") {
+        $("#CondDetails").removeAttr('disabled');
+        $("#CondDetails").attr("hidden", false);
+        $("#txtDescp").attr("hidden", true);
+        $("#condval").attr("hidden", true);
+    } else {
+        $("#CondDetails").attr("hidden", true);
+        $("#txtDescp").attr("hidden", false);
+        $("#condval").attr("hidden", false);
+    }
+
+    $("#CondType").on("change", function () {
+        debugger;
+        var Type = $('#CondType :selected').text();
+        if (Type == "Normal") {
+            $("#CondDetails").removeAttr('disabled');
+            $("#CondDetails").attr("hidden", false);
+            $("#txtDescp").attr("hidden", true);
+            $("#condval").attr("hidden", true);
+        } else {
+            $("#CondDetails").attr('disabled', true);
+            $("#CondDetails").attr("hidden", true);
+            $("#txtDescp").val('');
+            $("#txtDescp").attr("hidden", false);
+            $("#condval").attr("hidden", false);
+        }
+    });
+
+    $('select[id="CondType"], select[id="CondStg"], select[id="relax"],textarea[id="Remark"],textarea[id="CondDet"],select[id="Compliance"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

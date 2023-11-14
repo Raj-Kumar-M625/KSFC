@@ -1,0 +1,34 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterLiabilityDetailsDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecordLiability" asp-route-id="@Model.EnqPromliabId" onsubmit="ClearPopupFormPGPD();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqPromliabId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name Of Promoter</label>
+                @Html.DropDownListFor(model => model.PromoterCode, new SelectList(ViewBag.PromoterDetailsList, "PromoterMaster.PromoterCode", "PromoterMaster.PromoterName"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="PromoterCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Liability Description</label>
+                @Html.TextAreaFor(model => model.EnqLiabDesc, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Value (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqLiabValue, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

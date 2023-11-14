@@ -1,0 +1,80 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Http;
+@inject IConfiguration Configuration
+<!DOCTYPE html>
+<html oncontextmenu="return false;" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Configuration["SysConfig:Title"]</title>
+    <link rel="icon" type="image/x-icon" href=@Configuration["SysConfig:FavIconAdmin"]>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/CaptchaLibrary.js"></script>
+    <script src="~/js/IDM.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>*@
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/Light.css" id="stylesheet" rel="stylesheet" asp-append-version="true" />
+</head>
+<body oncontextmenu="return false;">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <img src=@Configuration["SysConfig:LogoPath"] style="width:5%;height:5%" />
+
+                <a class="navbar-brand" asp-area="" asp-controller="Account" asp-action="AdminLogin"><b> @Startup._e[@Configuration["SysConfig:Title"]]</b></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                    </ul>
+                </div>
+                <table>
+                    <tr><td>@await Html.PartialAsync("~/Views/Shared/_lingual.cshtml")</td><td> @await Html.PartialAsync("_LightOrDarkMode.cshtml")</td></tr>
+                    <tr><td></td><td> </td></tr>
+                </table>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <input type="hidden" id="hdnSessionTimeout" value="@Configuration["SysConfig:SessionExpiryTimeInSeconds"]" />
+    <input type="hidden" id="hdnSessionExpNotice" value="@Configuration["SysConfig:SessionExpiryNoticeTimeInSeconds"]" />
+
+
+    <div class="modal" id="modalAlert" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Need more time?</h5>
+                </div>
+                <div id="divModelAlertPup" class="modal-body">
+                    <div id="pModalAlertPup">Your session will expire in <span id="spanTimeCountdownTimer"></span> seconds. Click 'Continue' to reinstate.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnHideModalContinue" class="btn btn-primary" data-dismiss="modal">Continue</button>
+                    @Html.ActionLink("Logout", "Logout", "Home", new { area = "Customer" }, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+
+        </div>
+    </footer>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

@@ -1,0 +1,461 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.LegalDocumentationDTO
+@{
+    var model = Model.SecurityDetails;
+    int deedCount = 0;
+    int modelCount = model.Count();
+    foreach (var obj in model)
+    {
+        if(obj.DeedNo != null)
+        {
+            deedCount++;
+        }
+    }
+
+
+    var guar = Model.IdmGuarantorDeedDetailsDTO;
+    int guarCount = 0;
+    int guranatorCount = guar.Count();
+    foreach (var i in guar)
+    {
+        if(i.DeedNo != null)
+        {
+            guarCount++;
+        }
+    }
+    var hypoth = Model.AssetDetails;
+    int hypothCount = 0;
+    int hypoythicationCount = hypoth.Count();
+    foreach (var e in hypoth)
+    {
+        if (e.HypothNo != null)
+        {
+            hypothCount++;
+        }
+    }
+
+    var sec = Model.SecurityChargeDetails;
+    int securityCount = 0;
+    int secCount = sec.Count();
+    foreach (var x in sec)
+    {
+        if (x.RequestLtrNo != null)
+        {
+            securityCount++;
+        }
+    }
+
+    var cersai = Model.CersaiRegDetails;
+    int regCount = 0;
+    int cersaiReg = cersai.Count();
+    foreach (var y in cersai)
+    {
+        if (y.CersaiRegNo != null)
+        {
+            regCount++;
+        }
+    }
+
+    var cond = Model.ConditionDetails;
+    
+
+}
+<div><h2 class="textCenter">Legal Documentation</h2></div>
+
+<div id="myDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="Security-tab" data-bs-toggle="tab" data-bs-target="#Security" type="button" role="tab" aria-controls="Security" aria-selected="false">Primary Security</button>
+            <div class="progress">
+                <div id="SecurityProgressBar" class="progress-bar bg-@(deedCount == modelCount?"success":"warning")" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Colet-tab" data-bs-toggle="tab" data-bs-target="#Colet" type="button" role="tab" aria-controls="ColletSec" aria-selected="false">Collateral Security</button>
+            <div class="progress">
+                <div id="ColetProgressBar" class="progress-bar bg-@(deedCount == modelCount?"success":"warning")" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Guarantor-tab" data-bs-toggle="tab" data-bs-target="#Guarantor" type="button" role="tab" aria-controls="Guarantor" aria-selected="false">Guarantor Deed</button>
+            <div class="progress">
+                <div id="GuarantorProgressBar" class="progress-bar bg-@(guarCount == guranatorCount?"success":"warning")" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Hypthecation-tab" data-bs-toggle="tab" data-bs-target="#Hypthecation" type="button" role="tab" aria-controls="Hypthecation" aria-selected="false">Hypothecation / Mortgage</button>  @*Changed Hypothecation to Hypothecation/Mortgage by Dev on 05/08/2022*@
+            <div class="progress">
+                <div id="HypthecationProgressBar" class="progress-bar bg-@(hypothCount == hypoythicationCount?"success":"warning")" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Charge-tab" data-bs-toggle="tab" data-bs-target="#Charge" type="button" role="tab" aria-controls="Charge" aria-selected="false">Security Charge Details</button>
+            <div class="progress">
+                <div id="ChargeProgressBar" class="progress-bar bg-@(securityCount == secCount?"success":"warning")" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="CERSAI-tab" data-bs-toggle="tab" data-bs-target="#CERSAI" type="button" role="tab" aria-controls="CERSAI" aria-selected="false">CERSAI Registration</button>
+            <div class="progress">
+                <div id="CERSAIProgressBar" class="progress-bar bg-@(regCount == cersaiReg?"success":"warning")" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Conditions-tab" data-bs-toggle="tab" data-bs-target="#Conditions" type="button" role="tab" aria-controls="Conditions" aria-selected="false">Conditions</button>
+            <div class="progress">
+                <div id="ConditionsProgressBar" class="progress-bar bg-@(cond.Count() > 0?"success":"warning")" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="CheckList-tab" data-bs-toggle="tab" data-bs-target="#CheckList" type="button" role="tab" aria-controls="CheckList" aria-selected="false">CheckList</button>
+            <div class="progress">
+                <div id="CheckListProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+        @await Html.PartialAsync("_Loader")
+        <div class="tab-pane fade show active" id="Security" role="tabpanel" aria-labelledby="Security-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Security_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Primary Security Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/PrimarySecurity/_ViewAll.cshtml",Model.SecurityDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="primarySecurityDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/Admin/Home/Dashboard/" class="btn btn-info btn-lg text-white mb-2 mt-3">Previous</a>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabSecurityDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade " id="Colet" role="tabpanel" aria-labelledby="Colet-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Colletral_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Collateral Security Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/ColletralSecurity/_ViewAll.cshtml",Model.SecurityDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="colletralSecurityDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="previousbtncollTab">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="savebtncollTab" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade " id="Guarantor" role="tabpanel" aria-labelledby="Guarantor-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Guarantor_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Guarantor Deed Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-guarantor">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/GuarantorDeed/_ViewAll.cshtml", Model.IdmGuarantorDeedDetailsDTO)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelGuarantorDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="previousbtnGuarTab">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="savebtnGuarTab" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade " id="Hypthecation" role="tabpanel" aria-labelledby="Hypthecation-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Hypthecation_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Hypothecation Documentation</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-hypothecation">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/Hypothecation/_ViewAll.cshtml",Model.AssetDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelHypothecationDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="previousbtnHypoTab" class="btn btn-info btn-lg mb-2 mt-3 previous">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnSubmitHypothecation" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade " id="Charge" role="tabpanel" aria-labelledby="Charge-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Charge_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List Security Charge Details </strong>
+                        </button>
+                    </h2>
+                    @if (ViewBag.Count == 0)
+                    {
+                        <button type="submit" class="btn btn-danger text-white mb-2 mt-2 mx-4 not-app" id="not-applicable" style="float: right;"  onclick="hide()">Not Applicable</button>
+                    }
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="securityTab">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/SecurityCharge/_ViewAll.cshtml",Model.SecurityChargeDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelSecurityChargeDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="previousbtnChargeTab" class="btn btn-info btn-lg mb-2 mt-3 previous">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnSubmitSecurityChrg" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        <div class="tab-pane fade" id="CERSAI" role="tabpanel" aria-labelledby="CERSAI-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="CERSAI_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of CERSAI Registration</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-cersai">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/Cersai/_ViewAll.cshtml",Model.CersaiRegDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelCERSAIDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="previousbtnCersaiTab" class="btn btn-info btn-lg mb-2 mt-3  previous">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="savebtnCersaiTab" value="&nbsp &nbsp Next &nbsp &nbsp" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="Conditions" role="tabpanel" aria-labelledby="Conditions-tab">
+            @await Html.PartialAsync("_AccountNumber")
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" id="conditions_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Conditions</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-condition">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/Condition/_ViewAll.cshtml",Model.ConditionDetails)
+                            </div>
+
+                            <div class="modal" tabindex="-1" role="dialog" id="modelConditionDetails">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="previousbtnCondTab" class="btn btn-info btn-lg mb-2 mt-3  previous">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3  next float-end" id="savebtnCondTab" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="CheckList" role="tabpanel" aria-labelledby="CheckList-tab">
+            @await Html.PartialAsync("_AccountNumber")
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" id="CheckList_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of CheckList</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-checklist">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/Checklist/_ViewAll.cshtml",Model.LDCheckList)
+                            </div>
+                            <button id="previousbtnChecklistTab" class="btn btn-info btn-lg mb-2 mt-3  previous">Previous</button>
+                            <input type="submit" onclick="location.href=/Admin/;" class="btn btn-info btn-lg mb-2 mt-3  next float-end" id="savebtnCondTab" value=" Submit " disabled="@ViewBag.showApproval"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/js/IDM.js" asp-append-version="true"></script>
+<script type="text/javascript" defer>
+    $(document).ready(function() {
+        ReloadSecurityHolderDetails();
+        ReloadHypothecationDetails();
+        ReloadGuarantorDetails();
+        ReloadSecurityChargeDetails();
+        ReloadCersaiDetails();
+        ReloadConditionDetails();
+
+
+        $.blockUI({
+            css: {
+                border: 'none',
+                padding: '15px',
+                backgroundColor: '#000',
+                opacity: .6
+            }
+        });
+    });
+
+   
+    function hide(){
+        localStorage.setItem("showSecurityChargeDetails","hide")
+        $("#securityCharge").hide()
+    }
+
+     if(localStorage.getItem("showSecurityChargeDetails") == "hide"){
+        $("#securityCharge").hide()
+       }
+    $(".modal-content").draggable();
+
+    $(".modal-content").draggable();
+</script>
+<style>
+    .nav-tabs .nav-link {
+        margin-bottom: -1px;
+        background: none;
+        border: 1px solid transparent;
+        border-top-left-radius: 0.25rem;
+        border-top-right-radius: 0.25rem;
+        font-size: 100%;
+        padding: 8px 23px;
+    }
+</style>
+
+
+

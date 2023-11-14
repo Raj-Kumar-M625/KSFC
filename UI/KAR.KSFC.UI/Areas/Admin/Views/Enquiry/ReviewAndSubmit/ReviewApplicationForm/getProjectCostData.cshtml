@@ -1,0 +1,45 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectCostDetailsDTO>
+
+
+<h3>
+    <i class="fas fa-comments-dollar text-success"></i>Project Cost (Rs. In Lakhs)
+</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PjcostCd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PjcostCdNavigation.PjcostDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqPjcostAmt)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PjcostCd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PjcostCdNavigation.PjcostDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqPjcostAmt)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+{
+    <p style="color: red"><b>No data added, Please add the Project Cost details</b></p>
+}
+

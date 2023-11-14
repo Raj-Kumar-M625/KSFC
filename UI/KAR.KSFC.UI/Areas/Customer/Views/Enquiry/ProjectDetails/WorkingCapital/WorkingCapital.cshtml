@@ -1,0 +1,55 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectWorkingCapitalDeatailsDTO
+@inject KAR.KSFC.UI.Utility.SessionManager _session;
+
+<form id="workingCaptitalDetails">
+    <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Name of Bank</label>
+        @if (_session.GetOperationType() == "View")
+        {
+            @Html.TextBoxFor(m => m.EnqWcBank, new { @class = "form-control", @id = "txtBoxNameOfBank",@disabled="disabled" })
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.EnqWcBank, new { @class = "form-control", @id = "txtBoxNameOfBank"  })
+            <span asp-validation-for="EnqWcBank" class="text-danger"></span>
+        }
+    </div>
+    <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Name of Bank Branch</label>
+        @if (_session.GetOperationType() == "View")
+        {
+            @Html.TextBoxFor(m => m.EnqWcBranch, new { @class = "form-control", @id = "txtBoxNameOfBank" ,@disabled="disabled"})
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.EnqWcBranch, new { @class = "form-control", @id = "txtBoxNameOfBank" })
+            <span asp-validation-for="EnqWcBranch" class="text-danger"></span>
+        }
+    </div>
+    <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">IFSC</label>
+        @if (_session.GetOperationType() == "View")
+        {
+            @Html.TextBoxFor(m => m.EnqWcIfsc, new { @class = "form-control", @id = "txtBoxNameOfBank",@disabled="disabled",@maxlength = "11" })
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.EnqWcIfsc, new { @class = "form-control", @id = "txtBoxNameOfBank" ,@maxlength = "11"})
+            <span asp-validation-for="EnqWcIfsc" class="text-danger"></span>
+        }
+    </div>
+    <div class="col-md-6">
+        <label for="inputPassword4" class="form-label">Amount (In Lakhs.)</label>
+        @if (_session.GetOperationType() == "View")
+        {
+            @Html.TextBoxFor(m => m.EnqWcAmt, new { @class = "form-control", @id = "txtBoxNameOfBank",@type="number",@min="0",@disabled="disabled" })
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.EnqWcAmt, new { @class = "form-control", @id = "txtBoxNameOfBank",@type="number",@min="0" })
+            <span asp-validation-for="EnqWcAmt" class="text-danger"></span>
+        }
+    </div>
+</form>
+
+

@@ -1,0 +1,773 @@
+﻿@{
+    ViewData["Title"] = "Loan Page";
+}
+
+<p>Below is the list of applied loans.</p>
+<table class="table table-striped table-bordered table-sm">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Application Reference Number</th>
+            <th scope="col">Submission Date</th>
+            <th scope="col">Type of Loan</th>
+            <th scope="col">Loan Amount (In Lakhs.)</th>
+            <th scope="col">Constitution Type</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>L123</td>
+            <td>20-05-2020</td>
+            <td>Business</td>
+            <td>Rs. 20,00,000</td>
+            <td>Private</td>
+            <td>Submitted</td>
+            <td>View</td>
+            <td></td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>L234</td>
+            <td>01-05-2021</td>
+            <td>Women</td>
+            <td>Rs. 50,00,000</td>
+            <td>Public</td>
+            <td>Pending</td>
+            <td>View</td>
+            <td>Edit</td>
+        </tr>
+        <tr>
+            <th scope="row">3</th>
+            <td>L567</td>
+            <td>02-07-2020</td>
+            <td>SC</td>
+            <td>Rs. 70,00,000</td>
+            <td>Private</td>
+            <td>Pending</td>
+            <td>View</td>
+            <td>Edit</td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+<br />
+<button class="btn btn-info btn-lg next" onclick="hideDivFunction()">Apply Fresh Loan</button>
+<br />
+
+
+
+<div id="myDIV" style="display:none">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="Unit-tab" data-bs-toggle="tab" data-bs-target="#Unit" type="button" role="tab" aria-controls="Unit" aria-selected="true">Unit Details</button>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Promoter-tab" data-bs-toggle="tab" data-bs-target="#Promoter" type="button" role="tab" aria-controls="Promoter" aria-selected="false">Promoter and Guarantor Details</button>
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Associate-tab" data-bs-toggle="tab" data-bs-target="#Associate" type="button" role="tab" aria-controls="Associate" aria-selected="false">Associate / Sister Concerns</button>
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Project-tab" data-bs-toggle="tab" data-bs-target="#Project" type="button" role="tab" aria-controls="Project" aria-selected="false">Project Details</button>
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Security-tab" data-bs-toggle="tab" data-bs-target="#Security" type="button" role="tab" aria-controls="Security" aria-selected="false">Security and Documents</button>
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Review-tab" data-bs-toggle="tab" data-bs-target="#Review" type="button" role="tab" aria-controls="Review" aria-selected="false">Review and Submit</button>
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="Unit" role="tabpanel" aria-labelledby="Unit-tab">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <b>Basic Details</b>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Type of Constitution</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Type of Activity</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Type of Industry</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Tentative Loan Amount (in Lakhs)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Unit</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Applicant</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Purpose of Loan</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="inputAddress" class="form-label">Period of Repayment including Moratorium</label>
+                                <input type="text" class="form-control" id="inputAddress">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <b>Address Details</b>
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <b>Bank Details</b>
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Name of Bank</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Branch</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Pincode</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name as in Bank Account</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Bank Account Number</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">IFSC</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Account Type</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <b>Registration Details</b>
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Company / Firm Reg. No.</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">CIN</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">GSTIN</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Udyog Aadhaar</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">NSIC Reg. No.</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-info btn-lg next">Save & Continue</button>
+        </div>
+
+
+
+        <div class="tab-pane fade" id="Promoter" role="tabpanel" aria-labelledby="Promoter-tab">
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Promoter Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Name of Promoter</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Position / Designation</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="inputEmail4">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="formFile" class="form-label">Upload photo</label>
+                                <input class="form-control" type="file" id="formFile">
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">% of Share-Holding</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">PAN of Promoter</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Net Worth (in Lakhs)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Name of Bank</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Branch</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Pincode</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name as in Bank Account</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Bank Account Number</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">IFSC</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Account Type</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Mobile Number</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <b>Guarantor Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Name of Guarantor</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Address</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Pincode</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Net Worth (in Lakhs)</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">PAN of Guarantor</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Domicile Status</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Name of Bank</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Branch</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Pincode</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name as in Bank Account</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Bank Account Number</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">IFSC</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Account Type</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Mobile Number</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Email</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <button class="btn btn-info btn-lg previous">Previous</button>
+            <button class="btn btn-info btn-lg next">Save & Continue</button>
+        </div>
+
+        <div class="tab-pane fade" id="Associate" role="tabpanel" aria-labelledby="Associate-tab">
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Associate / Sister Concern Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Name of Associate / Sister Concern</label>
+                                <input type="email" class="form-control" id="inputEmail4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Banker /Fin. Institution</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Name of Facility</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Outstanding (in Lakhs)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Default, if any (in Lakhs)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Relief and Concessions Availed</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">One-Time Settlement Paid (in Lakhs)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <button class="btn btn-info btn-lg previous">Previous</button>
+            <button class="btn btn-info btn-lg next">Save & Continue</button>
+        </div>
+        <div class="tab-pane fade" id="Project" role="tabpanel" aria-labelledby="Project-tab">
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Working Capital Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Bank</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Bank Branch</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">IFSC</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <b>Project Cost (in Lakhs)</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Land and Site Development</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Building and Other Civil Works</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Plant and Machinery including electrification and installation</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Technical Know-How Fees</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Miscellaneous Fixed Assets</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Preliminary and Pre-Operative Expenses including interest during implementation</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Provision for contingencies including escalation</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Start-up expense</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Working Capital required (including margin money)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">TOTAL COST (In Lakhs.)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                            <b>Means of Finance (in Lakhs)</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Equity (Promoters Capital)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Equity (Internal Accruals / Others)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Total Equity (In Lakhs.)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Debt (KSFC) (In Lakhs.)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Debt (Others) (In Lakhs.)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Total Debt (In Lakhs.)</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <button class="btn btn-info btn-lg previous">Previous</button>
+            <button class="btn btn-info btn-lg next">Save & Continue</button>
+        </div>
+        <div class="tab-pane fade" id="Security" role="tabpanel" aria-labelledby="Security-tab">
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>Details of Security</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Land (Primary / Collateral)</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Building (Primary / Collateral)</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Plant and Machinery (Primary / Collateral)</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputState" class="form-label">Others (Primary / Collateral)</label>
+                                <select id="inputState" class="form-select">
+                                    <option selected>Choose...</option>
+                                    <option>...</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <b>Documents</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                            <b>Declaration</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+
+                            I / We certify that all information furnished by me / us is true that I / We have no borrowing arrangements with anybody for the unit / assets offered as security except as indicated in the application, that no legal action has been / is being taken against me / us that I / We shall furnish all other information that may be required by you in connection with my / our application that this and any other information available with you pertaining to the borrowing unit, present and future, may also exchanged by you with any agency you may deem fit, and that you, your representatives, representative of any other Agency authorized by you, may at any time inspect / verify our assets, books of accounts, etc., in our factory and business premises
+                            <br /><br />
+                            I / We further certify that as on date there are no overdue to financial institutions / banks from the undersigned, the other Promoters and the Company / Companies in which I / the other promoters have interest as promoter / director / partner / proprietor / guarantor. I / We further certify that there are no statutory dues pending against me / the other promoters / guarantors the company or other companies in which I am / the other promoters are directors.
+
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Date</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Place</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Name of Applicant</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputPassword4" class="form-label">Applicant Designation</label>
+                                <input type="text" class="form-control" id="inputPassword4">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <button class="btn btn-info btn-lg previous">Previous</button>
+            <button class="btn btn-info btn-lg next">Save & Continue</button>
+        </div>
+
+        <div class="tab-pane fade" id="Review" role="tabpanel" aria-labelledby="Review-tab">
+
+
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <b>View summary of Application</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                            <b>Submit Application</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <br />
+            <button class="btn btn-info btn-lg previous">Previous</button>
+            <button class="btn btn-info btn-lg next">Submit Enquiry</button>
+
+        </div>
+
+
+    </div>
+
+</div>
+<script type="text/javascript">
+
+    $('.next').click(function () {
+        $('.nav-tabs > .nav-item > .active').parent().next('li').find('button').trigger('click');
+    });
+
+    $('.previous').click(function () {
+        $('.nav-tabs > .nav-item > .active').parent().prev('li').find('button').trigger('click');
+    });
+
+
+    function hideDivFunction() {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+</script>

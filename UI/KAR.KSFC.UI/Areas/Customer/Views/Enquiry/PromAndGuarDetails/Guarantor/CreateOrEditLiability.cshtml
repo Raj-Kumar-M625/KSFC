@@ -1,0 +1,43 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorLiabilityDetailsDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateOrEditLiability" asp-route-id="@Model.EnqGuarliabId" onsubmit="return jQueryAjaxPostPGGD(this); ">
+            @Html.HiddenFor(model => model.EnqGuarliabId)
+            @Html.HiddenFor(model => model.EnqtempId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name Of Guarantor</label>
+                @if (ViewBag.GuarantorDetailsList != null)
+                {
+                    @Html.DropDownListFor(model => model.PromoterCode, new SelectList(ViewBag.GuarantorDetailsList, "PromoterMaster.PromoterCode", "PromoterMaster.PromoterName"), "-- Please select --", new { @class = "form-select" })
+                }
+                else
+                {
+                    <select class="form-select" name="PromoterCode" id="PromoterCode" asp-for="PromoterCode"
+                            asp-items="@(new SelectList(string.Empty,"PromoterMaster.PromoterCode","PromoterMaster.PromoterName"))">
+                    </select>
+                }
+                <span asp-validation-for="PromoterCode" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Liability Description</label>
+                @Html.TextAreaFor(model => model.GuarLiabDesc, new { @class = "form-control" })
+                <span asp-validation-for="GuarLiabDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Value (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.GuarLiabValue, new { @class = "form-control" })
+                <span asp-validation-for="GuarLiabValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

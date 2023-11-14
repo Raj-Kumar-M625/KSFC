@@ -1,0 +1,52 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmAuditDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> AuditClearance = ViewBag.Documentlist;
+    var subModuleId = ViewBag.SubModuleId;
+    var subModuleType = ViewBag.SubModuleType;
+    var mainModule = ViewBag.MainModule;
+}
+<div>
+    <div>
+        <form id="ACAuditDetails" asp-action="Edit" onsubmit="return AjaxSingleTabUpdateMethod(this,'AuditClearence'); ClearPopupFormac();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.IdmAuditId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label textleft2">Audit Observation<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextAreaFor(m => m.AuditObservation, new { @class = "form-control",@maxlength = "150",@id="auditobservation",@required = "required" })
+                    <span asp-validation-for="AuditObservation" class="text-danger"></span>
+                    <span id="spanDet">Max:150 Characters</span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label textleft2">Note Sheet Comments<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextAreaFor(m => m.AuditCompliance, new { @class = "form-control", @maxlength = "150", @id="auditcondtion",@required = "required" })
+                    <span asp-validation-for="AuditObservation" class="text-danger"></span>
+                    <span id="spanDet">Max:150 Characters</span>
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",AuditClearance)
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>            
+        </form>
+    </div>
+</div>
+<script>
+    $('textarea[id="auditcondtion"],textarea[id="auditobservation"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

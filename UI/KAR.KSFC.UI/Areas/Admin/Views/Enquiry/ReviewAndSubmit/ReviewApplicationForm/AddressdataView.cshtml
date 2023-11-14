@@ -1,0 +1,71 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.AddressDetailsDTO>
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Address Details</h3>
+
+    @if (Model != null)
+{
+    <table class="table table-wrapper" style="border:1px,solid;border-collapse:collapse" border="1">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqAddresssId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AddressTypeMasterDTO.AddtypeDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UniitAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitPincode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitTelNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitMobileNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitEmail)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqAddresssId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddressTypeMasterDTO.AddtypeDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UniitAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPincode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitTelNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitMobileNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitEmail)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the address details</b></p>
+
+}
+

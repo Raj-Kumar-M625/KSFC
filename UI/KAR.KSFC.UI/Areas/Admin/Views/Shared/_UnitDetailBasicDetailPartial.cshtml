@@ -1,0 +1,95 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.BasicDetailsDto  
+<div class="accordion-body">
+    <form id="UnitDetailPersonalDetails">
+        @Html.HiddenFor(m => m.EnqtempId, new { @class = "form-control", @id = "EnqTempID" })
+        @Html.HiddenFor(m => m.EnqBdetId, new { @class = "form-control" })
+        <div class="col-md-6">
+            <label class="form-label">Name of Person</label>
+            @Html.TextBoxFor(m => m.EnqApplName, new { @class = "form-control" })
+            <span asp-validation-for="EnqApplName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Address</label>
+            @Html.TextAreaFor(m => m.EnqAddress, new { @class = "form-control" })
+            <span asp-validation-for="EnqAddress" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Place</label>
+            @Html.TextBoxFor(m => m.EnqPlace, new { @class = "form-control" })
+            <span asp-validation-for="EnqPlace" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">PIN Code</label>
+            @Html.TextBoxFor(m => m.EnqPincode, new { @class = "form-control", @type = "number" })
+            <span asp-validation-for="EnqPincode" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">E-Mail</label>
+            @Html.TextBoxFor(m => m.EnqEmail, new { @class = "form-control" })
+            <span asp-validation-for="EnqEmail" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">KSFC Branch (For Enquiry Submission)</label>
+            @Html.DropDownListFor(m => m.OffcCd, new SelectList(ViewBag.ListBranch, "Value", "Text"), "---Select Branch---", new { @class = "form-select" })
+            <span asp-validation-for="OffcCd" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label for="inputAddress" class="form-label">Name of Unit</label>
+            @Html.TextBoxFor(m => m.UnitName, new { @class = "form-control" })
+            <span asp-validation-for="UnitName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Purpose of Loan</label>
+            @Html.DropDownListFor(m => m.PurpCd, new SelectList(ViewBag.ListLoanPurpose, "Value", "Text"), "-- Select --", new { @class = "form-select" })
+            <span asp-validation-for="PurpCd" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Period of Repayment incuding Moratorium (Months)</label>
+            @Html.TextBoxFor(m => m.EnqRepayPeriod, new { @class = "form-control", @type = "number" })
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Constitution Type</label>
+            @Html.TextBoxFor(m => m.ConstCd, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Size of Firm</label>
+            @Html.DropDownListFor(m => m.SizeCd, new SelectList(ViewBag.ListFirmSize, "Value", "Text"), "-- Select --", new { @class = "form-select" })
+            <span asp-validation-for="SizeCd" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label">Type of Industry</label>
+            @Html.TextBoxFor(m => m.TypeOfIndustry, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Expected Loan Amount</label>
+            @Html.TextBoxFor(m => m.EnqLoanamt, new { @class = "form-control", @type = "number" })
+            <span asp-validation-for="EnqLoanamt" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Location of Unit</label>
+            @Html.DropDownListFor(m => m.DistrictCd, new SelectList(ViewBag.ListDistrict, "Value", "Text"), "--Select District--", new { @class = "form-select", @id = "ddlDistrictEnq" })
+            @Html.ValidationMessageFor(m => m.DistrictCd, "", new { @class = "text-danger" })
+        </div>
+        <div class="col-md-6">
+            <label class="form-label"></label>
+            @Html.DropDownListFor(m => m.TalukaCd, new SelectList(ViewBag.ListTaluka, "Value", "Text"), "--Select Taluka--", new { @class = "form-select", @id = "ddlTalukaEnq" })
+        </div>
+        <div class="col-md-6">
+            <label class="form-label"></label>
+            @Html.DropDownListFor(m => m.HobliCd, new SelectList(ViewBag.ListHobli, "Value", "Text"), "--Select Hobli--", new { @class = "form-select", @id = "ddlHobliEnq" })
+        </div>
+        <div class="col-md-6">
+            <label class="form-label"></label>
+            @Html.DropDownListFor(m => m.VilCd, new SelectList(ViewBag.ListVillage, "Value", "Text"), "--Select Village--", new { @class = "form-select", @id = "ddlVillageEnq" })
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Nature of Premises</label>
+            @Html.DropDownListFor(m => m.PremCd, new SelectList(ViewBag.ListPremises, "Value", "Text"), "-- Select --", new { @class = "form-select", @id = "ddlNatureOfPremise" })
+        </div>
+         
+
+    </form>
+    <br />
+    <br />
+</div>

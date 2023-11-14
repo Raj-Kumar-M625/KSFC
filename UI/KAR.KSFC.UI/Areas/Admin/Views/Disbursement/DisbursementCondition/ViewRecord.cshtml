@@ -1,0 +1,78 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.LDConditionDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> disbursmentDetails = ViewBag.Documentlist;
+}
+
+<div>
+    <div>
+        <form id="DisbursementConditionDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Condition</label></strong>
+                    @Html.DropDownListFor(m => m.CondType, new SelectList(ViewBag.ConditionTypes, "Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select", @id = "CondType",@disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Condition Stage</label></strong>
+                    @Html.DropDownListFor(m => m.CondStg, new SelectList(ViewBag.ConditionStages, "Value", "Text"),"---Select DCondition Stage---"
+                    , new { @class = "form-select", @id = "CondStg",@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Condition Details</label></strong>
+                    @Html.DropDownListFor(m => m.CondDetails, new SelectList(ViewBag.ConditionDescriptions, "Text", "Text"), new { @class = "form-select", @disabled = "disabled" ,@style="white-space: pre-wrap"})
+                    <input type="text" asp-for="CondDetails" class="form-control" hidden="hidden" id="txtDescp" readonly />
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Remarks</label></strong>
+                    @Html.TextAreaFor(m => m.CondRemarks, new { @class = "form-control",@maxlength = "200", @id = "Remark",@disabled = "disabled"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                </div>
+            </div>
+            <div class="row">
+              @*  <div class="col-md-6">
+                    <strong><label class="form-label">Whether Relaxation Can Be Sought</label></strong>
+                    @Html.DropDownListFor(m => m.WhRelaxation, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "true"},
+                    new SelectListItem(){Text="NO",Value = "false"}
+                    },"---Select Relaxation Sought---", new { @class = "form-select", @id = "relax",@disabled = "disabled"})
+                </div>*@
+                <div class="col-md-6">
+                    <strong><label class="form-label">Compliance</label></strong>
+                    @if (Model.WhRelAllowed == null)
+                    {
+                        <input type="text" class="form-control" readonly value="@(Model.Compliance == "0" ? "Not Complied" : "Complied")" />
+                    }
+                    else
+                    {
+                        <input type="text" class="form-control" readonly value="@(Model.WhRelAllowed == true ? "Relaxed" : "Deffered")" />
+                    }
+                    @*@Html.TextBoxFor(m => m.Compliance, new { @class = "form-control",@maxlength = "5", @id = "Compliance",@disabled = "disabled"})
+                    <span id="spanDet">Max: 5 Characters</span><br />
+                    <span asp-validation-for="Compliance" class="text-danger"></span>*@
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",disbursmentDetails)
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    var type = $('#CondType :selected').text();
+    if (type == "Normal") {
+        $("#CondDetails").attr("hidden", false);
+        $("#txtDescp").attr("hidden", true);
+    } else {
+        $("#CondDetails").attr("hidden", true);
+        $("#txtDescp").attr("hidden", false);
+    }
+</script>

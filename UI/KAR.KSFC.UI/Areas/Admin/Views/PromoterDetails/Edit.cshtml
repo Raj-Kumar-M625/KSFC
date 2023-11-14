@@ -1,0 +1,239 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmPromoterDTO
+@{
+    Layout = null;  
+    List<ldDocumentDto> PromoterDetails = ViewBag.Documentlist;
+    var account = ViewBag.LoanAcc;
+    
+}
+<div>
+    <div>
+        <form id="PromProfile" asp-action="Edit" onsubmit="return JqueryCUIEditMethod(this,'PromoterDetails'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.IdmPromId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@account })
+             @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+              @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+              <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+            <input type="hidden" value="@ViewBag.InUnit" asp-for="UtCd" />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">PAN</label></strong>
+                    @Html.TextBoxFor(m => m.PromPan, new { @class = "form-control", @maxlength = "10", @id = "promPan",@readonly = "true" })
+                    <span id="spanDet">Max: 10 Characters</span><br />
+                    <span asp-validation-for="PromPan" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name of Promoter</label></strong>
+                    @Html.TextBoxFor(m => m.PromName, new { @class = "form-control",@readonly = "true", @id = "promName"})
+                    <span id="spanDet">Max: 35 Characters</span><br />
+                    <span asp-validation-for="PromName" class="text-danger"></span>
+                </div>
+                 <div class="col-md-4">
+                    <strong><label class="form-label">Date of Birth</label></strong>
+                    @Html.TextBoxFor(m => m.PromDob,"{0:yyyy-MM-dd}", new { @class = "form-control", type="date",@readonly = "true", @id = "promDob" })
+                    <span asp-validation-for="PromDob" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Designation of Promoter<span  id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PdesigCd, new SelectList(ViewBag.PromoterDesignation,"Value", "Text"), "---Select Promoter Designation---", new { @class = "form-select", @id = "promDesig",required="required" })
+                    <span asp-validation-for="PdesigCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Domicile<span  id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.DomCd, new SelectList(ViewBag.PromoterDomicile,"Value", "Text"), "---Select Domicile---",new { @class = "form-select",required="required", @id = "promDom" })
+                    <span asp-validation-for="DomCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Gender</label></strong>
+                    @Html.TextBoxFor(m => m.PromGender, new { @class = "form-control", @id = "promGender", @readonly = "true" })
+                    <span asp-validation-for="PromGender" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name of Father/Husband</label></strong>
+                    @Html.TextBoxFor(m => m.NameFatherSpouse, new { @class = "form-control", @maxlength = "50", @id = "nameFatherSpouse" })
+                    <span id="spanDet">Max: 50 Characters</span><br />
+                    <span asp-validation-for="NameFatherSpouse" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Passport No</label></strong>
+                    @Html.TextBoxFor(m => m.PromPassport, new {@onkeypress="allowAlphaNumericSpace(event)", @class = "form-control", @maxlength = "20", @id = "promPassport" })
+                    <span id="spanDet">Max: 20 Characters</span><br />
+                    <span asp-validation-for="PromPassport" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Class<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PclasCd, new SelectList(ViewBag.PromoterClass, "Value", "Text"), "--- Select Promoter Class ---", new { @class = "form-select", required="required",@id = "promClass" })
+                    <span asp-validation-for="PclasCd" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Sub Class<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PsubclasCd, new SelectList(ViewBag.PromoterSubClass,"Value", "Text"), "--- Select Promoter SubClass ---", new { @class = "form-select",required="required", @id = "promSubClass"})
+                    <span asp-validation-for="PsubclasCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Join Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.PromJnDt,"{0:yyyy-MM-dd}", new { @class = "form-control",required="required", @type = "date", @id="jnDate",onkeydown="return false"})
+                    <span asp-validation-for="PromJnDt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Exit Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.PromExDt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",required="required", @id="exDate",onkeydown="return false" })
+                    <span asp-validation-for="PromExDt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Experience Years<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.PromExpYrs, new { @class = "form-control", @id="promExpYrs",@type="number",required="required" ,onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="2"} )
+                    <span asp-validation-for="PromExpYrs" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Mobile No<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.PromMobileNo, new { @class = "form-control", @type="number", @id="promMobileNo",required="required" , @readonly = "true"})
+                    <span asp-validation-for="PromMobileNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Experience Details<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextAreaFor(m => m.PromExpDet, new { @class = "form-control",required="required", @maxlength = "250", @id = "promExpDet" })
+                    <span id="spanDet">Max: 250 Characters</span><br />
+                    <span asp-validation-for="PromExpDet" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">E-Mail ID</label></strong>
+                    @Html.TextBoxFor(m => m.PromEmail, new { @class = "form-control", @readonly = "true", @maxlength = "50", @id = "promEmail" })
+                    <span id="spanDet">Max: 50 Characters</span><br />
+                    <span asp-validation-for="PromEmail" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Qualification<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PqualCd, new SelectList(ViewBag.PromoterQual,"Value", "Text"), "--- Select Promoter Qualification ---", new { @class = "form-select", @id="promQual"})
+                    <span asp-validation-for="PqualCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Additional Qualification</label></strong>
+                    @Html.TextAreaFor(m => m.PromAddlQual, new { @class = "form-control", @maxlength = "150", @id = "promAddlQual"})
+                    <span id="spanDet">Max: 150 Characters</span><br />
+                    <span asp-validation-for="PromAddlQual" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Telephone No</label></strong>
+                    @Html.TextBoxFor(m => m.PromTelNo, new { @class = "form-control", @type="number", @id="promTelNo" ,onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="8"})
+                    <span asp-validation-for="PromTelNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Whether Physically Handicap<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PromPhyHandicap, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "True"},
+                    new SelectListItem(){Text="No",Value = "False"}
+                    }, "--- Select Whether Physically Handicap ---", new { @class = "form-select",required="required",@id="promPhyHandicap" })
+                    <span asp-validation-for="PromPhyHandicap" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Whether Chief Promoter<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PromChief, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "True"},
+                    new SelectListItem(){Text="No",Value = "False"}
+                    }, "--- Select Whether Chief Promoter ---", new { @class = "form-select",required="required", @id="Chief" })
+                    <span asp-validation-for="PromChief" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Whether Major Promoter<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PromMajor, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "True"},
+                    new SelectListItem(){Text="No",Value = "False"}
+                    }, "--- Select Whether Major Promoter ---", new { @class = "form-select", @id="Major",onkeydown="return false",required="required"})
+                    <span asp-validation-for="PromMajor" class="text-danger"></span>
+                </div>
+                <input type="text" id="major" name="PromMajor" hidden />
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_UploadPhoto.cshtml",PromoterDetails)
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submitpromoter">
+                    <input type="submit" value="Submit" disabled class="btn btn-primary mt-2" id="submit" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <br />
+    </div>
+</div>
+<script>
+    $('select[class="form-select"],input[class="form-control"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+       if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+
+   
+        $('#Chief').change(function () {
+            var selectedValue = $(this).val();
+            if (selectedValue === 'True') {
+                $('#Major').val('True');
+                $("#major").val($('#Major').val())
+                $('#Major').attr("disabled", true)
+
+            }
+            else {
+                $('#Major').val('');
+                $("#major").val($('#Major').val())
+                $('#Major').attr("disabled", false)
+
+            }
+        });
+    
+
+
+    $("#submit").click(function () {
+        debugger;
+        var joinDate = new Date($('#jnDate').val());
+        var exitDate = new Date($('#exDate').val());
+        if (exitDate <= joinDate) {
+            swal.fire({
+                title: 'Exit Date should be greater than Join Date',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ok',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            });
+            $('#exDate').val('');
+        }
+    });
+
+</script>

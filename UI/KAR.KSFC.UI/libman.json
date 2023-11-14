@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "jquery-datetimepicker@2.5.20",
+      "destination": "wwwroot/lib/jquery-datetimepicker/",
+      "files": [
+        "jquery.datetimepicker.min.css",
+        "jquery.datetimepicker.min.js"
+      ]
+    }
+  ]
+}

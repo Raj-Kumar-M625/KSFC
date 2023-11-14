@@ -1,0 +1,286 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal.IdmDsbdetsDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+
+    var offccd = ViewBag.OffCd;
+    var estamt = Model.DsbEstAmt;
+    var amt = Model.DsbAmt;
+    var loansub = ViewBag.LoanSub;
+    var TotalAmount = ViewBag.total;
+    var Sancamount = ViewBag.sancamount;
+}
+<div>
+    <div>
+        <form id="RecommDisbursementDetails" asp-action="Edit" onsubmit="return AjaxSingleTabUpdateMethod(this,'RecommendDisbursement');  ClosePopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.DsbdetsID, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Allocation Code</label></strong>
+                    @Html.TextBoxFor(m => m.DsbAcd, new { @class = "form-control", @readonly="true" ,@id="code"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Estimated Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DsbEstAmt, new { @class = "form-control", @type="number",@id="EstimAmount",
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@readonly="true",@style="text-align:right" })
+                    <span asp-validation-for="DsbEstAmt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Allocation Amount</label></strong>
+                    @Html.TextBoxFor(m => m.AlocAmt, new { @class = "form-control", @readonly="true", @id="allocamt" ,@style="text-align:right"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security Considered for release</label></strong>
+                    @Html.TextBoxFor(m => m.SecConsideredFRelease, new { @class = "form-control", @id="secconsider" ,@style="text-align:right",@readonly="true"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security as per Inspection</label></strong>
+                    @Html.TextBoxFor(m => m.SecInspection, new { @class = "form-control", @id="secconsiderinsp" ,@style="text-align:right", @readonly="true"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Eligible Amount</label></strong>
+                    @Html.TextBoxFor(m => m.EligibleAmt, new { @class = "form-control",@id="eligamount" ,@style="text-align:right", @readonly="true"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Margin Retained %</label></strong>
+                    @Html.TextBoxFor(m => m.MarginRetained, new { @class = "form-control", @readonly="true",@id="margin"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Recommended Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DsbAmt, new { @class = "form-control",@type="number",@id="RecomAmount",
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@required="required",@style="text-align:right"})
+                    <span asp-validation-for="DsbAmt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Release Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DsbDt, new { @class = "form-control", @id="RelAmt",@style="text-align:right",@readonly="true"})
+                    <span asp-validation-for="DsbDt" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Allocation Details</label></strong>
+                    @Html.TextAreaFor(m => m.AllocationDetails, new { @class = "form-control",@readonly="true"})
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Total Amount</label></strong>
+                    @Html.TextBoxFor(m => m.PropAmt, new { @class = "form-control",@readonly="true",@id="Totalamount" ,@style="text-align:right"})
+                </div>
+                <div class="col-md-6" style="text-align:right;padding-top:0.5%">
+                    <br />
+                    <input type="submit" value="Save" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            <br />
+            <br />
+        </form>
+    </div>
+</div>
+<script>
+    $('input[id="RecomAmount"], input[id="EstimAmount"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+
+    
+        debugger;
+        var landAmount  = "@ViewBag.landcost";
+        var buildAmount = "@ViewBag.Buildcost";
+        var importAmount = "@ViewBag.importcost";
+        var indeAmount =  "@ViewBag.indegcost";
+        var furnAmount =  "@ViewBag.furncost";
+        var projectcost = "@ViewBag.cost";
+        var land = "@ViewBag.LandInspection";
+        var building = "@ViewBag.Building";
+        var Import = "@ViewBag.import";
+        var furniture = "@ViewBag.furniture";
+        var indigenous = "@ViewBag.Indigenous";
+        var landInsp = "@ViewBag.LandInsp";
+        var buildingInsp = "@ViewBag.Build";
+        var ImportInsp = "@ViewBag.importInsp";
+        var furnitureInsp = "@ViewBag.furn";
+        var indigenousInsp = "@ViewBag.Indinsp";
+        var recom = $('#code').val();
+
+        switch (recom) {
+            case "1":
+                $('#secconsiderinsp').val(land);
+                $('#secconsider').val(landInsp);
+                $('#EstimAmount').val(landAmount);
+                break;
+            case "2":
+                $('#secconsiderinsp').val(building);
+                $('#secconsider').val(buildingInsp);
+            $('#EstimAmount').val(buildAmount);
+                break;
+            case "5":
+                $('#secconsiderinsp').val(Import);
+                $('#secconsider').val(ImportInsp);
+            $('#EstimAmount').val(importAmount);
+                break;
+            case "4":
+                $('#secconsiderinsp').val(indigenous);
+                $('#secconsider').val(indigenousInsp);
+            $('#EstimAmount').val(indeAmount);
+                break;
+            case "3":
+                $('#secconsiderinsp').val(furniture);
+                $('#secconsider').val(furnitureInsp);
+            $('#EstimAmount').val(furnAmount);
+                break;
+            default: $('#secconsiderinsp').val("");
+        }
+
+
+         var estamount = parseInt($('#EstimAmount').val());
+         var alcamount = parseInt($('#allocamt').val());
+         var margin = ((estamount - alcamount) / estamount) * 100;
+          $("#margin").val(margin);
+
+          var secaspinsp = parseInt($('#secconsiderinsp').val());
+          var EligibleAmot = (secaspinsp) - (secaspinsp) * (margin / 100);
+          $("#eligamount").val(EligibleAmot.toFixed(2));
+
+          $('#RelAmt').val(0);
+          var releaseamout = parseInt($('#RelAmt').val());
+
+         var relamount = parseInt($('#RelAmt').val());
+         var RecomAmount = parseInt($('#RecomAmount').val());
+         var totalamount = relamount + RecomAmount;
+          $("#Totalamount").val(totalamount);
+
+          $("#RecomAmount").change(function () {
+
+
+             $('#RecomAmount').val();
+             var relamount = parseInt($('#RelAmt').val());
+             var RecomAmount = parseInt($('#RecomAmount').val());
+             var alcamount = parseInt($('#allocamt').val());
+             var totalamount = relamount + RecomAmount;
+             $("#Totalamount").val(totalamount);
+
+             if (RecomAmount > alcamount) {
+                 debugger;
+                 swal.fire(
+                  'Error',
+                  'Recommanded Amount Can Not Be Greater Than Allocation Amount',
+                  'error'
+                 )
+                  $('#RecomAmount').val("");
+                  $("#Totalamount").val("");
+             } 
+          });
+
+    
+
+           
+           
+
+
+
+
+    //        var secperinsp = parseInt($('#secconsiderinsp').val());
+    //        $('#RelAmt').val(0);
+    //        var releaseamout = parseInt($('#RelAmt').val());
+    //        var eligiAmt = secperinsp - releaseamout;
+    //        $('#eligamount').val(eligiAmt);
+    //        var elgamount = parseInt($('#eligamount').val());
+    //        var alcamount = parseInt($('#allocamt').val());
+    //        var seccons = parseInt($('#secconsider').val());
+    //        if (seccons <= elgamount) {
+    //            $('#eligamount').val("");
+    //        }
+    //        if (seccons > alcamount) {
+    //            $('#allocamt').val("");
+    //        }             
+    //        var recomendedAmt = parseInt($('#RecomAmount').val());
+    //    $('#Totalamount').val(releaseamout + recomendedAmt);
+    //    var margin = (secperinsp / releaseamout) * 100
+    //    $("#margin").val(margin);
+    //    debugger;
+    //    var totalamount = $('#Totalamount').val();
+    //    if (totalamount > elgamount) {
+    //        debugger;
+    //        swal.fire(
+    //            'Error',
+    //            'Total Amount Can Not Be Greater Than Eligible Amount',
+    //            'error'
+    //        )
+    //        $('#Totalamount').val("");
+    //    }
+   
+        
+
+    
+
+    //$("#secconsiderinsp,#secconsider,#RecomAmount,#RelAmt").change(function () {
+      
+    //    var secperinsp = parseInt($('#secconsiderinsp').val());
+    //    $('#RelAmt').val(0);
+    //    var releaseamout = parseInt($('#RelAmt').val());
+    //    var eligiAmt = secperinsp - releaseamout;
+    //    $('#eligamount').val(eligiAmt);
+    //    var elgamount = parseInt($('#eligamount').val());
+    //    var alcamount = parseInt($('#allocamt').val());
+    //    var seccons = parseInt($('#secconsider').val());
+    //    if (seccons <= elgamount) {
+    //        $('#eligamount').val("");
+    //    }
+    //    if (seccons > alcamount) {
+    //        $('#allocamt').val("");
+    //    }
+    //    var recomendedAmt = parseInt($('#RecomAmount').val());
+    //    var margin = (secperinsp/ releaseamout) * 100
+    //    $("#margin").val(margin);
+    //   $('#Totalamount').val(releaseamout + recomendedAmt);
+    //    var totalamount = $('#Totalamount').val();
+    //    if (totalamount > elgamount) {
+    //        debugger;
+    //        swal.fire(
+    //            'Error',
+    //            'Total Amount Can Not Be Greater Than Eligible Amount',
+    //            'error'
+    //        )
+    //        $('#Totalamount').val("");
+    //    }
+
+
+    //    var recomended = $('#RecomAmount').val();
+    //    if (recomended > @ViewBag.sancamount) {
+    //        debugger;
+    //        swal.fire(
+    //            'Error',
+    //            'Recommanded Amount Can Not Be Greater Than Sanction Amount',
+    //            'error'
+    //        )
+    //        $('#RecomAmount').val("");
+    //    }
+
+    //});
+
+   
+
+    
+</script>

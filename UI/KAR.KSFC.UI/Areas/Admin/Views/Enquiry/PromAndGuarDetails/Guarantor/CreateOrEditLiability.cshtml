@@ -1,0 +1,44 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorLiabilityDetailsDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateOrEditLiability" asp-route-id="@Model.EnqGuarliabId" onsubmit="return jQueryAjaxPostPGGD(this); ">
+            @Html.HiddenFor(model => model.EnqGuarliabId)
+            @if (ViewBag.GuarantorDetailsList != null)
+            {
+                @Html.DropDownListFor(model => model.GuarantorDetailsDTO.EnqGuarId, new SelectList(ViewBag.GuarantorDetailsList, "EnqGuarId", "GuarName"), "-- Please select --", new { @class = "form-select" })
+
+            }
+            else
+            {
+                <select class="form-select" name="@Model.GuarantorDetailsDTO.EnqGuarId" asp-for="@Model.GuarantorDetailsDTO.EnqGuarId"
+                        asp-items="@(new SelectList(string.Empty,"EnqGuarId","GuarName"))">
+                </select>
+            }
+              <span asp-validation-for="GuarantorDetailsDTO.EnqGuarId" class="text-danger"></span>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Liability Description</label>
+                @Html.TextAreaFor(model => model.GuarLiabDesc, new { @class = "form-control" })
+                <span asp-validation-for="GuarLiabDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Value</label>
+                @Html.TextBoxFor(model => model.GuarLiabValue, new { @class = "form-control" })
+                <span asp-validation-for="GuarLiabValue" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    @if (!ViewBag.IsEdit)
+                    {
+                        <input type="reset" value="Reset" class="btn btn-secondary" />
+                    }
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

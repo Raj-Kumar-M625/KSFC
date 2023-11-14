@@ -1,0 +1,41 @@
+﻿
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgProjectCostDTO
+@{
+    Layout = null;
+}
+<div>
+    <div>
+        <form id="ProjectCostDetailsForm" asp-action="Edit" onsubmit="return JqueryInspectionEditMethod(this,'ProjectCostDetail'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Project Cost Component</label></strong>
+                    @Html.DropDownListFor(m => m.DcpcstCode, new SelectList(ViewBag.ProjectCostComponents,"Value", "Text"), "---Select Project Cost Component---", new { @class = "form-select", @required="required", @id="Pcomponents"})
+                    <span asp-validation-for="DcpcstCode" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Cost</label></strong>
+                    @Html.TextBoxFor(m => m.DcpcAmount,"{0:n2}", new { @class = "form-control",@required="required", @id="cost", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="8"})
+                    <span asp-validation-for="DcpcAmount" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $('select[id="Pcomponents"], input[id="cost"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

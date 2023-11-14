@@ -1,0 +1,139 @@
+﻿@using KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt
+
+@{
+    Layout = null;
+    int count = 0;
+
+    List<TblLaReceiptPaymentDetDTO> allSavedReceiptList = ViewBag.SavedReceipt;
+    var selectedReceipts = ViewBag.ReceiptSelected;
+    var ReferenceNumber = ViewBag.referencenumber;
+    var AccountNumber = ViewBag.AccountNumber;
+    var LoanSub = ViewBag.LoanSub;
+    var UnitName = ViewBag.UnitName;
+}
+
+<div class="row editGenpayment">
+<div class="col-md-6">
+    <b>Number of receipts selected :</b> <input value="@selectedReceipts" type="text" id="widthdet"  class="form-control-inline" />
+</div>
+    <div class="col-md-3 btnDet7">
+        <b>Total Amount :</b>
+        <input class="totalamount" type="text" id="totalamount" disabled />
+    </div>
+
+<div class="col-md-3 btnDet8">
+    <b>Pay Amount :</b>
+    <input class="payamount" type="text" id="payamount" disabled />
+</div>
+</div>
+<br />
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblAddPayments">
+        <thead>
+            <tr>
+                <th>S. No.</th>
+                <th>Receipt Reference No.</th>
+                <th>Transaction Type</th>
+                <th>Date of Initiation</th>
+                <th>Due Date for Payment</th>
+                <th>Total Amount</th>
+                <th>Pay Amount</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in allSavedReceiptList)
+            {
+                count++;
+                <tr class="trow">
+
+                    <td>@count</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptRefNo,new{@id="refno"})</td>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
+
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.DateOfInitiation,"{0:yyyy-MM-dd}")</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.DueDatePayment,"{0:yyyy-MM-dd}")</td>
+                    <td>@Html.DisplayFor(modelItem => item.TotalAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PaymentAmt)</td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <div id="textright" >
+        <b><label class="col-md-6 btnDet9">Total Amount :</label></b>
+        <input class="col-md-2 totalamount"  type="text" id="totalamount" disabled />
+    </div>
+</div>
+
+<div class="row btnDet10">
+    <div class="form-group">
+        <div class="col-md-1 text-center float-end btnDet11">
+@*            <input type="submit" onclick="return " value="Save" class="btn btn-primary" id="submit" />
+*@            <button type="submit" value="Save" class="btn btn-primary" id="submit">Save</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#tblAddPayments').DataTable();
+    });
+    $("#tblAddPayments .trow").each(function () {
+        debugger;
+        var totalp = 0;
+        var payamount = 0;
+        var tvalue = ($(this).find("td:eq(5)").text());
+        var payvalue = ($(this).find("td:eq(6)").text());
+
+        totalp = parseInt(tvalue);
+        payamount = parseInt(payvalue);
+
+        var res = $(".totalamount").val();
+
+        if (res > 0 || res != "") {
+            var sum = totalp + parseInt(res);
+            $(".totalamount").val(sum);
+        } else {
+            $(".totalamount").val(totalp);
+        }
+
+        var payres = $(".payamount").val();
+        if (payres > 0 || payres != "") {
+            var sumpay = payamount + parseInt(payres);
+            $("#payamount").val(sumpay);
+        } else {
+            $("#payamount").val(payamount);
+        }
+    });
+
+
+    $('#submit').click(function () {
+        debugger;
+        var renum = [];
+        var payamount = 0;
+        var payres = $(".payamount").val();
+        $("#tblAddPayments .trow").each(function () {
+
+            var refnum = ($(this).find("td:eq(1)").text()); 
+            renum.push(refnum);
+        })
+        $.ajax({
+            url: '/Admin/SavedReceipt/SaveCreatePayment',
+            type: 'Post',
+            data: {
+                renum: renum,
+                AccountNumber: @AccountNumber,
+                LoanSub: @LoanSub,
+                UnitName: "@UnitName",
+                PayAmount: payres
+            },  
+            success: function (res) {
+                debugger;
+                location.href = '/Admin/LoanRelatedReceipt/ViewAccount?AccountNumber=' + @AccountNumber + "&LoanSub=" + @LoanSub + "&UnitName=" + "@UnitName" + "&Module=" + "Payment";
+            }
+        })
+    });
+</script>

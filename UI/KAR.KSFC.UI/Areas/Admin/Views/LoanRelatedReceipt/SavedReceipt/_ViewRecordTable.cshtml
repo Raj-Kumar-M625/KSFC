@@ -1,0 +1,24 @@
+﻿@using KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt
+@model KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="ReceiptPayment" asp-action="ViewRecord" onsubmit="ClosePopupFormLA();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <b><label class="form-label">Total Amount:</label></b>
+                    @Html.TextBoxFor(m => m.TotalAmt, new {@class = "form-control", @disabled = "disabled"})
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2 text-center float-end">
+                        <input type="button" value="View Ledger Posting" class="btn btn-primary" id="ledger" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

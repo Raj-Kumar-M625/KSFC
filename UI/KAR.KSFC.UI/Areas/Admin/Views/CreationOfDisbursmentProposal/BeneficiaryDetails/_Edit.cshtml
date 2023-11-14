@@ -1,0 +1,175 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal.TblIdmBenfDetDTO
+@{
+    Layout = null;
+    var cheqno = ViewBag.cheqno;
+    var AccountNumber = ViewBag.AccountNumber;
+    var OffcCd = ViewBag.OffCd;
+}
+<div>
+    <div>
+        <form asp-action="SaveBeneficiaryDetails" onsubmit="return BeneficiaryDetailsPost(this); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@AccountNumber" asp-for="LoanAcc" />
+            @Html.HiddenFor(m => m.BenfId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control"})
+            @Html.HiddenFor(m => OffcCd, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Proposal No.</label></strong>
+                    @Html.TextBoxFor(m => m.BenfNumber, new { @class = "form-control",@readonly = "true", @id="propno"})
+                    <span asp-validation-for="BenfNumber" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Department</label></strong>
+                    @Html.TextBoxFor(m => m.BenfDept, new { @class = "form-control",@readonly = "true" })
+                    <span asp-validation-for="BenfDept" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Bank Branch</label></strong>
+                    @Html.TextBoxFor(m => m.BenfRtgsBnkBranch, new { @class = "form-control",@readonly = "true" , @id="bankbranch" })
+                    <span asp-validation-for="BenfRtgsBnkBranch" class="text-danger"></span>
+                    @*@Html.TextBoxFor(m => m.TbIIfscMaster.BranchName, new { @class = "form-control",@readonly = "true" })
+                    <span asp-validation-for="TbIIfscMaster.BranchName" class="text-danger"></span>*@
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of The Beneficiary</label></strong>
+                    @Html.TextBoxFor(m => m.BenfName, new { @class = "form-control",@readonly = "true" , @id="benificiary"})
+                    <span asp-validation-for="BenfName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Bank</label></strong>
+                    @Html.TextBoxFor(m => m.BenfRtgsBank, new { @class = "form-control",@readonly = "true" ,@id="bankname"})
+                    <span asp-validation-for="BenfRtgsBank" class="text-danger"></span>
+                    @*@Html.TextBoxFor(m => m.TbIIfscMaster.BankName, new { @class = "form-control",@readonly = "true" })
+                    <span asp-validation-for="TbIIfscMaster.BankName" class="text-danger"></span>*@
+                </div>
+
+                <div class="col-md-4">
+                    <strong><label class="form-label">Bank Account No.</label></strong>
+                    @Html.TextBoxFor(m => m.BenfRtgsAcNo, new { @class = "form-control",@readonly = "true",@id="bankaccno" })
+                    <span asp-validation-for="BenfRtgsAcNo" class="text-danger"></span>
+                    @*@Html.TextBoxFor(m => m.TblAppLoanMast.InNo, new { @class = "form-control",onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" })
+                    <span asp-validation-for="TblAppLoanMast.InNo" class="text-danger"></span>*@
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">IFSC</label></strong>
+                    @Html.TextBoxFor(m => m.BenfRtgsIfsc, new { @class = "form-control",@readonly = "true" ,@id="isfc" })
+                    <span asp-validation-for="BenfRtgsIfsc" class="text-danger"></span>
+                    @*@Html.TextBoxFor(m => m.TbIIfscMaster.IFSCCode, new { @class = "form-control",@readonly = "true" })
+                    <span asp-validation-for="TbIIfscMaster.IFSCCode" class="text-danger"></span>*@
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Cheque No.</label></strong>
+                    @Html.TextBoxFor(m => m.BenfRtgsChqNo, new { @class = "form-control",@id="checkno",onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="6",@readonly = "false" })
+                    <span asp-validation-for="BenfRtgsChqNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Cheque Date</label></strong>
+                    @Html.TextBoxFor(m => m.BenfRtgsChqDt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type="date",onkeydown="return false",@id="checkdt",@readonly = "false" })
+                    <span asp-validation-for="BenfRtgsChqDt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Amount</label></strong>
+                    @Html.TextBoxFor(m => m.BenfAmt, new { @class = "form-control",@readonly = "true" ,style="text-align:right",@id="BenfAmt"})
+                    <span asp-validation-for="BenfAmt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Address Of Bank</label></strong>
+                    @Html.TextAreaFor(m => m.BenfRtgsBnkCity, new { @class = "form-control",@readonly = "true", @id="bankaddress"})
+                    <span asp-validation-for="BenfRtgsBnkCity" class="text-danger"></span>
+                    @*@Html.TextBoxFor(m => m.TbIIfscMaster.BankAddress, new { @class = "form-control",@readonly = "true" })
+                    <span asp-validation-for="TbIIfscMaster.BankAddress" class="text-danger"></span>*@
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Mode Of Payment</label></strong>
+                    @*@Html.TextBoxFor(m => m.BenfCode, new { @class = "form-control" })
+                    <span asp-validation-for="BenfCode" class="text-danger"></span>*@
+                    @Html.DropDownListFor(m => m.BenfCode, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Online",Value = "1"},
+                    new SelectListItem(){Text="Offline",Value = "0"}
+                    }, "--- Select Payment Mode ---", new { @class = "form-select", @id="pymntmd",@readonly = "true" })
+                    <span asp-validation-for="BenfCode" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end" id="submit3">
+                    <input type="submit" value="Submit" class="btn btn-info btn-lg" id="submit" onclick="location.href=/Admin/;" />
+                </div>
+            </div>
+        </form>
+        <br />
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        debugger;
+        $("#propno").val(@ViewBag.PropNumber);
+        var primbank = @Html.Raw(Json.Serialize(@ViewBag.primarybank));
+        $("#bankbranch").val(primbank[0].utBankBranch);
+        $("#benificiary").val(primbank[0].utBankHolderName);
+        $("#bankname").val(primbank[0].utBank);
+        $("#bankaccno").val(primbank[0].utBankAccno);
+        $("#isfc").val(primbank[0].utIfsc);
+        $("#bankaddress").val(primbank[0].utBankAddress);
+        $("#BenfAmt").val(@ViewBag.BenfAmt);
+        // $("#checkdt").val(@ViewBag.chqdt);
+        // var checkdt = @ViewBag.chqdt;
+        //var checkno = $("#checkno").val(@ViewBag.cheqno);
+        //(checkno == '') ? $("#pymntmd").val(1) : $("#pymntmd").val(0);
+
+    });
+
+    //$("#checkno").keypress(function () {
+    //    if ($(this).val().length >= 0) {
+    //        $("#pymntmd").val("0").attr("selected", "selected");
+    //    }
+
+    //})
+
+    //$("#checkno").change(function () {
+    //    if ($(this).val().length >= 0) {
+    //        $("#pymntmd").val("0").attr("selected", "selected");
+    //    }
+
+    //})
+
+    //$("#checkno").keydown(function () {
+    //    if ($(this).val().length == 1) {
+    //        $("#pymntmd").val("1").attr("selected", "selected");
+    //    }
+    //});
+
+    $("#pymntmd").change(function () {
+        debugger;
+        var status = $('#pymntmd :selected').text();
+        if (status == "Online") {
+            document.getElementById('checkno').readOnly = true
+            document.getElementById('checkdt').readOnly = true
+        } else {
+            document.getElementById('checkno').readOnly = false
+            document.getElementById('checkdt').readOnly = false
+        }
+       
+    });
+
+
+    $("#pymntmd").change(function () {
+        $("#checkno").val("");
+        $("#checkdt").val("");
+    });
+
+
+</script>                

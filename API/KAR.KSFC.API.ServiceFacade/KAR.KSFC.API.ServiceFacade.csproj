@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Internal\Interface\IEnquirySubmissionService.cs" />
+    <Compile Remove="Internal\Service\EnquirySubmissionService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="MailKit" Version="3.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.12.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="5.21.3" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.30.0.37606">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="KAR.KSFC.Components.Common.Dto">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Dto\bin\Debug\net5.0\KAR.KSFC.Components.Common.Dto.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Common.Logging">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Logging\bin\Debug\net5.0\KAR.KSFC.Components.Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Common.Security">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Security\bin\Debug\net5.0\KAR.KSFC.Components.Common.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Common.Utilities">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Utilities\bin\Debug\net5.0\KAR.KSFC.Components.Common.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Data.DatabaseContext">
+      <HintPath>..\..\Components\Data\KAR.KSFC.Components.Data.DatabaseContext\bin\Debug\net5.0\KAR.KSFC.Components.Data.DatabaseContext.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Data.Models">
+      <HintPath>..\..\Components\Data\KAR.KSFC.Components.Data.Models\bin\Debug\net5.0\KAR.KSFC.Components.Data.Models.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Data.Repository">
+      <HintPath>..\..\Components\Data\KAR.KSFC.Components.Data.Repository\bin\Debug\net5.0\KAR.KSFC.Components.Data.Repository.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

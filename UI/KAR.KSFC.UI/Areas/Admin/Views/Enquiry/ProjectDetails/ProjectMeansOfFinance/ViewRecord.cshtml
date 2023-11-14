@@ -1,0 +1,33 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectMeansOfFinanceDTO
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecord" asp-route-id="@Model.EnqPjmfId" onsubmit="ClearPopupFormPDMF();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqPjmfId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Category of Means of Finance</label>
+                @Html.DropDownListFor(model => model.MfcatCd, new SelectList(ViewBag.ListProjectMeansOfFinanceCat,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+                <span asp-validation-for="MfcatCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Finance Type</label>
+                @Html.DropDownListFor(model => model.PjmfCd, new SelectList(ViewBag.ListProjectFinanceType,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+                <span asp-validation-for="PjmfCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Value</label>
+                @Html.TextBoxFor(model => model.EnqPjmfValue, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

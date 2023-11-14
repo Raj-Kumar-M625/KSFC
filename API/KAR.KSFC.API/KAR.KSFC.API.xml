@@ -1,0 +1,404 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>KAR.KSFC.API</name>
+    </assembly>
+    <members>
+        <member name="M:KAR.KSFC.API.Areas.Admin.Controllers.AdminModuleController.AddRoleMasterAsync(KAR.KSFC.Components.Common.Dto.AdminModule.RoleMasterDto,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Admin.Controllers.HomeController.#ctor(KAR.KSFC.API.ServiceFacade.Internal.Interface.IAccountService,Microsoft.Extensions.Logging.ILogger{KAR.KSFC.API.Areas.Admin.Controllers.HomeController})">
+            <summary>
+            
+            </summary>
+            <param name="accountService"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Admin.Controllers.HomeController.AdminLogout(KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            KSFC User logout.
+            </summary>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Admin.Controllers.HomeController.PasswordChange(KAR.KSFC.Components.Common.Dto.PasswordChangeDTO,System.Threading.CancellationToken)">
+            <summary>
+            KSFC User password change.
+            </summary>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquiryHomeController.#ctor(KAR.KSFC.API.ServiceFacade.Internal.Interface.IAccountService,Microsoft.Extensions.Logging.ILogger{KAR.KSFC.API.Areas.Customer.Controllers.EnquiryHomeController},KAR.KSFC.Components.Common.Utilities.UserInfo,KAR.KSFC.API.ServiceFacade.Internal.Interface.EnquirySubmission.IEnquiryHomeService)">
+            <summary>
+             constructor Dependency injection
+            </summary>
+            <param name="accountService"></param>
+            <param name="logger"></param>       
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquiryHomeController.CustomerLogout(KAR.KSFC.Components.Common.Dto.CustLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Customer logout.
+            </summary>
+            <param name="info"></param>
+            <param name="token"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsController.#ctor(KAR.KSFC.Components.Common.Utilities.UserInfo,KAR.KSFC.API.ServiceFacade.Internal.Interface.EnquirySubmission.AssociateSisterConcernDetails.ISisterConcernDetails,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsController})">
+            <summary>
+            Sister Concern Details
+            </summary>
+            <param name="userInfo"></param>
+            <param name="sisterConcernDetails"></param>
+            <param name="mapper"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsController.AddSisterConcernDetailsAsync(System.Collections.Generic.List{KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsDTO},System.Threading.CancellationToken)">
+            <summary>
+            Add Sister Concern Details
+            </summary>
+            <param name="sisterConcernDto"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsController.UpdateSisterConcernDetailsAsync(System.Collections.Generic.List{KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsDTO},System.Threading.CancellationToken)">
+            <summary>
+            Update Sister Concern Details
+            </summary>
+            <param name="sisterConcernDto"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsController.GetByIdSisterConcernDetailsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Get By Id Sister Concern Details
+            </summary>
+            <param name="Id"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsController.DeleteSisterConcernDetailsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Soft Delete Sister Concern Details
+            </summary>
+            <param name="Id"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsController.#ctor(KAR.KSFC.Components.Common.Utilities.UserInfo,KAR.KSFC.API.ServiceFacade.Internal.Interface.EnquirySubmission.AssociateSisterConcernDetails.ISisterConcernFinancialDetails,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsController})">
+            <summary>
+            Sister Concern Financial Details 
+            </summary>
+            <param name="userInfo"></param>
+            <param name="sisterConcernDetails"></param>
+            <param name="mapper"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsController.AddSisterConcernFinancialDetailsAsync(System.Collections.Generic.List{KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsDTO},System.Threading.CancellationToken)">
+            <summary>
+            Add Sister Concern Financial Details 
+            </summary>
+            <param name="sisterConcernDto"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsController.UpdateSisterConcernFinancialDetailsAsync(System.Collections.Generic.List{KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsDTO},System.Threading.CancellationToken)">
+            <summary>
+            Update Sister Concern Financial Details 
+            </summary>
+            <param name="sisterConcernDto"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsController.GetByIdSisterConcernFinancialDetailsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Get Sister Concern Financial Details 
+            </summary>
+            <param name="Id"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsController.DeleteSisterConcernFinancialDetailsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Soft Delete Sister Concern Financial Details 
+            </summary>
+            <param name="Id"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.FinancialPreYearController.#ctor(KAR.KSFC.API.ServiceFacade.Internal.Interface.EnquirySubmission.ProjectDetails.IProjectFinancialDetails)">
+            <summary>
+            Initilize Services in the Construtor
+            </summary>
+            <param name="financeDetails"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.FinancialPreYearController.AddFinancePreYearDetailsAsync(System.Collections.Generic.List{KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectFinancialYearDetailsDTO},System.Threading.CancellationToken)">
+            <summary>
+            Add Finance Pre Year Details
+            </summary>
+            <param name="financeDetails"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.FinancialPreYearController.GetAllFinancePreYearDetailsAsync(KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectFinancialYearDetailsDTO,System.Threading.CancellationToken)">
+            <summary>
+            Get Finance Pre Year Details
+            </summary>
+            <param name="financeDetails"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.FinancialPreYearController.UpdateFinancePreYearDetailsAsync(System.Collections.Generic.List{KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectFinancialYearDetailsDTO},System.Threading.CancellationToken)">
+            <summary>
+            Update Finance Pre Year Details
+            </summary>
+            <param name="financeDetails"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.FinancialPreYearController.GetByIdFinancePreYearDetailsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Get By Id Finance Pre Year Details
+            </summary>
+            <param name="Id"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.FinancialPreYearController.DeleteFinancePreYearDetailsAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete  Finance Pre Year Details
+            </summary>
+            <param name="Id"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.MeansOfFinanceController.#ctor(KAR.KSFC.API.ServiceFacade.Internal.Interface.EnquirySubmission.ProjectDetails.IMeansofFinance,Microsoft.Extensions.Logging.ILogger{KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.MeansOfFinanceController})">
+            <summary>
+            
+            </summary>
+            <param name="MeansofFinance"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.MeansOfFinanceController.AddMeansOfFinance(System.Collections.Generic.List{KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectMeansOfFinanceDTO},System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="MeansofFinance"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.ProjectDetails.MeansOfFinanceController.GetAllMeansOfFinance(KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectMeansOfFinanceDTO,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="MeansofFinance"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.SecurityDocumentDetails.DocumentController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,KAR.KSFC.API.ServiceFacade.Internal.Interface.IFileService)">
+            <summary>
+            Document Controller
+            </summary>
+            <param name="configure"></param>
+            <param name="fileService"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.SecurityDocumentDetails.DocumentController.GetEncryptedFileAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Get Encrypted File by doc Id
+            </summary>
+            <param name="documentId"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.SecurityDocumentDetails.DocumentController.FileUploadAsync(System.Byte[],System.Int32,KAR.KSFC.Components.Common.Dto.Enums.DocumentTypeEnum,KAR.KSFC.Components.Common.Dto.Enums.FileTypesEnum,System.Threading.CancellationToken)">
+            <summary>
+            File save
+            </summary>
+            <param name="bytes"></param>
+            <param name="enqId"></param>
+            <param name="documentTypeEnum"></param>
+            <param name="fileType"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.SecurityDocumentDetails.DocumentController.DeleteDocumentAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete file
+            </summary>
+            <param name="documentId"></param>
+            <param name="token"></param>
+            <returns></returns>
+            <exception cref="T:KAR.KSFC.Components.Common.Utilities.Exceptions.FileSecurityExceptions"></exception>
+        </member>
+        <member name="M:KAR.KSFC.API.Areas.Customer.Controllers.EnquirySubmission.SecurityDocumentDetails.DocumentController.GetDocumentListAsync(System.Int32,System.String,KAR.KSFC.Components.Common.Dto.Enums.DocumentTypeEnum,System.Threading.CancellationToken)">
+            <summary>
+            Get All Document Sectoin wise
+            </summary>
+            <param name="enqId"></param>
+            <param name="process"></param>
+            <param name="documentTypeEnum"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="T:KAR.KSFC.API.Controllers.AccountController">
+            <summary>
+            UnAuthorized methods like registration,Customer,Employee Login process related functionalities performed here.
+            </summary>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.#ctor(KAR.KSFC.API.ServiceFacade.Internal.Interface.IMobileService,KAR.KSFC.API.ServiceFacade.Internal.Interface.IAccountService,KAR.KSFC.API.ServiceFacade.External.Interface.ISmsService,KAR.KSFC.API.ServiceFacade.Internal.Interface.ITokenService,KAR.KSFC.API.ServiceFacade.External.Interface.IPanService,KAR.KSFC.API.ServiceFacade.Internal.Interface.IUserLogHistory,KAR.KSFC.API.ServiceFacade.Internal.Interface.IDscService,KAR.KSFC.API.ServiceFacade.External.Interface.IEmailService,Serilog.ILogger)">
+            <summary>
+            constructor Dependency injection
+            </summary>
+            <param name="mobileService"></param>
+            <param name="accountService"></param>
+            <param name="smsService"></param>
+            <param name="tokenService"></param>
+            <param name="panService"></param>
+            <param name="logHistoryService"></param>
+            <param name="dscService"></param>
+            <param name="emailService"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.OtpGeneration(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Genarate Otp Generic method.
+            </summary>
+            <param name="mobile"></param>
+            <param name="process"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.OtpVerification(System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Verify Genarated Otp
+            </summary>
+            <param name="otp"></param>
+            <param name="mobile"></param>
+            <param name="process"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.GenerateOtp(KAR.KSFC.Components.Common.Dto.RegistrationDTO,System.Threading.CancellationToken)">
+            <summary>
+            Generate OTP
+            </summary>
+            <param name="det"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.ResendOtp(KAR.KSFC.Components.Common.Dto.RegistrationDTO,System.Threading.CancellationToken)">
+            <summary>
+            Resend otp while registration.
+            </summary>
+            <param name="det"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.VerifyOtp(KAR.KSFC.Components.Common.Dto.RegistrationDTO,System.Threading.CancellationToken)">
+            <summary>
+            Verify Otp
+            </summary>
+            <param name="det"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.VerifyPan(KAR.KSFC.Components.Common.Dto.RegistrationDTO,System.Threading.CancellationToken)">
+            <summary>
+            verify otp with NSDL portal whether its active or not.
+            </summary>
+            <param name="det"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.SaveRegestrationDetails(KAR.KSFC.Components.Data.Models.DbModels.RegduserTab,System.Threading.CancellationToken)">
+            <summary>
+            After successfull validation Saves the Customer data. 
+            </summary>
+            <param name="regDetails"></param>
+            <param name="token"></param>
+            <returns></returns>
+            @Devaraj
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.CustomerLoginPanVerification(KAR.KSFC.Components.Common.Dto.CustLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Verify login and send otp to mobile number linked with the pan number.
+            </summary>
+            <param name="info"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.CustomerLoginResendOtp(KAR.KSFC.Components.Common.Dto.CustLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Resend otp in customer login page.
+            </summary>
+            <param name="info"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.CustomerLogin(KAR.KSFC.Components.Common.Dto.CustLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            customer login after successfull verification of pan and otp. 
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.KsfcUserForgotPassword(KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Forget password for KSFC User send otp to registered mobile number.
+            </summary>
+            <param name="info"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.ForgotPasswordResendotp(KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Resend otp on Employee forgot password.
+            </summary>
+            <param name="info"></param>
+            <returns></returns>       
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.ValidateKsfcUserSendPassword(KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Forget password for KSFC User validate and trigger email/SMS.
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.CheckIP(KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Verify whether Employee is within KSWAN range. 
+            </summary>
+            <param name="info"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.VerifyDSC(KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Validate Employee using DSC key if employee try to login from outside KSWAN range.
+            </summary>
+            <param name="info"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.AdminLogin(KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO,System.Threading.CancellationToken)">
+            <summary>
+            Verify Enmployee Logged in already if not let them login.
+            </summary>
+            <param name="info"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.AccountController.Refresh(KAR.KSFC.Components.Common.Dto.TokenDTO,System.Threading.CancellationToken)">
+            <summary>
+            Whenever access token about to expire call this method to get new access and refresh token without logging out the admin.
+            </summary>
+            <param name="tokenInfo"></param>
+            <param name="token"></param>
+            <returns></returns>
+        </member>
+        <member name="M:KAR.KSFC.API.Controllers.CommonController.GetConstitutionType(System.Threading.CancellationToken)">
+            <summary>
+            Get all constitution types list.
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

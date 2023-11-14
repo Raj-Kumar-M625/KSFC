@@ -1,0 +1,65 @@
+﻿  @model KAR.KSFC.Components.Common.Dto.IDM.AuditClearenceDTO
+
+@{
+    var Audit = Model.AuditClearence;
+}
+<div><h2 class="textCenter">Audit Clearance</h2></div>
+
+<div id="AuditDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="AuditClearance-tab" data-bs-toggle="tab" data-bs-target="#AuditClearance" type="button" role="tab" aria-controls="AuditClearance" aria-selected="false">Audit Clearance</button>
+            <div class="progress">
+                <div id="AuditClearanceProgressBar" class="progress-bar bg-@(Audit.Count()>0?"success":"warning")" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        @await Html.PartialAsync("_Loader")
+        <div class="tab-pane fade show active" id="AuditClearance" role="tabpanel" aria-labelledby="AuditClearance-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Audit_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Audit Clearance Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-Audit">
+                                @await Html.PartialAsync("/Areas/Admin/Views/Audit/AuditClearance/_ViewAll.cshtml",Model.AuditClearence)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelAuditClearanceDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormac();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/Admin/Audit/" class="btn btn-info btn-lg text-white mb-2 mt-3" >Previous</a>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 submit float-end" onclick="location.href=/Admin/;" id="btnTabAuditDetails" value="Submit"  />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/IDM.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        ReloadAuditDetails();
+    });
+    $(".modal-content").draggable();
+</script>

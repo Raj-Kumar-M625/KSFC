@@ -1,0 +1,23 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgProjectCostDTO
+@{
+    Layout = null;   
+}
+<div>
+    <div>
+        <form id="ProjectCostDetailsForm" asp-action="ViewRecord"  onsubmit="ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label"> Project Cost Componemt</label></strong>
+                    @Html.TextBoxFor(m => m.ProjectCost, new { @class = "form-select",@disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Cost</label></strong>
+                      @Html.TextBoxFor(m => m.DcpcAmount,"{0:n2}", new { @class = "form-control",@disabled = "disabled" })
+                </div>                               
+            </div>
+            <br/>
+        </form>
+    </div>
+</div>

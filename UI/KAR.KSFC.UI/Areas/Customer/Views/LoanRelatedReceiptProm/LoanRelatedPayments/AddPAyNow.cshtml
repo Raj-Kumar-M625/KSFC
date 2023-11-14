@@ -1,0 +1,39 @@
+﻿@model KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaPaymentDetDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <form id="LoanReceipt" asp-action="PayNow" onsubmit="ClosePopupFormLAProm();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label" id="textleft">Department Reference Number </label></b>
+                @Html.TextBoxFor(m => m.PromoterName, new { @class = "form-control", @id="rcptref",required = "required",@disabled="disabled"})
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label" id="textleft">Loan Number </label></b>
+
+                <input class="form-control" value="@ViewBag.LoanAccountNumber" disabled />
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label" id="textleft">Amount </label></b>
+                @Html.TextBoxFor(m => m.ActualAmt, new { @class = "form-control", @id="rcptref",required = "required",@disabled="disabled"})
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            <div class="col-md-2 text-center float-end">
+                <a href="@Url.Action("LinkedBudgetAccountCodeList","Budget",new { id = item.BudgetCodeId})" class="btn btn-success text-white"> Pay Now</a>
+               
+            </div>
+        </div>*@
+    </form>
+</div>

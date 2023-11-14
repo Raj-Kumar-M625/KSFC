@@ -1,0 +1,78 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgMeansOfFinanceDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+
+}
+
+
+<div>
+    <form id="MeansOffinanceDetails" asp-action="Edit" onsubmit="return JqueryInspectionEditMethod(this,'MeansOfFinanceDetails'); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+        <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+        @Html.HiddenFor(m => m.DcmfMfType, new { @class = "form-select"})
+        @Html.HiddenFor(m => m.DcmfCd, new { @class = "form-select"})
+
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label"> Means Of Finance Category </label> </strong>
+
+                @Html.DropDownListFor(m => m.DcmfCd, new SelectList(ViewBag.Category, "Value", "Text"), "---Select Means Of Finance Category---", new { @class = "form-select", required = "required",disabled="disabled"})
+                <span asp-validation-for="DcmfCd" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Means Of Finance Type</label>
+                </strong>
+                @Html.TextBoxFor(m => m.FinanceType, new { @class = "form-select", required = "required",disabled="disabled", @id="DcmfMfType"})
+                <span asp-validation-for="FinanceType" class="text-danger"></span>
+            </div>
+            <br />
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Amount. (in Lakhs)<span  id="spanDet1"> *</span> </label> </strong>
+                @Html.TextBoxFor(m => m.DcmfAmt,"{0:n2}", new { @class = "form-control",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",
+                @oninput="this.value=this.value.slice(0,this.maxLength)",@maxlength = "13", @id = "testing",@dir="rtl"})
+            </div>
+            <br />
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-2 text-center float-end submit4">
+                <input type="submit" value="Submit" class="btn btn-primary" @*disabled="disabled"*@ id="submit" />
+
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+    $('input[id="testing"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+
+        $("#DcmfAmt").on("change", function () {
+            var data = $(this).val();
+            if (data.length > 3) {
+                swal.fire({
+                    title: "Amount Cannot be greater than 100 lakhs!",
+                            icon: 'warning',
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+            }
+        });
+
+</script>

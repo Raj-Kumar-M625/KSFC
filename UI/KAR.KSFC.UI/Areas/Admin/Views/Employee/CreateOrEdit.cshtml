@@ -1,0 +1,185 @@
+﻿@model KAR.KSFC.Components.Common.Dto.Employee.EmployeeDTO
+@{
+    Layout = null;
+}
+
+<form asp-action="CreateOrEdit" asp-area="Admin" asp-controller="Employee" asp-route-id="@Model.TeyTicketNum" id="empForm"  method="post">
+@*    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.HiddenFor(model => model.TeyTicketNum)*@
+    <div class="row" style="padding-left:5%!important" id="empty1">
+        <!--Baisc Details -->
+        <div class="col-6"  >
+            <h4 class="text-md-left text-muted">Basic Details</h4>
+            <div class="form-group row pb-1">
+                <label for="empNo" class="col-sm-3 col-form-label">Employee No</label>
+                <div class="col-sm-6">
+                    @if(string.IsNullOrEmpty(Model.TeyTicketNum))
+                    {
+                        @Html.TextBoxFor(model => model.TeyTicketNum, new {@class="form-control", @id="empNo",@maxlength="8",@onfocusout="isEmployeeNumberUnique()"})
+                        <span asp-validation-for="TeyTicketNum" class="text-danger" id="employee_number"></span>
+
+                    } else
+                    {
+                         @Html.TextBoxFor(model => model.TeyTicketNum, new {@class="form-control", @id="empNo",@maxlength="8", @readonly="true"})
+                        <span asp-validation-for="TeyTicketNum" class="text-danger" id="employee_number"></span>
+                    }
+                     
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="txtname" class="col-sm-3 col-form-label">Employee Name</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.TeyName, new {@class="form-control", @id="txtname"})
+                    <span asp-validation-for="TeyName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <label for="ddlgender" class="col-sm-3 col-form-label">Gender</label>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(model => model.TeySex,  new List<SelectListItem>
+                    {
+                    new SelectListItem{ Text="Male", Value = "M" },
+                    new SelectListItem{ Text="Female", Value = "F" },
+                    }, "-- Please select --", new { @class = "form-select" , @id="ddlgender"})
+                    <span asp-validation-for="TeySex" class="text-danger"></span>
+
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="txtdob" class="col-sm-3 col-form-label">DOB</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.TeyBirthDate,"{0:dd-MM-yyyy}" , new {@class="form-control datetimepicker-input datetimepicker", @data_target="#txtdob", @id="txtdob", @autocomplete="off", @readonly="readonly" })
+                    <span asp-validation-for="TeyBirthDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row pb-1">
+                <label for="txtAddress" class="col-sm-3 col-form-label">Address</label>
+                <div class="col-sm-6">
+                    @Html.TextAreaFor(model => model.TeyPresentAddress1, new {@class="form-control", @id="txtAddress", @rows="3", @cols="4"})
+                    <span asp-validation-for="TeyPresentAddress1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="txtplace" class="col-sm-3 col-form-label">Place</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.TeyPresentCity, new {@class="form-control", @id="txtplace"})
+                    <span asp-validation-for="TeyPresentCity" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="txtpincode" class="col-sm-3 col-form-label">Pincode</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.TeyPresentZip, new {@class="form-control", @id="txtpincode",@type = "number",@onKeyPress="if(this.value.length == 6 ) return false;"})
+                    <span asp-validation-for="TeyPresentZip" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                @if (string.IsNullOrEmpty(Model.TeyPanNum))
+                {
+                    <label for="txtpan" class="col-sm-3 col-form-label">PAN</label>
+                    <div class="col-sm-4">
+                        @Html.TextBoxFor(model => model.TeyPanNum, new {@class="form-control", @id="txtpan", @maxlength="10"})
+                        <span asp-validation-for="TeyPanNum" class="text-danger" id="span_pan"></span>
+                    </div>
+                    <div class="col-sm-3">
+                        <a class="btn btn-success btn-sm" onclick="return validatePan();">Validate</a>
+                    </div>
+                } else
+                {
+                    <label for="txtpan" class="col-sm-3 col-form-label">PAN</label>
+                    <div class="col-sm-6">
+                        @Html.TextBoxFor(model => model.TeyPanNum, new {@class="form-control", @id="txtpan", @readonly="true", @maxlength="10"})
+                        <span asp-validation-for="TeyPanNum" class="text-danger" id="span_pan"></span>
+                    </div>
+                }
+
+            </div>
+
+            <div class="form-group row pb-1">
+                <label for="txtmobile" class="col-sm-3 col-form-label">Mobile</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.EmpMobileNo, new {@class="form-control", @id="txtmobile", @type = "number",@onKeyPress="if(this.value.length == 10 ) return false;" })
+                    <span asp-validation-for="EmpMobileNo" class="text-danger" id="span_mobile"></span>
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="txtemail" class="col-sm-3 col-form-label">Email</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.TeyPresentEmail, new {@class="form-control", @id="txtemail"})
+                    <span asp-validation-for="TeyPresentEmail" class="text-danger" id="span_email"></span>
+
+                </div>
+            </div>
+        </div>
+
+        <!--Designation Details -->
+        <div class="col-6 d-grid gap-1" >
+            <h4 class="text-md-left text-muted">Designation Details</h4>
+
+            <div class="form-group row mb-1">
+                <label for="ddlSubstantiveTask" class="col-sm-4 col-form-label">Substantive Rank</label>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(model => model.EmpDesignation.SubstDesigCode,  new SelectList (ViewBag.SubstantiveRank, "Value", "Text") , "-- Please select --", new { @class = "form-select" , @id="ddlSubstantiveTask"})
+                    <span asp-validation-for="EmpDesignation.SubstDesigCode" class="text-danger"></span>
+
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="dtSbRankFromDate" class="col-sm-4 col-form-label">From Date</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.EmpDesignation.SubstDate, "{0:dd-MM-yyyy}",new {@class="form-control", @id="dtSbRankFromDate", @readonly="readonly"})
+                    <span asp-validation-for="EmpDesignation.SubstDate" class="text-danger"></span>    
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <label for="ddlInchageDesignation" class="col-sm-4 col-form-label">In-Charge Designation</label>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(model => model.EmpDesignation.IcDesigCode,  new SelectList (ViewBag.InChargeDesignation, "Value", "Text") , "-- Please select --", new { @class = "form-select" , @id="ddlInchageDesignation"})
+                    <span asp-validation-for="EmpDesignation.IcDesigCode" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row pb-1">
+                <label for="dtInchargeFromDate" class="col-sm-4 col-form-label">From Date</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.EmpDesignation.IcDate, "{0:dd-MM-yyyy}",new {@class="form-control", @id="dtInchargeFromDate", @readonly="readonly"})
+                    <span asp-validation-for="EmpDesignation.IcDate" class="text-danger"></span>              
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <label for="ddlPersonalPromotion" class="col-sm-4 col-form-label">Personal Promotion</label>
+                <div class="col-sm-6">
+                    @Html.DropDownListFor(m=> m.EmpDesignation.PpDesignCode,  
+                        new SelectList (ViewBag.PersonalPromotion, "Value", "Text") ,
+                        "-- Please select --", new { @class = "form-select" , @id="ddlPersonalPromotion"})
+                    @Html.ValidationMessageFor(model => model.EmpDesignation.PpDesignCode, "", new {@class="text-danger"})
+
+                </div>
+            </div>
+
+            <div class="form-group row pb-1">
+                <label for="dtPersonalPromotionDate" class="col-sm-4 col-form-label">From Date</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.EmpDesignation.PpDate, "{0:dd-MM-yyyy}",new {@class="form-control", @id="dtPersonalPromotionDate", @readonly="readonly"})
+                    @Html.ValidationMessageFor(model => model.EmpDesignation.PpDate, "", new {@class="text-danger"})
+
+                </div>
+            </div>
+
+            <div class="form-group row pb-1">
+                <label for="dtfirstAppDate" class="col-sm-4 col-form-label">Date of first appointment to KSFC</label>
+                <div class="col-sm-6">
+                    @Html.TextBoxFor(model => model.TeyLastdatePromotion, "{0:dd-MM-yyyy}",new {@class="form-control", @id="dtfirstAppDate", @readonly="readonly"})
+                    @Html.ValidationMessageFor(model => model.TeyLastdatePromotion, "", new {@class="text-danger"})
+                   
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+

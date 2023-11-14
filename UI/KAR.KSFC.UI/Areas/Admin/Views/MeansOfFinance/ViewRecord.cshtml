@@ -1,0 +1,38 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgMeansOfFinanceDTO
+
+@{
+    Layout = null;
+
+}
+
+<div>
+    <form id="MeansOffinanceDetails" asp-action="Edit" onsubmit="return EditMeansOfFinancePost(this); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label"> Means Of Finance Category </label> </strong>
+                @Html.DropDownListFor(m => m.DcmfCd, new SelectList(ViewBag.Category, "Value", "Text"), "---Select Means Of Finance Category---", new { @class = "form-select", required = "required",disabled="disabled"})
+
+            </div>
+            <br />
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Means Of Finance Type</label>
+                </strong>
+                @Html.TextBoxFor(m => m.FinanceType, new { @class = "form-select", required = "required",disabled="disabled", @id="DcmfMfType"})
+            </div>
+            <br />
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Amount. (in Lakhs) </label> </strong>
+              
+                @Html.TextBoxFor(m => m.DcmfAmt,"{0:n2}", new { @class = "form-control",disabled="disabled",@dir="rtl"})
+            </div>
+            <br />
+        </div>
+        <br />
+    </form>
+</div>

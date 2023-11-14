@@ -1,0 +1,187 @@
+﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Http;
+@inject IConfiguration Configuration
+<!DOCTYPE html>
+<html oncontextmenu="return false;" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Configuration["SysConfig:Title"]</title>
+    <link rel="icon" type="image/x-icon" href=@Configuration["SysConfig:FavIconAdmin"]>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" />
+    <script src="~/lib/jquery-datetimepicker/jquery.datetimepicker.min.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/Light.css" id="stylesheet" rel="stylesheet" asp-append-version="true" />
+    <link href="~/lib/bootstrap/dist/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/crud.js" asp-append-version="true"></script>
+    <script src="~/js/AdminSessionNotify.js" asp-append-version="true"></script>
+    <script src="~/js/IDM.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+          rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+</head>
+<body oncontextmenu="return false;">
+
+  
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" id="myHeader1">
+            <div class="container">
+                <img src=@Configuration["SysConfig:LogoPath"] style="width:5%;height:5%" />
+                <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index"><b> @Configuration["SysConfig:Title"]</b></a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if ((Context.Session.GetString("AdminUsername") != null))
+                        {
+                            if ((Context.Session.GetString("SwitchedRole") == "Accounting Officer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="LoanAccountingIndex">Home</a> @*IDM Legal changed to IDM by Dev on 05/08/2022*@
+                                </li>
+                            }
+                            else {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Home/IDM</a>
+                                </li>
+                            }
+
+                            if ((Context.Session.GetString("SwitchedRole") == "Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Employee" asp-action="Index">Employee</a>
+                                </li>
+                            }
+                            else if ((Context.Session.GetString("SwitchedRole") == "EG"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Enquiry" asp-action="Index">Enquiry</a>
+                                </li>
+                            }
+                            else if ((Context.Session.GetString("SwitchedRole") == "Legal Officer"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="IDM" asp-action="Index"></a> @*IDM Legal changed to IDM by Dev on 05/08/2022*@
+                                </li>
+                            }
+
+                        }
+
+                    </ul>
+
+
+                </div>
+                <table id="tblLang" style="border:none;border-color:aquamarine;">
+                    <tr>
+                        <td>@await Html.PartialAsync("~/Views/Shared/_lingual.cshtml")</td>
+                        <td> @await Html.PartialAsync("~/Views/Shared/_LightOrDarkMode.cshtml")</td>
+                    </tr>
+                    <tr><td colspan="2"><partial name="_AdminLoginPartial" /> </td></tr>
+                    <tr><td></td><td> </td></tr>
+                </table>
+            </div>
+        </nav>
+    </header>
+    <div class="container removeFlikker">
+        <main role="main" class="pb-3">
+            @RenderBody()
+            <button type="button"
+                    class="btn btn-primary btn-floating"
+                    id="btn-back-to-top">
+                Back To Top
+            </button>
+        </main>
+    </div>
+
+    <input type="hidden" id="hdnSessionTimeout" value="@Configuration["SysConfig:SessionExpiryTimeInSeconds"]" />
+    <input type="hidden" id="hdnSessionExpNotice" value="@Configuration["SysConfig:SessionExpiryNoticeTimeInSeconds"]" />
+    <div class="modal" id="modalAlert" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Need more time?</h5>
+                </div>
+                <div id="divModelAlertPup" class="modal-body">
+                    <div id="pModalAlertPup">Your session will expire in <span id="spanTimeCountdownTimer"></span> seconds. Click 'Continue' to reinstate.</div>
+                </div>
+                <div class="modal-footer">
+                    @Html.ActionLink("Continue", "Index", "Home", new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Logout", "Index", "Home", new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="">
+        <div class="container">
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    @await Html.PartialAsync("_PopupNotifictaionsPartial.cshtml")
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        $("#btnContinueSessionAdminNotify").click(function () {
+            $("#modalAlert").modal('hide');
+        });
+    </script>
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/BackToTop.js"></script>
+
+    <script>
+        window.onscroll = function () { myFunction() };
+
+
+        var header = document.getElementById("myHeader1");
+        var sticky = header.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset > sticky) {
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            }
+        }
+        backToTop();
+
+        // show the loader when the page starts loading
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    document.querySelector('#loader').style.display = 'flex';
+        //});
+
+        //// hide the loader when the page finishes loading
+        //window.addEventListener('load', function () {
+        //    document.querySelector('#loader').style.display = 'none';
+        //});
+        document.addEventListener('DOMContentLoaded', function () {
+            hideLoader();
+        });
+
+        function hideLoader() {
+            $('#divLoading').attr('hidden', true);
+            $('#overlay').attr('hidden', true);
+           
+        }
+    </script>
+</body>
+</html>

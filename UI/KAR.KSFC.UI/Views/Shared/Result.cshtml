@@ -1,0 +1,35 @@
+﻿@model KAR.KSFC.UI.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Result";
+}
+
+<h1>
+    @Html.Raw(TempData["RegistrationResult"].ToString())
+</h1>
+<div class="text-center">
+    You will be automatically redirected to the login page after <span id="spanTimerTime"></span> seconds. If not, please click below
+    <br />
+    <input type="button" value="Login" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Login", "Account") + "'");" />
+    <input type="button" value="Home" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" />
+    <input type="button" value="Contact Us" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Contactus", "Home") + "'");" />
+</div>
+@*You will be automatically redirected to the login page after 30 seconds. If not, Please<a href="~/Account/Login">Click here</a>*@
+
+@section Scripts {
+    <script language="javascript" type="text/javascript">
+
+
+        $(document).ready(function () {
+            var timeLeft = 30;
+            document.getElementById("spanTimerTime").textContent = timeLeft;
+            setInterval(function () {
+                timeLeft--;
+                document.getElementById("spanTimerTime").textContent = timeLeft;
+            }, 1000);
+            
+            setTimeout(function () {
+                window.location.href = ("/Account/Login");
+            }, 30 * 1000);
+        });
+    </script>
+}

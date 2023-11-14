@@ -1,0 +1,90 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO>
+
+
+@{
+    Layout = null;
+    int count = 0;
+
+   
+    var ReferenceNumber = ViewBag.PaymentRef;
+    var AccountNumber = ViewBag.LoanAccountNumber;
+    var LoanSub = ViewBag.LoanSub;
+    var UnitName = ViewBag.Unit;
+}
+
+<div class="Details">
+      <br />
+            <b><label class="col-md-2 textleft2">Loan Account No. :</label></b>
+            <input class="col-md-2 btnDet21" type="text" value="@ViewBag.AccountNumber" disabled />
+            &emsp;&emsp;
+            <b><label class="col-md-2 textleft2">Loan Sub :</label></b>
+              <input class="col-md-2 btnDet22" type="text" value="@ViewBag.LoanSub" disabled />
+            &emsp;&emsp;
+             <b><label class="col-md-2 textleft2">  Name of Unit :</label></b>
+           <input class="col-md-2 btnDet23" type="text" value="@UnitName" disabled />
+            &emsp;&emsp;
+            <br /><b><label class="col-md-2 mt-3 textleft2" >Payment Reference Number :</label></b>
+            <input class="col-md-2 btnDet22" type="text" value="@ReferenceNumber" disabled />
+            <br />
+    </div>
+    <div class="row">
+  
+
+</div>
+<br />
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblAddPayments1">
+        <thead>
+            <tr>
+                <th>S. No.</th>
+                <th>Receipt Reference No.</th>
+                <th>Transaction Type</th>
+                <th>Date of Initiation</th>
+                <th>Due Date for Payment</th>
+                <th>Total Amount</th>
+                <th>Pay Amount</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                count++;
+                <tr class="trow">
+
+                    <td>@count</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptRefNo,new{@id="refno"})</td>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.DateOfInitiation,"{0:yyyy-MM-dd}")</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.DueDatePayment,"{0:yyyy-MM-dd}")</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.ActualAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PaymentAmt)</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+      <div id="textright">
+            <b><label class="col-md-6 btnDet9">Total Amount:</label></b>
+        <input class="col-md-3 mt-3 totalamount" type="text" id="totalamount" disabled />
+    </div>
+</div>
+
+<script>
+    $("#tblAddPayments1 .trow").each(function () {
+        debugger;
+        var totalp = 0;
+        var payamount = 0;
+        var tvalue = ($(this).find("td:eq(5)").text());
+        totalp = parseInt(totalp) + parseInt(tvalue);
+        $('.totalamount').val(totalp);
+
+    });
+
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblAddPayments1').DataTable();
+    });
+</script>

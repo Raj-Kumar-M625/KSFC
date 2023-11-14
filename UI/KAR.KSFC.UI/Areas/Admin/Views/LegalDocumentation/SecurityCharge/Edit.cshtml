@@ -1,0 +1,188 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmSecurityChargeDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> securityChargeDetails = ViewBag.Documentlist;
+   
+}
+
+<div>
+    <div>
+        <form id="SecurityCharge" asp-action="Update" onsubmit="return  JqueryAjaxPostMethod(this ,'SecurityCharge'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m=>m.BankIfscCd,new{@class = "form-control",id="ifscvalue"})
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Type of Security</label></strong>
+                    @Html.DropDownListFor(m => m.TblSecurityRefnoMast.SecurityCd, new SelectList(ViewBag.SecurityCategory, "Value", "Text"), "---Select Type---", new { @class = "form-select", @disabled = "disabled" })
+                    <span asp-validation-for="TblSecurityRefnoMast.SecurityCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label"> Security Details</label></strong>
+                    @Html.DropDownListFor(m => m.TblSecurityRefnoMast.SecCd, new SelectList(ViewBag.SecurityType, "Value", "Text"), "---Select Category---", new { @class = "form-select",@disabled = "disabled"})
+                    <span asp-validation-for="TblSecurityRefnoMast.SecCd" class="text-danger"></span>
+                </div>
+                 <div class="col-md-4">
+                    <strong><label class="form-label">Value</label></strong>
+                    @Html.TextBoxFor(m => m.SecurityValue,"{0:n2}", new { @class = "form-control", @disabled = "disabled" ,@style="text-align:right" })
+                    <span asp-validation-for="SecurityValue" class="text-danger"></span>
+                </div>
+                
+                
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Description of Security</label></strong>
+                    @Html.TextAreaFor(m => m.SecurityDets, new { @class = "form-control", @disabled = "disabled" })
+                    <span asp-validation-for="SecurityDets" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Type of Charge</label></strong>
+                    @Html.DropDownListFor(m => m.ChargeTypeCd, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Second Charge",Value = "1"},
+                    new SelectListItem(){Text="Third Charge",Value = "2"},
+                    new SelectListItem(){Text="Pari Passu Charge",Value = "3"}
+                    }, "---Select Type of Charge---", new { @class = "form-select",required="required", @id="ChargeTypeCd" })
+                    <span asp-validation-for="ChargeTypeCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">NoC Issued By</label></strong>
+                    @Html.TextBoxFor(m => m.NocIssueBy, new { @class = "form-control", @maxlength = 99 })
+                    <span asp-validation-for="NocIssueBy" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">NoC Issued To</label></strong>
+                    @Html.TextBoxFor(m => m.NocIssueTo, new { @class = "form-control", @maxlength = 99})
+                    <span asp-validation-for="NocIssueTo" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">NoC Date</label></strong>
+                    @Html.TextBoxFor(m => m.NocDate,"{0:yyyy-MM-dd}", new { @class = "form-control", type="date",onkeydown = "return false"})
+                    <span asp-validation-for="NocDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Letter of Authorization By</label></strong>
+                    @Html.TextBoxFor(m => m.AuthLetterBy, new { @class = "form-control", @maxlength = 100 })
+                    <span asp-validation-for="AuthLetterBy" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Letter of Authorization Date</label></strong>
+                    @Html.TextBoxFor(m => m.AuthLetterDate,"{0:yyyy-MM-dd}", new { @class = "form-control" , type="date",onkeydown = "return false"})
+                    <span asp-validation-for="AuthLetterDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Board Resolution Date</label></strong>
+                    @Html.TextBoxFor(m => m.BoardResolutionDate,"{0:yyyy-MM-dd}", new { @class = "form-control" , type="date",onkeydown = "return false"})
+                    <span asp-validation-for="BoardResolutionDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">MoE Insured Date</label></strong>
+                    @Html.TextBoxFor(m => m.MoeInsuredDate, "{0:yyyy-MM-dd}",new { @class = "form-control" , type="date",onkeydown = "return false" })
+                    <span asp-validation-for="MoeInsuredDate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Request Letter No.</label></strong>
+                    @Html.TextBoxFor(m => m.RequestLtrNo,  new {@onkeypress="allowAlphaNumericSpace(event)", @class = "form-control" ,onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="RequestLtrNo" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <strong><label class="form-label">Request Letter Date</label></strong>
+                    @Html.TextBoxFor(m => m.RequestLtrDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date", @id="rqstltrdt",onkeydown="return false"})
+                    <span asp-validation-for="RequestLtrDate" class="text-danger"></span>
+                </div>
+                 <div class="col-md-4">
+                    <strong><label class="form-label">IFSC of Bank</label></strong>
+                    @Html.DropDownListFor(m => m.BankIfscId, new SelectList(ViewBag.bank, "Value", "Text"), "---Select IFSC Bank---", new { @class = "form-select"})
+                    <span asp-validation-for="BankIfscId" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Bank Request Letter Number</label></strong>
+                    @Html.TextBoxFor(m => m.BankRequestLtrNo, new {@onkeypress="allowAlphaNumericSpace(event)", @class = "form-control",onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" })
+                    <span asp-validation-for="BankRequestLtrNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Bank Request Letter Date</label></strong>
+                    @Html.TextBoxFor(m => m.BankRequestLtrDate,"{0:yyyy-MM-dd}", new { @class = "form-control", type="date",onkeydown="return false"})
+                    <span asp-validation-for="BankRequestLtrDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Purpose</label></strong>
+                    @Html.TextAreaFor(m => m.ChargePurpose, new { @class = "form-control" ,@maxlength = 100, @id="chrgpurpose"})
+                    <span asp-validation-for="ChargePurpose" class="text-danger"></span>
+                    <span id="spanDet">Max:100 Characters</span>
+                </div>
+            </div>
+            <br />
+              <div class="row">
+
+                <div class="col-md-4">
+                    <strong><label class="form-label">Charge Details</label></strong>
+                    @Html.TextAreaFor(m => m.ChargeDetails, new { @class = "form-control", @maxlength = 499 })
+                    <span asp-validation-for="ChargeDetails" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Conditions</label></strong>
+                    @Html.TextAreaFor(m => m.ChargeConditions, new { @class = "form-control", @maxlength = 499 })
+                    <span asp-validation-for="ChargeConditions" class="text-danger"></span>
+                </div>
+            </div>
+            <br />  
+             <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",securityChargeDetails)
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3" >
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <br />
+    </div>
+</div>
+<script>
+    $("#BankIfscId").on("change", function() {
+        var bank = $('#BankIfscId :selected').text();
+        $("#ifscvalue").val(bank);
+    });
+    $('input[id="RequestLtrNo"], input[id="BankRequestLtrDate"], select[id="ChargeTypeCd"],select[id="BankIfscId"],input[id="BankRequestLtrNo"],input[id="BankRequestLtrDate"],input[id="NocIssueTo"],input[id="NocIssueBy"],input[id="NocDate"],input[id="ChargeDetails"],input[id="ChargeConditions"],input[id="AuthLetterBy"],input[id="AuthLetterDate"],input[id="BoardResolutionDate"],input[id="MoeInsuredDate"],input[id="rqstltrdt"],textarea[id="chrgpurpose"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>
+<script>
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+        if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+
+    $("#submit").click(function(){
+        $(".not-app").hide()
+        $("#securityCharge").show()
+      localStorage.removeItem("showSecurityChargeDetails")
+    })
+</script>
+

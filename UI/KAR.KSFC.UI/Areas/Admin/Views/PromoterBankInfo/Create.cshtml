@@ -1,0 +1,184 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmPromoterBankDetailsDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var inunit = ViewBag.InUnit;
+    
+}
+
+<div>
+    <form id="PromBank" asp-action="Create" onsubmit="return JqueryCUIAddMethod(this,'PromoterBankInfo'); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+        <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+        <input type="hidden" value="@ViewBag.InUnit" asp-for="UtCd" />
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+
+        <div id="bootLoader">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                    <strong><label class="form-label">Name of Promotor <span id="spanDet1"> *</span></label></strong>
+                @Html.DropDownListFor(m => m.PromoterCode, new SelectList(ViewBag.AllPromoterNames, "PromoterCode", "PromName"),"---Select Promoter Name---", new { @class = "form-select", @id="PromotorName",required = "required" })
+                    <span asp-validation-for="PromoterCode" class="text-danger"></span>
+             </div>
+            <div class="col-md-4">
+                <strong><label calss="from-label">Bank IFSC<span id="spanDet1"> *</span></label></strong>
+                @*@Html.TextBoxFor(m => m.PrmIfscId, new { @class = "form-control", @maxlength = "11", @id = "prmifsc",required="required"})<br />*@
+                <input type="text" class="form-control" maxlength="11" id="prmifsc" required="required" />
+                <input type="text" class="form-control" id="ifscrowid" hidden name="PrmIfscId" />
+              @* @Html.DropDownListFor(m => m.PrmIfscId, new SelectList(ViewBag.IfscCodeDDL, "Value", "Text"), "---Select  IFSC---", new { @class = "form-select", required = "required",@id="prmifsc"})<br />*@
+                <span asp-validation-for="PrmIfscId" class="text-danger"></span>
+                <input type="button" id="getdetailspb" value="Get Details" class="btn btn-warning mt-2" onclick="fillBankDetails()" />
+            </div>           
+            <div class="col-md-4">
+                <strong> <label calss="from-label">Name of Bank</label></strong>
+                <input type="text" asp-for="PrmBankName" id="bnkName" readonly class="form-control" />
+                <span asp-validation-for="PrmBankName" class="text-danger"></span>
+            </div>
+            
+        </div>
+        <br />
+        <div class="row">  
+            <div class="col-md-4">
+                <strong><label calss="from-label">Name of Branch</label></strong>
+                <input type="text" asp-for="PrmBankBranch" id="brnName" readonly class="form-control" />
+                <span asp-validation-for="PrmBankBranch" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label calss="from-label">Bank Address</label></strong>
+                <textarea asp-for="PrmBankAddress" id="bnkAdr" readonly class="form-control"></textarea>
+                <span asp-validation-for="PrmBankAddress" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label calss="from-label">State</label></strong>
+                <input type="text" asp-for="PrmBankState" id="bnkState" readonly class="form-control" />
+                <span asp-validation-for="PrmBankState" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="row">
+            </div>
+                <div class="col-md-4">
+                <strong><label calss="from-label">District</label></strong>
+                <input type="text" asp-for="PrmBankDistrict" id="bnkDist" readonly class="form-control" />
+                <span asp-validation-for="PrmBankDistrict" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label calss="from-label">Taluka</label></strong>
+                <input type="text" asp-for="PrmBankTaluk" id="bnkTlk"  class="form-control" readonly />
+                <span asp-validation-for="PrmBankTaluk" class="text-danger"></span>
+            </div>
+          
+            <div class="col-md-4">
+                <strong><label calss="from-label">Pin Code<span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.PrmBankPincode, new { @class = "form-control",required="required", @type="number",@id = "prmbankpincd",onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="6"})                
+                <span asp-validation-for="PrmBankPincode" class="text-danger"></span>
+            </div>            
+        </div>
+        <br />
+        <div class="row">
+              <div class="col-md-4">
+                <strong><label calss="from-label">Bank Account Number<span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.PrmAcNo, new{@class = "form-control", @type="number",required="required",@id="prmacno",onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="15"})               
+                <span asp-validation-for="PrmAcNo" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label calss="from-label">Name of Account Holder<span id="spanDet1"> *</span></label></strong>
+                 @Html.TextBoxFor(m => m.PrmBankAcName, new{@class = "form-control", required="required",@id="prmacname", maxlength="15"})               
+                   <span id="spanDet">Max: 50 Characters</span><br />
+               <span asp-validation-for="PrmBankAcName" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <strong><label calss="from-label">Type of Account <span id="spanDet1"> *</span></label></strong>
+                @Html.DropDownListFor(m => m.PrmAcType, new SelectList(ViewBag.PromoterAccount, "Value", "Text"), "--- Select  Account Type ---", new { @class = "form-select",required="required", @id = "prmactype"})
+                <span asp-validation-for="PrmAcType" class="text-danger"></span>
+            </div>
+            
+        </div>                
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <strong><label class="form-label">CIBIL Score</label></strong>
+                @Html.TextBoxFor(m => m.PrmCibilScore, new { @class = "form-control", @type="number",@id = "prmcibil",onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="3"})              
+                <span asp-validation-for="PrmCibilScore" class="text-danger"></span>
+            </div>
+            @*<div class="col-md-5">
+                @Html.CheckBoxFor(m => m.PrmPrimaryBank, new{@id="prmpribk"})
+                <strong><label class="form-label">&nbsp;&nbsp;&nbsp;Whether Primary Bank</label></strong>
+            </div>*@
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-2 text-center float-end submit3">
+                <input type="submit" value="Submit" disabled id="submit" class="btn btn-primary" />
+            </div>
+        </div>
+        <br />
+        <br />
+    </form>
+</div>
+<script defer>
+
+    document.getElementById("bootLoader").style.visibility = "hidden";
+
+   function fillBankDetails() {
+   
+        document.getElementById("bootLoader").style.visibility = "visible";
+
+      
+        var IFSC = $('#prmifsc').val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.IfscBankDetails));
+        var code = ItemNo.find(x => x.ifscCode === IFSC);
+        
+            if (code) {
+            setTimeout(() => {
+                $("#bnkName").val(code.bankName);
+                $("#brnName").val(code.branchName);
+                $("#bnkAdr").val(code.bankAddress);
+                $("#bnkState").val(code.bankState);
+                $("#bnkDist").val(code.bankDistrict);
+                $("#bnkTlk").val(code.bankTaluk);
+                $("#ifscrowid").val(code.ifscRowID);
+                setTimeout(() => {
+                    document.getElementById("bootLoader").style.visibility = "hidden";
+
+                }, 700)
+
+            }, 500)
+                return true;
+            }
+            else{
+
+                  swal.fire({
+                    title: 'Ifsc Code does not Exist',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ok',
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true
+                  })
+
+                $("#bnkName").val('');
+                $("#brnName").val('');
+                $("#bnkAdr").val('');
+                $("#bnkState").val('');
+                $("#bnkDist").val('');
+                $("#bnkTlk").val('');
+            document.getElementById("bootLoader").style.visibility = "hidden";
+
+
+            }
+        
+  }
+    $('select[class="form-select"],input[class="form-control"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

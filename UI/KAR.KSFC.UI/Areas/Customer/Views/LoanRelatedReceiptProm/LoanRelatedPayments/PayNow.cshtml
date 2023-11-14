@@ -1,0 +1,65 @@
+﻿@model KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaPaymentDetDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <form id="LoanReceipt" asp-action="PayNow" onsubmit="ClosePopupFormLAProm();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label">Department Reference Number </label></b>
+                @Html.TextBoxFor(m => m.PromoterName, new { @class = "form-control", @id="rcptref",required = "required",@disabled="disabled"})
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label">Loan Number </label></b>
+             
+                <input class="form-control" value="@ViewBag.LoanAccountNumber" disabled />
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label">User Name </label></b>
+                @Html.TextBoxFor(m => m.PromoterName, new { @class = "form-control", @id="rcptref",required = "required",@disabled="disabled"})
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label">User Email </label></b>
+                @Html.TextBoxFor(m =>m.PromoterName, new { @class = "form-control", @id="rcptref",required = "required",@disabled="disabled"})
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <b><label class="form-label">Amount </label></b>
+                @Html.TextBoxFor(m => m.ActualAmt, new { @class = "form-control", @id="rcptref",required = "required",@disabled="disabled"})
+                @*<span asp-validation-for="" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2 text-center float-end" >
+                <a onclick="showPayNowPopup('@Url.Action("AddPAyNow","LoanReceipt",new {id=Model.Id , LoanAccno=Model.LoanNo},Context.Request.Scheme)','KSFC Payment Form')" class="btn btn-success text-white submit6"> Pay Now</a>
+                <div class="modal fade" tabindex="-1" role="dialog" id="viewDocuments">
+                    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" id="docHeader">
+                                <h5 class="modal-title"></h5>
+                                <button type="button" class="close" data-dismiss="modal" onclick="ClosePayPopupFormsh();" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

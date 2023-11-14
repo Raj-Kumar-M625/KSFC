@@ -1,0 +1,125 @@
+﻿@using KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt
+@model KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO
+@{
+    Layout = null;   
+}
+
+<div>
+    <div>
+        <form id="GenerateReceipt" asp-action="Edit" onsubmit="return JqueryAjaxPostMethod(this,'GenerateReceipt'); ClearPopupFormLRR();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             @Html.HiddenFor(m => m.UniqueID, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.ReceiptPaymentId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.ReceiptId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.TblLaReceiptDet.LoanNo, new { @class = "form-control", value=@ViewBag.AccountNumber })
+            <h3> Receipt </h3>
+            <div id="recptpmntsection">
+                <div class="row">
+                    <div class="col-md-4">
+                        <b><label class="form-label">Receipt Reference Number </label></b>
+                        @Html.TextBoxFor(m => m.TblLaReceiptDet.ReceiptRefNo, new { @class = "form-control", @id="rcptref",required = "required", @readonly = "true"})
+                        <span asp-validation-for="TblLaReceiptDet.ReceiptRefNo" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <b><label class="form-label">Transaction Type</label></b>
+                        @Html.DropDownListFor(m => m.TblLaReceiptDet.TransTypeId, new SelectList(ViewBag.AllTransactionTypes,"Id", "CodeValue"), "---Select Transaction Type---", new { @class = "form-select",@id="trnsctype",required = "required"})
+                        <span asp-validation-for="TblLaReceiptDet.TransTypeId" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <b><label class="form-label">Due Date for Payment</label></b>
+                        @Html.TextBoxFor(m => m.TblLaReceiptDet.DueDatePayment,"{0:yyyy-MM-dd}", new { @class = "form-control", @id="duedate",required = "required", @Type ="Date" })
+                        <span asp-validation-for="TblLaReceiptDet.DueDatePayment" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <b><label class="form-label">Amount Due </label></b>
+                        @Html.TextBoxFor(m => m.TblLaReceiptDet.AmountDue, new { @class = "form-control", @id="amtdue",required = "required",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13"})
+                        <span asp-validation-for="TblLaReceiptDet.AmountDue" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <b><label class="form-label">Amount Paid</label></b>
+                        @Html.TextBoxFor(m => m.PaymentAmt, new { @class = "form-control", @id="amtpaid",required = "required",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13"})
+                        <span asp-validation-for="PaymentAmt" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <b><label class="form-label">Remarks / Comments</label></b>
+                        @Html.TextAreaFor(m => m.TblLaReceiptDet.Remarks, new { @class = "form-control", @id = "remarks",required = "required",@maxlength = "200"})
+                        <span asp-validation-for="TblLaReceiptDet.Remarks" class="text-danger"></span>
+                        <span id="spanDet">Max:200 Characters</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <b><label class="form-label">Date of Generation</label></b>
+                        @Html.TextBoxFor(m => m.TblLaReceiptDet.DateOfGeneration,"{0:yyyy-MM-dd}", new { @class = "form-control", @id="dateofgen",required = "required", @Type ="Date"})
+                        <span asp-validation-for="TblLaReceiptDet.DateOfGeneration" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <b><label class="form-label">Balance </label></b>
+                        @Html.TextBoxFor(m => m.BalanceAmt, new { @class = "form-control", @id="balamt",required = "required",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13"})
+                        <span asp-validation-for="BalanceAmt" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <br />
+        
+            <br />
+             <div class="form-group">
+                    <div class="col-md-2 text-center float-end submit5">
+                        <input type="submit" value="Save" class="btn btn-primary" disabled="disabled" id="submit" />
+                    </div>
+             </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('input[id="rcptref"],select[id="trnsctype"], input[id="duedate"], input[id="amtdue"], input[id="amtpaid"], textarea[id="remarks"], input[id="dateofgen"],input[id="balamt"],select[id="modePymt"],input[id="payrefno"],input[id="totalpayamt"],input[id="dateoftr"],input[id="ksfcpay"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+    $("#amtdue").keypress(function (e) {
+        if (this.value.length == 0 && e.which == 48) {
+            return false;
+        }
+    });
+    $("#balamt").keypress(function (e) {
+        if (this.value.length == 0 && e.which == 48) {
+            return false;
+        }
+    });
+    $("#amtpaid").keypress(function (e) {
+        if (this.value.length == 0 && e.which == 48) {
+            return false;
+        }
+    });
+
+    $("#amtpaid").on("change", function () {
+        var amt = $(this).val();
+        var due = $("#amtdue").val();
+        if (amt != null && due != null) {
+            var bal = parseInt(due) - parseInt(amt);
+            $("#balamt").val(bal);
+        }
+
+
+    });
+
+    $("#amtpaid").on("change", function (e) {
+
+        var pay = parseInt($(this).val());
+        var due = parseInt($("#amtdue").val());
+        if (due != null) {
+            if (due < pay) {
+                $(this).val("");
+                $("#balamt").val("");
+            }
+        }
+
+    });
+
+
+</script>
+

@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Http;
+<input type="hidden" id="userarea" value="Admin" />
+@if (Context.Session.GetString("CustomerLoginDateTime") != null)
+{
+<input type="hidden" id="spanUserLoginDateTime" value="@Context.Session.GetString("CustomerLoginDateTime").ToString()" />
+}
+
+<ul class="navbar-nav">
+    @if (Context.Session.GetString("AdminUsername") != null)
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="ChangePassword" title="Manage">Hello @Context.Session.GetString("AdminUsername").ToString()!</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Admin" asp-controller="Home" asp-action="Logout">
+                <button type="submit" id="btnAdminLogout" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="AdminLogin">Login</a>
+        </li>
+    }
+
+</ul>
+
+<ul class="navbar-nav">
+    @if (Context.Session.GetString("CustomerLoginTime") != null)
+    {
+        <li class="nav-item">
+            <label class="nav-link text-dark">Login Time:<br /> <span id="spanUserLoginTime">@Context.Session.GetString("CustomerLoginTime").ToString()</span></label>
+        </li>
+        <li class="nav-item">
+            <label id="lblUserActiveTime" class="nav-link text-dark">Active Time (hh:mm:ss):<br /> <span id="UserActiveTimeHr">0</span></label>
+        </li>
+    }
+ </ul>
+<ul class="navbar-nav">   
+    @if ((Context.Session.GetString("AdminUsername") != null))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-white btn btn-primary" asp-area="Admin" asp-controller="Home" asp-action="SwitchRole">SwitchRole</a>
+        </li>
+    }
+</ul>
+

@@ -1,0 +1,119 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDsbStatImpDTO
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var inspectionId = ViewBag.InspectionId;
+
+}
+
+<div>
+    <div>
+        <form id="StatusofImplementationDetails" asp-action="Edit" onsubmit="return JqueryInspectionEditMethod(this,'StatusofImplementation'); ClearPopupFormac();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@inspectionId" asp-for="DsbIno" />
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="from-label">Status of Implementation of the Project (Physical Process)</label></strong>
+                    @Html.TextBoxFor(m => m.DsbImpStat,"{0:n2}", new { @class = "form-control",
+                    @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13", @id = "costLand",@required = "required" })
+                    <span asp-validation-for="DsbImpStat" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <strong><label class="from-label">Progrees In Implementation :</label></strong>
+                <div class="col-md-6">
+                    <label class="from-label">Building(Physical)</label> @Html.TextBoxFor(m => m.DsbProgimpBldg, new { @class = "form-control", @id = "ldDevDt", @required = "required"})
+                    <span asp-validation-for="DsbProgimpBldg" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="from-label">Machinery(Physical)</label> @Html.TextBoxFor(m => m.DsbProgimpMc, new { @class = "form-control", @id = "ldDevDt", @required = "required"})
+                    <span asp-validation-for="DsbProgimpMc" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="from-label">Building(Value)</label> @Html.TextBoxFor(m => m.DsbBldgVal, new { @class = "form-control", @id = "ldDevDt", @required = "required"})
+                    <span asp-validation-for="DsbBldgVal" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="from-label">Machinery(Value)</label> @Html.TextBoxFor(m => m.DsbMcVal, new { @class = "form-control", @id = "ldDevDt", @required = "required"})
+                    <span asp-validation-for="DsbMcVal" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="col-md-6">
+                <label class="from-label">Whether name plate affixed(Plate mentioning assets financed by KSFC)</label>
+                @Html.TextBoxFor(m => m.DsbNamePl, new { @class = "form-control", @id = "ldDevDt", @required = "required"})
+                <span asp-validation-for="DsbNamePl" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="row">
+                <strong><label class="from-label">% Percentage Progress made to the total Project :</label></strong>
+                <div class="col-md-6">
+                    <label class="from-label">Physical</label> @Html.TextBoxFor(m => m.DsbPhyPrg, new { @class = "form-control", @id = "ldDevDt", @required = "required"})
+                    <span asp-validation-for="DsbPhyPrg" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label class="from-label">Value</label> @Html.TextBoxFor(m => m.DsbValPrg, new { @class = "form-control", @id = "ldDevDt", @required = "required"})
+                    <span asp-validation-for="DsbValPrg" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="from-label">Likely date of completion of Project</label></strong>
+                    @Html.TextBoxFor(m => m.DsbComplDt, new { @class = "form-control",@required = "required" })
+                    <span asp-validation-for="DsbComplDt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="from-label">Balance of Civil works for each building with estimate cost</label></strong>
+                    @Html.TextBoxFor(m => m.DsbBalBldg,"{0:n2}", new { @class = "form-control",@required = "required" })
+                    <span asp-validation-for="DsbBalBldg" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="from-label">Is there any escalation/divisions?If so quantify and substantiate</label></strong>
+                    @Html.TextBoxFor(m => m.DsbTmcstOvr,"{0:n2}", new { @class = "form-control",@required = "required" })
+                    <span asp-validation-for="DsbTmcstOvr" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="from-label">Remarks and Recommendations</label></strong>
+                    @Html.TextBoxFor(m => m.DsbRec,"{0:n2}", new { @class = "form-control",@required = "required" })
+                    <span asp-validation-for="DsbRec" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $('input[class="form-control"],textarea[class="form-control"],select[class="form-select"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+
+
+</script>

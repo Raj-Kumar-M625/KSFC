@@ -1,0 +1,203 @@
+﻿@model List<EnquirySummary>
+<div id="view-All-Enquiry">
+    <p>Below is the list of enquiries made.</p>
+    <div class="pre-scrollable">
+        <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblAdminEnquiryListDatatable">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Enquiry Id
+                    </th>
+                    <th>
+                        Promotor PAN
+                    </th>
+                    <th>
+                        Initiated Date
+                    </th>
+                    <th>
+                        Submission Date
+                    </th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <th></th>
+                    <th></th>
+                    @*<th></th>*@
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() != 0)
+                {
+
+                    @foreach (EnquirySummary item in Model)
+                    {
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                                @item.EnquiryId
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PromotorPan)
+                            </td>
+                            <td>
+                                @item.EnqInitiateDate.Value.ToString("dd-MMM-yyyy")
+                            </td>
+                            <td>
+                                @if (item.EnqSubmitDate != null)
+                                {
+                                    @item.EnqSubmitDate.Value.ToString("dd-MMM-yyyy")
+                                }
+                            </td>
+                            <td>
+                                @{ var EnquiryStatus = @Enum.GetName(typeof(EnqStatus), item.EnqStatus);}
+                                @EnquiryStatus
+                            </td>
+                            <td>
+                                <form asp-action="UpdateEnquiryStatus" class="d-inline" id="frmAdminEnqStatus">
+                                    @{ var btnValue = string.Empty; bool IsDisabled = false;}
+
+                                    @if (item.EnqStatus == (int)EnqStatus.Submitted)
+                                    {
+                                        btnValue = "Acknowledge";
+                                    }
+                                    else if (item.EnqStatus == (int)EnqStatus.Acknowledge)
+                                    {
+                                        btnValue = "Start Scrutinize";
+                                        IsDisabled = true;
+                                    }
+                                    else if (item.EnqStatus == (int)EnqStatus.InitiateScrutiny)
+                                    {
+                                        btnValue = "Approve";
+                                    }
+
+                                    @if (item.EnqStatus == (int)EnqStatus.Approved)
+                                    {
+                                        btnValue = "Completed";
+
+
+                                    }
+                                    @if (IsDisabled)
+                                    {
+                                        <input type="button" id="btn_status_admin_Enquiry" disabled="disabled" enqStatus="@item.EnqStatus"
+                                               value="@btnValue" enquiryId="@item.EnquiryId" class="btn btn-primary" />
+
+                                    }
+                                    else
+                                    {
+                                        <input type="button" id="btn_status_admin_Enquiry" enqStatus="@item.EnqStatus"
+                                               value="@btnValue" enquiryId="@item.EnquiryId" class="btn btn-primary" />
+                                    }
+
+                                </form>
+                            </td>
+                            <td>
+                                <form asp-action="View" asp-controller="Enquiry">
+                                    <input type="hidden" name="EnquiryId" asp-for="@item.EnquiryId" />
+                                    <input type="submit" class="btn btn-secondary" value="View" />
+                                </form>
+                            </td>
+                            <td>
+                                @if (item.EnqStatus == (int)EnqStatus.InitiateScrutiny)
+                                {
+                                    <form asp-action="Edit" asp-controller="Enquiry">
+                                        <input type="hidden" name="EnquiryId" asp-for="@item.EnquiryId" />
+                                        <input type="submit" class="btn btn-primary" value="Edit" />
+                                    </form>
+                                }
+                            </td>
+                            @*<td>
+                                <form asp-action="DeleteEnquiry" asp-route-id="@item.EnquiryId" class="d-inline" onsubmit="return jQueryAjaxDeleteAdminEnquiry(this)">
+                                    <input type="submit" value="Delete" class="btn btn-danger" />
+                                </form>
+                            </td>*@
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+@section Scripts {
+
+    <script>
+
+        function ReloadAdminEnquiries() {
+            $('#tblAdminEnquiryListDatatable').DataTable({
+                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                    $("td:first", nRow).html(iDisplayIndex + 1);
+                    return nRow;
+                },
+                "language": {
+                    "emptyTable": "No data found"
+                }
+            });
+        }
+        ReloadAdminEnquiries();
+        function jQueryAjaxDeleteAdminEnquiry(form) {
+            if (confirm('Are you sure to delete this record ?')) {
+                try {
+                    $.ajax({
+                        type: 'POST',
+                        url: form.action,
+                        data: new FormData(form),
+                        contentType: false,
+                        processData: false,
+                        success: function (res) {
+                            $('#view-All-Enquiry').html(res.html);
+                            ReloadAdminEnquiries();
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    })
+                } catch (ex) {
+                    console.log(ex)
+                }
+            }
+            return false;
+        }
+
+        $('body').on('click', '#btn_status_admin_Enquiry', function () {
+            if (confirm('Are you sure to acknowledge this enquiry ?')) {
+                var from = $('#frmAdminEnqStatus');
+                var $this = $(this);
+                var formData = new FormData();
+                var EnqStatus = $this.attr('enqStatus')
+                formData.append("EnquiryId", $this.attr('enquiryId'));
+                formData.append("EnqStatus", $this.attr('enqStatus'));
+                try {
+                    $.ajax({
+                        type: 'POST',
+                        url: from.attr('action'),
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function (res) {
+                            if (res.isValid) {
+                                $('#view-All-Enquiry').html(res.html);
+                                ReloadAdminEnquiries();
+                            }
+
+                        },
+                        error: function (err) {
+                            console.log(err)
+                        }
+                    })
+                } catch (ex) {
+                    console.log(ex)
+                }
+            }
+            return false;
+        })
+
+    </script>
+}
+
+
+

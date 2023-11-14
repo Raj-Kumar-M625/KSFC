@@ -1,0 +1,525 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit
+@using KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.InspectionAccountDTO 
+@{
+    var accountNumber = ViewBag.AccountNumber;
+    var DcwcIno = ViewBag.InspectionId;
+    var landinsp = Model.LandInspectionDetails;
+    var istinsp = landinsp.Where(x => x.DcLndIno == DcwcIno).Any();
+    var firstlandinspectiondate = landinsp.Min(x => x.CreatedDate);
+    var firstlndinspno = landinsp.Where(x => x.CreatedDate == firstlandinspectiondate)
+                                   .Select(x => x.DcLndIno)
+                                   .FirstOrDefault();
+
+    var inspdetails = Model.InspectionDetail;
+    var lastCreatedDate = inspdetails.Max(x => x.CreatedDate);
+    var inspectionNumbers = inspdetails.Where(x => x.CreatedDate == lastCreatedDate)
+                                   .Select(x => x.DinNo)
+                                   .FirstOrDefault();
+
+    var charte = 0;
+    List<IdmDsbdetsDTO> idmDsbdetslist = ViewBag.AllRecomDisbursementList;
+
+     bool landFinanced = Model.LandInspectionDetails.FirstOrDefault().DcLndLandFinance == "0" ? false : true;
+
+}
+<div><h2 id="textCenter">Inspections</h2></div>
+<div id="myDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @*@if (landinsp.Count > 0 && inspectionNumbers == DcwcIno)*@
+       @* @if (inspdetails.Count > 0 && inspectionNumbers == DcwcIno)
+        {*@
+             <li class="nav-item" role="presentation" id="landInspection">
+            <button class='nav-link @(landFinanced?"active":"")' id="LandInspection-tab" data-bs-toggle="tab" data-bs-target="#LandInspection" type="button" role="tab" aria-controls="LandInspection" aria-selected="false">Land Inspection</button>
+            <div class="progress">
+                <div id="LandInspectionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        @*}*@
+       @* else if (istinsp)
+        {*@
+           @*  <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="LandInspection-tab" data-bs-toggle="tab" data-bs-target="#LandInspection" type="button" role="tab" aria-controls="LandInspection" aria-selected="false">Land Inspection</button>
+            <div class="progress">
+                <div id="LandInspectionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>*@
+        @*}*@
+       
+
+        <li class="nav-item" role="presentation">
+            <button class='nav-link @(landFinanced?"":"active")' id="BuildingInspection-tab" data-bs-toggle="tab" data-bs-target="#BuildingInspection" type="button" role="tab" aria-controls="BuildingInspection" aria-selected="false">Building Inspection</button>
+            <div class="progress">
+                <div id="BuildingInspectionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="BuildMatAtSite-tab" data-bs-toggle="tab" data-bs-target="#BuildMatAtSite" type="button" role="tab" aria-controls="BuildMatAtSite" aria-selected="false">Building Material At Site Inspection</button>
+            <div class="progress">
+                <div id="BuildMatAtSiteClauseProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="IndiMachInsp-tab" data-bs-toggle="tab" data-bs-target="#IndiMachInsp" type="button" role="tab" aria-controls="Form8AndForm13" aria-selected="false">Indigenous Machinery Inspection</button>
+            <div class="progress">
+                <div id="IndiMachInspProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="ImportMachinery-tab" data-bs-toggle="tab" data-bs-target="#ImportMachinery" type="button" role="tab" aria-controls="ImportMachinery" aria-selected="false">Imported Machinery Inspection</button>
+            <div class="progress">
+                <div id="ImportMachineryProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="FurnitureInspection-tab" data-bs-toggle="tab" data-bs-target="#FurnitureInspection" type="button" role="tab" aria-controls="FurnitureInspection" aria-selected="false">Furniture/Equipment Inspection</button>
+            <div class="progress">
+                <div id="FurnitureInspectionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="RecommDisbursementDetails-tab" data-bs-toggle="tab" data-bs-target="#RecommDisbursementDetails" type="button" role="tab" aria-controls="RecommDisbursementDetails" aria-selected="false">Recommended Disbursment Details</button>
+            <div class="progress">
+                <div id="RecommDisbursementDetailsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+       @* <li class="nav-item" role="presentation">
+            <button class="nav-link" id="WorkingCapital-tab" data-bs-toggle="tab" data-bs-target="#WorkingCapital" type="button" role="tab" aria-controls="WorkingCapital" aria-selected="false">Working Capital Inspection</button>
+            <div class="progress">
+                <div id="WorkingCapitalProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>*@
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="StatusofImplementation-tab" data-bs-toggle="tab" data-bs-target="#StatusofImplementation" type="button" role="tab" aria-controls="StatusofImplementation" aria-selected="false">Status of Implementation</button>
+            <div class="progress">
+                <div id="StatusImplementationProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>   
+  
+    <div class="tab-content" id="myTabContent">
+        @await Html.PartialAsync("_Loader")
+        @*@if (inspdetails.Count > 0 && inspectionNumbers == DcwcIno)
+        {*@
+            <div class="tab-pane fade show active " id="LandInspection" role="tabpanel" aria-labelledby="LandInspection-tab">
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                    @await Html.PartialAsync("_AccountNumber")
+                </div>
+                <div>
+                    <a href="@Url.Action("ViewAccount","InspectionOfUnit",new {accountNumber = @ViewBag.PAccountNumber,LoanSub = @ViewBag.PLoanSub,UnitName = @ViewBag.PUnitName,OffcCd=@ViewBag.POffcCd})" class="btn btn-primary text-white mb-2 mt-3">Inspection List</a>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button class="accordion-button" id="land_Inspection_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                                <strong>Land Inspection Details</strong>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body">
+                                <div id="view-all-LandInspection">
+                                    @await Html.PartialAsync("/Areas/Admin/Views/LandInspection/_ViewAll.cshtml",Model.LandInspectionDetails)
+                                </div>
+                                <div class="modal" tabindex="-1" role="dialog" id="modelLandInspectionDetails">
+                                    <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 next float-end" id="btnTabLandInspectionDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                                <br />
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+      @*  }*@
+        @*else if (istinsp)
+        {*@ 
+       
+       @* }*@
+
+      
+       
+        <div class="tab-pane fade show " id="BuildingInspection" role="tabpanel" aria-labelledby="BuildingInspection-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div>
+                <a href="@Url.Action("ViewAccount","InspectionOfUnit",new {accountNumber = @ViewBag.PAccountNumber,LoanSub = @ViewBag.PLoanSub,UnitName = @ViewBag.PUnitName,OffcCd=@ViewBag.POffcCd})" class="btn btn-primary text-white mb-2 mt-3">Inspection List</a>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="building_Inspection_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Building Inspection Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-buildingInspection">
+                                @await Html.PartialAsync("/Areas/Admin/Views/BuildingInspection/_ViewAll.cshtml",Model.BuildingInspectionDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelBuildingInspectionDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousBuildingDetails" value="Previous"  />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabBuildingDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade show " id="BuildMatAtSite" role="tabpanel" aria-labelledby="BuildMatAtSite-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div>
+                <a href="@Url.Action("ViewAccount","InspectionOfUnit",new {accountNumber = @ViewBag.PAccountNumber,LoanSub = @ViewBag.PLoanSub,UnitName = @ViewBag.PUnitName,OffcCd=@ViewBag.POffcCd})" class="btn btn-primary text-white mb-2 mt-3">Inspection List</a>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="build_Mat_At_Site_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Building Material at Site Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-BuildMatAtSite">
+                                @await Html.PartialAsync("/Areas/Admin/Views/BuildMatSiteInspection/_ViewAll.cshtml",Model.BuildMatSiteInspectionDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelBuildMatAtSiteDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg previous" id="btnpreviousBuildMatAtSiteDetailsDetails" value="Previous"  />                          
+                            <input type="submit" class="btn btn-info btn-lg next float-end" id="btnTabmodelBuildMatAtSiteDetailsDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade show " id="FurnitureInspection" role="tabpanel" aria-labelledby="FurnitureInspection-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div>
+                <a href="@Url.Action("ViewAccount","InspectionOfUnit",new {accountNumber = @ViewBag.PAccountNumber,LoanSub = @ViewBag.PLoanSub,UnitName = @ViewBag.PUnitName,OffcCd=@ViewBag.POffcCd})" class="btn btn-primary text-white mb-2 mt-3">Inspection List</a>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="land_Inspection_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Furniture/Equipment  Inspection Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-FurnitureInspection">
+                                @await Html.PartialAsync("/Areas/Admin/Views/FurnitureInspection/_ViewAll.cshtml",Model.FurnitureInspectionDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelFurnitureInspectionDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousFurnitureInspectionDetails" value="Previous"  />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabFurnitureInspectionDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade show " id="IndiMachInsp" role="tabpanel" aria-labelledby="IndiMachInsp-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div>
+                <a href="@Url.Action("ViewAccount","InspectionOfUnit",new {accountNumber = @ViewBag.PAccountNumber,LoanSub = @ViewBag.PLoanSub,UnitName = @ViewBag.PUnitName,OffcCd=@ViewBag.POffcCd})" class="btn btn-primary text-white mb-2 mt-3">Inspection List</a>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="indigeneous_Inspection_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Indigenous Machinary Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-IndigenousMachinary">
+                                @await Html.PartialAsync("/Areas/Admin/Views/IndigenousMachinery/_ViewAll.cshtml",Model.IndigenousMachineryInspectionDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelIndigeneousMacInspectionDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousIndigenousMachinery" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabIndigenousMachineryInspectionDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade show " id="ImportMachinery" role="tabpanel" aria-labelledby="ImportMachinery-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div>
+                <a href="@Url.Action("ViewAccount","InspectionOfUnit",new {accountNumber = @ViewBag.PAccountNumber,LoanSub = @ViewBag.PLoanSub,UnitName = @ViewBag.PUnitName,OffcCd=@ViewBag.POffcCd})" class="btn btn-primary text-white mb-2 mt-3">Inspection List</a>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="build_Mat_At_Site_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Imported Machinery Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-ImportMachinery">
+                                @await Html.PartialAsync("/Areas/Admin/Views/ImportMachinery/_ViewAll.cshtml",Model.ImportMachineryInspection)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelImportMachineryDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousimportmachinary" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end"  id="btnTabmodelImportMachineryDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade show" id="RecommDisbursementDetails" role="tabpanel" aria-labelledby="RecommDisbursementDetails-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Audit_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Recommended Disbursement Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-RecommDisbursementDetails">
+                                @await Html.PartialAsync("/Areas/Admin/Views/CreationOfDisbursmentProposal/RecommendedDisbursement/_ViewAll.cshtml",idmDsbdetslist)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelRecommDisbursementDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousRecommDisbursementDetails" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg submit float-end" id="btnTabRecommDisbursementDetails" value="Next" style="margin-top: 10px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       @* <div class="tab-pane fade show" id="WorkingCapital" role="tabpanel" aria-labelledby="WorkingCapital-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="land_Inspection_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Working Capital Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <form id="WCInspectionDetails" asp-action="Create" onsubmit="return CreateWorkingCapitalInspection(this ,@accountNumber); ClearPopupFormsh();">
+                                <div id="view-all-WorkingCapital">
+
+                                    @await Html.PartialAsync("/Areas/Admin/Views/WorkingCapital/_Create.cshtml",Model.WorkingCapitalDetails)
+
+                                </div>
+                                <div class="modal" tabindex="-1" role="dialog" id="modelWorkingCapitalDetails">
+                                    <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousworkingcapital" value="Previous" />
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="tab-pane fade show " id="StatusofImplementation" role="tabpanel" aria-labelledby="StatusofImplementation-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div>
+                <a href="@Url.Action("ViewAccount","InspectionOfUnit",new {accountNumber = @ViewBag.PAccountNumber,LoanSub = @ViewBag.PLoanSub,UnitName = @ViewBag.PUnitName,OffcCd=@ViewBag.POffcCd})" class="btn btn-primary text-white mb-2 mt-3">Inspection List</a>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="stat_of_impl_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Status of Implementation</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-StatusofImplementation">
+                                @await Html.PartialAsync("/Areas/Admin/Views/StatusofImplementation/_ViewAll.cshtml",Model.StatusofImplementationDetails)
+                            </div>
+                           <div class="modal" tabindex="-1" role="dialog" id="modelStatusofImplementationDetails">
+                              
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                       <div class="modal-body">
+                                       </div>
+                                    </div>
+                                </div>
+                           </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousStatusofImplementation" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" @*onclick="location.href=/Admin/;" *@id="btnTabStatusofImplementation" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script src="~/js/IDM.js" asp-append-version="true"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        ReloadLandInspectionDetails();
+        ReloadBuildMatSiteInspectionDetails();
+        ReloadBuildingInspectionDetails();
+        ReloadImportMachnieryDetails();
+        ReloadStatusofImplementationDetails();
+        ReloadRecommendedDisbursementDetails();
+       
+    });
+    $(".modal-content").draggable();
+
+
+    $("#landInspection").click(function(){
+        console.log("@landFinanced")
+        if("@landFinanced" == "False"){
+          swal.fire({
+            title: "Land is Not Financed!",
+            icon: 'warning',
+            confirmButtonText: 'Ok',
+        }).then((result) => {
+             $("#BuildingInspection").attr('class', 'tab-pane fade active show');
+                $("#LandInspection").attr('class', 'tab-pane fade');
+
+                $("#BuildingInspection-tab").attr('class', 'nav-link active').attr('aria-selected', 'true');
+                $("#LandInspection-tab").attr('class', 'nav-link').attr('aria-selected', 'true');
+
+                $("#panelsStayOpen-collapse-1").attr('class', 'accordion-collapse collapse');
+                $("#LandInspection_detail_accor_btn").attr('class', 'accordion-button collapsed');
+
+                $("#panelsStayOpen-collapse-2").attr('class', 'accordion-collapse collapse show');
+                $("#BuildingInspection_detail_accor_btn").attr('class', 'accordion-button');
+        })
+        }
+    })
+</script>

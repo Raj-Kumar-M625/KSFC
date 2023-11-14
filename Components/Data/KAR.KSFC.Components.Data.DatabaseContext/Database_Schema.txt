@@ -1,0 +1,47 @@
+﻿--Added By : Abhihek
+--Date :     27-APR-2022
+
+CREATE TABLE `enq_ack_det` (
+  `enq_rowid` int(11) NOT NULL AUTO_INCREMENT,
+  `enq_ref_no` int(11) DEFAULT NULL,
+  `emp_id` varchar(8) NOT NULL ,
+  `enq_ack_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`enq_rowid`)   
+)
+
+--Added By : Abhihek
+--Date :     29-APR-2022
+
+alter table tbl_enq_basic_det 
+add  prom_class int
+
+--Added By : Rajesh
+--Date : 24-May-2022
+
+CREATE TABLE loan_temp (
+    RowID int NOT NULL AUTO_INCREMENT,
+    LoanAccNo varchar(50),
+    LoanId int,
+    SubLoan int,
+    UnitName varchar(100),
+    IsActive bool,
+
+    PRIMARY KEY (RowID)
+);
+
+--Added By : Rajesh
+--Date : 28-May-2022
+
+CREATE TABLE ld_security_temp (
+    RowID int NOT NULL AUTO_INCREMENT,
+    SecurityHolder varchar(50) Null,
+    SecurityCategory int Null,
+    SecurityType int Null,
+    SecurityDescription varchar(100) Null,
+    SecurityDeedNo int Null,
+    DeedDescription varchar(100) Null,
+    SubRegistrarOffice int Null,
+    DateOfExecution date Null,
+    ValueInlakhs int Null,
+    PRIMARY KEY (RowID)
+);

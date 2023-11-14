@@ -1,0 +1,63 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorAssetsNetWorthDTO>
+@{
+    int count = 1;
+}
+
+ 
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblGuaAssetDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Guarantor Name
+                </th>
+                <th>
+                    Asset Category
+                </th>
+                <th>
+                    Asset Type
+                </th>
+                <th>
+                    Value (In Lakhs.)
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null)
+            {
+
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>
+                             @(count++)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarantorDetailsDTO.GuarName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetCategoryMasterDTO.AssetcatDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetTypeMasterDTO.AssettypeDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarAssetValue)
+                        </td>
+
+                    </tr>
+                }}
+        </tbody>
+    </table>
+}else
+{
+    <p style="color: red"><b>No data added, Please add the Guarantor Asset details</b></p>
+}
+

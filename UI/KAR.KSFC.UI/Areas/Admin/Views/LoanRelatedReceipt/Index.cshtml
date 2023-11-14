@@ -1,0 +1,66 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.IDM.LoanAccountNumberDTO>
+@{
+    int count = 0;
+}
+<div id="view-All-AccountNumber">
+    <p>Below is the list of Loan Accounts </p>
+    <div class="pre-scrollable">
+        <table class="table table-striped table-bordered table-sm table-responsive-xl display cen" id="tblAccountingOfficer">
+            <thead>
+                <tr>
+                    <th class="th2">S. No.</th>
+                    <th class="th4">Loan Office</th>
+                    <th class="th3">Unit Name</th>
+                    <th class="th3">Loan Account</th>
+                    <th class="th3">Sub Code</th>
+                    <th class="th5a"> Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() != 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        count++;
+                        <tr>
+                            <td>
+                                @count
+                            </td>
+                            <td>
+                                @item.LoanOffice
+                            </td>
+                            <td>
+                                @item.LoanUnit
+                            </td>
+                            <td>
+                                @item.LoanAcc
+                            </td>
+                            <td>
+                                @item.LoanSub
+                            </td>
+                            <td class="textCenter">
+                                <form asp-action="ViewAccount" asp-controller="LoanRelatedReceipt" asp-route-AccountNumber="@item.EncryptedLoanAcc" asp-route-LoanSub="@item.EncryptedLoanSub" asp-route-UnitName="@item.EncryptedLoanUnit" >
+                                    <input type="submit" class="btn btn-secondary  bg-warning" value="View" />
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8">
+                            No Data Available.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#tblAccountingOfficer').DataTable();
+    });
+</script>
+

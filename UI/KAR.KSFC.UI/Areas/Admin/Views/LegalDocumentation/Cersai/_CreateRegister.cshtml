@@ -1,0 +1,109 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmCersaiRegDetailsDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="LDCersaiRegDetails" asp-action="Register" onsubmit="return jQueryAjaxPosCreateCersai(this,'CersaiDetails');ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <input type="hidden" value="@ViewBag.AccountNumber" asp-for="LoanAcc" />
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffCd" asp-for="OffcCd" />
+         @*   <input type="hidden" value="@ViewBag.IdmDsbChargeId" asp-for="IdmDsbChargeId" />*@
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Registration<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.CersaiRegDate,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date",@id="dateofReg",onkeydown = "return false" ,@required = "required"})
+                    <span asp-validation-for="CersaiRegDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label"> Cersai Registration No.<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.CersaiRegNo, new {@onkeypress="allowAlphaNumericSpace(event)", @class = "form-control",@maxlength = "25",@id="cersaiReg" ,@required = "required" })
+                    <span id="spanDet">Max: 25 Characters</span><br />
+                    <span asp-validation-for="CersaiRegNo" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Remarks<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextAreaFor(m => m.CersaiRemarks, new { @class = "form-control",@maxlength = "200", @id="remarks" ,@required = "required"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="CersaiRemarks" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<script>
+    $('input[id="cersaiReg"], textarea[id="remarks"], input[id="dateofReg"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+    $("#cersaiReg").change(function () {
+        debugger
+        var NewCN = $('#cersaiReg').val();
+        var CRegNo = @Html.Raw(Json.Serialize(@ViewBag.CersaiRegNumber));
+        for (i = 0; i < CRegNo.length; i++) {
+            if (NewCN == CRegNo[i])
+                swal.fire({
+                    title: 'Cersai Reg No already exist',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+    });
+
+    //debugger;
+    //var cersai = $("#cersaiNo").val()
+    //if (cersai.length > 0) {
+    //    $("#cersaiReg").attr("readonly", true)
+    //    $("#dateofReg").attr("readonly", true)
+    //    $("#remarks").attr("readonly", true)
+    //}
+    //else {
+    //    $("#cersaiReg").attr("readonly", false)
+    //    $("#dateofReg").attr("readonly", false)
+    //    $("#remarks").attr("readonly", false)
+
+
+    //}
+
+
+    $("#dateofReg").change(()=>{
+        var date = new Date($("#dateofReg").val());
+        var exeDate = new Date("@ViewBag.ExeDate");
+        if(date > exeDate){
+            alert("Date of Registration exceeded!")
+        }
+    })
+
+    
+</script>
+<script>
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+        if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+   </script>

@@ -1,0 +1,59 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorAssetsNetWorthDTO>
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Guarantor Asset Details</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Guarantor Name
+                </th>
+                <th>
+                    Asset Category
+                </th>
+                <th>
+                    Asset Type
+                </th>
+                <th>
+                    Value
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqGuarassetId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarantorDetailsDTO.GuarName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetCategoryMasterDTO.AssetcatDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetTypeMasterDTO.AssettypeDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarAssetValue)
+                        </td>
+                    </tr>
+                }       }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Guarantor Asset details</b></p>
+}
+

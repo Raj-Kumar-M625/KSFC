@@ -1,0 +1,60 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.AssetRefnoDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> cersaiDetails = ViewBag.Documentlist;
+
+}
+
+<div>
+    <div>
+        <form id="LDCersaiRegDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-4">
+                    <Strong><label class="form-label">Type of Asset</label></Strong>
+                    @Html.DropDownListFor(m => m.AssetypeCd , new SelectList(ViewBag.AssetType, "Value", "Text"), "---Select Asset Type---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <Strong><label class="form-label">Category of asset</label></Strong>
+                    @Html.DropDownListFor(m => m.AssetcatCd , new SelectList(ViewBag.AssetCategary, "Value", "Text"), "---Select Asset Category---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <Strong><label class="form-label">Asset Descrpition</label></Strong>
+                    @Html.TextAreaFor(m => m.TblIdmCersaiRegistration.FirstOrDefault().AssetDet, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <Strong><label class="form-label">Value</label></Strong>
+                    @Html.TextBoxFor(m => m.TblIdmCersaiRegistration.FirstOrDefault().AssetVal,"{0:n2}", new { @class = "form-control", @disabled = "disabled",@style="text-align:right" })
+                </div>
+                <div class="col-md-4">
+                    <Strong><label class="form-label">Asset ID </label></Strong>
+                    @Html.TextBoxFor(m => m.AssetCd, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <Strong><label class="form-label"> Cersai Registration No.</label></Strong>
+                    @Html.TextBoxFor(m => m.TblIdmCersaiRegistration.FirstOrDefault().CersaiRegNo, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <Strong><label class="form-label">Date of Registration</label></Strong>
+                    @Html.TextBoxFor(m => m.TblIdmCersaiRegistration.FirstOrDefault().CersaiRegDate,"{0:yyyy-MM-dd}", new { @class = "form-control",type = "date", @disabled = "disabled",onkeydown = "return false"  })
+                </div>
+                <div class="col-md-4">
+                    <Strong><label class="form-label">Remarks</label></Strong>
+                    @Html.TextAreaFor(m => m.TblIdmCersaiRegistration.FirstOrDefault().CersaiRemarks, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",cersaiDetails)
+            </div>
+        </form>
+    </div>
+</div>

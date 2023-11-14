@@ -1,0 +1,140 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmBuildingMaterialSiteInspectionDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var inspectionId = ViewBag.InspectionId;
+}
+
+<div>
+    <div>
+        <form id="BuildMatSiteInspectionDetails" asp-action="Edit" onsubmit="return JqueryInspectionEditMethod(this,'BuildMatAtSite');  ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@inspectionId" asp-for="IrbmIno" />
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item No.<span  id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="IrbmItem" class="form-control" id="itemNo" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" readonly="readonly" />
+                    <span asp-validation-for="IrbmItem" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Unit<span  id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.UomId, new SelectList(ViewBag.UmoList,"Value", "Text"),"---Select Unit---", new { @class = "form-select", @id = "LandType", @required = "required"})
+                    <span asp-validation-for="UomId" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Material Description<span  id="spanDet1"> *</span></label></strong>
+                    @Html.TextAreaFor(m => m.IrbmMat, new { @class = "form-control",@maxlength = "200", @id = "matDesc", @required = "required"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="IrbmMat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Per Unit Rate</label></strong>
+                    @Html.TextBoxFor(m => m.IrbmRate,"{0:n2}", new { @class = "form-control", @required = "required", @id = "rate",onkeypress="return event.charCode >= 46 && event.charCode <= 57",@style="text-align:right"})
+                     <span asp-validation-for="IrbmRate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Quantity<span  id="spanDet1"> *</span></label></strong>
+                     <input type="Number" asp-for="IrbmQty" class="form-control " id="qty"  min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57"  required/> 
+                     <span asp-validation-for="IrbmQty" class="text-danger"></span>
+                </div>
+                 <div class="col-md-6">
+                    <strong><label class="form-label">Amount<span  id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.IrbmAmt,"{0:n2}", new { @class = "form-control",@readonly = "true", @id = "TotValue",@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+                <div class="form-group submit5">
+                <div class="col-md-2 text-center float-end">
+                    <input type="submit" value="Submit" id="btnsubmit" disabled="disabled" class="btn btn-primary" />
+                </div>
+                </div>
+            <br/>  
+        </form>
+    </div>
+</div>
+<script>
+$('textarea[id="matDesc"],input[id="itemNo"],input[id="rate"],input[id="qty"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='btnsubmit']").removeAttr('disabled');
+        }
+});
+
+    $("#rate").change(function () {
+
+        $("#rate").each(function () {
+            debugger;
+            var Rate = $('#rate').val();
+            var Quantity = $('#qty').val();
+            var TotalValue
+            if (Quantity == "") {
+                TotalValue = parseInt(Rate);
+            }
+            else {
+                TotalValue = parseInt(Rate) * parseInt(Quantity);
+            }
+            $("#TotValue").val(TotalValue);
+            $("#totamt").val(TotalValue);
+        });
+    });
+
+
+
+
+    $("#qty").each(function () {
+        debugger;
+        var Rate = $('#rate').val();
+        var Quantity = $('#qty').val();
+        var TotalValue
+        if (Rate == "") {
+            TotalValue = parseInt(Rate);
+        }
+        else {
+            TotalValue = parseInt(Rate) * parseInt(Quantity);
+        }
+        $("#TotValue").val(TotalValue);
+        $("#totamt").val(TotalValue);
+        $("#qty").change(function () {
+            debugger;
+            var Rate = $('#rate').val();
+            var Quantity = $('#qty').val();
+            var TotalValue
+            if (Rate == "") {
+                TotalValue = parseInt(Rate);
+            }
+            else {
+                TotalValue = parseInt(Rate) * parseInt(Quantity);
+            }
+            $("#TotValue").val(TotalValue);
+            $("#totamt").val(TotalValue);
+        });
+    });
+
+</script>
+<script type="text/javascript">
+    $("#itemNo").on("change", function () {
+        var ItmNo = $(this).val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+        for (i = 0; i < ItemNo.length; i++) {
+            if (ItmNo == ItemNo[i])
+                swal.fire({
+                    title: 'Item Number already exists',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+    });
+</script>

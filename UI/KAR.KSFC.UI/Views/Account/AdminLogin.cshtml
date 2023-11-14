@@ -1,0 +1,118 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO
+@{
+    ViewData["Title"] = "Admin Login";
+    Layout = "~/Views/Shared/_AdminLoginLayout.cshtml";
+}
+
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <h4></h4>
+            <hr />
+
+            <div asp-validation-summary="All" class="text-danger" id="divValidationSummary">@ViewBag.error</div>
+            <div class="text-info" id="divInfoMsg">@ViewBag.info</div>
+            <div class="row">
+                <div class="col-25">
+                    <b><label for="exampleInputEmail1">Employee Id</label></b>
+                </div>
+                <div class="col-75">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                        </div>
+@*                        <input type="text" class="form-control" asp-for="EmpId" id="txtEmpIdAdmin" placeholder="Enter Employee Id" aria-label="EmpId1" autocomplete="off" maxlength="8" aria-describedby="basic-addon1">
+*@                        <input type="text" class="form-control" asp-for="EmpId" placeholder="Enter Employee Id" aria-label="EmpId1" autocomplete="off" maxlength="8" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <b><label for="exampleInputEmail1">Password</label></b>
+                </div>
+                <div class="col-75">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-credit-card-fill"></i></span>
+                        </div>
+@*                        <input type="password" class="form-control" asp-for="Password" id="txtPasswordAdmin" placeholder="Password" aria-label="Password" autocomplete="off" disabled maxlength="12" aria-describedby="basic-addon1">*@
+                        <input type="password" class="form-control" asp-for="Password" placeholder="Password" aria-label="Password" autocomplete="off" disabled maxlength="12" aria-describedby="basic-addon1" value="Develope" readonly>
+
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" asp-for="IsDSC" id="hidIsDscRequired" />
+            @if (Model.IsDSC == true)
+            {
+                <input type="hidden"  id="inpEmpPublicKey" />
+
+                <div class="row">
+                    <partial name="_DSCPartial" />
+                </div>
+            }
+            <div class="row" id="divCaptchaPartial">
+                <partial name="_CaptchaPartial" />
+            </div>
+            <div class="row">
+                <div class="col-25"></div>
+                <div class="col-75">
+@*                    <button type="submit" style="width:100%" id="btnSubAdmin" class="btn btn-primary" disabled>Login</button>
+*@                    <button type="submit" style="width:100%" id="btnSubAdmin" class="btn btn-primary">Login</button>
+                </div>
+            </div>
+            <div class="row">
+                <a href="~/Account/ForgotPassword" class="float-right">Forgotten Password? </a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal" id="modalAlertAdmin" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Admin Login</h5>
+            </div>
+            <div id="divModelAlertAdmin" class="modal-body">
+                <p id="pModalAlertAdmin"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnHideModal" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="createuser" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">DSC Details</h5>
+            </div>
+            <div id="divModelAlertAdmin" class="modal-body">
+                <p id="pModalAlertAdmin"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnHideModal" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/AdmLoginValidation.js"></script>
+    <script src="~/js/DigitalSignCertificate.js"></script>
+    <script src="~/js/CaptchaLibrary.js"></script>
+    <script language="javascript" type="text/javascript">
+
+        $(document).ready(function () {
+            DrawCaptcha("Generatedcaptcha", 6);
+
+
+        });
+
+
+    </script>
+}

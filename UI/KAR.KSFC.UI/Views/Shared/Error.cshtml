@@ -1,0 +1,33 @@
+﻿@model KAR.KSFC.UI.Models.ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h3 class="text-danger">
+    An error occurred while processing your request.
+    The support team is notified and we are working on the fix.
+</h3>
+<h3>Details:</h3>
+<div class="alert alert-danger">
+    <h5>Error Message</h5>
+    <hr />
+    @if (string.IsNullOrWhiteSpace(ViewBag.error))
+    {
+        var statusCode = Convert.ToInt32(Context.Request.Query["status"]);
+        if (statusCode >= 400 && statusCode <= 499)
+        {
+        <p>
+            The requested page/url does not seems to be exist. If you came upon this page by mistake, try checking the URL in your web browser.
+        </p>
+        }
+        else if (statusCode >= 500 && statusCode <= 599)
+        {
+            <p>Internal Server Error Oh no! Something bad happened. Please come back later when we fixed that problem. Thanks.</p>
+        }
+    }
+    else
+    {
+        <p>@ViewBag.error</p>
+    }
+
+</div>

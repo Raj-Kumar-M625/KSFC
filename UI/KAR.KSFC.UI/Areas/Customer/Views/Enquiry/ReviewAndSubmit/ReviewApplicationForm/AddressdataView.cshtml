@@ -1,0 +1,72 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.AddressDetailsDTO>
+@{
+    int count = 1;
+}
+
+
+
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AddressTypeMasterDTO.AddtypeDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UniitAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitPincode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitTelNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitMobileNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitEmail)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(count++)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddressTypeMasterDTO.AddtypeDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UniitAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPincode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitTelNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitMobileNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitEmail)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color: red"><b>No data added, Please add the address details</b></p>
+
+}
+

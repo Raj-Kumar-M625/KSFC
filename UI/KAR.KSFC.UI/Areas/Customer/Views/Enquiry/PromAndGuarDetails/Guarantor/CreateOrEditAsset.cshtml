@@ -1,0 +1,70 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorAssetsNetWorthDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateOrEditAsset" asp-route-id="@Model.EnqGuarassetId" onsubmit="return jQueryAjaxPostPGGD(this); ">
+            @Html.HiddenFor(model => model.EnqGuarassetId)
+            @Html.HiddenFor(model => model.EnqtempId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name Of Guarantor</label>
+                @if (ViewBag.GuarantorDetailsList != null)
+                {
+                    @Html.DropDownListFor(model => model.PromoterCode, new SelectList(ViewBag.GuarantorDetailsList, "PromoterMaster.PromoterCode", "PromoterMaster.PromoterName"), "-- Please select --", new { @class = "form-select" })
+                }
+                else
+                {
+                    <select class="form-select" name="PromoterCode" id="PromoterCode" asp-for="PromoterCode"
+                            asp-items="@(new SelectList(string.Empty,"PromoterMaster.PromoterCode","PromoterMaster.PromoterName"))">
+                    </select>
+                }
+                <span asp-validation-for="PromoterCode" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Asset Category</label>
+                @Html.DropDownListFor(model => model.AssetcatCd, new SelectList(ViewBag.ListPromAndGuarAssetCategory, "Value", "Text"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="AssetcatCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Type of Asset</label>
+                @Html.DropDownListFor(model => model.AssettypeCd, new SelectList(ViewBag.ListPromAndGuarAssetType, "Value", "Text"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="AssettypeCd" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Site / Flat Address</label>
+                @Html.TextBoxFor(model => model.GuarAssetAddr, new { @class = "form-control" })
+                <span asp-validation-for="GuarAssetAddr" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Dimension</label>
+                @Html.TextBoxFor(model => model.GuarAssetDim, new { @class = "form-control" })
+                <span asp-validation-for="GuarAssetDim" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Area</label>
+                @Html.TextBoxFor(model => model.GuarAssetArea, new { @class = "form-control" })
+                <span asp-validation-for="GuarAssetArea" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Description</label>
+                @Html.TextAreaFor(model => model.GuarAssetDesc, new { @class = "form-control" })
+                <span asp-validation-for="GuarAssetDesc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Value (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.GuarAssetValue, new { @class = "form-control" })
+                <span asp-validation-for="GuarAssetValue" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

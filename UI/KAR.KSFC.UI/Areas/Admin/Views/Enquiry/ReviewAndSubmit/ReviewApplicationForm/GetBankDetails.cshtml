@@ -1,0 +1,36 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.BankDetailsDTO
+
+<h3><i class="fas fa-comments-dollar text-success"></i>Bank Details</h3>
+<br />
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Name Of Bank : </label>
+            @Html.DisplayFor(model => model.EnqBankname)
+        </div>
+        <div class="col-sm-4">
+            <label>Name Of Branch : </label>
+            @Html.DisplayFor(model => model.EnqBankbr)
+        </div>
+        <div class="col-sm-4">
+            <label>PinCode : </label>
+            @Html.DisplayFor(model => model.BankPinCode)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Account Name : </label>
+            @Html.DisplayFor(model => model.EnqAccName)
+        </div>
+        <div class="col-sm-4">
+            <label>IFSC Code : </label>
+            @Html.DisplayFor(model => model.EnqIfsc)
+        </div>
+    </div>
+}
+@if (Model == null)
+
+{
+        <p style="color: red"><b>No data added, Please add the Bank details</b></p>
+}

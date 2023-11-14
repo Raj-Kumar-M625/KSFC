@@ -1,0 +1,52 @@
+﻿@model KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaPaymentDetDTO
+@{
+    int 
+    count = 0;
+}
+
+<div>
+    <form id="ReceiptPayment" asp-action="Edit" onsubmit="return JqueryAjaxPostMethod(this,'ReceiptPayment'); ClosePopupFormLA();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-4">
+                <b><label class="form-label">Branch Code</label></b>
+                @Html.TextBoxFor(m => m.BranchCode, new {@class = "form-control",@disabled = "disabled",@id = "TotValue" })
+                <span asp-validation-for="BranchCode" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <b><label class="form-label">IFSC Of Issuing Bank</label></b>
+                @Html.TextAreaFor(m => m.IfscCode, new { @class = "form-control",@maxlength = "20" })
+                <span id="spanDet">Max: 20 Characters</span><br />
+                <span asp-validation-for="IfscCode" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <b><label class="form-label">Cheque Date</label></b>
+                @Html.TextBoxFor(m => m.ChequeDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date"})
+                <span asp-validation-for="ChequeDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <b><label class="form-label">Date Of Cheque Realization</label></b>
+                @Html.TextBoxFor(m => m.DateOfChequeRealization , new {@class = "form-control",@disabled = "disabled",@id = "TotValue" })
+                <span asp-validation-for="DateOfChequeRealization" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <b><label class="form-label">Cheque No.</label></b>
+                @Html.TextAreaFor(m => m.ChequeNo, new { @class = "form-control",@maxlength = "20" })
+                <span id="spanDet">Max: 20 Characters</span><br />
+                <span asp-validation-for="ChequeNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end">
+                    <input type="submit" value="Save" class="btn btn-primary" id="submit" />
+                </div>
+                <div class="col-md-2 text-center">
+                    <input type="button" value="View Ledger Posting" class="btn btn-primary" id="ledger" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

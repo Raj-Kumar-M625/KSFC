@@ -1,0 +1,45 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectCostDetailsDTO>
+@{
+    int count = 1;
+}
+
+
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PjcostCdNavigation.PjcostDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqPjcostAmt)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(count++)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PjcostCdNavigation.PjcostDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqPjcostAmt)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else  
+{
+    <p style="color: red"><b>No data added, Please add the Project Cost details</b></p>
+ }
+

@@ -1,0 +1,32 @@
+﻿
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div>
+    <div class="col-25">
+        <b><label for="exampleInputEmail1" class="form-label">CAPTCHA</label></b>
+    </div>
+    <div class="col-75">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="pImgRefreshCaptcha"><i id="pImgRefreshCaptcha" class="fa fa-refresh mt-1 mb-1" onclick="DrawCaptcha('Generatedcaptcha', 6);"></i></span>
+                <span id="pImgRefreshCaptchaV2" style="display:none" class="input-group-text"><i class="fa fa-refresh mt-1 mb-1"></i></span>
+            </div>
+            <input class="form-control Generatedcaptcha" autocomplete="off" style="width:55%" id="Generatedcaptcha" name="Generatedcaptcha" readonly="readonly" type="text" value="" aria-invalid="false">
+            @*<p id="pImgRefreshCaptcha">  <img src="~/images/Captcha_Refresh.png" id="imgRefreshCaptcha" class="captcha-img" style="height:30px;width:30px;cursor: pointer;" onclick="DrawCaptcha('Generatedcaptcha', 6);" /></p>*@
+        </div>
+    </div>
+</div>
+<div>
+    <div class="col-25">
+    </div>
+    <div class="col-75">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-text"></i></span>
+            </div>
+@*            <input type="text" id="txtEnterCaptcha" autocomplete="off" maxlength="6" class="form-control" placeholder="Enter CAPTCHA" aria-label="Username" aria-describedby="basic-addon1" disabled />*@
+            <input type="text" id="txtEnterCaptcha" autocomplete="off" maxlength="6" class="form-control" placeholder="Enter CAPTCHA" aria-label="Username" aria-describedby="basic-addon1"/>
+        </div>
+        <p style="display:none;color:red" id="pMsgCaptchaNotMatch">Please enter the correct Captcha.</p>
+    </div>
+</div>
+

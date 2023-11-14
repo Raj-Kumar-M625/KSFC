@@ -1,0 +1,112 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmGuarantorDeedDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> guarantorDeedDetails = ViewBag.Documentlist;
+   
+}
+
+<div>
+    <div>
+        <form id="LDGuarDetails" asp-action="Update" onsubmit="return JqueryAjaxPostMethod(this,'GuarantorDeed'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })            
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Guarantor</label></strong>
+                    @Html.TextBoxFor(m => m.GuarName, new { @class = "form-control", @disabled = "disabled" })
+                    <span asp-validation-for="GuarName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Mobile Number</label></strong>
+                    @Html.TextBoxFor(m => m.GuarMobileNo, new { @class = "form-control", @type="number", @disabled = "disabled" })
+                    <span asp-validation-for="GuarMobileNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value Of Asset</label></strong>
+                    @Html.TextBoxFor(m => m.ValueAsset,"{0:n2}", new { @class = "form-control", @disabled = "disabled" ,@style="text-align:right"})
+                    <span asp-validation-for="ValueAsset" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value Of Liability</label></strong>
+                    @Html.TextBoxFor(m => m.ValueLiab,"{0:n2}", new { @class = "form-control", @disabled = "disabled",@style="text-align:right"})
+                    <span asp-validation-for="ValueLiab" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Net Worth</label></strong>
+                    @Html.TextBoxFor(m => m.ValueNetworth,"{0:n2}", new { @class = "form-control", @disabled = "disabled" ,@style="text-align:right"})
+                    <span asp-validation-for="ValueNetworth" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Guarantor Deed Number</label></strong>
+                    @Html.TextBoxFor(m => m.DeedNo, new { @onkeypress="allowAlphaNumericSpace(event)",@class = "form-control uniqueNumber", @id="deedNo", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="15",@required="required" })
+                    <span asp-validation-for="DeedNo" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Deed Description</label></strong>
+                    @Html.TextAreaFor(m => m.DeedDesc, new { @class = "form-control",@maxlength = 200, @id="DeedDesc"})
+                    <span asp-validation-for="DeedDesc" class="text-danger"></span>
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date Of Execution</label></strong>
+                    @Html.TextBoxFor(m => m.ExcecutionDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @id="executionDate",onkeydown="return false" })
+                    <span asp-validation-for="ExcecutionDate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",guarantorDeedDetails)
+            </div>
+           <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+<script>
+    $('input[id="deedNo"], textarea[id="DeedDesc"], input[id="executionDate"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+       $(".uniqueNumber").change(function () {
+    var ItmNo = $(this).val();
+    var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+for (i = 0; i < ItemNo.length; i++) {
+    if (ItmNo == ItemNo[i])
+        swal.fire({
+            title: 'Deed Number already exists',
+            icon: 'warning',
+
+            confirmButtonText: 'Ok',
+        }).then((result) => {
+            $(this).val("");          
+        })
+}
+    });
+</script>
+<script>
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+        if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+   </script>

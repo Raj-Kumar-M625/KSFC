@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Extensions\FileType.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Extensions\FileType.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="Templates\SMS\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\KAR.KSFC.Components.Common.Dto\KAR.KSFC.Components.Common.Dto.csproj" />
+    <ProjectReference Include="..\KAR.KSFC.Components.Common.Logging\KAR.KSFC.Components.Common.Logging.csproj" />
+    <ProjectReference Include="..\KAR.KSFC.Components.Common.Security\KAR.KSFC.Components.Common.Security.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="KAR.KSFC.Components.Common.Dto">
+      <HintPath>..\KAR.KSFC.Components.Common.Dto\bin\Debug\net5.0\KAR.KSFC.Components.Common.Dto.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Common.Logging">
+      <HintPath>..\KAR.KSFC.Components.Common.Logging\bin\Debug\net5.0\KAR.KSFC.Components.Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Data.Models">
+      <HintPath>..\..\Data\KAR.KSFC.Components.Data.Models\bin\Debug\net5.0\KAR.KSFC.Components.Data.Models.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

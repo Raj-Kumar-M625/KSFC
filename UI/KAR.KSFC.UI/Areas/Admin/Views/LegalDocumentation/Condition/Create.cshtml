@@ -1,0 +1,98 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.LDConditionDetailsDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var offcd =  ViewBag.OffcCd;
+    var loansub =   ViewBag.LoanSub;
+    var description = ViewBag.ConditionDescriptions;
+}
+
+<div>
+    <div>
+        <form id="LDConditionDetails" asp-action="Create" onsubmit="return JqueryAjaxAddMethod(this,'Condition'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@offcd" asp-for="OffcCd" />
+            <input type="hidden" value="@loansub" asp-for="LoanSub" />
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <Strong><label class="form-label">Type of Condition<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.CondType, new SelectList(ViewBag.ConditionTypes, "Value", "Text"), "---Select Type---", new { @class = "form-select",required = "required"})
+                </div>
+                <div class="col-md-6">
+                    <Strong><label class="form-label">Condition Description<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.CondDetails, new SelectList(ViewBag.ConditionDescriptions, "Value", "Text"),"---Select Description---", new { @class = "form-select custom-select", @style = "white-space: pre-wrap;",@disabled = "disabled",required = "required",@id="CondDetails"})                 
+                    @Html.TextAreaFor(m => m.CondDetails, new { @class = "form-control",@maxlength = "200",@id="txtDescp" })
+                    <span  id="condval">Max:200 Characters</span>    
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <Strong><label class="form-label">Condition Stage <span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.CondStg, new SelectList(ViewBag.ConditionStages, "Value", "Text"), "---Select Stage---", new { @class = "form-select", required = "required"})
+                </div>
+              @*<div class="col-md-6">
+                  <strong><label class="form-label">Compliance</label></strong>
+                    @Html.DropDownListFor(m => m.Compliance, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "YES"},
+                    new SelectListItem(){Text="NO",Value = "NO"}
+                    },"---Select Compliance---", new { @class = "form-select", @id = "Compliance"})
+                    <span asp-validation-for="Compliance" class="text-danger"></span>
+              </div>*@
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end" style="margin-right:-20px;margin-top: 35px;">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<script>
+
+
+    var Type = $('#CondType :selected').text();
+    if (Type == "Normal") {
+        $("#CondDetails").removeAttr('disabled');
+        $("#CondDetails").attr("hidden", false);
+        $("#txtDescp").attr("hidden", true);
+        $("#condval").attr("hidden", true);
+    } else {
+        $("#CondDetails").attr("hidden", true);
+        $("#txtDescp").attr("hidden", false);
+        $("#condval").attr("hidden", false);
+    }
+
+    $("#CondType").on("change", function() {
+        debugger;
+        var Type = $('#CondType :selected').text();
+        if (Type == "Normal") {
+            $("#CondDetails").removeAttr('disabled');
+            $("#CondDetails").attr("hidden", false);
+            $("#txtDescp").attr("hidden", true);
+            $("#condval").attr("hidden", true);
+        } else {
+            $("#CondDetails").attr('disabled', true);
+            $("#CondDetails").attr("hidden", true);
+            $("#txtDescp").val('');
+            $("#txtDescp").attr("hidden", false);
+            $("#condval").attr("hidden", false);
+        }
+    });
+
+    $('select[id="CondType"], select[id="CondDetails"], select[id="CondStg"],textarea[id="txtDescp"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>
+
+
+

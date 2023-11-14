@@ -1,0 +1,59 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsDTO>
+@{
+    int count = 1;
+}
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" cellspacing="0" id="tblSisterASFYDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Sister Concerns Name
+                </th>
+                <th>
+                    Financial Year Description
+                </th>
+                <th>
+                    Financial Component Details
+                </th>
+                <th>
+                    Financial Component Amount (In Lakhs.)
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @(count++)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqSis.EnqSisName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FinyearCodeNavigation.FinyearDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FincompCdNavigation.FincompDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqFinamt)
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+}else
+{
+    <p style="color: red"><b>No data added, Please add the Previous years Financial Details details</b></p>
+}

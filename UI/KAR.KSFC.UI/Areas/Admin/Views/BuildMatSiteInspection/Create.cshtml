@@ -1,0 +1,157 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmBuildingMaterialSiteInspectionDTO    
+@{
+    Layout = null;
+    var accNumber = ViewBag.LoanAcc;
+    var inspectionId = ViewBag.InspectionId;
+    var firstinspection = ViewBag.firstbuildingmaterialinspection;
+}  
+
+<div>
+    <div>
+        <form id="BuildMatSiteInspectionDetails" asp-action="Create" onsubmit="return JqueryInspectionAddMethod(this,'BuildMatAtSite'); ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@accNumber" asp-for="LoanAcc" />  
+            <input type="hidden" value="@inspectionId" asp-for="IrbmIno" />
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item No.<span  id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="IrbmItem" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" readonly="readonly" />
+                    <span asp-validation-for="IrbmItem" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Unit<span  id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.UomId, new SelectList(ViewBag.UmoList,"Value", "Text"),"---Select Unit---", new { @class = "form-select", @id = "LandType", @required = "required"})
+                    <span asp-validation-for="UomId" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Material Description<span  id="spanDet1"> *</span></label></strong>
+                    @Html.TextAreaFor(m => m.IrbmMat, new { @class = "form-control",@maxlength = "200",@required = "required", @id = "ldDevDt"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="IrbmMat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Per Unit Rate<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="IrbmRate" class="form-control" id="Rate" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required style="text-align:right" />
+                    <span asp-validation-for="IrbmRate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Quantity<span  id="spanDet1"> *</span></label></strong>                    
+                     <input type="Number" asp-for="IrbmQty" class="form-control" id="qty"  min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57"  required/> 
+                    <span asp-validation-for="IrbmQty" class="text-danger"></span>
+                </div>
+                 <div class="col-md-6">
+                    <strong><label class="form-label">Amount<span  id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.IrbmAmt,"{0:n2}", new { @class = "form-control",@readonly = "true", @id = "TotValue",onkeydown="return event.keyCode !== 69",@style="text-align:right"})
+                    <span asp-validation-for="IrbmAmt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+                <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="btnsubmit" />
+                </div>
+                </div>
+            <br/>  
+        </form>
+    </div>
+</div>
+<script>
+    $('input[class="form-control"],textarea[class="form-control"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='btnsubmit']").removeAttr('disabled');
+        }
+    });
+
+    $("#Rate").change(function () {
+    
+    var Rate = $('#Rate').val();
+    var Quantity = $('#qty').val();
+    var TotalValue
+    if (Quantity == "") {
+        TotalValue = parseInt(Rate);
+    }
+    else {
+        TotalValue = parseInt(Rate) * parseInt(Quantity);
+    }
+
+    $("#TotValue").val(TotalValue);
+    $("#totamt").val(TotalValue);
+});
+
+$("#qty").change(function () {
+    
+    var Rate = $('#Rate').val();
+    var Quantity = $('#qty').val();
+    var TotalValue
+    if (Rate == "") {
+        TotalValue = parseInt(Rate);
+    }
+    else {
+        TotalValue = parseInt(Rate) * parseInt(Quantity);
+    }
+    $("#TotValue").val(TotalValue);
+
+
+
+
+      
+});
+</script>
+<script type="text/javascript">
+    $("#IrbmItem").on("change", function () {
+        var ItmNo = $(this).val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+        for (i = 0; i < ItemNo.length; i++) {
+            if (ItmNo == ItemNo[i])
+                swal.fire({
+                    title: 'Item Number already exists',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+
+    });
+
+    
+</script>
+<script>
+    $(document).ready(function () {
+        debugger;
+        if ('@ViewBag.firstbuildingmaterialinspection' == 'True') {
+            Swal.fire({
+                title: 'Are you sure Want To Add?',
+                text: 'BuildingMaterialInspectionDetails is not Added in Previous Inspection',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+            }).then((result) => {
+                // If the user clicks "Yes"
+                if (result.isConfirmed) {
+                    // Open the form
+                    $("#BuildMatSiteInspectionDetails").show();
+                }
+                else {
+                    $('#modelBuildMatSiteInspectionDetails.modal-body').html('');
+                    $('#modelBuildMatSiteInspectionDetails .modal-title').html('');
+                    $('#modelBuildMatSiteInspectionDetails').modal('hide');
+                }
+            });
+
+        }
+
+    });
+
+</script>

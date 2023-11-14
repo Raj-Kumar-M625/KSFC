@@ -1,0 +1,126 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmPromAddressDTO
+@{
+    Layout = null;
+    //var Pincodes = ViewBag.DistrictPincodes;
+}
+<div>
+    <div>
+        <form id="UDPromotorAddress" asp-action="Edit" onsubmit=" return JqueryCUIEditMethod(this,'PromoterAddress');; ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+             @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+              @Html.HiddenFor(m => m.IdmPromadrId, new { @class = "form-control"})            
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control"})
+            <input type="hidden" value="@ViewBag.InUnit" asp-for="UtCd" />
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control"})
+            <div class="row">
+               <div class="col-md-4">
+                    <strong><label class="form-label">Name of Promotor</label></strong>
+                    @Html.DropDownListFor(m => m.PromoterCode, new SelectList(ViewBag.AllPromoterNames, "Value", "Text"),"---Select Promoter Name---", new { @class = "form-select", @disabled = "disabled" })
+                    <span asp-validation-for="PromoterCode" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Address</label></strong>
+                    @Html.TextAreaFor(m => m.PromAddress,  new {@class = "form-control", @maxlength = "500", @id="Address" })
+                    <span asp-validation-for="PromAddress" class="text-danger"></span>
+                    <span id="spanDet">Max:500 Characters</span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">State</label></strong>
+                      @Html.DropDownListFor(m => m.PromStateCd, new SelectList(ViewBag.AllPromoterState, "Value", "Text"), "---Select State---", new { @class = "form-select", @required="required", @id="State" })
+                    <span asp-validation-for="PromStateCd" class="text-danger"></span>
+                </div>                         
+            </div>
+            <br/>  
+           <div  class="row">
+                 <div class="col-md-4">
+                    <strong><label class="form-label">District</label></strong>
+                    @Html.DropDownListFor(m => m.PromDistrictCd, new SelectList(ViewBag.AllPromoterDistrict, "PincodeDistrictCd", "PincodeDistrictDesc"), "---Select District---", new { @class = "form-select",@required="required", @id="District" })
+                    <span asp-validation-for="PromDistrictCd" class="text-danger"></span>
+                </div>  
+                 <div class="col-md-4">
+                    <strong><label class="form-label">Pincode</label></strong>
+                    @Html.DropDownListFor(m => m.PromPincode,  new SelectList(ViewBag.AllPromoterPincode, "PincodeCd", "PincodeCd"), "---Select Pincode---", new { @class = "form-select", @id="Pincode",@required="required"})
+                    <span asp-validation-for="PromPincode" class="text-danger"></span>
+                </div>  
+                <div class="col-md-4" id="check">
+                       @Html.CheckBoxFor(m => m.AdrPermanent, new { @class = "form-check-inline", @id="WhetherPermanent" })
+                       <strong><label class="form-label">Whether Permanent Address</label></strong>
+                </div> 
+           </div>
+           <br />
+            <div class="form-group"> 
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+<script>
+    $('select[id="PromotorName"],textarea[id="Address"],select[id="Pincode"],select[id="District"],select[id="State"], input[id="WhetherPermanent"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+
+    $('select[id="State"]').change(function () {
+        debugger;
+        if ($(this).val()) {
+            $("select[id='District']").removeAttr('disabled');
+        }
+        var StateValue = $('#State').val();
+        var PD = parseInt(StateValue);
+        $.ajax({
+            type: 'Get',
+            url: GetRoute('/PromoterAddress/DistrictDropDown'),
+            data: { Id: PD },
+            success: function (data) {
+                if (data.length != 0) {
+                    var district = district + '<option value="">--Select District--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        district = district + '<option value=' + data[i].value + '>' + data[i].text + '</option>';
+                    }
+                }
+                $('#District').html(district);
+            },
+            error: function (result) {
+                console.log(result)
+            }
+        })
+
+    });
+
+    $('select[id="District"]').change(function () {
+        debugger;
+        if ($(this).val()) {
+            $("select[id='Pincode']").removeAttr('disabled');
+        }
+        var DistrictValue = $('#District').val();
+        var PD = parseInt(DistrictValue);
+        $.ajax({
+            type: 'Get',
+            url: GetRoute('/PromoterAddress/PincodeDropDown'),
+            data: { Id: PD },
+            success: function (data) {
+                debugger;
+                if (data.length != 0) {
+                    var pincode = pincode + '<option value="">--Select Pincode--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        pincode = pincode + '<option value=' + data[i].text + '>' + data[i].text + '</option>';
+                    }
+                }
+                $('#Pincode').html(pincode);
+            },
+            error: function (result) {
+                console.log(result)
+            }
+        })
+
+    });
+
+
+
+</script>

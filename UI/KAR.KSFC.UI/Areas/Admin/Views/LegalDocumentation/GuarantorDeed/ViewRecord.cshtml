@@ -1,0 +1,62 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmGuarantorDeedDetailsDTO
+
+@{
+    Layout = null;
+    List<ldDocumentDto> guarantorDeedDetails = ViewBag.Documentlist;
+}
+
+<div>
+    <div>
+        <form id="LDGuarDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*@Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })*@
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Guarantor</label></strong>
+                    @Html.TextBoxFor(m => m.GuarName, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Mobile Number</label></strong>
+                    @Html.TextBoxFor(m => m.GuarMobileNo, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value Of Asset</label></strong>
+                    @Html.TextBoxFor(m => m.ValueAsset,"{0:n2}",  new { @class = "form-control", @disabled = "disabled",@style="text-align:right"})
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value Of Liability (in Rupees)</label></strong>
+                    @Html.TextBoxFor(m => m.ValueLiab,"{0:n2}", new { @class = "form-control", @disabled = "disabled",@style="text-align:right" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Net Worth (in Rupees)</label></strong>
+                    @Html.TextBoxFor(m => m.ValueNetworth,"{0:n2}", new { @class = "form-control", @disabled = "disabled" ,@style="text-align:right"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Guarantor Deed Number</label></strong>
+                    @Html.TextBoxFor(m => m.DeedNo, new { @class = "form-control", @maxlength = "50", @type="number" ,@disabled = "disabled" })
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Deed Description</label></strong>
+                    @Html.TextAreaFor(m => m.DeedDesc, new { @class = "form-control",  @maxlength = "200",@disabled = "disabled"  })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date Of Execution</label></strong>
+                    @Html.TextBoxFor(m => m.ExcecutionDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", @disabled = "disabled",onkeydown="return false" })
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",guarantorDeedDetails)
+            </div>
+        </form>
+    </div>
+</div>

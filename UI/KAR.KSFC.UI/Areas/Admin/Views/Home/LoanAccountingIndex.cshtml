@@ -1,0 +1,17 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="LoanRelatedReceipt" asp-action="Index">
+            <div class="indexCards" style="background-color: #ebd072;">
+                <h5>Loan Related Receipts</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+</div>

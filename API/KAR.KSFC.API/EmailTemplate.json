@@ -1,0 +1,10 @@
+[
+  {
+    "key": "ForgotPassword",
+    "value": "Dear _user ,<br/><br/> Your old password has been reset. <br/> Your new passsword is _newPassword.  <br/> This is a confidential data. Please don't share your password with anyone. <br/> Please change this password after login. "
+  },
+  {
+    "key": "EnquirySubmission",
+    "value": "Your Enquiry has been submitted. Please keep this Ref no: _ref for future reference"
+  }
+]

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.RegistrationNoDetailsDTO>
+<div>
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Registration Details</h3>
+    <a onclick="showInPopupRD('@Url.Action("CreateOrEdit","RegistrationDetails",new {id=0},null)','New Registration Details')" class="btn btn-primary text-white mb-2 mt-2"><i class="fa fa-plus"></i> Add New Registration Detail</a>
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblRegDetailsDatatable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>
+                    Reg Type
+                </th>
+                <th>
+                    Reg Number
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegTypeText)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqRegno)
+                    </td>
+                    <td>
+                        <a onclick="showInPopupRD('@Url.Action("ViewRecord","RegistrationDetails",new {id=item.EnqRegnoId},Context.Request.Scheme)','View Registration Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                    </td>
+                    <td>
+                        <a onclick="showInPopupRD('@Url.Action("CreateOrEdit","RegistrationDetails",new {id=item.EnqRegnoId},Context.Request.Scheme)','Update Registration Details')" class="btn btn-primary text-white"><i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                    </td>
+                    <td>
+                        <input onclick="return fxnDeleteRegistrationList(@item.EnqRegnoId)"  class="btn btn-danger"  />
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

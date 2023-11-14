@@ -1,0 +1,64 @@
+﻿@model KAR.KSFC.Components.Common.Dto.AdminModule.AssignOfficeDto
+@{
+    Layout = null;
+}
+<form asp-action="SubmitResult" asp-area="Admin" asp-controller="AssignBranch"  id="assignBranchForm" method="post">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group row pb-1">
+                <label for="empNo" class="col-sm-4 col-form-label">Employee No</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.TeyTicketNum, new {@class="form-control", @id="empNo",@maxlength="8", @readonly="true"})
+                    <span asp-validation-for="TeyTicketNum" class="text-danger"></span>
+                </div>
+            </div>
+           <div class="form-group row pb-1">
+                <label for="txtname" class="col-sm-4 col-form-label">Name of User</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.EmpoyeeName, new {@class="form-control", @id="txtname" , @readonly="true"})
+                    <span asp-validation-for="EmpoyeeName" class="text-danger"></span>
+                </div>
+            </div>
+             <div class="form-group row mb-1">
+                <label for="ddlOffice" class="col-sm-4 col-form-label">Select Office</label>
+                <div class="col-sm-8">
+                   @Html.DropDownListFor(model => model.OfficeId, new SelectList (ViewBag.offices, "Value", "Text") ,
+                                new { @class = "form-select" , @id="ddlOffice",  @onchange="getChairs(this.value)"})  
+                    <span asp-validation-for="OfficeId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label for="ddlChair" class="col-sm-4 col-form-label">Select Chair</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.ChairId, new SelectList(ViewBag.Chairs, "Value", "Text"), null, 
+                        new { @class = "form-select" , @id="ddlChair"})   
+                    <span asp-validation-for="ChairId" class="text-danger"></span>
+                </div>
+            </div>
+             <div class="form-group row mb-1">
+                <label for="ddlOpDesig" class="col-sm-4 col-form-label">Select Op. Desig</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.OpsDesignationId, new SelectList(ViewBag.Designations, "Value", "Text"), null, 
+                    new { @class = "form-select" , @id="ddlOpDesig"})   
+                    <span asp-validation-for="OpsDesignationId" class="text-danger"></span>
+
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="txtFromDate" class="col-sm-5 col-form-label">From Date(as per order)</label>
+                <div class="col-sm-7">
+                    
+                   @Html.TextBoxFor(model => model.CommencementDate,"{0:dd-MM-yyyy}", new {@class="form-control", @id="CommencementDate", @readonly="readonly"})
+
+                   <span asp-validation-for="CommencementDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script>
+ 
+</script>

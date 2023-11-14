@@ -1,0 +1,49 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmOthdebitsDetailsDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="OtherdebitDetails" asp-action="ViewRecord">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Other debits</label></strong>
+                    @Html.DropDownListFor(m => m.DsbOthdebitId, new SelectList(ViewBag.OtherDebitCode, "Value", "Text"), "---Select Type---", new { @class = "form-select", @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Amount</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitAmt,"{0:n2}", new { @class = "form-control", @disabled = "disabled",@style="text-align:right" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Remarks/Comments</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitRemarks, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Other Taxes</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitTaxes,"{0:n2}", new { @class = "form-control", @disabled = "disabled",@style="text-align:right" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">GST Amount</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitGst ,"{0:n2}",new { @class = "form-control", @disabled = "disabled",@style="text-align:right" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Due Date of Payment</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitDuedate ,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date", @readonly = "true" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Amount</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitTotal,"{0:n2}", new { @class = "form-control", @disabled = "disabled" ,@style="text-align:right"})
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

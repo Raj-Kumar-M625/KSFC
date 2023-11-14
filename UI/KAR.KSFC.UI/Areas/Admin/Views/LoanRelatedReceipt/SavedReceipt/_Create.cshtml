@@ -1,0 +1,93 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO>
+
+@{
+    int count = 0;
+
+    var allSavedReceiptList = ViewBag.SavedReceipt;
+    var accoutnumber = ViewBag.AccountNumber;
+
+    var LoanSub = ViewBag.LoanSub;
+    var UnitName = ViewBag.UnitName;
+    var uniqueID = ViewBag.UniqueID;
+}
+
+<div>
+    <br />
+     <b><label class="col-md-2 textleft2">Loan Account No. :</label></b>
+            <input class="col-md-2 btnDet17" type="text" value="@ViewBag.AccountNumber"" disabled />
+            &emsp;&emsp;
+            <b><label class="col-md-2 textleft2" >Loan Sub :</label></b>
+            <input class="col-md-2 btnDet18"  type="text" value="@ViewBag.LoanSub" disabled />
+            &emsp;&emsp;
+            <b><label class="col-md-2 textleft2" >Name of Unit :</label></b>
+            <input class="col-md-2 btnDet19"  type="text" value="@ViewBag.UnitName" disabled />
+
+    <br />
+    <hr />
+</div>
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblReceiptPayment1">
+        <thead>
+            <tr>
+                <th class="check"></th>
+                <th class="th2">Receipt Reference No.</th>
+                <th class="th2">Transaction Type</th>
+                <th class="th2">Amount Due</th>
+                <th class="th2">Amount Paid</th>
+                <th class="th2">Balance</th>
+                <th class="th2">Payment Reference Number</th>
+                <th class="th2">Total Pay Amount</th>
+                <th class="th2">Date of Transaction</th>
+                <th class="th2">Due Date for Payment</th>
+                <th class="th2">Status</th>
+                <th class="th2">Mode of Payment</th>
+                <th class="th3a">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                count++;
+                <tr>
+                    @* <td><input type='checkbox' name='checkboxes' value="" /></td>*@
+                    @if (item.TblLaReceiptDet.ReceiptStatus == "Not Paid")
+                    {
+                        <td>
+                            <input type="checkbox" />
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptRefNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.AmountDue)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PaymentAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BalanceAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.PaymentRefNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.ActualAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.PaidDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.DueDatePayment,"{0:yyyy-MM-dd}")</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ModeType)</td>
+
+                    <td>
+                        <input onclick="showInPopupLA('@Url.Action("ViewCreatedRecord","SavedReceipt",new {uniqueID=item.UniqueID},Context.Request.Scheme)','View Saved Receipt Details','SavedReceipt')" class="btn3 btn-warning text-white" type="button" value="View" />
+                        <input onclick="showInPopupLA('@Url.Action("EditCreated","SavedReceipt",new {uniqueID=item.UniqueID},Context.Request.Scheme)','Update Saved Receipt Details','SavedReceipt')" class="btn3 btn-primary text-white" type="button" value="Edit" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblReceiptPayment1').DataTable();
+    });
+</script>
+

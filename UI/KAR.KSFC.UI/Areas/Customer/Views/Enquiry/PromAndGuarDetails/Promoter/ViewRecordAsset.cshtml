@@ -1,0 +1,59 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterAssetsNetWorthDTO
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecordAsset" asp-route-id="@Model.EnqPromassetId" onsubmit="ClearPopupFormPGPD();">
+            @Html.HiddenFor(model => model.EnqPromassetId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name Of Promoter</label>
+                @Html.DropDownListFor(model => model.PromoterCode, new SelectList(ViewBag.PromoterDetailsList, "PromoterMaster.PromoterCode", "PromoterMaster.PromoterName"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+                <span asp-validation-for="PromoterCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Asset Category</label>
+                @Html.DropDownListFor(model => model.AssetcatCd, new SelectList(ViewBag.ListPromAndGuarAssetCategory,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+                <span asp-validation-for="AssetcatCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Type of Asset</label>
+                @Html.DropDownListFor(model => model.AssettypeCd, new SelectList(ViewBag.ListPromAndGuarAssetType,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+                <span asp-validation-for="AssettypeCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Survey / Site / Flat No</label>
+                @Html.TextBoxFor(model => model.EnqAssetSiteno, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Site / Flat Address</label>
+                @Html.TextBoxFor(model => model.EnqAssetAddr, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Dimension</label>
+                @Html.TextBoxFor(model => model.EnqAssetDim, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Area</label>
+                @Html.TextBoxFor(model => model.EnqAssetArea, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Description</label>
+                @Html.TextAreaFor(model => model.EnqAssetDesc, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Value (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqAssetValue, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3 text-center">
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+

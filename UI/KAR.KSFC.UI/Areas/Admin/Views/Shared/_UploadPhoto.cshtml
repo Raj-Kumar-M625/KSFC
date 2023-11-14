@@ -1,0 +1,244 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.ldDocumentDto>
+@{
+    int count = 0;
+
+    var subModuleId = ViewBag.SubModuleId;
+    var subModuleType = ViewBag.SubModuleType;
+    var mainModule = ViewBag.MainModule;
+}
+<style>
+    .nav-link {
+        color: initial;
+    }
+</style>
+<input type="hidden" value="@subModuleId" id="SubModID" />
+<input type="hidden" value="@subModuleType" id="SubModType" />
+<input type="hidden" value="@mainModule" id="MainModule" />
+
+<strong>Upload Promoter photo</strong>
+<br />
+<input id="FileUpload1" name="files" type="file" class="ml-4 mt-3" accept="image/jpeg">
+<br />
+<br />
+<a onclick="uploadFiles('files')" class="btn btn-primary text-white mx-2"> Upload</a>
+<br />
+<br />
+<table class="table table-striped table-bordered table-sm table-responsive-xl" aria-labelledby="photoupload-tab" id="">
+    <thead>
+        <tr>
+            <th>
+                S. No.
+            </th>
+            <th>
+                File Name
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count() > 0)
+        {
+            @foreach (var item in Model)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@item.FileName</td>
+                    <td>
+                        <a class="btn btn-warning text-white mx-2" onclick="ViewUpload('@item.UniqueId')"><em class="fas fa-pencil-alt"></em> View</a>
+                        <a class="btn btn-primary text-white" onclick="DeleteFile('@item.UniqueId')"><em class="fas fa-pencil-alt"></em> Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">
+                    No files found.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="showmodal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+    </div>
+</div>
+
+
+<script>
+ 
+    $('#btnHideModal').click(function () {
+        $('#modalAlertAdmin').modal('hide');
+    });
+
+
+   
+    function uploadFiles(inputId) {
+        debugger
+        var input = document.getElementById('FileUpload1');
+        var ID = $("#SubModID").val()
+        var Type = $("#SubModType").val()
+        var Main = $("#MainModule").val()
+        var files = input.files;
+        var newUrl = '@Url.Action("SaveDocumentDetails","IdmDocument")';
+        var title = 'Uploaded Documents'
+        var formData = new FormData();
+        for (var i = 0; i != files.length; i++) {
+            formData.append("File", files[i]);
+            formData.append("SubModuleId", ID);
+            formData.append("SubModuleType", Type);
+            formData.append("mainModule", Main);
+
+        }
+        $.ajax(
+            {
+                type: 'post',
+                url: newUrl,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    debugger;
+                    if (data.status === "success") {
+                        swal.fire(
+                            'Success!',
+                            'Document uploaded successfully',
+                            'success'
+                        )
+                        $("input[id='submit']").removeAttr('disabled');
+                        $("input[id='FileUpload1']").val(null);
+                        //$('#viewDocuments .modal-body').html(data.html);
+                        //$('#viewDocuments .modal-title').html(title);
+                        //$('#viewDocuments').modal('show');
+                       
+                    }
+                    else {
+                        swal.fire(
+                            'Warning!',
+                            data.data,
+                            'warning'
+                        )
+                    }
+
+                }
+            }
+        );
+    }
+
+    function ViewUpload(filetype) {
+        debugger
+        var newUrl = '@Url.Action("ViewUploadFile","IdmDocument")';
+        var ID = $("#SubModID").val()
+        var Type = $("#SubModType").val()
+        var Main = $("#MainModule").val()
+        var title = 'Uploaded Documents'
+        var formData = new FormData();
+        formData.append("fileId", filetype);
+        formData.append("SubModuleId", ID);
+        formData.append("SubModuleType", Type);
+        formData.append("mainModule", Main);
+        $.ajax({
+            url: newUrl,
+            type: "Post",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (data.result) {
+                  
+                    var objbuilder = '';
+                    objbuilder += ('<title>Photo Viewer</title><embed width=\'80%\' height=\'80%\'  src="data:image/jpeg;base64,');
+                    objbuilder += (data.result);
+                    objbuilder += ('" type="image/jpeg"/>');
+                    $("#showmodal .modal-dialog").html(objbuilder);
+                    $("#showmodal").modal("show");
+                    //window.open(objbuilder);
+
+                } else {
+                    alert('Please try again later!');
+                }
+            }
+        })
+    }
+
+    function DeleteFile(docId) {
+        debugger;
+        var newUrl = '@Url.Action("DeleteUploadFile","IdmDocument")';
+        var ID = $("#SubModID").val()
+        var Type = $("#SubModType").val()
+        var Main = $("#MainModule").val()
+        var title = 'Uploaded Documents'
+        var formData = new FormData();
+        formData.append("fileId", docId);
+        formData.append("SubModuleId", ID);
+        formData.append("SubModuleType", Type);
+        formData.append("mainModule", Main);
+        swal.fire({
+            title: 'Are you sure?',
+            text: "You want to delete this File",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: newUrl,
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        //$("input[id='submit']").removeAttr('disabled');
+                        //$("input[id='FileUpload1']").val(null);
+                        //$('#viewDocuments .modal-body').html(data.html);
+                        //$('#viewDocuments .modal-title').html(title);
+                        //$('#viewDocuments').modal('show');
+                        //// to make popup draggable
+                        //$('.modal-dialog').draggable({
+                        //    handle: ".modal-header"
+                        //});
+                    }
+                });
+                swal.fire(
+                    'Deleted!',
+                    'File successfully Deleted.',
+                    'success'
+                )
+            }
+        })
+    }
+   //function documentPopUp() {
+   //     var ID = $("#SubModID").val()
+   //     var Type = $("#SubModType").val()
+   //     $.ajax({
+   //         type: 'GET',
+   //         data: { submoduleId: ID, submoduleType: Type },
+   //         url: '/IDMDocument/DisplayDocument',
+   //         success: function (res) {
+
+   //             $('#viewDocuments .modal-body').html(res);
+   //             $('#viewDocuments .modal-title').html('Documents');
+   //             $('#viewDocuments').modal('show');
+   //             // to make popup draggable
+   //             $('.modal-dialog').draggable({
+   //                 handle: ".modal-header"
+   //             });
+   //             $('#viewDocuments').modal({
+   //                 backdrop: 'static',
+   //                 keyboard: false
+   //             });
+
+   //         },
+   //         error: function (err) {
+   //             console.log(err);
+   //         }
+   //     });
+   // }
+</script>

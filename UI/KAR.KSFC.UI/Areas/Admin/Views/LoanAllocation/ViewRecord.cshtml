@@ -1,0 +1,44 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.TblIdmDhcgAllcDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="AllocationDetails" asp-action="ViewRecord">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Allocation Code</label></strong>
+                      @Html.DropDownListFor(m => m.DcalcCd, new SelectList(ViewBag.AllocationCodes, "Value", "Text"), "---Select Type---", new { @class = "form-select", @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Allocation Details</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcDetails, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label"> Orginal Allocation Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcAmt, "{0:n2}", new { @class = "form-control", @disabled = "disabled",@dir="rtl" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Revised Allocation Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcAmtRevised, "{0:n2}", new { @class = "form-control", @disabled = "disabled" ,@dir="rtl"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Request</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcRqdt ,"{0:yyyy-MM-dd}", new { @class = "form-control" ,type="date",@readonly = "true" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of communication</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcComdt ,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date", @readonly = "true" })
+                </div>
+            </div>
+            
+        </form>
+    </div>
+</div>

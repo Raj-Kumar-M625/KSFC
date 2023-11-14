@@ -1,0 +1,378 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.EnquiryDTO
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <b>View summary of Application</b>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="UnitDetailsHeader">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#unitDetailsAccordian" aria-expanded="false" aria-controls="unitDetailsAccordian">
+                                        <b>Unit Details</b>
+                                    </button>
+                                </h2>
+                                <div id="unitDetailsAccordian" class="accordion-collapse collapse" aria-labelledby="UnitDetailsHeader">
+                                    <div class="accordion-body">
+                                        <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i>Basic Details</h3>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Fullname :</label>
+                                                <label> @Model.BasicDetails?.EnqApplName </label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Address :</label>
+                                                <label>@Model.BasicDetails?.EnqAddress</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Place :</label>
+                                                <label>@Model.BasicDetails?.EnqPlace</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>PIN Code :</label>
+                                                <label>@Model.BasicDetails?.EnqPincode</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>E-Mail :</label>
+                                                <label>@Model.BasicDetails?.EnqEmail</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>KSFC Branch :</label>
+                                                <label>@Model.BasicDetails?.EnqPlace</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Name of Unit :</label>
+                                                <label>@Model.BasicDetails?.UnitName</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Purpose of Loan :</label>
+                                                <label>@Model.BasicDetails?.PurpCd</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Period of Repayment incuding Moratorium :</label>
+                                                <label>@Model.BasicDetails?.EnqRepayPeriod</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Constitution Type :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Size of Firm :</label>
+                                                <label>ansdd</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Name of Product/Activity :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Type of Industry :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Expected Loan Amount (In Lakhs.):</label>
+                                                <label>ansdxd</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Distric :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Taluka :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Hobli :</label>
+                                                <label>ansdr</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Village :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Nature of Premises :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+
+                                        <br />
+
+                                        <div id="sum-Address">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/AddressdataView.cshtml", Model.AddressDetails)
+                                        </div>
+                                        <br />
+
+                                        <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i>Bank Details</h3>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Name of Bank :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Name of Branch :</label>
+                                                <label>tedc</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Pincode :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Name as in Bank Ac :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Bank Account Number :</label>
+                                                <label>ansdr byhxd</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>IFSC :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Type of Account :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <div id="sumRegistration">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getRegistrationData.cshtml", Model.RegistrationDetails)
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @*Unit details accordian ends*@
+                            <br />
+                            @*Promoter details accordian start*@
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="PromoterHeading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#PromoterHeadingAccordian" aria-expanded="false" aria-controls="PromoterHeadingAccordian">
+                                        <b>Promoter Details</b>
+                                    </button>
+                                </h2>
+                                <div id="PromoterHeadingAccordian" class="accordion-collapse collapse" aria-labelledby="PromoterHeading">
+                                    <div class="accordion-body">
+                                        <div id="sumPromoter">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPromoterData.cshtml", Model.PromoterAllDetailsDTO.ListPromoters)
+                                        </div>
+                                        <br />
+                                        <div id="sumPromoterAsset">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPromoterAssetData.cshtml", Model.PromoterAllDetailsDTO.PromotersAssetLiabilityDetails.ListAssetDetails)
+                                        </div>
+                                        <br />
+                                        <div id="sumPromoterLiability">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPromoterLiabilityData.cshtml", Model.PromoterAllDetailsDTO.PromotersAssetLiabilityDetails.ListLiabilityDetails)
+                                        </div>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                            @*Promoter details accordian ends*@
+                            <br />
+                            @*guarenter details accordian start*@
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="GuarantorHeading">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#GuarantorAccordian" aria-expanded="false" aria-controls="GuarantorAccordian">
+                                        <b>Guarantor Details</b>
+                                    </button>
+                                </h2>
+                                <div id="GuarantorAccordian" class="accordion-collapse collapse" aria-labelledby="GuarantorHeading">
+                                    <div class="accordion-body">
+                                        <div id="sumGuarantor">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getGuarantorData.cshtml", Model.GuarantorAllDetailsDTO.ListGuarantor)
+                                        </div>
+                                        <br />
+                                        <div id="sumGuarentorAsset">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getGuarentorAssetData.cshtml", Model.GuarantorAllDetailsDTO.GuarantorAssetLiabilityDetails.ListAssetDetails)
+                                        </div>
+                                        <br />
+                                        <div id="sumGuarentorLiability">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getGuarentorLiabilityData.cshtml", Model.GuarantorAllDetailsDTO.GuarantorAssetLiabilityDetails.ListLiabilityDetails)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*guarenter details accordian ends*@
+                            <br />
+                            @*ASC details accordian start*@
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="ConcernDetailsHeader">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ConcernDetailsAccordian" aria-expanded="false" aria-controls="ConcernDetailsAccordian">
+                                        <b>Associate / Sister Concern Details</b>
+                                    </button>
+                                </h2>
+                                <div id="ConcernDetailsAccordian" class="accordion-collapse collapse" aria-labelledby="ConcernDetailsHeader">
+                                    <div class="accordion-body">
+                                        <div id="sumAssociate">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getAssociateData.cshtml", Model.AssociateConcernDetails.ListAssociates)
+                                        </div>
+                                        <br />
+                                        <div id="sumPrevFY">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getPrevFYData.cshtml", Model.AssociateConcernDetails.ListFYDetails)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*ASC details accordian ends*@
+                            <br />
+                            @*project details accordian start*@
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="ProjectHeader">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ProjectAccordian" aria-expanded="false" aria-controls="ProjectAccordian">
+                                        <b>Project Details</b>
+                                    </button>
+                                </h2>
+                                <div id="ProjectAccordian" class="accordion-collapse collapse" aria-labelledby="ProjectHeader">
+                                    <div class="accordion-body">
+                                        <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Working Capital Arrangement Details</h3>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Name of Bank :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Name of Bank Branch :</label>
+                                                <label>ans </label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>IFSC :</label>
+                                                <label>ans </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Amount (In Lakhs.) :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div id="sumProjectCost">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getProjectCostData.cshtml", Model.ProjectDetails.ListPrjctCost)
+                                        </div>
+                                        <br />
+                                        <div id="sumProjectMeansOfFinance">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getProjectMeansOfFinanceData.cshtml", Model.ProjectDetails.ListMeansOfFinance)
+                                        </div>
+                                        <br />
+                                        <div id="sumProjectPrevFY">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getProjectPrevFYData.cshtml", Model.ProjectDetails.ListPrevYearFinDetails)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*project details accordian ends*@
+                            <br />
+                            @*Documents and security accordian start*@
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="SecurityHeader">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#SecurityAccordian" aria-expanded="false" aria-controls="SecurityAccordian">
+                                        <b>Security and Documents</b>
+                                    </button>
+                                </h2>
+                                <div id="SecurityAccordian" class="accordion-collapse collapse" data-bs-parent="#SecurityHeader" aria-labelledby="SecurityHeader">
+                                    <div class="accordion-body">
+                                        <br />
+                                        <div id="sumSecurity">
+                                            @await Html.PartialAsync("/Areas/Customer/Views/Enquiry/ReviewAndSubmit/ReviewApplicationForm/getSecurityData.cshtml", Model.SecurityDetails)
+                                        </div>
+                                        <br />
+                                        <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i>Documents Uploaded</h3>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Detailed Project Report :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Proof of Residence :</label>
+                                                <label>ans </label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Approved site and building plans :</label>
+                                                <label>ans </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>List of existing machinery :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Audited Balance Sheet :</label>
+                                                <label>ans </label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Copies of Income Tax :</label>
+                                                <label>ans </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Documents related to Land and Building :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Land and Building is taken on Lease :</label>
+                                                <label>ans </label>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i>Declaration</h3>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Date :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Place :</label>
+                                                <label>ans </label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label>Name of Applicant :</label>
+                                                <label>ans </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <label>Applicant Designation :</label>
+                                                <label>test ans</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

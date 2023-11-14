@@ -1,0 +1,55 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.Disbursement.Form8AndForm13DTO>
+@{
+    int count = 0;
+    var account = ViewBag.AccountNumber;
+    var loanSub = ViewBag.LoanSub;
+    var offc = ViewBag.OffcCd;
+    var inunit =   ViewBag.InUnit;
+}
+<a onclick="showInPopup('@Url.Action("Create","Form8AndForm13",new {accountNumber = account, loansub = loanSub, offcCd = offc, inunit = inunit},Context.Request.Scheme)','New Form8 And Form13','Form8AndForm13')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add New Form 8 And Form 13</a>
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblForm8AndForm13" aria-labelledby="Form8AndForm13-tab">
+        <thead>
+            <tr>
+                <th class="th2">S. No.</th> 
+                <th class="th4">Type of Form</th>
+                <th class="th3">Date of Filing</th>
+                <th class="th4">Receipt No</th>
+                <th class="th6">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+            @foreach (var item in Model)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@Html.DisplayFor(modelItem => item.FormType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DF813Dt,"{0:yyyy-MM-dd}")</td>
+                    <td>@Html.DisplayFor(modelItem => item.DF813Ref)</td>
+                    <td class="textCenter">
+                        <a onclick="showInPopup('@Url.Action("ViewRecord","Form8AndForm13",new {id=item.UniqueId},Context.Request.Scheme)','View Form 8 And Form 13 Details','Form8AndForm13')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                        <a onclick="showInPopup('@Url.Action("Edit","Form8AndForm13",new {id=item.UniqueId},Context.Request.Scheme)','Edit Form 8 And Form 13 Details','Form8AndForm13')" class="btn btn-primary text-white"> <i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                            <a onclick="JqueryDisbursmentDeleteMethod('@Url.Action("Delete","Form8AndForm13",new {id=item.UniqueId},Context.Request.Scheme)','Form8and13')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+                    </td>
+                </tr>
+            }
+            }
+            else
+            {
+            <tr>
+                <td colspan="8">
+                    No Data Available.
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblForm8AndForm13').DataTable();
+    });
+</script>

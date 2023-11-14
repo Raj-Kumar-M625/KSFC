@@ -1,0 +1,172 @@
+
+
+
+
+
+
+
+	
+	<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <UserSecretsId>1092103f-ee05-4d52-94bd-d8fa018529e2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Controllers\Accounting Officer\**" />
+    <Compile Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder1\**" />
+    <Compile Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder\**" />
+    <Compile Remove="Areas\Admin\Data\**" />
+    <Compile Remove="Areas\Admin\Models\**" />
+    <Compile Remove="Areas\Customer\Data\**" />
+    <Compile Remove="Areas\Customer\Models\**" />
+    <Content Remove="Areas\Admin\Controllers\Accounting Officer\**" />
+    <Content Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder1\**" />
+    <Content Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder\**" />
+    <Content Remove="Areas\Admin\Data\**" />
+    <Content Remove="Areas\Admin\Models\**" />
+    <Content Remove="Areas\Customer\Data\**" />
+    <Content Remove="Areas\Customer\Models\**" />
+    <EmbeddedResource Remove="Areas\Admin\Controllers\Accounting Officer\**" />
+    <EmbeddedResource Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder1\**" />
+    <EmbeddedResource Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder\**" />
+    <EmbeddedResource Remove="Areas\Admin\Data\**" />
+    <EmbeddedResource Remove="Areas\Admin\Models\**" />
+    <EmbeddedResource Remove="Areas\Customer\Data\**" />
+    <EmbeddedResource Remove="Areas\Customer\Models\**" />
+    <None Remove="Areas\Admin\Controllers\Accounting Officer\**" />
+    <None Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder1\**" />
+    <None Remove="Areas\Admin\Controllers\IDM\Disbursement\NewFolder\**" />
+    <None Remove="Areas\Admin\Data\**" />
+    <None Remove="Areas\Admin\Models\**" />
+    <None Remove="Areas\Customer\Data\**" />
+    <None Remove="Areas\Customer\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectCost\CreateOrEdit.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectCost\ViewRecord.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectCost\_ViewAll.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\CreateOrEdit.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\ViewRecord.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\_ViewAll.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\CreateOrEdit.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\ViewRecord.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\_ViewAll.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\SecurityAndDocuments\SecurityDetails\CreateOrEdit.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\SecurityAndDocuments\SecurityDetails\ViewRecord.cshtml" />
+    <Content Remove="Areas\Admin\Views\Enquiry\SecurityAndDocuments\SecurityDetails\_ViewAll.cshtml" />
+  </ItemGroup>
+
+   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.13" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="Serilog.Enrichers.ClientInfo" Version="1.1.4" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\IDM\" />
+    <Folder Include="wwwroot\media\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Admin\Views\CreationOfDisbursmentProposal\BeneficiaryDetails\_Edit.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectCost\CreateOrEdit.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectCost\ViewRecord.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectCost\_ViewAll.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\CreateOrEdit.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\ViewRecord.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\_ViewAll.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\CreateOrEdit.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\ViewRecord.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\_ViewAll.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\SecurityAndDocuments\SecurityDetails\CreateOrEdit.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\SecurityAndDocuments\SecurityDetails\ViewRecord.cshtml" />
+    <None Include="Areas\Admin\Views\Enquiry\SecurityAndDocuments\SecurityDetails\_ViewAll.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectCost\CreateOrEdit.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectCost\ViewRecord.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectCost\_ViewAll.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\CreateOrEdit.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\ViewRecord.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\_ViewAll.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\CreateOrEdit.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\ViewRecord.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectPrevFYDetails\_ViewAll.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\AddressdataView.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getAssociateData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getGuarantorData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getGuarentorAssetData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getGuarentorLiabilityData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getGuarentorNetWorthData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getPrevFYData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getProjectCostData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getProjectMeansOfFinanceData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getProjectPrevFYData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getPromoterAssetData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getPromoterData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getPromoterLiabilityData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getPromoterNetWorthData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getRegistrationData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\ReviewAndSubmit\ReviewApplicationForm\getSecurityData.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\SecurityAndDocuments\SecurityDetails\CreateOrEdit.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\SecurityAndDocuments\SecurityDetails\ViewRecord.cshtml" />
+    <None Include="Areas\Customer\Views\Enquiry\SecurityAndDocuments\SecurityDetails\_ViewAll.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="KAR.KSFC.Components.Common.Dto">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Dto\bin\Debug\net5.0\KAR.KSFC.Components.Common.Dto.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Common.Logging">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Logging\bin\Debug\net5.0\KAR.KSFC.Components.Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Common.Security">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Security\bin\Debug\net5.0\KAR.KSFC.Components.Common.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Common.Utilities">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Utilities\bin\Debug\net5.0\KAR.KSFC.Components.Common.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="KAR.KSFC.Components.Data.Models">
+      <HintPath>..\..\Components\Common\KAR.KSFC.Components.Common.Utilities\bin\Debug\net5.0\KAR.KSFC.Components.Data.Models.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Admin\Views\Enquiry\ProjectDetails\WorkingCapital\WorkingCapital.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Admin\Views\Enquiry\SecurityAndDocuments\Declaration\Declaration.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Admin\Views\Shared\_FileUploadPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\CreateOrEdit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\ViewRecord.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Areas\Customer\Views\Enquiry\ProjectDetails\ProjectMeansOfFinance\_ViewAll.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

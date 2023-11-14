@@ -1,0 +1,129 @@
+﻿@model List<KAR.KSFC.Components.Data.Models.DbModels.TblUnitDet>
+
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="d-flex row align-items-center">
+    <div class="d-flex col-md-6">
+        <label for="unitName" class="form-label col-md-2">Unit Name : </label>
+        <select id="unitName" class="form-select">
+            @foreach(var obj in Model){
+            <option >@obj.ut_name</option>
+            }
+        </select>
+    </div>
+
+    <div class="d-flex col-md-6">
+        <label for="serialNo" class="form-label col-md-2">Loan No : </label>
+        <select id="serialNo" class="form-select">
+            @foreach (var obj in Model)
+            {
+                <option>@obj.ln_no</option>
+            }
+        </select>
+        <a asp-area="Admin" asp-controller="Home" asp-action="Dashboard" class="btn btn-warning mx-3">View</a>
+    </div>
+   
+</div>
+<br/>
+<div class="d-flex row align-items-center">
+
+    <div class="d-flex col-md-6">
+        <label for="SerialNo" class="form-label col-md-2">Serial No:</label>
+        <select id="SerialNo" class="form-select">
+            <option ></option>
+        </select>
+    </div>
+</div>
+@*<div class="row">
+    <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="IDM" asp-action="Index">
+            <div class="indexCards" style="background-color: #ebd072;">
+                <h5>Legal Documentation</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="Audit" asp-action="Index">
+            <div class="indexCards" style="background-color: #90BEEB;">
+                <h5>Audit Clearance</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="Disbursement" asp-action="Index">
+            <div class="indexCards" style=" background-color: #E5A09D">
+                <h5>Verification of Disbursement Conditions</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="UnitDetails" asp-action="Index">
+            <div class="indexCards" style="background-color: #bff0f8;">
+                <h5>Change of Unit Information</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="InspectionOfUnit" asp-action="Index">
+            <div class="indexCards" style="background-color:#ebd072;">
+                <h5>Inspection Of Units</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>*@
+
+    @* old comment *@
+   @*  <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="CreationOfSecurityandAquisitionAsset" asp-action="Index">
+            <div class="indexCards" style="background-color: #90BEEB;">
+                <h5>Creation Of Security and Aquisition of Assets</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>*@
+
+    @*<div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="LoanAllocation" asp-action="Index">
+            <div class="indexCards"  style=" background-color: #E5A09D">
+                <h5>Revision of Loan Allocation</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>*@
+
+    @* old comment *@
+
+
+
+    @*<div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="CreationOfDisbursmentProposal" asp-action="Index">
+            <div class="indexCards" style=" background-color: #bff0f8">
+                <h5>Creation Of Disbursment Proposal</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a class="nav-link" asp-area="Admin" asp-controller="EntryOfOtherDebits" asp-action="Index">
+            <div class="indexCards" style=" background-color: #E5A09D">
+                <h5>Adjustment Amount</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+</div>*@
+
+<script>
+localStorage.removeItem("showSecurityChargeDetails")
+</script>

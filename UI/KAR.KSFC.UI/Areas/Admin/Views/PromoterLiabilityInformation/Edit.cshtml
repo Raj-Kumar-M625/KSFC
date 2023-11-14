@@ -1,0 +1,52 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.TblPromoterLiabDetDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+}
+
+<div>
+    <div>
+        <form id="PDLiaiblityinfo" asp-action="Edit" onsubmit="return JqueryCUIEditMethod(this,'LiabilityInformation'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />            
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.UniqueID, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.PromoterCode, new { @class = "form-control"})
+           <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+        <input type="hidden" value="@ViewBag.UtCd" asp-for="UTCD" />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Name of Promoter<span  id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PromoterCode, new SelectList(ViewBag.AllPromoterNames, "PromoterCode", "PromName"),"---Select Promoter Name---", new { @class = "form-select", @id="PromotorName", @disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Liability Description<span  id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.LiabDesc, new { @class = "form-control",@maxlength = "200",required = "required"})      
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Value (In Lakhs)<span  id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.LiabVal,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", @id="promMobileNo", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,@style="text-align:right"})
+                   </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" disabled id="submit" class="btn btn-primary" />
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+<script>
+    $('select[class="form-select"],textarea[class="form-control"],input[class="form-control"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

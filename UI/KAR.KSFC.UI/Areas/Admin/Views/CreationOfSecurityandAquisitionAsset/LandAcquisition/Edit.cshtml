@@ -1,0 +1,118 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.TblIdmIrLandDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var loansub = ViewBag.LoanSub;
+    var offccd = ViewBag.OffCd;
+    var secvalue = Model.IrlSecValue;
+    var security = ViewBag.Inspection;
+}
+<div>
+    <div>
+        <form id="LandAcquisition" asp-action="Edit" onsubmit="return JqueryCSAAEditMethod(this,'LandAcquisition'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control", value=@ViewBag.LoanSub })
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control", value=@ViewBag.OffCd })
+            @Html.HiddenFor(m => m.IrlId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+          
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Land Ref. No.</label></strong>
+                    @Html.TextBoxFor(m => m.IrlIno, new { @class = "form-control", @id = "irlino", @readonly = "true" })
+                    <span asp-validation-for="IrlIno" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Area</label></strong>
+                    @Html.TextBoxFor(m => m.IrlArea, new { @class = "form-control", @id = "irlarea", @readonly = "true"})
+                    <span asp-validation-for="IrlArea" class="text-danger"></span>
+                </div>
+                 <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Unit Area</label></strong>
+                    @Html.TextBoxFor(m => m.IrlAreaIn, new { @class = "form-control", @id = "irlareain",  @readonly = "true"})
+                    <span id="spanDet">Max: 10 Characters</span><br />
+                    <span asp-validation-for="IrlAreaIn" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Type</label></strong>
+                    @Html.DropDownListFor(m => m.IrlLandTy, new SelectList(ViewBag.LandType,"Value", "Text"), "---Select Land Type---", new { @class = "form-select", @id = "landtype", @disabled = "disabled"})
+                    <span asp-validation-for="IrlLandTy" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Cost</label></strong>
+                    @Html.TextBoxFor(m => m.IrlLandCost,"{0:n2}", new { @class = "form-control", @id = "irllandcost", @readonly = "true"})
+                    <span asp-validation-for="IrlLandCost" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered For Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrlSecValue,"{0:n2}", new { @class = "form-control", @id = "irlsecvalue", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="IrlSecValue" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">   
+                <div class="col-md-4">
+                    <strong><label class="form-label">Land Development Cost</label></strong>
+                    @Html.TextBoxFor(m => m.IrlDevCost,"{0:n2}", new { @class = "form-control", @id = "irldevcost", @readonly = "true" })
+                    <span asp-validation-for="IrlDevCost" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @*
+                    @Html.TextBoxFor(m => m.IrlRelStat, new { @class = "form-control", @id = "irlrelstat",@type="number",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxValue="100"})
+                    *@
+                    @Html.TextBoxFor(m => m.IrlRelStat, new { @class = "form-control", @id = "irlrelstat",@maxlength = "4", @readonly = "true"})
+                    <span asp-validation-for="IrlRelStat" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('input[id="irlsecvalue"], input[id="irlareain"], input[id="irlrelstat"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+    $(document).ready(function(){
+        debugger;
+        var secval = ($("#irlsecvalue").val());
+        var secvalue = @security;
+        var ratio = (parseInt($("#irlsecvalue").val()) / secvalue) * 100;
+        $("#irlrelstat").val(ratio);
+    })
+
+    $("#irlsecvalue").on("change",function(){
+        debugger
+        var secval = ($("#irlsecvalue").val());
+        var secvalue = @security;
+        var ratio = (parseInt($("#irlsecvalue").val())/secvalue) * 100;
+        $("#irlrelstat").val(ratio);
+    })
+
+    $("#IrlRelStat").on("change", function () {
+        var data = $(this).val();
+        if (data.length > 3) {
+
+            swal.fire({
+                title: 'Release Status Cannot be greater than 100!',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                $(this).val("");
+            })
+        }
+    });
+</script>

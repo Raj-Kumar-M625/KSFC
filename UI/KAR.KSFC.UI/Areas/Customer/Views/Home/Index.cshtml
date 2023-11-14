@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <form method="post">
+        <h1 class="display-4"> @Startup._e["Welcome to Karnataka State Financial Corporation"]</h1>
+        <h3>@Startup._e["(Undertaking by State Government Of Karnataka)"]</h3>
+
+
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-3 mt-5">
+        <a class="nav-link" asp-area="Customer" asp-controller="LoanRelatedReceiptProm" asp-action="Index">
+            <div class="indexCards" style=" background-color: #ebd072;">
+                <h5>Loan Related Receipts</h5>
+                <b><p>(@ViewBag.Count)</p></b>
+            </div>
+        </a>
+    </div>
+
+</div>

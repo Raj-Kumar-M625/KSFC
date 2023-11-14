@@ -1,0 +1,45 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.RegistrationNoDetailsDTO>
+@{
+    int count = 1;
+}
+
+
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RegrefCd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqRegno)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(count++)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RegTypeText)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqRegno)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color: red"><b>No data added, Please add the Registration details</b></p>
+}
+

@@ -1,0 +1,118 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmSecurityDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> securityChargeDetails = ViewBag.Documentlist;
+
+}
+<div>
+    <div>
+        <form id="LDSecuirtyDetail" asp-action="Edit" onsubmit="return JqueryAjaxPostMethod(this,'ColletralSecurity'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @Html.HiddenFor(m => m.IdmDeedDetId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name of Security Holder</label></strong>
+                    @Html.TextBoxFor(m => m.PjSecNam, new { @class = "form-control", @readonly = "true" })
+                    <span asp-validation-for="PjSecNam" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Details</label></strong>
+                    @Html.DropDownListFor(m => m.TblSecurityRefnoMast.SecCd, new SelectList(ViewBag.SecurityType, "Value", "Text"), "---Select Type---", new { @class = "form-select" , @disabled = "disabled"})
+                    @Html.HiddenFor(m => m.TblSecurityRefnoMast.SecCd)
+                    <span asp-validation-for="TblSecurityRefnoMast.SecCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Type of Security</label></strong>
+                    @Html.DropDownListFor(m => m.TblSecurityRefnoMast.SecurityCd, new SelectList(ViewBag.SecurityCategory, "Value", "Text"), "---Select Category---", new { @class = "form-select" , @disabled = "disabled"})
+
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value</label></strong>
+                    @Html.TextBoxFor(m => m.SecurityValue, "{0:n2}", new { @class = "form-control", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", @readonly = "true",@style="text-align:right"})
+                </div>
+
+                <div class="col-md-4">
+                    <strong><label class="form-label">Description of Security</label></strong>
+                    @Html.TextAreaFor(m => m.PjSecDets, new { @class = "form-control", @readonly = "true" })
+                    <span asp-validation-for="PjSecDets" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Deed Description</label></strong>
+                    @Html.TextAreaFor(m => m.DeedDesc, new { @class = "form-control", @maxlength = "200", @id="deedDesc" })
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="DeedDesc" class="text-danger"></span>
+
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Deed No.</label></strong>
+                    @Html.TextBoxFor(m => m.DeedNo, new { @onkeypress="allowAlphaNumericSpace(event)", @class = "form-control uniqueNumber" , @id="deedNo", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="15",@required="required"})
+                    <span asp-validation-for="DeedNo" class="text-danger"></span>
+                    <span id="spanDet">Max:15 Characters</span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Sub Registrar Office</label></strong>
+                    @Html.DropDownListFor(m => m.SubregistrarCd, new SelectList(ViewBag.SubRegistrarOffice, "Value", "Text"), "---Select Sub Registrar Ofice---", new { @class = "form-select", @id="subRegistrar" })
+                    <span asp-validation-for="SubregistrarCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Execution</label></strong>
+                    @Html.TextBoxFor(m => m.ExecutionDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date", @id="executionDate",onkeydown="return false" })
+                    <span asp-validation-for="ExecutionDate" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",securityChargeDetails)
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+        <br />
+    </div>
+</div>
+<script>
+    $('input[id="deedNo"], textarea[id="deedDesc"], select[id="subRegistrar"], input[id="executionDate"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+    $(".uniqueNumber").change(function () {
+        var ItmNo = $(this).val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+        for (i = 0; i < ItemNo.length; i++) {
+            if (ItmNo == ItemNo[i])
+                swal.fire({
+                    title: 'Deed Number already exists',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+    });
+</script>
+<script>
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+        if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+</script>

@@ -1,0 +1,83 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO>
+@{
+    int count = 0;
+    var LoanSub = ViewBag.LoanSub;
+    var UnitName = ViewBag.UnitName;
+}
+
+
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblReceiptPaymentDataTable">
+        <thead>
+            <tr>
+                <th class="th1"></th>
+                <th class="th2">Receipt Reference No.</th>
+                <th class="th2">Transaction Type</th>
+                <th class="th7">Amount Due</th>
+                <th class="th7">Amount Paid</th>
+                <th class="th7">Balance</th>
+                <th class="th2">Payment Reference Number</th>
+                <th class="th7">Total Pay Amount</th>
+                <th class="th7">Date Of Transaction</th>
+                <th class="th7">Due Date For Payment</th>
+                <th class="th2">Status</th>
+                <th class="th7">Mode of Payment</th>
+                <th class="th2a">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                count++;
+                <tr>
+                     
+                    @if (item.TblLaReceiptDet.ReceiptStatus != "Payment Initiated")
+                    {
+                        @if (item.TblLaReceiptDet.ReceiptStatus != "Paid")
+                        {
+                               <td>
+                                    <input type="checkbox" />
+                                </td>
+                            
+                            
+                        }
+                          
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                    <td hidden>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptRefNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptRefNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.AmountDue)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PaymentAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BalanceAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.PaymentRefNo)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.ActualAmt)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.PaidDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.DueDatePayment,"{0:yyyy-MM-dd}")</td>
+                    <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ModeType)</td>
+                    <td class="textCenter">
+                        <a onclick="showInPopupLAProm('@Url.Action("ViewRecord","LoanReceipt",new {id=item.UniqueID},Context.Request.Scheme)','View Loan Related Receipt','LoanReceipt')" class="btn btn-warning text-white">View</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <input type="submit" onclick="showInPopupPayment('Payment Generation','LoanReceipt',LoanSub='@LoanSub',UnitName='@UnitName')" class="btn  btn-success btn-lg mb-2 mt-2 next  float-end"  value="Create Payment" />
+</div>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $("#tblReceiptPaymentDataTable").DataTable();
+    });
+</script>

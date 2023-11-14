@@ -1,0 +1,52 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDspInspDTO
+@{
+    Layout = null;   
+      List<ldDocumentDto> inspectionDetails = ViewBag.Documentlist;
+}
+<div>
+    <div>
+        <form id="InspectionDetailsForm" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Inpsection No.</label></strong>
+                    @Html.TextBoxFor(m => m.DinNo , new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label"> Inpsection Date</label></strong>
+                      @Html.TextBoxFor(m => m.DinDt,"{0:yyyy-MM-dd}", new { @class = "form-control",@disabled = "disabled" ,type="date"})
+                </div>                               
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Report Submission</label></strong>
+                   @Html.TextBoxFor(m => m.DinRdt, "{0:yyyy-MM-dd}", new { @class = "form-control", @disabled = "disabled",type="date" })
+                </div>
+                 <div class="col-md-6">
+                    <strong><label class="form-label">Name of Inspection Official</label></strong>
+                  @Html.TextBoxFor(m => m.DinTeam, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Release</label></strong>
+                    @Html.DropDownListFor(m => m.DinRdt, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="General",Value = "0"},
+                    new SelectListItem(){Text="Adhoc",Value = "1"},
+                    new SelectListItem(){Text="Both",Value = "2"}
+                    },"---Select Type of Release---", new { @class = "form-select", @id = "Type",@disabled = "disabled"})
+                    <span asp-validation-for="DinRdt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",inspectionDetails)
+            </div>
+        </form>
+    </div>
+</div>

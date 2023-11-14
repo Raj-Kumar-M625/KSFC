@@ -1,0 +1,100 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmChangeBankDetailsDTO
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+}
+
+<div>
+    <form id="ChangeBankDetails" asp-action="ViewRecord" onsubmit="return ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+        <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+        <input type="hidden" value="@ViewBag.InUnit" asp-for="UtCd" />
+
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Bank IFSC   </label></strong>
+                <input type="text" id="ifsc" asp-for="UtIfsc" readonly class="form-control"/>
+            </div>
+           <div class="col-md-6">
+                <strong> <label calss="from-label">Name of Bank  </label></strong>
+                <input type="text" asp-for="UtBank" id="bnkName" readonly class="form-control"/>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name of Branch  </label></strong>
+                <input type="text"  asp-for="UtBankBranch" id="brnName" readonly class="form-control"/>
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">Bank Address  </label></strong>
+                <textarea  asp-for="UtBankAddress" id="bnkAdr" readonly class="form-control"></textarea>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">State  </label></strong>
+                <input type="text" asp-for="UtBankState" id="bnkState" readonly class="form-control"/>
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">District </label></strong>
+                <input type="text" asp-for="UtBankDistrict" id="bnkDist" class="form-control" readonly />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Taluka </label>
+                </strong>
+                <input type="text" asp-for="UtBankTaluka" id="bnkTlk" class="form-control" readonly />
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Pin Code </label>
+                </strong>
+                <input type="number" asp-for="UtBankPincode" readonly class="form-control" min="0"  onkeypress="return event.charCode >= 46 && event.charCode <= 57"  />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Banker Phone   </label></strong>
+                <input type="number" asp-for="UtBankPhone" class="form-control" readonly min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" />
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Bank Account Number </label>
+                </strong>
+                 <input type="number" asp-for="UtBankAccno" readonly class="form-control" min="0"  onkeypress="return event.charCode >= 46 && event.charCode <= 57"  />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name of Account Holder </label></strong>
+                <input type="text" asp-for="UtBankHolderName" readonly class="form-control" required/>
+            </div>
+            <div class="col-md-6">
+                 <strong><label calss="from-label">Type of Account </label></strong>
+                @Html.DropDownListFor(m => m.UtAccType, new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="Current Account",Value = "1"},
+                //new SelectListItem(){Text="Saving Account",Value = "2"}
+                }, "---Select Type of Account---", new { @class = "form-control",disabled="disabled", @id="ChargeTypeCd" })
+                <span asp-validation-for="UtAccType" class="text-danger"></span>
+            </div>
+        </div>        
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                @Html.CheckBoxFor(m => m.UtBankPrimary , new{@id="WhetherPrimary",@onclick="return false"})
+                <strong><label class="form-label">&nbsp;&nbsp;Whether Primary Bank</label></strong>
+            </div>
+        </div>
+    </form>
+</div>

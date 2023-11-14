@@ -1,0 +1,106 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterDetailsDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateOrEdit" id="formPromoterDetails" asp-route-id="@Model.EnqPromId" onsubmit="return jQueryAjaxPostPGPD(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqPromId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Promoter</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterName, new { @class = "form-control" })
+                <span asp-validation-for="PromoterMaster.PromoterName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Position / Designation</label>
+                @Html.DropDownListFor(model => model.PdesigCd, new SelectList(ViewBag.ListPromoterDesignation, "Value", "Text"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="PdesigCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="aa" class="form-label">Date of Birth</label>
+                <input asp-for="PromoterMaster.PromoterDob" class="form-control" id="txtProDateOfBirth" disabled="disabled" autocomplete="off"  />
+                <span asp-validation-for="PromoterMaster.PromoterDob" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">% of Shareholding</label>
+                @Html.TextBoxFor(model => model.EnqPromShare, new { @class = "form-control" })
+                <span asp-validation-for="EnqPromShare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Domicile Status</label>
+                @Html.DropDownListFor(model => model.DomCd, new SelectList(ViewBag.ListDomicileStatus, "Value", "Text"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="DomCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Promoter PAN</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterPan, new { @class = "form-control" })
+                <span asp-validation-for="PromoterMaster.PromoterPan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Passport No.</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterPassport, new { @class = "form-control" })
+                <span asp-validation-for="PromoterMaster.PromoterPassport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Experince (Years)</label>
+                @Html.TextBoxFor(model => model.EnqPromExp, new { @class = "form-control", @type = "number" })
+                <span asp-validation-for="EnqPromExp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Experince Details</label>
+                @Html.TextBoxFor(model => model.EnqPromExpdet, new { @class = "form-control" })
+                <span asp-validation-for="EnqPromExpdet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name Of Bank</label>
+                @Html.TextBoxFor(model => model.PromoterBankDetails.PromBankname, new { @class = "form-control" })
+                <span asp-validation-for="PromoterBankDetails.PromBankname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name as in Bank Account</label>
+                @Html.TextBoxFor(model => model.PromoterBankDetails.PromAccName, new { @class = "form-control" })
+                <span asp-validation-for="PromoterBankDetails.PromAccName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Bank Account No.</label>
+                @Html.TextBoxFor(model => model.PromoterBankDetails.PromBankaccno, new { @class = "form-control" })
+                <span asp-validation-for="PromoterBankDetails.PromBankaccno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">IFSC</label>
+                @Html.TextBoxFor(model => model.PromoterBankDetails.PromIfsc, new { @class = "form-control" })
+                <span asp-validation-for="PromoterBankDetails.PromIfsc" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Mobile Number</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterMobno, new { @class = "form-control", @type = "number" })
+                <span asp-validation-for="PromoterMaster.PromoterMobno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">E-Mail</label>
+                @Html.TextBoxFor(model => model.PromoterMaster.PromoterEmailid, new { @class = "form-control" })
+                <span asp-validation-for="PromoterMaster.PromoterEmailid" class="text-danger"></span>
+            </div>
+
+            @*<div class="custom-file">
+                   <label for="inputPassword4" class="form-label">Upload Photo</label>
+                   <input type="file" id="promoterPic" name="promoterPic" onchange="CheckPhotoAndUpload();"><br />
+                   <span class="text-danger" id="ErrMsgPromoterPic"></span>
+                   <span class="text-success" id="SucMsgPromoterPic"></span>
+                </div>*@
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    @if (!ViewBag.IsEdit)
+                    {
+                        <input type="reset" value="Reset" class="btn btn-secondary" />
+                    }
+                    
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EmployeeLoginDTO
+<div id="divDsc">
+
+    <div class="col-25">
+        <b><label for="exampleInputEmail1">DSC Authentication</label></b>
+    </div>
+    <div class="col-75">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-arrow-up-fill"></i></span>
+            </div>
+            @*<input type="file" asp-for="DSCFileName" id="inpDscFile" accept=".cer,.crt" class="form-control" placeholder="Select DSC file" disabled aria-label="EmpId1" aria-describedby="basic-addon1">*@
+            <button type="button" id="btnDscVerify" class="btn btn-primary" disabled >Verify your DSC KEY<i class="" id="iconBtnDscVerify"></i></button>
+        </div>
+        <span id="dscValidationMessage" class="text-success"></span>
+        <span id="dscErrorMessage" class="text-error"></span>
+    </div>
+</div>

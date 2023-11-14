@@ -1,0 +1,76 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.AddressDetailsDTO>
+
+<h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Address Details</h3>
+<a onclick="showInPopup('@Url.Action("CreateOrEdit","Address",new {id=0},Context.Request.Scheme)','New Address')" class="btn btn-primary text-white mb-2 mt-2"><i class="fa fa-plus"></i> Add New Address</a>
+<div class="pre-scrollable">
+
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblAddDetailsDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Address Type
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    PinCode
+                </th>
+                <th>
+                    Telephone Number
+                </th>
+                <th>
+                    Mobile Number
+                </th>
+                <th>
+                    Email
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddressTypeMasterDTO.AddtypeDets)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UniitAddress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPincode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitTelNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitMobileNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitEmail)
+                </td>
+                <td>
+                    <a onclick="showInPopup('@Url.Action("ViewRecord","Address",new {id=item.EnqAddresssId},Context.Request.Scheme)','View Address')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                </td>
+                <td>
+                    <a onclick="showInPopup('@Url.Action("Update","Address",new {id=item.EnqAddresssId},Context.Request.Scheme)','Update Address')" class="btn btn-primary text-white"><i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                </td>
+                <td>
+                    <input onclick="return fxnDeleteAddressList(@item.EnqAddresssId)"  class="btn btn-danger" />
+                </td>
+                
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

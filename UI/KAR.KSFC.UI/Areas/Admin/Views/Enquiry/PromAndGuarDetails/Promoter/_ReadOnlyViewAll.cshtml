@@ -1,0 +1,244 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterAllDetailsDTO
+<div>
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Promoter Details</h3>
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProDetailsDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Name of Promoter
+                </th>
+                <th>
+                    Position
+                </th>
+                <th>
+                    Shareholding
+                </th>
+                
+                <th>
+                    PAN
+                </th>
+                <th>
+                    Domicile
+                </th>
+                <th></th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            
+            @if (Model.ListPromoters != null)
+            {
+                @foreach (var item in Model.ListPromoters)
+                {
+                   
+            <tr>
+                <td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PromoterMaster.PromoterName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PdesigCdNavigation.PdesigDets)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EnqPromShare)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.PromoterMaster.PromoterPan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PromoDomText)
+                </td>
+                <td>
+                    <a onclick="showInPopupPGPD('@Url.Action("ViewRecord","Promoter",new {id=item.EnqPromId},Context.Request.Scheme)','View Promoter Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                </td>
+                
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</div>
+<br />
+<br />
+<br />
+<div>
+
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Promoter Asset Details</h3>
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProAssetDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Promoter Name
+                </th>
+                <th>
+                    Asset Category
+                </th>
+                <th>
+                    Asset Type
+                </th>
+                <th>
+                    Value
+                </th>
+                <th></th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PromotersAssetLiabilityDetails.ListAssetDetails != null)
+            {
+                
+                @foreach (var item in Model.PromotersAssetLiabilityDetails.ListAssetDetails)
+                {
+                    
+                    <tr>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterMasterDTO.PromoterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetCategoryMasterDTO.AssetcatDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetTypeMasterDTO.AssettypeDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqAssetValue)
+                        </td>
+                        <td>
+                            <a onclick="showInPopupPGPD('@Url.Action("ViewRecordAsset", "Promoter", new { id = item.EnqPromassetId }, Context.Request.Scheme)','View Promoter Asset Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                        </td>
+                        
+                    </tr>
+                }}
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />
+
+<div>
+
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Promoter Liability Details</h3>
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProLiabilityDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Promoter Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Value
+                </th>
+                <th></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PromotersAssetLiabilityDetails.ListLiabilityDetails != null)
+            {
+                @foreach (var item in Model.PromotersAssetLiabilityDetails.ListLiabilityDetails)
+                {
+                    <tr>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterMasterDTO.PromoterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqLiabDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqLiabValue)
+                        </td>
+                        <td>
+                            <a onclick="showInPopupPGPD('@Url.Action("ViewRecordLiability", "Promoter", new { id = item.EnqPromliabId }, Context.Request.Scheme)','View Liability Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                        </td>
+                       
+                    </tr>
+                }}
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />
+
+<div class="col-md-8 offset-md-2 text-center">
+    <div style="width:40%;">
+        <div class="form-group">
+            <label for="inputEmail4" class="form-label">Total Assets(Immovable + Movable)(In Lakhs)</label>
+            @Html.TextBoxFor(model => model.PromotersAssetLiabilityDetails.TotalAssets, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+        <div class="form-group">
+            <label for="inputEmail4" class="form-label">Total Liabilities(In Lakhs)</label>
+            @Html.TextBoxFor(model => model.PromotersAssetLiabilityDetails.TotalLiabilities, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+        <div class="form-group">
+            <label for="inputEmail4" class="form-label">Net Worth (Total Assets – Total Liabilities)(In Lakhs)</label>
+            @Html.TextBoxFor(model => model.PromotersAssetLiabilityDetails.TotalNetworth, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+<div>
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i>NET WORTH</h3>
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProNetWorthDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Promoter Name
+                </th>
+                <th>
+                    Net Worth (Lakhs)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.NetWorthList != null)
+            {
+                @foreach (var item in ViewBag.NetWorthList)
+                {
+
+
+                    <tr>
+                        <td></td>
+
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Networth
+                        </td>
+                    </tr>
+                }}
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />

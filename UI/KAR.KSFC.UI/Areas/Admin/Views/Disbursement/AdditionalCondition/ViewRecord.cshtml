@@ -1,0 +1,59 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.Disbursement.AdditionConditionDetailsDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var loansub = ViewBag.LoanSub;
+    var office = ViewBag.OffcCd;
+}
+
+<div>
+    <div>
+        <form id="AdditionalConditionDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@loansub" asp-for="LoanSub" />
+            <input type="hidden" value="@office" asp-for="OffcCd" />
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Additional Condition Details</label></strong>
+                    @Html.TextAreaFor(m => m.AddCondDetails, new { @class = "form-control",@maxlength = "200", @id = "CondDet", @required = "required",@disabled = "disabled" })
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Condition Stage</label></strong>
+                    @Html.DropDownListFor(m => m.AddCondStage, new SelectList(ViewBag.condtionStageMaster, "Value", "Text"),"---Select Condition Stage---", new { @class = "form-select", @id = "CondStg", @required = "required",@disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+               @* <div class="col-md-6">
+                    <strong><label class="form-label">Whether Relaxation Can Be Sought</label></strong>
+                    @Html.DropDownListFor(m => m.Relaxation, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "true"},
+                    new SelectListItem(){Text="NO",Value = "false"}
+                    },"---Select Relaxation Sought---", new { @class = "form-select", @id = "relax",@disabled = "disabled" })
+                </div>*@
+                <div class="col-md-6">
+                    <strong><label class="form-label">Compliance</label></strong>
+                    @if (Model.WhRelAllowed == null)
+                    {
+                        <input type="text" class="form-control" readonly value="@(Model.Compliance == "0" ? "Not Complied" : "Complied")" />
+                    }else{
+                        <input type="text" class="form-control" readonly value="@(Model.WhRelAllowed == true ? "Relaxed" : "Deffered")" />
+                    }
+                    @*@Html.DropDownListFor(m => m.Compliance, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "YES"},
+                    new SelectListItem(){Text="NO",Value = "NO"}
+                    },"---Select Compliance---", new { @class = "form-select", @id = "Compliance",@disabled = "disabled"})*@
+                    <span asp-validation-for="Compliance" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+

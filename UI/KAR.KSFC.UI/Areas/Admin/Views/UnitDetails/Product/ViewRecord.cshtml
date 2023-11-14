@@ -1,0 +1,29 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmUnitProductsDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="UDProductDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormac();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                 <div class="col-md-6">
+                    <strong><label class="form-label">Industry</label></strong>
+                    @Html.DropDownListFor(m => m.IndId,
+                    new SelectList(ViewBag.industrylist,"Value", "Text"), "---Select Type---"
+                    ,new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Proposed Product</label></strong>
+                    @Html.DropDownListFor(m => m.ProdId,
+                    new SelectList(ViewBag.productlist,"Value", "Text"), "---Select Type---"
+                    ,new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+

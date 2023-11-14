@@ -1,0 +1,94 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@{
+    Layout = null;
+    int count = 0;
+    //var HypothecationList = ViewBag.HypothecationList;
+    //var TotalValue = ViewBag.TotalValue;
+    //List<AssetRefnoDetailsDTO> hypothecationDetails = ViewBag.AssetRefList;
+    List<HypoAssetDetailDTO> hypothecationDetails = ViewBag.AssetRefList;
+    var deedNumber = hypothecationDetails.Last().HypothNo;
+}
+<div class="pre-scrollable">
+
+    <div class="table-responsive">
+        <table class="table" id="Table1" aria-labelledby="HypothecationDetails-tab">
+            <thead class="thead-light">
+                <tr>
+              
+                    <th>S. No.</th>
+                    <th>Deed No</th>
+                    <th hidden>IdmHypothDetId</th>
+                    <th>Description of Asset</th>
+                    <th class="th3a">Value</th>                    
+                </tr>
+            </thead>
+            <tbody class="customtable" aria-labelledby="HypothecationList-tab">
+                @if (hypothecationDetails.Count() > 0)
+                {
+                    @foreach (var item in hypothecationDetails)
+                    {
+                        count++;
+                        @* var deedNo = item.TblIdmHypothDet.Where(x => x.AssetCd == item.AssetCd && item.IsActive==true).Select(x => x.HypothNo).LastOrDefault();*@
+                        var deedNo = item.HypothNo;
+                        <tr class="trow"> 
+                            <td hidden>
+                                <input onclick="Calculate()" type="checkbox" hidden checked/>
+                            </td>
+                            <td>@count</td>
+                            <td >@deedNo</td>
+                            <td hidden>@Html.DisplayFor(modelItem =>item.IdmHypothDetId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.AssetDet)</td>
+                            <td align="right">@Html.DisplayFor(modelItem => item.AssetValue)</td>
+                            <td>
+                                <a onclick="showInPopup('@Url.Action("ViewCreate","Hypothecation",new {unqid=item.AssetCd, accountnumber = item.LoanAcc},Context.Request.Scheme)','View Hypothecation Details','Hypothecation')" class="btn btn-warning text-white"><em class="fa fa-eye"></em> View</a>
+                            </td>
+                            
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">
+                            No Data Available.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@*<input type="text" hidden value="@deedNumber" id="deedNo" />*@
+<div id="view-all">
+    @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/Hypothecation/_viewCreateHypotheTable.cshtml")
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#Table1').DataTable();
+    });
+   
+   
+
+    debugger;
+    $("#Table1 .trow").each(function () {
+        debugger;
+        var total = 0;
+        var totalvalue = ($(this).find("td:eq(5)").text());
+        total = Number(totalvalue.replace(/,/g, ''));
+        var res = $("#TotValue").val();
+        if (res > 0 || res != "") {
+            var sum = total + parseInt(res);
+            $("#TotValue").val(sum);
+        }
+        else {
+            $("#TotValue").val(total);
+        }
+
+        debugger;
+        var deed = ($(this).find("td:eq(2)").text());
+      
+    });
+
+
+</script>

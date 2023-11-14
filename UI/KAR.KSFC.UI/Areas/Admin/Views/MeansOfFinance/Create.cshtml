@@ -1,0 +1,96 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgMeansOfFinanceDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+
+}
+
+<div>
+    <form id="MeansOffinanceDetails" asp-action="Create" onsubmit="return JqueryInspectionAddMethod(this,'MeansOfFinanceDetails'); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+           <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub"/>
+         <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd"/>
+        <input type="hidden" value="" id="financetype" asp-for="FinanceType"/>
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label"> Means Of Finance Category </label> </strong>
+
+                @Html.DropDownListFor(m => m.DcmfCd, new SelectList(ViewBag.Category, "Value", "Text"), "---Select Means Of Finance Category---", new { @class = "form-select", required = "required",@id="FinCat"})
+                <span asp-validation-for="DcmfCd" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Means Of Finance Type</label>
+                </strong>
+                @Html.DropDownListFor(m => m.DcmfMfType, new SelectList("", "Value", "Text"), "---Select Means Of Finance Type---", new { @class = "form-select",@id="FinType", required = "required",disabled="disabled"})
+                <span asp-validation-for="DcmfMfType" class="text-danger"></span>
+            </div>
+            <br />
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Amount. (in Lakhs)<span  id="spanDet1"> *</span> </label> </strong>
+                @Html.TextBoxFor(m => m.DcmfAmt,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", @id="testing", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="13" ,@dir="rtl" })
+                <span asp-validation-for="DcmfAmt" class="text-danger"></span>
+            </div>
+            <br />
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-2 text-center float-end submit4" >
+                <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit"  />
+
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+    $('input[id="testing"], select[id="FinType"], select[id="FinCat"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+    
+    $("#FinCat").change(function () {
+        //debugger;
+        if ($(this).val()) {
+            $("select[id='FinType']").removeAttr('disabled');
+        }
+        var financecategory = $('#FinCat').val();
+        var fincd = parseInt(financecategory);
+        $.ajax({
+            type: 'Get',
+            url: GetRoute('/MeansOfFinance/FinanceType'),
+            data: { Id: fincd },
+            success: function (data) {
+                if (data.length != 0) {
+                    var fintype = fintype + '<option value="">--Select Means Of Finance Type--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        fintype = fintype + '<option value=' + data[i].value + '>' + data[i].text + '</option>';
+                    }
+                }
+                $('#FinType').html(fintype);
+               
+
+            },
+            error: function (result) {
+                console.log(result)
+            }
+        })
+
+    });
+
+    $('#FinType').change(function (){
+        //debugger;
+        var result = $('#FinType option:selected').text();
+        $('#financetype').val(result);
+    });
+
+</script>

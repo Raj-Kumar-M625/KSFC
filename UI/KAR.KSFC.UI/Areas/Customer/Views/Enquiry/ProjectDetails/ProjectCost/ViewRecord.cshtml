@@ -1,0 +1,28 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectCostDetailsDTO
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecord" asp-route-id="@Model.PjcostCd" onsubmit="ClearPopupFormPDPC();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.PjcostCd)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Project Cost Component</label>
+                @Html.DropDownListFor(model => model.PjcostCd, new SelectList(ViewBag.ListProjectCostComponent,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+                <span asp-validation-for="PjcostCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Cost (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqPjcostAmt, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-12 text-center">
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

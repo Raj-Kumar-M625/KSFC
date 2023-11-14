@@ -1,0 +1,125 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit
+
+@model List<KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDsbStatImpDTO>
+@{
+    int count = 0;
+    var account = ViewBag.AccountNumber;
+    var loansub = ViewBag.LoanSub;
+    var offccd = ViewBag.OffcCd;
+    bool firstinspection = ViewBag.firststatImp;
+    var inspNo = ViewBag.InspectionId;
+    List<IdmDspInspDTO> inspdetails = ViewBag.inspectiondetails;
+    var lastCreatedDate = inspdetails.Max(x => x.CreatedDate);
+    var inspnumber = inspdetails.Where(x => x.CreatedDate == lastCreatedDate && x.DinNo == inspNo).Select(x => x.DinNo).Any();
+    //var inunit = ViewBag.InUnit;
+}
+
+@if (firstinspection)
+{
+    <a onclick="showInPopup('@Url.Action("Create","StatusofImplementation",new {accountNumber = @ViewBag.AccountNumber ,LoanSub=@ViewBag.LoanSub,OffcCd=@ViewBag.OffcCd,InspectionId = @ViewBag.InspectionId,firstinspection = firstinspection},Context.Request.Scheme)','Add New Status of Implementation','StatusofImplementation')" class="btn btn-primary text-white mb-2 mt-2">  <em class="fa fa-plus"></em> Add New Status of Implementation</a>
+}
+else if (inspnumber)
+{
+    <a onclick="showInPopup('@Url.Action("Create","StatusofImplementation",new {accountNumber = @ViewBag.AccountNumber ,LoanSub=@ViewBag.LoanSub,OffcCd=@ViewBag.OffcCd,InspectionId = @ViewBag.InspectionId,firstinspection = firstinspection},Context.Request.Scheme)','Add New Status of Implementation','StatusofImplementation')" class="btn btn-primary text-white mb-2 mt-2">  <em class="fa fa-plus"></em> Add New Status of Implementation</a>
+}
+
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xxl" id="tblStatusofImplementation" aria-labelledby="StatusofImplementation-tab">
+        <thead>
+            <tr>
+                <th class="th2">S. No.</th>
+                <th class="th3">Status of Implementation</th>
+                <th class="th5">Remarks and Recommendation</th>
+                <th class="th5a">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.Count() > 0 && inspnumber)
+            {
+               @foreach (var item in Model)
+               {
+                  if (item.IsActive == true)
+                  {
+
+                     count++;
+
+                      <tr>
+                            <td>@count</td>
+                            <td>@Html.DisplayFor(modelItem => item.DsbImpStat)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DsbRec)</td>
+                            @if (item.IsActive == false && item.IsDeleted == false)
+                            {
+                                <td class="textCenter">
+                                    <a onclick="showInPopup('@Url.Action("ViewRecord","StatusofImplementation",new{id=item.UniqueId},Context.Request.Scheme)','View Status of Implementation','StatusofImplementation')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                                </td>
+                            }
+                        else
+                        {
+                          <td class="textCenter">
+                            <a onclick="showInPopup('@Url.Action("ViewRecord","StatusofImplementation",new{id=item.UniqueId},Context.Request.Scheme)','View Status of Implementation','StatusofImplementation')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                            <a onclick="showInPopup('@Url.Action("Edit","StatusofImplementation",new{InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','Edit Status of Implementation','StatusofImplementation')" class="btn btn-primary text-white"><em class="fa fa-pencil" aria-hidden="true"></em>   Edit</a>
+                            <a onclick="return JqueryInspectionDeleteMethod('@Url.Action("Delete","StatusofImplementation",new{InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','StatusofImplementation')" class="btn btn-danger"><em class="fa fa-trash-o" aria-hidden="true"></em> Delete </a>
+                          </td>
+                        }
+
+                      </tr>
+
+                  }
+
+               }
+            }
+
+            else if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    if (item.IsDeleted == false)
+                    {
+                       count++;
+
+                      if (item.DsbIno == inspNo)
+                      {
+                        <tr>
+                                <td>@count</td>
+                                <td>@Html.DisplayFor(modelItem => item.DsbImpStat)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DsbRec)</td>
+                                @if (item.IsActive == false && item.IsDeleted == false)
+                                {
+                                    <td class="textCenter">
+                                        <a onclick="showInPopup('@Url.Action("ViewRecord","StatusofImplementation",new{id=item.UniqueId},Context.Request.Scheme)','View Status of Implementation','StatusofImplementation')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em> View</a>
+                                    </td>
+                                }
+                             else
+                             {
+                               <td class="textCenter">
+                                    <a onclick="showInPopup('@Url.Action("ViewRecord","StatusofImplementation",new{id=item.UniqueId},Context.Request.Scheme)','View Status of Implementation','StatusofImplementation')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                                    <a onclick="showInPopup('@Url.Action("Edit","StatusofImplementation",new{InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','Edit Status of Implementation','StatusofImplementation')" class="btn btn-primary text-white"><em class="fa fa-pencil" aria-hidden="true"></em> Edit</a>
+                                    <a onclick="return JqueryInspectionDeleteMethod('@Url.Action("Delete","StatusofImplementation",new{InspectionId = @ViewBag.InspectionId,id=item.UniqueId},Context.Request.Scheme)','StatusofImplementation')" class="btn btn-danger"><em class="fa fa-trash-o" aria-hidden="true"></em> Delete</a>
+                               </td>
+
+                             }
+                        </tr>
+                      }
+
+                    }
+
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblStatusofImplementation').DataTable();
+    });
+</script>

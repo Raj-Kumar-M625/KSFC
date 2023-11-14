@@ -1,0 +1,92 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgProjectCostDTO>
+@{
+    int count = 0;
+    var Acc = ViewBag.AccountNumber;
+    decimal totalCost = 0;
+    foreach (var item in Model)
+    {
+        totalCost += (decimal)item.DcpcAmount;
+    }
+}
+<a onclick="showInPopup('@Url.Action("Create","ProjectCost",new {accountNumber = @ViewBag.AccountNumber,LoanSub=@ViewBag.LoanSub,OffcCd=@ViewBag.OffcCd},Context.Request.Scheme)','New Project Cost','ProjectCost')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add New Inspection of Project Cost</a>
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProjectCostDatatable" aria-labelledby="ProjectCostDetails-tab">
+        <thead>
+            <tr>
+                <th class="th2">S. No.</th>
+                <th class="th6a">Project Cost Component</th>
+                <th class="th4a">Cost</th>
+                <th class="th6">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr class="trow">
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelItem => item.ProjectCost)</td>
+                        <td align="right">@Html.DisplayFor(modelItem => item.DcpcAmount)</td>
+
+                        <td class="textCenter">
+                            <a onclick="showInPopup('@Url.Action("ViewRecord","ProjectCost",new {id=item.UniqueId},Context.Request.Scheme)','View Project Cost Details','ProjectCost')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                            <a onclick="showInPopup('@Url.Action("Edit","ProjectCost",new {id=item.UniqueId},Context.Request.Scheme)','Edit Project Cost Details','ProjectCost')" class="btn btn-primary text-white"> <em class="fa fa-pencil" aria-hidden="true"></em>   Edit</a>
+                            <a onclick="JqueryInspectionDeleteMethod('@Url.Action("DeleteProjectCost","ProjectCost",new {id=item.UniqueId},Context.Request.Scheme)','ProjectCostDetail')" class="btn btn-danger"><em class="fa fa-trash-o" aria-hidden="true"></em> Delete </a>
+
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="col-md-4 mt-3">
+        <div id ="">
+            <strong><label>Total Cost</label></strong>
+            <input type="text" id="totalamount" disabled/>
+        </div>
+       
+    </div>
+</div>  
+<input type="text" hidden id="projectCost" value="@totalCost" />
+<input type="text" hidden id="projectCost1" value="@(ViewBag.projectCost)" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        
+        $('#tblProjectCostDatatable').DataTable();
+    });
+    
+    var x = $("#projectCost1").val();
+    
+    if (localStorage.getItem("projectCost") == "" || localStorage.getItem("projectCost") == null) {
+        localStorage.setItem("projectCost",x)
+    }
+
+    debugger;
+    $("#tblProjectCostDatatable .trow").each(function(){
+        debugger;
+        var total = 0;
+        var totalvalue = ($(this).find("td:eq(2)").text());
+        total = parseInt(totalvalue);
+        var res = $("#totalamount").val();
+        if (res > 0 || res != ""){
+            var sum = total + parseInt(res);
+            $("#totalamount").val(sum);
+        }
+        else{
+            $("#totalamount").val(total);
+        }
+       
+        
+    });
+
+</script>

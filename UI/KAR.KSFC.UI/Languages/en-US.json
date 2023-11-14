@@ -1,0 +1,185 @@
+[
+  {
+    "Key": "toggle_btn",
+    "Value": "English"
+  },
+  {
+    "Key": "Register",
+    "Value": "Register"
+  },
+  {
+    "Key": "login",
+    "Value": "Login"
+  },
+  {
+    "Key": "Karnataka State Financial Corporation",
+    "Value": "Karnataka State Financial Corporation"
+  },
+  {
+    "Key": "banner1_content",
+    "Value": "Welcome to State Finance Corporation"
+  },
+  {
+    "Key": "banner2_content",
+    "Value": "Welcome to State Finance Corporation"
+  },
+  {
+    "Key": "banner3_content",
+    "Value": "Welcome to State Finance Corporation"
+  },
+  {
+    "Key": "privacy_policy",
+    "Value": "Privacy Policy"
+  },
+  {
+    "Key": "privacy_policy_content_pt_1",
+    "Value": "Thanks for visiting website of KSFC, and reviewing our privacy policy."
+  },
+  {
+    "Key": "privacy_policy_content_pt_2",
+    "Value": "We collect no personal information, like names or addresses, when you visit our website. If you choose to provide that information to us, it is only used to fulfil your request for information."
+  },
+  {
+    "Key": "privacy_policy_content_pt_3",
+    "Value": "We do collect some technical information when you visit to make your visit seamless. The section below explains how we handle and collect technical information when you visit our website."
+  },
+  {
+    "Key": "privacy_policy_content_pt_4",
+    "Value": "Information collected and stored automatically."
+  },
+  {
+    "Key": "privacy_policy_content_pt_5",
+    "Value": "When you browse, read pages, or download information on this website, we automatically gather and store certain technical information about your visit."
+  },
+  {
+    "Key": "privacy_policy_content_pt_6",
+    "Value": "This information never identifies who you are. The information we collect and store about your visit is listed below:"
+  },
+  {
+    "Key": "privacy_policy_content_pt_7",
+    "Value": "The Internet domain of your service provider (e.g. mtnl.net.in) and IP address (an IP address is a number that is automatically assigned to your computer whenever you are surfing the web) from which you access our website."
+  },
+  {
+    "Key": "privacy_policy_content_pt_8",
+    "Value": "The type of browser (such as Firefox, Netscape, or Internet Explorer) and operating system (Windows, Linux) used to access our site."
+  },
+  {
+    "Key": "privacy_policy_content_pt_9",
+    "Value": "The date and time you access/accessed our site."
+  },
+  {
+    "Key": "privacy_policy_content_pt_10",
+    "Value": "The pages/URLs you have visited, and If you reached this website from another website, the address of that referring website."
+  },
+  {
+    "Key": "privacy_policy_content_pt_11",
+    "Value": "This information is only used to help us make the site more useful for you. With this data, we learn about the number of visitors to our site and the types of technology our visitors use. We never track or record information about individuals and their visits."
+  },
+  {
+    "Key": "copyright_policy",
+    "Value": "Copyright Policy"
+  },
+  {
+    "Key": "copyright_policy_content",
+    "Value": "Material featured on this site may be reproduced free of charge in any format or media without requiring specific permission. This is subject to the material being reproduced accurately and not being used in a derogatory manner or in a misleading context. Where the material is being published or issued to others, the source must be prominently acknowledged.However, the permission to reproduce this material does not extend to any material on this site, which is explicitly identified as being the copyright of a third party. Authorisation to reproduce such material must be obtained from the copyright holders concerned."
+  },
+  {
+    "Key": "external_linking_policy",
+    "Value": "External linking Policy"
+  },
+  {
+    "Key": "external_linking_policy_content",
+    "Value": "We do not object to you linking directly to the information that is hosted on our site and no prior permission is required for the same. However, we would like you to inform us about any links provided to our site so that you can be informed of any changes or updations therein. Also, we do not permit our pages to be loaded into frames on your site. Our Department’s pages must load into a newly opened browser window of the user. "
+  },
+  {
+    "Key": "security_policy",
+    "Value": "Security Policy"
+  },
+  {
+    "Key": "security_policy_content",
+    "Value": "For site security purposes and to ensure that this service remains available to all users, this Government computer system employs commercial software programs to monitor network traffic to identify unauthorized attempts to upload or change information, or otherwise cause damage. Except for authorized law enforcement investigations, no other attempts are made to identify individual users or their usage habits. Raw data logs are used for no other purposes and are scheduled for regular deletion. Unauthorized attempts to upload information or change information on this service are strictly prohibited and may be punishable under the Indian IT Act (2000)."
+  },
+  {
+    "Key": "terms_and_conditions",
+    "Value": "Terms And Conditions"
+  },
+  {
+    "Key": "terms_and_conditions_pt1",
+    "Value": "This website is designed, developed and maintained by Centre for Smart Governance, Government of Karnataka."
+  },
+  {
+    "Key": "terms_and_conditions_pt2",
+    "Value": "Though all efforts have been made to ensure the accuracy and currency of the content on this website, the same should not be construed as a statement of law or used for any legal purposes. In case of any ambiguity or doubts, users are advised to verify/check with the Department(s) and/or other source(s), and to obtain appropriate professional advice."
+  },
+  {
+    "Key": "terms_and_conditions_pt3",
+    "Value": "Under no circumstances will this Department be liable for any expense, loss or damage including, without limitation, indirect or consequential loss or damage, or any expense, loss or damage whatsoever arising from use, or loss of use, of data, arising out of or in connection with the use of this website."
+  },
+  {
+    "Key": "terms_and_conditions_pt4",
+    "Value": "These terms and conditions shall be governed by and construed in accordance with the Indian Laws. Any dispute arising under these terms and conditions shall be subject to the jurisdiction of the courts of India."
+  },
+  {
+    "Key": "terms_and_conditions_pt5",
+    "Value": "The information posted on this website could include hypertext links or pointers to information created and maintained by non-Government/private organisations. PGRS is providing these links and pointers solely for your information and convenience. When you select a link to an outside website, you are leaving the PGRS website and are subject to the privacy and security policies of the owners/sponsors of the outside website."
+  },
+  {
+    "Key": "terms_and_conditions_pt6",
+    "Value": "PGRS, does not guarantee the availability of such linked pages at all times."
+  },
+  {
+    "Key": "terms_and_conditions_pt7",
+    "Value": "PGRS, cannot authorise the use of copyrighted materials contained in linked websites. Users are advised to request such authorisation from the owner of the linked website."
+  },
+  {
+    "Key": "terms_and_conditions_pt8",
+    "Value": "PGRS, does not guarantee that linked websites comply with Indian Government Web Guidelines."
+  },
+  {
+    "Key": "help",
+    "Value": "Help"
+  },
+  {
+    "Key": "help_content",
+    "Value": "The information available as an attachment is in Portable Document Format (PDF). Though the website is tested in various environments and browsers but to view the information properly, the browser needs to have the required plug-ins or software. For example, the Adobe Acrobat Reader is required to see all the pdfs. In case the system does not have requisite software, it may be downloaded from internet. The table given below depicts the required plug-ins needed to view the information in various file formats."
+  },
+  {
+    "Key": "screen_reader_access",
+    "Value": "Screen Reader Access"
+  },
+  {
+    "Key": "screen_reader_access_content",
+    "Value": "The website complies with World Wide Web Consortium (W3C) Web Content Accessibility Guidelines (WCAG) 2.0 level AA. This will enable people with visual impairments access the website using assistive technologies, such as screen readers. The information of the website is accessible with different screen readers, such as JAWS, NVDA, SAFA, Supernova and Window-Eyes."
+  },
+  {
+    "Key": "site_best_viewed",
+    "Value": "Site Best Viewed"
+  },
+  {
+    "Key": "site_best_viewed_content_pt1",
+    "Value": "The browsers with minimum required versions are:"
+  },
+  {
+    "Key": "site_best_viewed_content_pt2",
+    "Value": "Google Chrome Version 87.0 and above"
+  },
+  {
+    "Key": "site_best_viewed_content_pt3",
+    "Value": "Mozilla Firefox Version 83.0 and above."
+  },
+  {
+    "Key": "footer_content_1",
+    "Value": "Content and Data Owned & Maintained by : Karnataka State Financial Corporation"
+  },
+  {
+    "Key": "footer_content_2",
+    "Value": "Designed and Developed by : Centre for Smart Governance - CSG"
+  }
+
+
+
+]
+
+
+
+  

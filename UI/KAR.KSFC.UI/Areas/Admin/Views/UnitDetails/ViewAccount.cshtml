@@ -1,0 +1,731 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.ChangeOfUnitInfoDTO
+@{
+    var accountNumber = ViewBag.AccountNumber;
+}
+
+<div><h2 class="textCenter">Change Of Unit Information</h2></div>
+
+<div id="myDIV">
+
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="UnitDetails-tab" data-bs-toggle="tab" data-bs-target="#UnitDetails" type="button" role="tab" aria-controls="UnitDetails" aria-selected="false"> Change in Unit Details</button>
+            <div class="progress">
+                <div id="UnitDetailsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="ChangePromoterDetails-tab" data-bs-toggle="tab" data-bs-target="#ChangePromoterDetails" type="button" role="tab" aria-controls="ChangePromoterDetails" aria-selected="false">Change in Promoter Details</button>
+            <div class="progress">
+                <div id="PromoterDetailsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="MoneteringDetails-tab" data-bs-toggle="tab" data-bs-target="#MoneteringDetails" type="button" role="tab" aria-controls="MonitoringDetails" aria-selected="false">Financial Details</button>
+            <div class="progress">
+                <div id="MoneteringDetailsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="AssetDetails-tab" data-bs-toggle="tab" data-bs-target="#AssetDetails" type="button" role="tab" aria-controls="AssetDetails" aria-selected="false">Asset Details</button>
+            <div class="progress">
+                <div id="AssetDetailsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        @await Html.PartialAsync("_Loader")
+        <div id="panelsStayOpen-collapse" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading">
+            @await Html.PartialAsync("_AccountNumber")
+        </div>
+
+        <div class="tab-pane fade show active" id="UnitDetails" role="tabpanel" aria-labelledby="UnitDetails-tab">
+            <div>
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" id="UnitDetails_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Change Name of Unit</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangeNameofUnit">
+                                @await Html.PartialAsync("/Areas/Admin/Views/UnitDetails/_NameOfUnit.cshtml",Model.UnitDetails)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" id="ChangeLocationregistered_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>Change Location Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-address">
+                                @await Html.PartialAsync("/Areas/Admin/Views/UnitDetails/ChangeLocationDetails/_ViewAll.cshtml",Model.AddressList)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangeLocation">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<button type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="previousbtnChangeLocationTab">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="savebtnChangeLocationTab" value="&nbsp &nbsp Next &nbsp &nbsp" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" id="ChangeBankDetails_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
+                            <strong>Change Bank Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangeBankDetails">
+                                @await Html.PartialAsync("/Areas/Admin/Views/ChangeBankDetails/_ViewAll.cshtml",Model.ChangeBankDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangeBankDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*                            <button type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="previousbtnBankdetailsTab">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabChangeBankDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingEleven">
+                        <button class="accordion-button collapsed " id="ChangeProductDetails_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseEleven" aria-expanded="true" aria-controls="panelsStayOpen-collapseEleven">
+                            <strong>Change Product Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseEleven" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-headingEleven">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangeProductDetails">
+                                @await Html.PartialAsync("/Areas/Admin/Views/UnitDetails/Product/_ViewAll.cshtml",Model.UnitProducts)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangeProductDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<button type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="previousbtnChangeProductTab">Previous</button>
+                            <input type="submit" onclick="location.href=/Admin/;" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabChangeProductDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="/Admin/UnitDetails/" class="btn btn-info btn-lg text-white mb-2 mt-3">Previous</a>
+            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabSaveUnitDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+        </div>
+
+        <div class="tab-pane fade" id="ChangePromoterDetails" role="tabpanel" aria-labelledby="ChangePromoterDetails-tab">
+            <div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                        <button class="accordion-button" id="ChangePromoterProfile_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
+                            <strong>List of Change in Promoter Profile</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFive">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangePromoterProfile">
+                                @await Html.PartialAsync("/Areas/Admin/Views/PromoterDetails/_ViewAll.cshtml", Model.PromoterDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangePromoterProfile">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<input type="submit" class="btn btn-info btn-lg next float-end" id="btnSavePromoterProfile" value="Next" style="margin-top: 25px;" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingSix">
+                        <button class="accordion-button collapsed" id="ChangePromoterAddress_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSix" aria-expanded="true" aria-controls="panelsStayOpen-collapseSix">
+                            <strong>List of Change in Promoter Address</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseSix" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSix">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangePromoterAddress">
+                                @await Html.PartialAsync("/Areas/Admin/Views/UnitDetails/ChangePromoterAddress/_ViewAll.cshtml", Model.PromoterAddress)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangePromoterAddress">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<input type="submit" class="btn btn-info btn-lg next float-end" id="btnSavePromoterAddress" value="Next" style="margin-top: 25px;" />*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingSeven">
+                        <button class="accordion-button collapsed" id="ChangePromoterBankInfo_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="true" aria-controls="panelsStayOpen-collapseSeven">
+                            <strong>List of Change in Promoter Bank Information</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSeven">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangePromoterBankInfo">
+                                @await Html.PartialAsync("/Areas/Admin/Views/PromoterBankInfo/_ViewAll.cshtml", Model.PromoterBankDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangePromoterBankInfo">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<input type="submit" class="btn btn-info btn-lg next float-end" id="btnSavePromoterBank" value="Next" style="margin-top: 25px;" />*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingEight">
+                        <button class="accordion-button collapsed" id="ChangePromoterAssetInfo_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseEight" aria-expanded="true" aria-controls="panelsStayOpen-collapseEight">
+                            <strong>List of Change in Asset Information</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseEight" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingEight">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangeAssetInformation">
+                                @await Html.PartialAsync("/Areas/Admin/Views/UnitDetails/AssetDetails/_ViewAll.cshtml", Model.PromoterAsset)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangeAssetInformation">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<button type="submit" id="savebtnassetinfoTab" class="btn btn-info btn-lg next float-end" style="margin-top: 25px;">Next</button>*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingNine">
+                        <button class="accordion-button collapsed" id="ChangeLiability_info_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseNine" aria-expanded="true" aria-controls="panelsStayOpen-collapseNine">
+                            <strong>List of Change in Liability Information</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseNine" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingNine">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangeLiabilityInfo">
+                                @await Html.PartialAsync("/Areas/Admin/Views/PromoterLiabilityInformation/_ViewAll.cshtml", Model.PromoterLiability)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangeLiabilityInfo">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<input type="submit" class="btn btn-info btn-lg next float-end" id="btnTabChangeLiabilityInfo" value="Next" style="margin-top: 25px;" />*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTen">
+                        <button class="accordion-button collapsed" id="Change_Net_Worth_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTen" aria-expanded="true" aria-controls="panelsStayOpen-collapseTen">
+                            <strong>Net Worth Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTen" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTen">
+                        <div class="accordion-body">
+                            <div id="view-all-ChangeLiabilityInfo">
+                                @await Html.PartialAsync("/Areas/Admin/Views/PromoterNetWorth/_ViewAll.cshtml", Model.PromoterNetWorth)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelChangeNetWorth">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info btn-lg mb-2 mt-2 previous" id="previousbtnTabChangeProductDetails">Previous</button>
+            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabSaveAllPromoterDetails" value="&nbsp &nbsp Submit &nbsp &nbsp" />
+        </div>
+
+        <div class="tab-pane fade" id="MoneteringDetails" role="tabpanel" aria-labelledby="MoneteringDetails-tab">
+
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingFifteen">
+                        <button class="accordion-button" id="Working_CapitalDetails_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFifteen" aria-expanded="true" aria-controls="panelsStayOpen-collapseFifteen">
+                            <strong>Working Capital Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseFifteen" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingFifteen">
+                        <div class="accordion-body">
+                            <form id="WCInspectionDetails" asp-action="Create" onsubmit="return CreateWorkingCapitalInspection(this ,@accountNumber); ClearPopupFormsh();">
+                                <div id="view-all-WorkingCapital">
+
+                                    @await Html.PartialAsync("/Areas/Admin/Views/WorkingCapital/_Create.cshtml",Model.WorkingCapitalDetails)
+
+                                </div>
+                                <div class="modal" tabindex="-1" role="dialog" id="modelWorkingCapitalDetails">
+                                    <div class="modal-dialog modal-xl" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"></h5>
+                                                <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousworkingcapital" value="Previous" />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingSixteen">
+                        <button class="accordion-button" id="MeansOfFinance_Detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSixteen" aria-expanded="true" aria-controls="panelsStayOpen-collapseSixteen">
+                            <strong>Means Of Finance Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseSixteen" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSixteen">
+                        <div class="accordion-body">
+                            <div id="view-all-MeansOfFinanceDetails">
+                                @await Html.PartialAsync("/Areas/Admin/Views/MeansOfFinance/_ViewAll.cshtml",Model.MeansOfFinanceDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelMeansOfFinanceDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousMeansOfFinanceDetails" value="Previous" />
+
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnTabMeansOfFinanceDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingSeventeen">
+                        <button class="accordion-button collapsed" id="Project_Cost_Detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeventeen" aria-expanded="true" aria-controls="panelsStayOpen-collapseSeventeen">
+                            <strong>Project Cost Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseSeventeen" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSeventeen">
+                        <div class="accordion-body">
+                            <div id="view-all-ProjectCostDetail">
+                                @await Html.PartialAsync("/Areas/Admin/Views/ProjectCost/_ViewAll.cshtml",Model.ProjectCostDetail)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelProjectCostDetail">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousProjectCost" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="savebtnProjCostDetailTab" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" id="LoanAllocation_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Allocation Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-Allocation">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LoanAllocation/_ViewAll.cshtml",Model.LoanAllocationDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelLoanAllocationDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousAllocationDetails" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 submit float-end" id="btnTabAllocationDetails" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* <div class="accordion">
+            <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingEighteen">
+            <button class="accordion-button collapsed" id="LetterOfCredit_Detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseEighteen" aria-expanded="true" aria-controls="panelsStayOpen-collapseEighteen">
+            <strong>Letter Of Credit Details</strong>
+            </button>
+            </h2>
+            <div id="panelsStayOpen-collapseEighteen" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingEighteen">
+            <div class="accordion-body">
+            <div id="view-all-LetterOfCredit">
+            @await Html.PartialAsync("/Areas/Admin/Views/LetterOfCredit/_ViewAll.cshtml",Model.LetterOfCreditList)
+            </div>
+            <div class="modal" tabindex="-1" role="dialog" id="modelLetterOfCreditDetail">
+            <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            </div>
+            </div>
+            </div>
+            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnpreviousLetterOfCreditDetail" value="Previous" />
+            <input type="submit" onclick="location.href=/Admin/;" class="btn btn-info btn-lg mb-2 mt-3 next float-end" id="btnSaveLetterOfCreditDetail" value="&nbsp &nbsp Next &nbsp &nbsp" />
+            </div>
+            </div>
+            </div>
+            </div>*@
+        </div>
+
+        <div class="tab-pane fade" id="AssetDetails" role="tabpanel" aria-labelledby="AssetDetailss-tab">
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button collapsed" id="LandInspection_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-1" aria-expanded="true" aria-controls="panelsStayOpen-collapse-1">
+                            <strong>Land Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse-1" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-heading-1">
+                        <div class="accordion-body">
+                            <div id="view-all-LandInspectionAd">
+                                @await Html.PartialAsync("/Areas/Admin/Views/AssetDetails/LandInspection/_ViewAll.cshtml",Model.ProjectLandDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelLandInspectionDetailsAd">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 next float-end" id="btnTabLandInspectionDetails" value="Submit" />
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading-2">
+                        <button class="accordion-button collapsed" id="BuildingInspection_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-2" aria-expanded="true" aria-controls="panelsStayOpen-collapse-2">
+                            <strong>Building Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse-2" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-2">
+                        <div class="accordion-body">
+                            <div id="view-all-BuildingInspectionAd">
+                                @await Html.PartialAsync("/Areas/Admin/Views/AssetDetails/BuildingInspection/_ViewAll.cshtml",Model.BuildingInspectionDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelBuildingInspectionDetailsAd">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="BuildingInspectionDetailsAd" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 submit float-end" id="btnTabBuildingDetails" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading-3">
+                        <button class="accordion-button collapsed" id="FurnitureInspection_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-3" aria-expanded="true" aria-controls="panelsStayOpen-collapse-3">
+                            <strong>Furniture/Equipment Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse-3" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-3">
+                        <div class="accordion-body">
+                            <div id="view-all-FurnitureInspectionAd">
+                                @await Html.PartialAsync("/Areas/Admin/Views/AssetDetails/FurnitureInspection/_ViewAll.cshtml",Model.FurnitureInspectionDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelFurnitureInspectionDetailsAd">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnFurnitureInspectionDetailsAd" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 submit float-end" id="btnTabFurnitureInspectionDetails" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading-4">
+                        <button class="accordion-button collapsed" id="IndigenousMachineryInspection_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-4" aria-expanded="true" aria-controls="panelsStayOpen-collapse-4">
+                            <strong>Indigenous Machinery Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse-4" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-4">
+                        <div class="accordion-body">
+                            <div id="view-all-IndigenousMachineryInspectionAd">
+                                @await Html.PartialAsync("/Areas/Admin/Views/AssetDetails/IndigenousMachinery/_ViewAll.cshtml",Model.IndigenousMachineryDetails)
+
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelIndigenousMachineryInspectionDetailsAd">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnIndigenousMachineryInspectionDetailsAd" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 submit float-end" id="btnTabIndigenousMachineryInspectionDetails" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading-5">
+                        <button class="accordion-button collapsed" id="ImportedMachineryInspection_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse-5" aria-expanded="true" aria-controls="panelsStayOpen-collapse-5">
+                            <strong>Imported Machinery Inspection</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse-5" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-heading-5">
+                        <div class="accordion-body">
+                            <div id="view-all-ImportedMachineryInspectionAd">
+                                @await Html.PartialAsync("/Areas/Admin/Views/AssetDetails/ImportMachinery/_ViewAll.cshtml",Model.ImportedMachineryDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelImportedMachineryInspectionDetailsAd">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="btnImportedMachineryInspectionDetailsAd" value="Previous" />
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 submit float-end" id="btnTabmodelImportMachineryDetailsAd" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loader">
+</div>
+<script src="~/js/IDM.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        ReloadChangePromoterProfileDetails();
+        ReloadChangePromoterBankDetails();
+        ReloadPromoterAddressDetails();
+        ReloadChangeBankDetails();
+        ReloadPromoterLiabilityInfo();
+        ReloadTblAssetList();
+        ReloadTblLiabilityList();
+    });
+
+    $(".modal-content").draggable();
+</script>

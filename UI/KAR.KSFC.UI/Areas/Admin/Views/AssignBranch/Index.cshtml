@@ -1,0 +1,63 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.AdminModule.AssignOfficeDto>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Assign Branch";
+}
+<h4 class="text-muted">ASSIGN BRANCH OFFICE & OPERATIONS DESIGNATION</h4>
+<a href="/Admin/Employee?id=@ViewBag.EmpNo">Go Back</a>
+@*<a href="@Url.Action("Index", "Employee", new {Area = "Admin",id=ViewBag.EmpNo})">Go Back</a>*@
+
+@if (ViewBag.showEmpDetails == true)
+{
+    @await Html.PartialAsync("_View", Model)
+}
+
+
+
+<div class="modal fade" id="ksfcEmpDetails" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="empCheckInModalLabel">Modal title</h5>
+                <span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="modalOneCloseBtn"></button>
+                </span>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer" id="modalFooterKSFC">
+                <button class="btn btn-outline-info" id="empCheckInBtn" type="button" onclick="checkIn();">Check-In</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ksfcAlertModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-body" id="popupBodyMsg">
+                Are you sure to checkout the record ?
+            </div>
+            <div class="modal-footer" id="assignOfficeFooterModel">
+                <button type="button" class="btn btn-warning" id="ksfcAssignOfficeBtnYes">Yes</button>
+                <button type="button" id="ksfcAlertModalFooterCloseBtn" class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.reload()">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script type="text/javascript">
+    // just in case for writing some js or jQuery
+</script>
+}

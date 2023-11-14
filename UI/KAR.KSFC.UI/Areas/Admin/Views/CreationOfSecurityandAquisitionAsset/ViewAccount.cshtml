@@ -1,0 +1,192 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.CreationSecurityAcqAssetDTO
+@{    
+    var AccountNumber = ViewBag.AccountNumber;   
+}
+<div><h2 class="textCenter">Creation of Security and Acquisition of Asset</h2></div>
+
+<div id="AcquisitionDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="LandAcquisition-tab" data-bs-toggle="tab" data-bs-target="#LandAcquisition" type="button" role="tab" aria-controls="LandAcquisition" aria-selected="false">Land Acquisition</button>
+            <div class="progress">
+                <div id="LandAcquisitionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link " id="BuildingAcquisition-tab" data-bs-toggle="tab" data-bs-target="#BuildingAcquisition" type="button" role="tab" aria-controls="BuildingAcquisition" aria-selected="false">Building Acquisition</button>
+            <div class="progress">
+                <div id="BuildingAcquisitionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link " id="MachineryAcquisition-tab" data-bs-toggle="tab" data-bs-target="#MachineryAcquisition" type="button" role="tab" aria-controls="MachineryAcquisition" aria-selected="false">Machinery Acquisition Details</button>
+            <div class="progress">
+                <div id="MachineryAcquisitionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link " id="FurnitureAcquisition-tab" data-bs-toggle="tab" data-bs-target="#FurnitureAcquisition" type="button" role="tab" aria-controls="FurnitureAcquisition" aria-selected="false">Furniture Acquisition Details</button>
+            <div class="progress">
+                <div id="FurnitureAcquisitionProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="LandAcquisition" role="tabpanel" aria-labelledby="LandAcquisition-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Audit_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Land Acquisition Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                            <div id="view-all-LandAcquisition">
+                                @await Html.PartialAsync("/Areas/Admin/Views/CreationOfSecurityandAquisitionAsset/LandAcquisition/_ViewAll.cshtml",Model.LandAcqDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelLandAcquisitionDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="@Url.Action("ViewInspectionList","CreationOfSecurityandAquisitionAsset",new {AccountNumber = @ViewBag.EncryptedAccountNumber,LoanSub = @ViewBag.EncryptedLoanSub ,UnitName = @ViewBag.EncryptedUnitName,OffCd=@ViewBag.EncryptedOffCd,inspectionID=@ViewBag.inspectonID,officialName=@ViewBag.officialName,MainModule = "InspectionOfUnit"})" class="btn btn-info btn-lg text-white mb-2 mt-3">Previous</a>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 submit float-end" id="btnTabLandAcqDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="BuildingAcquisition" role="tabpanel" aria-labelledby="BuildingAcquisition-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button" id="Building_Acquisition_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
+                            <strong>List of Building Acquisition Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                            <div id="view-all-BuildingAcquisition">
+                                @await Html.PartialAsync("/Areas/Admin/Views/CreationOfSecurityandAquisitionAsset/BuildingAcquisition/_ViewAll.cshtml",Model.BuildingAcqDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelBuildingAcquisitionDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="previousbtnBuildingAcqTab">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 submit float-end" id="btnTabBuildingAcqDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="MachineryAcquisition" role="tabpanel" aria-labelledby="MachineryAcquisition-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button" id="Machinery_Acquisition_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
+                            <strong>List of Machinery Acquisition Details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                             <div id="view-all-MachineryAcquisition">
+                                @await Html.PartialAsync("/Areas/Admin/Views/CreationOfSecurityandAquisitionAsset/MachineryAcquisition/_ViewAll.cshtml",Model.MachineryAcqDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelMachineryAcquisitionDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-lg mb-2 mt-3 previous" id="previousbtnMachineryAcqTab">Previous</button>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 submit float-end" id="btnTabMachineryAcqDetails" value="&nbsp &nbsp Next &nbsp &nbsp" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="tab-pane fade" id="FurnitureAcquisition" role="tabpanel" aria-labelledby="FurnitureAcquisition-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button" id="Furniture_Acquisition_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                            <strong>List of Furniture Acquisition</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body">
+                             <div id="view-all-FurnitureAcquisition">
+                            @await Html.PartialAsync("/Areas/Admin/Views/CreationOfSecurityandAquisitionAsset/FurnitureAcquisition/_ViewAll.cshtml",Model.FurnitureAcqDetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelFurnitureAcquisitionDetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="PreviousButtonFurnitureAcuisition" class="btn btn-info btn-lg text-white mb-2 mt-3" >Previous</a>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-3 submit float-end" onclick="location.href=/Admin/;" id="btnTabFurnitureAcquisitionDetails" value="Submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+<script src="~/js/IDM.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    ReloadLandAcquisitionDetails();
+    ReloadMachineryAcquisitionDetails();
+    ReloadBuildingAcquisitionDetails();
+    ReloadFurnitureAcquisitionDetails();
+</script>

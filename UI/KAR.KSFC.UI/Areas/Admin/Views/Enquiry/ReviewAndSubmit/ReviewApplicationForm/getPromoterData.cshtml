@@ -1,0 +1,66 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterDetailsDTO>
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Promoter Details</h3>
+
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqPromId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PromoterMaster.PromoterName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PdesigCdNavigation.PdesigDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PromoterMaster.Age)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqPromShare)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PromoterMaster.PromoterPan)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqPromId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromoterMaster.PromoterName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PdesigCdNavigation.PdesigDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromoterMaster.Age)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqPromShare)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromoterMaster.PromoterPan)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Promoter details</b></p>
+}
+
+
+
+

@@ -1,0 +1,163 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.Disbursement.RelaxationDTO>
+@{
+    Layout = null;
+    int count = 0;
+}
+
+<div class="pre-scrollable">
+    <div class="table-responsive">
+        <table class="table" id="relaxtbl" aria-labelledby="Relaxtbl-tab">
+            <thead class="thead-light">
+                <tr>
+                    @*<th class="th1"></th>*@
+                    <th class="th2">S.  No.</th>
+                    <th class="th6a">Condition Details</th>
+                    <th class="th4">Disbursement/Additional</th>
+                    <th class="th4">Normal/Specialized Condition</th>
+                    <th class="th3">Whether Relaxation Sought</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Count() > 0)
+                {
+                    @foreach (var item in Model)
+                    {                        
+                        count++;    
+                        <tr>
+                            @*<td><input type="checkbox"  /></td>*@
+                            <td>@count</td>
+                            <td hidden>@Html.DisplayFor(modelItem => item.RelaxCondId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ConditionDetails)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ModelName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CondTypeDet)</td>
+                            <td>
+                                <select class="form-select" id="checkbox">
+                                    <option>--Select--</option>
+                                    <option value="1">Relaxed</option>
+                                    <option value="0">Deffered</option>
+                                </select>
+                            </td>
+                           @* @if (item.WhRelaxation == true)
+                            {
+                                <td>
+                                    Yes
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    No
+                                </td>
+                            }*@
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8">
+                            No Data Available.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>        
+    </div>
+    <br/>
+    <br/>
+    <div>
+      @*  <div class="col-md-2 text-center float-end submit3 mx-3">
+        </div>*@
+     <input type="submit" value="&nbsp &nbsp Send for Approval &nbsp &nbsp" class="btn btn-info btn-lg mb-2 mt-2 next float-end" id="submitrelax" />
+
+    </div>
+</div>
+
+<script>
+    $('#submitrelax').click(function () {
+        debugger
+        var grid = document.getElementById("relaxtbl");
+        var checkBoxes = grid.getElementsByTagName("SELECT");
+        var IsSelected = document.getElementById('#select');
+        var length = checkBoxes.length;
+        const message = [];
+        // Loop thru the checkboxes
+        for(i=0;i<checkBoxes.length;i++)
+        {
+            if (checkBoxes[i].value === "1" || checkBoxes[i].value === "0") {
+                var row = checkBoxes[i].parentNode.parentNode;
+                var Ids = row.cells[1].textContent;
+                var text = row.cells[3].textContent;
+                var whRelaxSougth = checkBoxes[i].value === "1" ? true : false;
+                message.push(Ids, text,whRelaxSougth);
+            }
+        }
+        if(message.length !=0)
+        {
+            const RelaxationChecked = message.slice(); // create a copy of the message array
+            var updatedRelaxationChecked = [];
+           // const RelaxationChecked = [];
+            //var checkbx = message;
+            
+            //for (i = 0; i < checkbx.length; i++) {
+            //    RelaxationChecked.push(checkbx[i]);
+            //}
+           
+            for (i = 0; i < RelaxationChecked.length; i += 3) {
+                var value1 = RelaxationChecked[i];
+                var value2 = RelaxationChecked[i + 1];
+                var value3 = RelaxationChecked[i + 2];
+                updatedRelaxationChecked.push({ Id: value1, Value: value2,WhRelAllowed:value3 });
+            }
+            console.log(updatedRelaxationChecked);
+            debugger
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: GetRoute('/Disbursement/SaveOtherRelaxation'),
+                    //traditional: true,
+                    data: {
+                        OthRelax: updatedRelaxationChecked
+                    },
+                    success: function (res) {
+                        if (res.isValid) {         
+                            swal.fire(
+                                'Relaxed!',
+                                'Record is successfully is Relaxed.',
+                                'success'
+                            )
+                            // To reload the tab
+                            $('#view-all-first-investment-class').html(res.html)
+                            $('#viewOtherRelaxation .modal-body').html('');
+                            $('#viewOtherRelaxation .modal-title').html('');
+                            $('#viewOtherRelaxation').modal('hide');
+                            // TO disable Send Approval button
+                            $("#submitApproval").removeAttr("disabled", false);
+                            $("#OtherRelaxationProgressBar").attr('class', 'progress-bar bg-success');
+                            window.location.href = "/Admin/Home/Dashboard";
+                        }
+                        else {
+                            swal.fire(
+                                'Error',
+                                'An Error Occured While Saving the Data.',
+                                'cancelled'
+                            )                            
+                        }
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            }
+            catch (ex) {
+                console.log(ex)
+            }
+            //to prevent default form submit event
+            return false;
+        }
+        else {
+            alert("Please Select Atleast One Record To Relax")
+            return false;
+        }
+    });
+</script>

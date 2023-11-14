@@ -1,0 +1,29 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmAuditDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> AuditClearance = ViewBag.Documentlist;
+}
+
+<div>
+    <div>
+        <form id="ACAuditDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormac();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Audit Observation</label></strong>
+                    @Html.TextAreaFor(m => m.AuditObservation, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Note Sheet Comments</label></strong>
+                    @Html.TextAreaFor(m => m.AuditCompliance, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",AuditClearance)
+            </div>
+        </form>
+    </div>
+</div>

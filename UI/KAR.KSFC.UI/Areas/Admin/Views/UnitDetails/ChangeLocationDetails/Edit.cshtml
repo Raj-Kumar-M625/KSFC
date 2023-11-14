@@ -1,0 +1,188 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmUnitAddressDTO
+@{
+    Layout = null;
+   var Pincodes = ViewBag.DistrictPincodes;
+}
+
+<div>
+    <div>
+        <form id="UDChangeLocation" asp-action="Edit" onsubmit="return JqueryCUIEditMethod(this,'ChangeAddress'); ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+             @Html.HiddenFor(m => m.IdmUtAddressRowid, new { @class = "form-control"})
+           <div class="row">
+               <div class="col-md-4">
+                    <strong><label class="form-label">Address</label></strong>
+                    @Html.TextAreaFor(m => m.UtAddress, new { @class = "form-control",@maxlength = "200", @id="Address" })
+                    <span asp-validation-for="UtAddress" class="text-danger"></span>
+                     <span id="spanDet">Max:200 Characters</span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">District</label></strong>
+                    @Html.DropDownListFor(m => m.UtDistCd, new SelectList(ViewBag.AllDistrictList, "Value", "Text"),"---Select District Name---", new { @class = "form-select", @required ="required", @id="District" })
+                    <span asp-validation-for="UtDistCd" class="text-danger"></span>
+                </div>
+                 <div class="col-md-4">
+                    <strong><label class="form-label">Taluk</label></strong>
+                    @Html.DropDownListFor(m => m.UtTlqCd, new SelectList(ViewBag.AllTalukList, "TlqCd", "TlqNam"),"---Select Taluk Name---", new { @class = "form-select", @disabled="disabled", @id="Taluk", @readonly = "true" })
+                    <span asp-validation-for="UtTlqCd" class="text-danger"></span>
+                </div>
+            </div>
+            <br/>  
+             <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Hobli</label></strong>
+                     @Html.DropDownListFor(m => m.UtHobCd, new SelectList(ViewBag.AllHobliList, "HobCd", "HobNam"),"---Select Hobli Name---", new { @class = "form-select", @disabled="disabled", @id="Hobli",  @readonly = "true" })
+                    <span asp-validation-for="UtHobCd" class="text-danger"></span>
+                </div> 
+                <div class="col-md-4">
+                    <strong><label class="form-label">Village</label></strong>
+                      @Html.DropDownListFor(m => m.UtVilCd, new SelectList(ViewBag.AllVillageList, "VilCd", "VilNam"),"---Select Village Name---", new { @class = "form-select" , @disabled="disabled", @id="Village", @readonly = "true"})
+                    <span asp-validation-for="UtVilCd" class="text-danger"></span>
+                </div> 
+                <div class="col-md-4">
+                    <strong><label class="form-label">Location</label></strong>
+                    @Html.TextAreaFor(m => m.UtArea, new { @class = "form-control",@maxlength = "100", @id="Area"})
+                    <span asp-validation-for="UtArea" class="text-danger"></span>
+                    <span id="spanDet">Max:100 Characters</span>
+                </div>
+            </div>
+            <br/>  
+           <div class="row">      
+                <div class="col-md-4">
+                    <strong><label class="form-label">Pincode</label></strong>
+                     @Html.DropDownListFor(m => m.UtPincode, new SelectList(Pincodes,"PincodeRowId", "PincodeCd"),"---Select Pincode---", new { @class = "form-select", id="Pincode"  })
+                    <span asp-validation-for="UtPincode" class="text-danger"></span>
+                </div> 
+                <div class="col-md-4">
+                    <strong><label class="form-label">City</label></strong>
+                     @Html.TextAreaFor(m => m.UtCity,  new { @class = "form-control",@maxlength = "100", @id="City" })
+                    <span asp-validation-for="UtCity" class="text-danger"></span>
+                    <span id="spanDet">Max:100 Characters</span>
+                </div> 
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3" >
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            <br />
+        </form>
+        <br />
+    </div>
+</div>
+
+<script>
+    $('input[class="form-control"],textarea[class="form-control"],select[class="form-select"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    $('select[id="Taluk"]').change(function() {
+        debugger;
+        if ($(this).val()) {
+            $("select[id='Hobli']").removeAttr('disabled');
+        }
+        var TalukValue = $('#Taluk').val();
+        var PD = parseInt(TalukValue);
+         $.ajax({
+            type: 'Get',
+            url: GetRoute('/ChangeLocation/HobliDropDown'),
+            data: { Id: PD },
+            success: function(data) {
+                if (data.length != 0) {
+                        var  hobli = hobli + '<option value="">--Select Hobli--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                         hobli = hobli + '<option value=' + data[i].value + '>' + data[i].text + '</option>';
+                    }
+                }
+                $('#Hobli').html(hobli);
+            },
+             error: function (result) {
+            console.log(result)
+        }
+        })
+    });
+
+    $('select[id="Hobli"]').change(function() {
+        if ($(this).val()) {
+            $("select[id='Village']").removeAttr('disabled');
+        }
+        var HobliValue = $('#Hobli').val();
+        var PD = parseInt(HobliValue);
+         $.ajax({
+            type: 'Get',
+            url: GetRoute('/ChangeLocation/VillageDropDown'),
+            data: { Id: PD },
+            success: function(data) {
+                if (data.length != 0) {
+                        var  village = village + '<option value="">--Select Village--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                         village = village + '<option value=' + data[i].value + '>' + data[i].text + '</option>';
+                    }
+                }
+                $('#Village').html(village);
+            },
+             error: function (result) {
+            console.log(result)
+        }
+        })
+    });
+
+
+    $("#District").change(function() {
+      debugger;
+        if ($(this).val()) {
+            $("select[id='Taluk']").removeAttr('disabled');
+        }
+        var PincodeDistrictValue = $('#District').val();
+        var PD = parseInt(PincodeDistrictValue);
+        $.ajax({
+            type: 'Get',
+            url: GetRoute('/ChangeLocation/PincodeDropDown'),
+            data: { Id: PD },
+            success: function(data) {
+                debugger;
+                if (data.length != 0) {
+                        var  pincode = pincode + '<option value="">--Select Pincode--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                         pincode = pincode + '<option value=' + data[i].value + '>' + data[i].text + '</option>';
+                    }
+                }
+                $('#Pincode').html(pincode);
+            },
+             error: function (result) {
+            console.log(result)
+        }
+        })
+
+        $.ajax({
+            type: 'Get',
+            url: GetRoute('/ChangeLocation/TalukDropDown'),
+            data: { Id: PD },
+            success: function(data) {
+             
+                if (data.length != 0) {
+                        var  taluk = taluk + '<option value="">--Select Taluk--</option>';
+                    for (var i = 0; i < data.length; i++) {
+                         taluk = taluk + '<option value=' + data[i].value + '>' + data[i].text + '</option>';
+                    }
+                }
+                $('#Taluk').html(taluk);
+            },
+             error: function (result) {
+            console.log(result)
+        }
+        })
+
+        var  hobli = hobli + '<option value="">--Select Hobli--</option>';
+        $('#Hobli').html(hobli);
+
+        var  village = village + '<option value="">--Select Village--</option>';
+        $('#Village').html(village);
+    });
+
+</script>

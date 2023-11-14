@@ -1,0 +1,49 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.SecurityDocumentsDetails.SecurityDetailsDTO>
+
+
+@if (Model.Any())
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSecId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSecDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PromrelCd)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSecValue)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSecId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSecDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromrelCd)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSecValue)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color: red"><b>No data added, Please add the Security details</b></p>
+}
+
+

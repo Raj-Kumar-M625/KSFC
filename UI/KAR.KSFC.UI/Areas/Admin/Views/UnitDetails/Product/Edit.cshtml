@@ -1,0 +1,54 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmUnitProductsDTO
+@{
+    Layout = null;
+    var productList =  ViewBag.filteredproduct;
+
+}
+
+<div>
+    <div>
+        <form id="UDProductDetails" asp-action="Edit" onsubmit="return JqueryCUIEditMethod(this,'Product');ClearPopupFormac();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control"})
+             @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.IndId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Industry</label></strong>
+                    @Html.DropDownListFor(m => m.IndId,
+                    new SelectList(ViewBag.industrylist,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-control",@maxlength = "150",@id="industry", @disabled = "disabled" })
+                    <span asp-validation-for="IndId" class="text-danger"></span>
+
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Proposed product</label></strong>
+                    @Html.DropDownListFor(m => m.ProdId,
+                    new SelectList(productList,"Id", "ProdDets"), "---Select Type---"
+                    , new { @class = "form-select", @id = "proposedproduct" })
+                    <span asp-validation-for="ProdDets" class="text-danger"></span>
+                    <input type="hidden" asp-for="ProdId" id="ProdId" />
+                </div>
+                </div>
+            <br/>  
+            <div class="form-group">
+                <br/>
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+ <script>
+    $('select[id="proposedproduct"],select[id="industry"]').change(function () {
+
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+</script>

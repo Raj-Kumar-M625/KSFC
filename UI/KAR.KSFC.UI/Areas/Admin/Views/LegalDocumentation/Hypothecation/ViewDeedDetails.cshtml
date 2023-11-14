@@ -1,0 +1,56 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model List<KAR.KSFC.Components.Common.Dto.IDM.HypoAssetDetailDTO>
+@{
+    Layout = null;
+    int count = 0;
+
+}
+
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblHypothecationViewDeedDetails" aria-labelledby="HypothecationList-tab">
+        <thead>
+            <tr>
+                <th class="th2b">S. No.</th>
+                <th class="th3">Description of Asset</th>
+                <th class="th3a">Value</th>
+                <th class="th3b">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    if (item.HypothNo != null)
+                    {
+
+
+                        count++;
+                        <tr>
+                            <td>@count</td>
+                        <td>@Html.DisplayFor(modelItem => item.AssetDet)</td>
+                        <td align="right">@Html.DisplayFor(modelItem => item.AssetValue)</td>
+                        <td class="textCenter">
+                                <a onclick="showInPopup('@Url.Action("DeedViewRecord","Hypothecation",new {assetcd=item.AssetCd,Deedno = @ViewBag.deednumber},Context.Request.Scheme)','View Hypothecation Details','Hypothecation')" class="btn btn-warning text-white"><em class="fa fa-eye"></em> View</a>
+                        </td>
+                       </tr>
+                    }
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('tblHypothecationViewDeedDetails').DataTable();
+    });
+</script>

@@ -1,0 +1,54 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmUnitAddressDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="UDChangeAddress" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+               <div class="col-md-4">
+                    <strong><label class="form-label">Address</label></strong>
+                    @Html.TextAreaFor(m => m.UtAddress, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">District</label></strong>
+                    @Html.DropDownListFor(m => m.UtDistCd, new SelectList(ViewBag.AllDistrictList, "Value", "Text"),"---Select District Name---", new { @class = "form-select", @disabled = "disabled" })
+                </div>     
+                <div class="col-md-4">
+                    <strong><label class="form-label">Taluka</label></strong>
+                    @Html.DropDownListFor(m => m.UtTlqCd, new SelectList(ViewBag.AllTalukList, "Value", "Text"),"---Select Taluk Name---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+            </div>
+            <br/>  
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Hobli</label></strong>
+                     @Html.DropDownListFor(m => m.UtHobCd, new SelectList(ViewBag.AllHobliList, "Value", "Text"),"---Select Hobli Name---", new { @class = "form-select", @disabled = "disabled" })
+                </div> 
+                <div class="col-md-4">
+                    <strong><label class="form-label">Village</label></strong>
+                      @Html.DropDownListFor(m => m.UtVilCd, new SelectList(ViewBag.AllVillageList, "Value", "Text"),"---Select Village Name---", new { @class = "form-select", @disabled = "disabled" })
+                </div> 
+                <div class="col-md-4">
+                    <strong><label class="form-label">Location</label></strong>
+                    @Html.TextBoxFor(m => m.UtArea, new { @class = "form-control",  @disabled = "disabled"})
+                </div>
+            </div>
+            <br/>  
+             <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Pincode</label></strong>
+                      @Html.DropDownListFor(m => m.UtPincode, new SelectList(ViewBag.AllPincodeList, "Value", "Text"),"---Select Pincode---", new { @class = "form-select", @disabled = "disabled" })
+                </div> 
+                <div class="col-md-4">
+                    <strong><label class="form-label">City</label></strong>
+                     @Html.TextBoxFor(m => m.UtCity,  new { @class = "form-control", @disabled = "disabled" })
+                </div> 
+            </div>
+            <br/>  
+        </form>
+    </div>
+</div>

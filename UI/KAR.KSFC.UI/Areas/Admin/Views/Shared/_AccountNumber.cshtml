@@ -1,0 +1,75 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var InspectionId = ViewBag.InspectionId;
+    var inspectionid = ViewBag.inspectonID;
+    var officialname = ViewBag.officialName;
+}
+ @if (InspectionId != null)
+{
+   
+
+ <div >
+     <br />
+    <strong><label class="col-md-2 textleft2">Loan Account No. :</label></strong>
+    <input class="col-md2 btnDet17" type="text" value="@ViewBag.AccountNumber" disabled/>  
+    &emsp;&emsp;
+    <strong><label class="col-md-2 textleft2">Loan Sub :</label></strong>
+    <input class="col-md-1 btnDet18" type="text" value="@ViewBag.LoanSub" disabled/>  
+    &emsp;&emsp;
+    <strong><label class="col-md-2 textleft2">Name of Unit :</label></strong>
+    <input class="col-md-1 btnDet19" type="text" value="@ViewBag.UnitName" disabled/>    
+    
+            <strong><label class="col-md-2 ms-5 textleft2">Inspection Number:</label></strong>
+            <input class="col-md-1 btnDet20" type="text" value="@ViewBag.InspectionId" disabled />
+  
+   
+    <br />
+    <hr/>
+</div>
+
+
+    
+}
+else if (inspectionid != null && officialname != null)
+{
+    <div>
+        <br />
+        <strong><label class="col-md-2 textleft2">Loan Account No. :</label></strong>
+        <input class="col-md2 btnDet17" type="text" value="@ViewBag.AccountNumber" disabled />  @*// Modified by Dev on 05/08/2022*@
+        &emsp;&emsp;
+        <strong><label class="col-md-2 textleft2">Loan Sub :</label></strong>
+        <input class="col-md-1 btnDet18" type="text" value="@ViewBag.LoanSub" disabled />  @*// Added by Dev on 05/08/2022*@
+        &emsp;&emsp;
+        <strong><label class="col-md-2 textleft2">Name of Unit :</label></strong>
+        <input class="col-md-1 btnDet19" type="text" value="@ViewBag.UnitName" disabled />    @*// Modified by Dev on 05/08/2022*@
+        <strong><label class="col-md-2 ms-5 textleft2">Inspection Number:</label></strong>
+        <input class="col-md-1 btnDet20" type="text" value="@ViewBag.inspectonID" disabled />
+        <br />
+        <div style="margin-top: 10px;">
+        <strong><label class="col-md-2 textleft2">Name of Official :</label></strong>
+        <input class="col-md-2 btnDet20" type="text" value="@ViewBag.officialName" disabled />
+        </div>
+        <br />
+        <hr />
+    </div>
+}
+else
+{
+    <div >
+    <br />
+    <strong><label class="col-md-2 textleft2" >Loan Account No. :</label></strong>
+    <input class="col-md-2 btnDet17" type="text" value="@ViewBag.AccountNumber" disabled/>  @*// Modified by Dev on 05/08/2022*@
+    &emsp;&emsp;
+    <strong><label class="col-md-2 textleft2" >Loan Sub :</label></strong>
+    <input class="col-md-2 btnDet18" type="text" value="@ViewBag.LoanSub" disabled/>  @*// Added by Dev on 05/08/2022*@
+    &emsp;&emsp;
+    <strong><label class="col-md-2 textleft2" >Name of Unit :</label></strong>
+        <input class="col-md-2 btnDet19" type="text" id="ChangedUnitName" value="@ViewBag.UnitName" disabled />    @*// Modified by Dev on 05/08/2022*@
+    <br />
+    <hr/>
+</div>
+    
+}
+

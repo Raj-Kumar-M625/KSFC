@@ -1,0 +1,239 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDsbLetterOfCreditDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+}
+    
+<div>
+    <form id="LetterOfCreditList" asp-action="Create" onsubmit="return JqueryInspectionAddMethod(this,'LetterOfCredit'); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+        <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Item Code <span  id="spanDet1"> *</span> </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtItmNo, new { @readonly="readonly", @class = "form-control", id="itemno", required = "required",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="5"})
+                <span asp-validation-for="DlCrdtItmNo" class="text-danger"></span>
+            </div>
+           <div class="col-md-6">
+                <strong> <label calss="from-label">LoC Letter No.<span  id="spanDet1"> *</span> </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtCrltNo, new{@class = "form-control", id="lcno", required="required", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)" ,maxlength="10"})
+                <span asp-validation-for="DlCrdtCrltNo" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-md-6">
+                <strong><label calss="from-label">Item Description <span  id="spanDet1"> *</span> </label></strong>
+                <textarea  asp-for="DlCrdtItmDets" required class="form-control"></textarea>
+                 <span  id="spanDet">Max: 200 Characters</span><br />
+                <span asp-validation-for="DlCrdtItmDets" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">LoC Letter Date <span id="spanDet1"> *</span> </label></strong>
+                     @Html.TextBoxFor(m => m.DlCrdtDt,"{0:dd-MM-yyyy}",  new { @class = "form-control",id="LtrDt",required = "required",onkeydown="return false", @type = "date" })
+                <span asp-validation-for="DlCrdtDt" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name Of Supplier<span  id="spanDet1"> *</span> </label></strong>
+                <input type="text" asp-for="DlCrdtSup" required class="form-control" maxlength="50" />
+                <span asp-validation-for="DlCrdtSup" class="text-danger"></span>
+            </div>
+            <div class="col-md-6" style="display: contents;">
+                <div class="col-md-4">
+                    <strong>
+                        <label calss="from-label">IFSC of Bank<span id="spanDet1"> *</span></label>
+                    </strong>
+                    <input type="text" asp-for="DlCrdtBankIfsc" required class="form-control" maxlength="50" id="bankifsc" style="text-transform:uppercase" />
+
+                  
+                    <span asp-validation-for="DlCrdtBankIfsc" class="text-danger"></span>
+                </div>
+                <div class="col-md-2" style="text-align: center;margin-top: 22px;">
+                    <input type="button" id="getdetailspb" value="Get Details" class="btn btn-warning" />
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Address Of Supplier <span id="spanDet1"> *</span></label>
+                </strong>
+                <textarea asp-for="DlCrdtSupAddr" maxlength="200" required class="form-control"></textarea>
+                <span id="spanDet">Max: 200 Characters</span><br />
+                <span asp-validation-for="DlCrdtSupAddr" class="text-danger"></span>
+               
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name Of Bank <span id="spanDet1"> *</span></label></strong>
+                <input type="text" asp-for="DlCrdtBank" required readonly class="form-control" maxlength="30" id="bnkName" />
+                <span asp-validation-for="DlCrdtBank" class="text-danger"></span>
+            </div>
+          
+        </div>
+        <br />
+        <div class="row">
+              <div class="col-md-6">
+                <strong><label calss="from-label">Amount <span id="spanDet1"> *</span> </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtAmt,"{0:n2}",  new { @class = "form-control",@id="amt1",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@dir="rtl"})
+                <span asp-validation-for="DlCrdtAmt" class="text-danger"></span>
+               
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Address Of Bank <span id="spanDet1"> *</span></label>
+                </strong>
+                <textarea asp-for="DlCrdtBnkadr1" maxlength="200" required readonly class="form-control" id="bnkAdr"></textarea>
+                <span id="spanDet">Max: 200 Characters</span><br />
+                <span asp-validation-for="DlCrdtBnkadr1" class="text-danger"></span>
+            </div>
+          
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">CIF Value <span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtCif,"{0:n2}", new { @class = "form-control",id="CIFVal",required = "required",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@dir="rtl"})
+                <span asp-validation-for="DlCrdtCif" class="text-danger"></span>            
+            </div>
+            <div class="col-md-6">
+                <strong> <label calss="from-label">Requested Date <span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtRqdt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",required="required", @id="RqDt",onkeydown="return false" })
+                <span asp-validation-for="DlCrdtRqdt" class="text-danger"></span>
+            </div>
+          
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Total Amount <span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtTotalAmt,"{0:n2}",  new { @class = "form-control",id="TotAmt",required = "required",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                <span asp-validation-for="DlCrdtTotalAmt" class="text-danger"></span>
+               
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Opening Date Of LoC <span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DlCrdtOpenDt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",required="required", @id="HonDt",onkeydown="return false" })
+                <span asp-validation-for="DlCrdtOpenDt" class="text-danger"></span>
+            </div>
+          
+        </div>
+        <br />
+
+        <div class="row">
+              <div class="col-md-6">
+                <strong><label calss="from-label">Acquired Status<span id="spanDet1"> *</span></label></strong>
+                @Html.DropDownListFor(m => m.DlCrdtAqrdStat, new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="YES",Value = "1"},
+                new SelectListItem(){Text="NO",Value = "0"}
+                },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@required = "required"})
+                <span asp-validation-for="DlCrdtAqrdStat" class="text-danger"></span>
+               
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Validaty Date<span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DlCrdtVdty,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",required="required", @id="VlDt",onkeydown="return false" })
+                <span asp-validation-for="DlCrdtVdty" class="text-danger"></span>
+            </div>
+          
+        </div>
+        <br />
+
+        <div class="row">
+              <div class="col-md-6">
+                <strong><label calss="from-label">Margin Money for LoC<span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtMrgMny,"{0:n2}", new { @class = "form-control",id="Mny",required = "required",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@dir="rtl"})
+                <span asp-validation-for="DlCrdtMrgMny" class="text-danger"></span>
+               
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Honoured Date<span id="spanDet1"> *</span></label>
+                </strong>
+                @Html.TextBoxFor(m => m.DlCrdtHondt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",required="required", @id="HonDt",onkeydown="return false" })
+                <span asp-validation-for="DlCrdtHondt" class="text-danger"></span>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class="col-md-2 text-center float-end submit3" style="margin-top: 10px;">
+                <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+
+            </div>
+        </div>
+        <br />
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#DlCrdtItmNo").on("change", function () {
+        var ItmNo = $(this).val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+        for (i = 0; i < ItemNo.length; i++) {
+            if (ItmNo == ItemNo[i])
+                swal.fire({
+                    title: 'Item Number already exists',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+
+    });
+
+    $('input[class="form-control"],textarea[class="form-control"],select[class="form-control"],select[class="form-select"],input[id="itemno"],input[id="dlcrdtamt"],input[id="dlcrdtcif"],input[id="dlcrdttotamt"]').change(function () {
+            if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled'); 
+            }
+     });
+
+    $("#getdetailspb").click(function () {
+        debugger;
+        var IFSC = $('#bankifsc').val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.IfscBankDetails));
+        for (i = 0; i < ItemNo.length; i++) {
+    
+            if (IFSC == ItemNo[i].ifscCode) {
+                $("#bnkName").val(ItemNo[i].bankName);
+              
+                $("#bnkAdr").val(ItemNo[i].bankAddress);
+               
+                return true;
+            }
+            else {
+              
+                $("#bnkName").val('');
+                //$("#brnName").val('');
+                $("#bnkAdr").val('');
+                //$("#bnkState").val('');
+                //$("#bnkDist").val('');
+                //$("#bnkTlk").val('');
+            }
+        }
+        if ($("#bnkName").val() == '' && $("#bnkAdr").val() == '') {
+            swal.fire({
+                title: 'IFSC Code Does Not exists',
+                icon: 'warning',
+
+                confirmButtonText: 'Ok'
+            })
+        }
+    });
+</script>

@@ -1,0 +1,136 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmPromoterBankDetailsDTO
+@{
+    Layout = null;
+
+}
+
+<div>
+    <div>
+        <form id="PromBank" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.AccountNumber })
+            <div class="row">
+                 <div class="col-md-4">
+                    <strong><label class="form-label">Name of Promotor <span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.PromoterCode, new SelectList(ViewBag.AllPromoterNames, "PromoterCode", "PromName"),"---Select Promoter Name---", new { @class = "form-select", @id="PromotorName", @disabled = "disabled" })
+                    <span asp-validation-for="PromoterCode" class="text-danger"></span>
+                 </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Bank IFSC</label></strong>                    
+                   <input type="text" class="form-control" maxlength="11" id="prmifsc" disabled="disabled" />
+                    <input type="text" class="form-control" id="ifscrowid" hidden name="PrmIfscId" value="@Model.PrmIfscId" />
+                    <span asp-validation-for="PrmIfscId" class="text-danger"></span>                    
+                   @* <input type="button" id="getdetails" value="Get Details" class="btn btn-warning" />  *@
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Bank</label></strong>
+                    @Html.TextBoxFor(m => m.PrmBankName, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Branch</label></strong>
+                    @Html.TextBoxFor(m => m.PrmBankBranch, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Bank Address</label></strong>
+                    @Html.TextAreaFor(m => m.PrmBankAddress, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">State</label></strong>
+                    @Html.TextBoxFor(m => m.PrmBankState, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">District</label></strong>
+                    @Html.TextBoxFor(m => m.PrmBankDistrict, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Taluk</label></strong>
+                    @Html.TextBoxFor(m => m.PrmBankTaluk, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Pin Code</label></strong>
+                    @Html.TextBoxFor(m => m.PrmBankPincode, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Bank Account No.</label></strong>
+                    @Html.TextBoxFor(m => m.PrmAcNo, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Name Of Account Holder</label></strong>
+                    <input type="text" asp-for="PrmBankAcName" id="prmacname" class="form-control" required="required", disabled = "disabled" />
+                    <span asp-validation-for="PrmBankAcName" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Type Of Account</label></strong>
+                    @Html.DropDownListFor(m => m.PrmAcType, new SelectList(ViewBag.PromoterAccount,"Value", "Text"), "--- Select Type Of Account ---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">CIBIL Score</label></strong>
+                    @Html.TextBoxFor(m => m.PrmCibilScore, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+               @* <div class="col-md-5">
+                    @Html.CheckBoxFor(m => m.PrmPrimaryBank, new {  @disabled = "disabled" })
+                    <strong><label class="form-label">&nbsp;&nbsp;&nbsp;Whether Primary Bank</label></strong>
+                </div>*@
+            </div>
+            <br />
+            <br />
+        </form>
+    </div>
+</div>
+<script>
+    $("#getdetails").click(function () {
+        debugger;
+        var IFSC = $('#prmifsc').val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.IfscBankDetails));
+        var code = ItemNo.find(x => x.ifscCode === IFSC);
+
+        if (code) {
+            $("#bnkName").val(code.bankName);
+            $("#brnName").val(code.branchName);
+            $("#bnkAdr").val(code.bankAddress);
+            $("#bnkState").val(code.bankState);
+            $("#bnkDist").val(code.bankDistrict);
+            $("#bnkTlk").val(code.bankTaluk);
+            $("#ifscrowid").val(code.ifscRowID);
+            return true;
+        }
+        else {
+
+            swal.fire({
+                title: 'Ifsc Code does not Exist',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ok',
+                cancelButtonText: 'Cancel',
+                reverseButtons: true
+            })
+
+            $("#bnkName").val('');
+            $("#brnName").val('');
+            $("#bnkAdr").val('');
+            $("#bnkState").val('');
+            $("#bnkDist").val('');
+            $("#bnkTlk").val('');
+        }
+
+    });
+
+
+     var rowID = $('#ifscrowid').val();
+    var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.IfscBankDetails));
+    var code = ItemNo.find(x => x.ifscRowID === parseInt(rowID));
+    $("#prmifsc").val(code.ifscCode);
+</script>

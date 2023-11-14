@@ -1,0 +1,22 @@
+﻿<div class="pre-scrollable mt-3">
+    <div class="row">
+        
+        <div class="col-9">
+
+            <form method="post" asp-action="Index" asp-controller="Employee" asp-area="Admin" id="empSearchForm">
+                <div class="input-group">
+                    <input id="teyTicketNumber" type="search" class="form-control rounded" placeholder="Search Employee Number...." aria-label="Search" aria-describedby="search-addon" value="@ViewData["TeyTicketNumber"]" name="teyTicketNumber" required />
+                    <button title="Search" type="button" id="btnSubmitSearchEmployee" class="btn btn-outline-primary">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-outline-primary" title="Reset" onclick="window.location.replace('/Admin/Employee')">Clear</button>
+        </div>
+        <div class="col-2">
+            <button title="Create" onclick="showInPopUpEmp('@Url.Action("CreateOrEdit", "Employee",null, Context.Request.Scheme)', 'New Employee', 'create')" class="float-right btn btn-info ml-auto float-right" style="position:relative; float:right" data-bs-toggle="modal" data-bs-target="#ksfcEmpDetails">Add New Employee</button>
+
+        </div>
+
+    </div>
+</div>

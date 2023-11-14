@@ -1,0 +1,36 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.BankDetailsDTO
+<div class="accordion-body">
+    <form id="UnitDetailBankDetails">
+        @Html.HiddenFor(m => m.EnqBankId, new { @class = "form-control", @id = "txtBoxNameOfBank" })
+        @Html.HiddenFor(m => m.EnqtempId, new { @class = "form-control", @id = "txtBoxNameOfBank" })
+        <div class="col-md-6">
+            <label for="inputEmail4" class="form-label">Name of Bank</label>
+            @Html.TextBoxFor(m => m.EnqBankname, new { @class = "form-control", @id = "txtBoxNameOfBank" })
+            <span asp-validation-for="EnqBankname" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label  class="form-label">Name of Branch</label>
+            @Html.TextBoxFor(m => m.EnqBankbr, new { @class = "form-control", @id = "txtBoxNameOfBranch" })
+            <span asp-validation-for="EnqBankbr" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label  class="form-label">Name as in Bank Account</label>
+            @Html.TextBoxFor(m => m.EnqAccName, new { @class = "form-control", @id = "txtBoxNameAsInBankAccount" })
+            <span asp-validation-for="EnqAccName" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label  class="form-label">Bank Account Number</label>
+            @Html.TextBoxFor(m => m.EnqBankaccno, new { @class = "form-control", @id = "txtBoxBankAccountNumber", @maxlength = "24"  })
+            <span asp-validation-for="EnqBankaccno" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <label  class="form-label">IFSC</label>
+            @Html.TextBoxFor(m => m.EnqIfsc, new { @class = "form-control", @id = "txtBoxBankIfscCode", @maxlength = "11"  })
+            <span asp-validation-for="EnqIfsc" class="text-danger"></span>
+        </div>
+
+    </form>
+    <br />
+    <br />
+</div>

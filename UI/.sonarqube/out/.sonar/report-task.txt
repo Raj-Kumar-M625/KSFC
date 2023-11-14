@@ -1,0 +1,6 @@
+projectKey=KSFC_UI1
+serverUrl=http://localhost:9000
+serverVersion=9.8.0.63668
+dashboardUrl=http://localhost:9000/dashboard?id=KSFC_UI1
+ceTaskId=AYVyLd3VDFjEKP4p07jn
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYVyLd3VDFjEKP4p07jn

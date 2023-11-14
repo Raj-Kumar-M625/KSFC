@@ -1,0 +1,115 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.HypoAssetDetailDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> hypothecationDetails = ViewBag.Documentlist;
+   
+}
+ 
+<div>
+    <div>
+        <form id="LDHypoDetails" asp-action="Update" onsubmit="return JqueryAjaxPostMethod(this,'Hypothecation'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.IdmHypothDetId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Type Of Asset</label></strong>
+                    @Html.DropDownListFor(m => m.AssetTypeCd , new SelectList(ViewBag.TypeofAssets, "Value", "Text"), "---Select Asset Type---", new { @class = "form-select", @disabled = "disabled" })
+                    <span asp-validation-for="AssetTypeCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Asset</label></strong>
+                    @Html.TextBoxFor(m => m.AssetDetails, new { @class = "form-control",@disabled = "disabled" })
+                    <span asp-validation-for="AssetDetails" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Asset Description</label></strong>
+                    @Html.TextAreaFor(m => m.AssetOthDetails, new { @class = "form-control",@disabled = "disabled" })
+                    <span asp-validation-for="AssetOthDetails" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value</label></strong>
+                    @Html.TextBoxFor(m => m.AssetValue,"{0:n2}",  new { @class = "form-control",@disabled = "disabled" ,@style="text-align:right"})
+                    <span asp-validation-for="AssetValue" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Hypoth./Mortgage Description</label></strong>
+                    @Html.TextAreaFor(m => m.HypothDesc, new { @class = "form-control",@maxlength = "200", @id="hypoDesc" })
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="HypothDesc" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Execution</label></strong>
+                    @Html.TextBoxFor(m => m.ExecutionDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date", @id="execution",onkeydown = "return false"})
+                    <span asp-validation-for="ExecutionDate" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Hypothecation Deed No.</label></strong>
+                    @Html.TextBoxFor(m => m.HypothNo, new {@onkeypress="allowAlphaNumericSpace(event)", @class = "form-control uniqueNumber",@maxlength = "15", @id="hypoNo" ,onkeydown="return event.keyCode !== 69",@required = "required"})
+                    <span asp-validation-for="HypothNo" class="text-danger"></span>
+                </div>
+                <div hidden class="col-md-4">
+                    <strong><label class="form-label">Upload Document</label></strong>                    
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",hypothecationDetails)
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div> 
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<script>
+    $('textarea[id="hypoDesc"], input[id="execution"], input[id="hypoNo"]').change(function() {
+        
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+     $(".uniqueNumber").change(function () {
+    var ItmNo = $(this).val();
+    var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+for (i = 0; i < ItemNo.length; i++) {
+    if (ItmNo == ItemNo[i])
+        swal.fire({
+            title: 'Deed Number already exists',
+            icon: 'warning',
+
+            confirmButtonText: 'Ok',
+        }).then((result) => {
+            $(this).val("");          
+        })
+}
+    });
+</script>
+<script>
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+        if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+   </script>

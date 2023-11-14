@@ -1,0 +1,143 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmPromoterDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> PromoterDetails = ViewBag.Documentlist;
+}
+<div>
+    <div>
+        <form id="PromProfile" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">PAN</label></strong>
+                    @Html.TextBoxFor(m => m.PromPan, new { @class = "form-control", @maxlength = "10", @id = "promPan",@disabled = "disabled" })
+                    <span asp-validation-for="PromPan" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name of Promoter</label></strong>
+                    @Html.TextBoxFor(m => m.PromName, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Birth</label></strong>
+                    @Html.TextBoxFor(m => m.PromDob,"{0:yyyy-MM-dd}", new { @class = "form-control", type="date",@disabled = "disabled", @id = "promDob" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Designation of Promoter</label></strong>
+                    @Html.DropDownListFor(m => m.PdesigCd, new SelectList(ViewBag.PromoterDesignation, "Value", "Text"), "---Select Promoter Designation---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Domicile</label></strong>                    
+                    @Html.DropDownListFor(m => m.DomCd, new SelectList(ViewBag.PromoterDomicile, "Value", "Text"), "---Select Domicile---",new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                  <div class="col-md-4">
+                    <strong><label class="form-label">Gender</label></strong>
+                    @Html.TextBoxFor(m => m.PromGender, new { @class = "form-control", @id = "promGender", @disabled = "disabled"  })
+                    <span asp-validation-for="PromGender" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name of Father/Husband</label></strong>
+                    @Html.TextBoxFor(m => m.NameFatherSpouse, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Passport No</label></strong>
+                    @Html.TextBoxFor(m => m.PromPassport, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Class</label></strong>                    
+                    @Html.DropDownListFor(m => m.PclasCd, new SelectList(ViewBag.PromoterClass, "Value", "Text"), "---Select Promoter Class---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Sub Class</label></strong>                    
+                    @Html.DropDownListFor(m => m.PsubclasCd, new SelectList(ViewBag.PromoterSubClass, "Value", "Text"), "---Select Promoter Sub Class---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Join Date</label></strong>
+                    @Html.TextBoxFor(m => m.PromJnDt, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Exit Date</label></strong>
+                    @Html.TextBoxFor(m => m.PromExDt, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Experience Years</label></strong>
+                    @Html.TextBoxFor(m => m.PromExpYrs, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Mobile No</label></strong>
+                    @Html.TextBoxFor(m => m.PromMobileNo, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Experience Details</label></strong>
+                    @Html.TextAreaFor(m => m.PromExpDet, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">E-Mail ID</label></strong>
+                    @Html.TextBoxFor(m => m.PromEmail, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Qualification</label></strong>                    
+                    @Html.DropDownListFor(m => m.PqualCd, new SelectList(ViewBag.PromoterQual, "Value", "Text"), "---Select Promoter Qualification---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Additional Qualification</label></strong>
+                    @Html.TextAreaFor(m => m.PromAddlQual, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Telephone No</label></strong>
+                    @Html.TextBoxFor(m => m.PromTelNo, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Whether Physically Handicap</label></strong>                    
+                    @Html.DropDownListFor(m => m.PromPhyHandicap, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "true"},
+                    new SelectListItem(){Text="No",Value = "false"}
+                    }, "---Select Whether Physically Handicap---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Whether Chief Promoter</label></strong>                    
+                    @Html.DropDownListFor(m => m.PromChief, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "true"},
+                    new SelectListItem(){Text="No",Value = "false"}
+                    }, "---Select Whether Chief Promoter---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Whether Major Promoter</label></strong>                    
+                    @Html.DropDownListFor(m => m.PromMajor, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "true"},
+                    new SelectListItem(){Text="No",Value = "false"}
+                    }, "---Select Whether Major Promoter---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewPhoto.cshtml",PromoterDetails)
+            </div>
+        </form>
+        <br />
+    </div>
+</div>

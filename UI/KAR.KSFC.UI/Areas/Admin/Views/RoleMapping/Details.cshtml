@@ -1,0 +1,46 @@
+﻿@model KAR.KSFC.Components.Common.Dto.AdminModule.AssignRoleDto
+@{
+    Layout = null;
+}
+<form asp-action="CreateOrEdit" asp-area="Admin" asp-controller="Employee" asp-route-id="@Model.EmployeeNumber" id="assignRoleForm" method="post">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group row pb-1">
+                <label for="empNo" class="col-sm-4 col-form-label">Employee No</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.EmployeeNumber, new {@class="form-control", @id="empNo",@maxlength="8", @readonly="true"})
+                    <span asp-validation-for="EmployeeNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row pb-1">
+                <label for="txtname" class="col-sm-4 col-form-label">Name of User</label>
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(model => model.EmployeeName, new {@class="form-control", @id="txtname" , @readonly="true"})
+                    <span asp-validation-for="EmployeeName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label for="ddlOffice" class="col-sm-4 col-form-label">Select Module</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.ModuleId,
+                    new SelectList(ViewBag.modules, "Value", "Text"), null,
+                    new { @class = "form-select" , @id="ddlModules", @onchange="getRoles(this.value)"})
+                    <span asp-validation-for="ModuleId" class="text-danger"></span>
+
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label for="ddlChair" class="col-sm-4 col-form-label">Select Role</label>
+                <div class="col-sm-8">
+                    @Html.DropDownListFor(model => model.RoleId,
+                    new SelectList(ViewBag.roles, "Value", "Text"), null,
+                    new { @class = "form-select" , @id="ddlRoles"})
+                    <span asp-validation-for="RoleId" class="text-danger"></span>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

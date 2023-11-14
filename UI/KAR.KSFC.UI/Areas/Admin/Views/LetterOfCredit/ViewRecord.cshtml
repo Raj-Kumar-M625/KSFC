@@ -1,0 +1,146 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDsbLetterOfCreditDTO
+
+@{
+    Layout = null;
+}
+
+<div>
+    <form id="LetterOfCreditList" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Item Code </label></strong>
+                <input type="Number" asp-for="DlCrdtItmNo" class="form-control" min="0" readonly disabled onkeypress="return event.charCode >= 48" />
+            </div>
+           <div class="col-md-6">
+                <strong> <label calss="from-label">LoC Letter No.  </label></strong>
+                <input type="Number" asp-for="DlCrdtCrltNo"  class="form-control" min="0" readonly disabled  onkeypress="return event.charCode >= 48" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-md-6">
+                <strong><label calss="from-label">Item Description   </label></strong>
+                <textarea asp-for="DlCrdtItmDets" readonly disabled class="form-control"></textarea>
+                 <span id="spanDet">Max: 200 Characters</span><br />
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">LoC Letter Date   </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtDt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",@disabled = "disabled" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name Of Supplier   </label></strong>
+                <input type="text" asp-for="DlCrdtSup"  readonly disabled class="form-control" maxlength="50" />
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">IFSC of Bank </label></strong>
+                <input type="text" asp-for="DlCrdtBankIfsc" readonly disabled class="form-control" maxlength="30" />
+            </div>
+          
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                 <strong>
+                    <label calss="from-label">Address Of Supplier  </label>
+                </strong>
+                <textarea  asp-for="DlCrdtSupAddr" maxlength="200" readonly disabled  class="form-control"></textarea>
+                 <span id="spanDet">Max: 200 Characters</span><br />
+              
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">Name Of Bank  </label></strong>
+                <input type="text" asp-for="DlCrdtBank" readonly disabled class="form-control" maxlength="30" />
+            </div>
+          
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Amount   </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtAmt,"{0:n2}",  new { @class = "form-control",@id="amt1",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@disabled = "disabled" ,@dir="rtl"})
+                <span asp-validation-for="DlCrdtAmt" class="text-danger"></span>
+                
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Address Of Bank  </label>
+                </strong>
+                <textarea asp-for="DlCrdtBnkadr1" maxlength="200" readonly disabled class="form-control"></textarea>
+                <span id="spanDet">Max: 200 Characters</span><br />
+            </div>
+           
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">CIF Value  </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtCif,"{0:n2}", new { @class = "form-control",id="CIFVal",@disabled = "disabled",@onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@dir="rtl"})
+            </div>
+          
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Requested Date  </label>
+                </strong>
+                @Html.TextBoxFor(m => m.DlCrdtRqdt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",@disabled = "disabled" })
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Total Amount  </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtTotalAmt,"{0:n2}",  new { @class = "form-control",id="TotAmt",required = "required",@disabled = "disabled",@dir="rtl" })
+                <span asp-validation-for="DlCrdtTotalAmt" class="text-danger"></span>           
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Opening Date Of LoC  </label>
+                </strong>
+                @Html.TextBoxFor(m => m.DlCrdtOpenDt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",@disabled = "disabled" })
+            </div>
+           
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Acquired Status </label></strong>
+                @Html.DropDownListFor(m => m.DlCrdtAqrdStat,new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="YES",Value = "1"},
+                new SelectListItem(){Text="NO",Value = "0"}
+                },"---Select Acquisition Status---",
+                new { @class = "form-select", @id = "CondStg", @disabled = "disabled"})
+               
+            </div>
+             <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Validaty Date </label>
+                </strong>
+                @Html.TextBoxFor(m => m.DlCrdtVdty,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",@disabled = "disabled" })
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+             <div class="col-md-6">
+                <strong><label calss="from-label">Margin Money for LoC </label></strong>
+                @Html.TextBoxFor(m => m.DlCrdtMrgMny,"{0:n2}",  new { @class = "form-control",id="TotAmt",required = "required",@disabled = "disabled" ,@dir="rtl"})
+                <span asp-validation-for="DlCrdtMrgMny" class="text-danger"></span>
+              
+            </div>
+            <div class="col-md-6">
+                <strong>
+                    <label calss="from-label">Honoured Rate </label>
+                </strong>
+                @Html.TextBoxFor(m => m.DlCrdtHondt,"{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date",@disabled = "disabled" })
+            </div>
+        </div>
+    </form>
+</div>

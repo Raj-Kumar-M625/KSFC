@@ -1,0 +1,286 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgBuildingDetDTO
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var inspectionId = ViewBag.InspectionId;
+    var firstinspection = ViewBag.firstbuildinspection;
+}
+
+<div>
+    <form id="BlInspectionDetailsAd" asp-action="Create" asp-controller="BuildingInspectionAd" onsubmit="return JqueryInspectionAddMethod(this,'BuildingInspectionAd'); ClearPopupFormsh();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" value="@account" asp-for="LoanAcc" />
+        <input type="hidden" value="@inspectionId" asp-for="DcBdgIno" />
+        <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+        <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+        @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Item No <span id="spanDet1"> *</span></label></strong>
+                <input type="Number" asp-for="DcBdgItmNo" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" readonly="readonly" />
+                <span asp-validation-for="DcBdgItmNo" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="col-md-6">
+                <strong> <label calss="from-label">Item Details<span id="spanDet1"> *</span> </label></strong>
+                <input type="text" asp-for="DcBdgDets" max="600" class="form-control" />
+                <span asp-validation-for="DcBdgDets" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong> <label calss="from-label">Mem Area <span id="spanDet1"> *</span></label></strong>
+                <input type="Number" asp-for="DcBdgPlnth" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                <span asp-validation-for="DcBdgPlnth" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="col-md-6">
+                <strong><label calss="from-label">Mem Value <span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DcBdgUcost,"{0:n2}", new { @class = "form-control",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@style="text-align:right",@id="Memvalue"})
+                <span asp-validation-for="DcBdgUcost" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Actual Area <span id="spanDet1"> *</span></label></strong>
+                <input type="Number" asp-for="DcBdgAplnth" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                <span asp-validation-for="DcBdgAplnth" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="col-md-6">
+                <strong><label calss="from-label">Actual Value <span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DcBdgAtCost,"{0:n2}", new { @class = "form-control",required = "required",@id="costLand", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" ,@style="text-align:right"})
+                <span asp-validation-for="DcBdgAtCost" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Security Created <span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.DcBdgSecCreatd, new { @class = "form-control",@maxlength = "20",onkeypress="return event.charCode >= 46 && event.charCode <= 57", @required = "required",@style="text-align:right",@readonly=true,@id="secCreated"})
+                <input type="text" hidden id="secCreated2" value="@ViewBag.SecurityDetails" />
+                <span asp-validation-for="DcBdgSecCreatd" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <strong><label class="form-label">Roof Type</label></strong>
+                @Html.TextBoxFor(m => m.RoofType, new { @class = "form-control", @id="rfType",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="50",@required="required" })
+                <span asp-validation-for="RoofType" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6">
+                <strong><label calss="from-label">Release Status </label> </strong>
+                @Html.DropDownListFor(m => m.DcBdgRqrdStat, new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="No Release Yet",Value = "0"},
+                new SelectListItem(){Text="Partially Released",Value = "1"},
+                new SelectListItem(){Text="Fully Released",Value = "2"}
+                },"---Select Release Status---", new { @class = "form-select" ,@id="release",@required = "required"})
+                <span asp-validation-for="DcBdgRqrdStat" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <strong><label calss="from-label">Security Considered for Release </label> </strong>
+                @Html.TextBoxFor(m => m.DcBdgSecCreatd, new { @class = "form-control",@maxlength = "20",onkeypress="return event.charCode >= 46 && event.charCode <= 57", @required = "required",@style="text-align:right",@id="SecRel"})
+                <span asp-validation-for="DcBdgSecCreatd" class="text-danger"></span>
+            </div>
+            <br />
+        </div>
+        <br />
+        <div @*id="buildingAcquisition" style="display:none;"*@>
+            <p><h4>Building Release Details</h4></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Acquisition Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.DcBdgStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Not Completed",Value = "0"},
+                    new SelectListItem(){Text="Partially Completed",Value = "1"},
+                    new SelectListItem(){Text="Fully Completed",Value = "2"},
+                    new SelectListItem(){Text="Construction Canceled",Value = "3"},
+                    },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@required = "required"})
+                    <span asp-validation-for="DcBdgStat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Actual Unit Cost per Sq.Mtr(B)</label></strong>
+                    @Html.TextBoxFor(m => m.IrbUnitCost,"{0:n2}", new { @class = "form-control", @id="ActualCostPerSq",@required="required",@style="text-align:right"})
+                    <span asp-validation-for="IrbUnitCost" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DcBdgStatChgDate, "{0:yyyy-MM-dd}", new { @class = "form-control",@id = "Acqdate", type="date",onkeydown="return false", @readonly = "true",@required = "required"})
+                    <span asp-validation-for="DcBdgStatChgDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Percentage Completed(D)</label></strong>
+                    @Html.TextBoxFor(m => m.IrbPercentage, new { @class = "form-control",@id="Percentage",@required="required" })
+                    <span asp-validation-for="IrbPercentage" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Building Construction Status</label></strong>
+                    @Html.TextBoxFor(m => m.IrbBldgConstStatus, new { @class = "form-control",@id="BuildingStatus",@required="required" })
+                    <span asp-validation-for="IrbBldgConstStatus" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security Considered for Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrbSecValue, new { @class = "form-control",@id="Security",@type="number",@required="required" })
+                    <span asp-validation-for="IrbSecValue" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+
+        </div>
+        <br />
+
+        <div class="form-group">
+            <div class="col-md-2 text-center float-end submit5">
+                <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('input[class="form-control"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    var maxDate = new Date().toISOString().split('T')[0];
+    document.getElementById('Acqdate').value = maxDate
+
+
+    $("#DcBdgItmNo").on("change", function () {
+        var ItmNo = $(this).val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+        for (i = 0; i < ItemNo.length; i++) {
+            if (ItmNo == ItemNo[i])
+                swal.fire({
+                    title: 'Item Number already exists',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+
+    });
+
+    $("#AcqStg").change(function () {
+        debugger;
+        var status = $('#AcqStg :selected').val();
+        if (status == 1 || status == 2) {
+            //document.getElementById('Acqdate').readOnly = false
+            $("#buildingAcquisition").show();
+        }
+        else {
+            $("#AcqStg").click(function () {
+                // $("#Acqdate").val("0");
+            });
+            $("#buildingAcquisition").hide();
+        }
+
+
+
+
+        $("#AcqStg").change(function () {
+            //debugger;
+            var status = $('#AcqStg :selected').val();
+            if (status == 0) {
+                //document.getElementById('Acqdate').readOnly = true
+            }
+
+
+        });
+
+    });
+
+
+    var MacNo = "@ViewBag.SecurityDetails";
+    $("#secCreated").val(MacNo);
+
+
+
+
+    $("#Percentage").on("change", function () {
+        debugger
+        var percentage = ($("#Percentage").val());
+        var sec = ($("#costLand").val());
+        var per = (parseInt(percentage) / 100);
+        var furn = $("#secCreated2").val();
+        var total = ((Number(furn) + Number(sec)) * Number(per));
+        $("#secCreated").val(Math.round(total));
+    });
+
+
+
+    $("#Memvalue").change(function () {
+        document.getElementById('costLand').readOnly = false
+    });
+
+    $("#costLand").change(function () {
+        var value = $('#Memvalue').val();
+        var cost = $('#costLand').val();
+        if (cost < value) {
+            debugger;
+            swal.fire(
+                'Error',
+                'Actual Value should be greater than or equal to Mem Value',
+                'error'
+            )
+            $('#costLand').val("");
+        }
+
+    });
+
+</script>
+<script>
+    //debugger;
+    //if ('@ViewBag.firstbuildinspection' == 'True') {
+    //    Swal.fire({
+    //        title: 'Are you sure Want To Add?',
+    //        text: 'Building Inspection Details is not Added in Previous Inspection',
+    //        icon: 'warning',
+    //        showCancelButton: true,
+    //        confirmButtonText: 'Yes',
+    //        cancelButtonText: 'No',
+    //    }).then((result) => {
+    //        // If the user clicks "Yes"
+    //        if (result.isConfirmed) {
+    //            // Open the form
+    //            $('#BlInspectionDetails').show();
+    //        }
+    //        else {
+    //            $('#modelBlInspectionDetails .modal-body').html('');
+    //            $('#modelBlInspectionDetails .modal-title').html('');
+    //            $('#modelBlInspectionDetails').modal('hide');
+    //        }
+    //    });
+
+    //}
+
+
+      Swal.fire({
+        text: "Modification of deed is pending and it needs to be done before the last 10% of the Disbursement.",
+        icon: 'warning',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        denyButtonText: "Don't save"
+      })
+
+</script>

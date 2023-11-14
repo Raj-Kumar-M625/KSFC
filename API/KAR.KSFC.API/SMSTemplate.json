@@ -1,0 +1,30 @@
+[
+  {
+    "key": "PReg",
+    "value": "_otp is your OTP to register on KSFC online portal and is valid till 10 min. Do not share it with anyone. - KSFC"
+  },
+  {
+    "key": "PLogin",
+    "value": "_otp is your OTP to login on KSFC online portal and is valid till 10 min. Do not share it with anyone. - KSFC"
+  },
+  {
+    "key": "LoginC",
+    "value": "_otp is your OTP to login on KSFC online portal – Admin section and is valid till 10 min. Do not share it with anyone. - KSFC"
+  },
+  {
+    "key": "AdminFP",
+    "value": "_otp is your OTP to reset your password on KSFC online portal – Admin section and is valid till 10 min. Do not share it with anyone. -KSFC"
+  },
+  {
+    "key": "AdminNP",
+    "value": "Your new password for KSFC online portal– Admin section is _newpassword. Do not share it with anyone., -KSFC"
+  },
+  {
+    "key": "EnqSub",
+    "value": "_otp is your OTP to Enquiry Submission on KSFC online portal and is valid till 10 min. Do not share it with anyone. - KSFC"
+  },
+  {
+    "key": "EReg",
+    "value": "_otp is your OTP to register on KSFC online portal and is valid till 10 min. Do not share it with anyone. - KSFC"
+  }
+]

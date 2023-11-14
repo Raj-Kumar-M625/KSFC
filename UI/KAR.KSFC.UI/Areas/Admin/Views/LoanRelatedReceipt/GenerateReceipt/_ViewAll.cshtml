@@ -1,0 +1,79 @@
+﻿
+@model List<KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO>
+@{
+    int count = 0;
+}
+<a onclick="showInPopupLA('@Url.Action("Create","GenerateReceipt",new {accountNumber = ViewBag.AccountNumber},Context.Request.Scheme)','Add Loan Related Receipt','GenerateReceipt')" class="btn btn-primary text-white mb-2 mt-2"><i class="fa fa-plus"></i> Add New Receipt</a>
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblGenerateReceiptDatatable" >
+        <thead>
+            <tr>
+                <th class="th1">S. No.</th>
+                <th class="th2">Receipt Reference No.</th>
+                <th class="th2">Transaction Type</th>
+                <th class="th2">Amount Due</th>
+                <th class="th2">Amount Paid</th>
+                <th class="th2">Balance</th>
+                <th class="th2">Payment Reference Number</th>
+                <th class="th2">Total Pay Amount</th>
+                <th class="th7">Date of Transaction</th>
+                <th class="th7">Due Date for Payment</th>
+                <th class="th2">Status</th>
+                <th class="th2">Mode of Payment</th>
+                <th class="th4a">Action</th>
+            </tr>   
+        </thead>
+        <tbody>
+            @if(Model.Count() > 0){
+            @foreach (var item in Model)
+            {
+                count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptRefNo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.AmountDue)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PaymentAmt)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BalanceAmt)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.PaymentRefNo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.ActualAmt)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TblLaPaymentDet.PaidDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.DueDatePayment,"{0:yyyy-MM-dd}")</td>
+                        <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptStatus)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ModeType)</td>
+                        @if(item.TblLaReceiptDet.ReceiptStatus == null)
+                        {
+                        <td class="textCenter">
+                                <input onclick="showInPopupLA('@Url.Action("ViewRecord", "GenerateReceipt",new {unqid=item.UniqueID},Context.Request.Scheme)','View Loan Related Receipt','GenerateReceipt')" class="btn2 btn-warning text-white" type="button" value="View" />
+                                <input onclick="showInPopupLA('@Url.Action("Edit", "GenerateReceipt",new {unqid=item.UniqueID},Context.Request.Scheme)','Edit Loan Related Receipt','GenerateReceipt')" class="btn2 btn-primary text-white" type="button" value="Edit" />
+                                <input onclick="JqueryAjaxDeleteMethod('@Url.Action("Delete","GenerateReceipt",new {Id = item.UniqueID},Context.Request.Scheme)','GenerateReceipt')" class="btn2 btn-danger" type="button" value="Delete" />
+                                <input onclick="return fxnSubmitGenerateReceipt('@item.TblLaReceiptDet.ReceiptRefNo')" type="button" value="Submit" class="btn2 btn-info" />
+                        </td>
+                        }
+                        else
+                        {
+                        <td class="textCenter">
+                                <input onclick="showInPopupLA('@Url.Action("ViewRecord", "GenerateReceipt",new {unqid=item.UniqueID},Context.Request.Scheme)','View Loan Related Receipt','GenerateReceipt')" class="btn2 btn-warning text-white" type="button" value="View" />
+                        </td>
+                        }
+
+                    </tr>
+            }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="16">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblGenerateReceiptDatatable').DataTable();
+    });
+</script>

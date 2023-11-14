@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var InspectionId = ViewBag.InspectionId;
+}
+ @if (InspectionId != null)
+{
+   
+
+ <div>
+    <br />
+        <b><label class="col-md-2 textleft2" id="">Loan Account No. :</label></b>
+        <input class="col-md2 btnDet17" id="" type="text" value="@ViewBag.AccountNumber" disabled />  @*// Modified by Dev on 05/08/2022*@
+    &emsp;&emsp;
+        <b><label class="col-md-2 textleft2" id="">Loan Sub :</label></b>
+        <input class="col-md-1 btnDet18" id="" type="text" value="@ViewBag.LoanSub" disabled />  @*// Added by Dev on 05/08/2022*@
+    &emsp;&emsp;
+        <b><label class="col-md-2 textleft2" id="">Name of Unit :</label></b>
+        <input class="col-md-1 btnDet19" id="" type="text" value="@ViewBag.UnitName" disabled />    @*// Modified by Dev on 05/08/2022*@
+        <b><label class="col-md-2 ms-5 textleft2" id="">Inspection Number:</label></b>
+        <input class="col-md-1 btnDet20" id="" type="text" value="@ViewBag.InspectionId" disabled />
+    <br />
+    <hr/>
+</div>
+
+
+    
+}
+else
+{<div>
+    <br />
+        <b><label class="col-md-2 textleft2" id="">Loan Account No. :</label></b>
+        <input class="col-md-2 btnDet17" id="" type="text" value="@ViewBag.AccountNumber" disabled />  @*// Modified by Dev on 05/08/2022*@
+    &emsp;&emsp;
+        <b><label class="col-md-2 textleft2" id="">Loan Sub :</label></b>
+        <input class="col-md-2 btnDet18" id="" type="text" value="@ViewBag.LoanSub" disabled />  @*// Added by Dev on 05/08/2022*@
+    &emsp;&emsp;
+        <b><label class="col-md-2 textleft2" id="">Name of Unit :</label></b>
+        <input class="col-md-2 btnDet19" id="" type="text" value="@ViewBag.UnitName" disabled />    @*// Modified by Dev on 05/08/2022*@
+    <br />
+    <hr/>
+</div>
+    
+}

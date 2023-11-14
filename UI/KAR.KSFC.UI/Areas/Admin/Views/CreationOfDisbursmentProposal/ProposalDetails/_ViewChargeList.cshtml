@@ -1,0 +1,70 @@
+﻿
+@{
+    var propdisc = ViewBag.charge;
+    var propamount = ViewBag.chargeamount;
+
+}
+
+
+<div class="row m-2">
+
+    <div class="col-md-6">
+        <strong><label class="form-label">List of Charges</label></strong>
+        <select id="role" class="form-select" disabled>
+            <option id="">@propdisc</option>
+        </select>
+
+    </div>
+    <div class="col-md-6">
+        <label calss="from-label"><strong>Amount</strong></label>
+        <input type="text"  class="form-control mt-2" readonly value="@propamount" />
+    </div>
+</div>
+
+<div class="row m-2">
+    <div class="col-md-6">
+        <label calss="from-label"><strong>GST on Charges</strong></label>
+        <input type="text" id="" class="form-control mt-2" value="18%" readonly />
+    </div>
+    <div class="col-md-6">
+        <label calss="from-label"><strong>GL Code for FD</strong></label>
+        <input type="text" class="form-control mt-2" readonly value="@ViewBag.ReleFdGlcd"/>
+    </div>
+</div>
+
+<div class="row m-2">
+    <div class="col-md-6">
+        <strong><label calss="from-label">GL Code for Others</label></strong>
+        <input type="text" class="form-control mt-2" readonly value="@ViewBag.ReleOthGlcd"/>
+    </div>
+</div>
+
+
+
+
+
+@*<div class="col-md-6" style="display: contents">
+    <div class="col-md-2">
+        <strong><label class="form-label">List of Charges</label></strong>
+    </div>
+    <div class="col-md-4">
+        <select id="role" class="form-select form-select" aria-label="Default select example" readonly>
+            <option id="">@propdisc</option>
+
+        </select>
+    </div>
+
+
+</div>
+<div class="col-md-6" style="display: contents">
+    <div class="col-md-1"> </div>
+    <div class="col-md-1">
+        <strong><label calss="from-label">Amount</label></strong>
+    </div>
+    <div class="col-md-3">
+        <input type="text" id="ChargeAmount" value="@propamount" readonly style="text-align:right" />
+    </div>
+
+
+
+</div>*@

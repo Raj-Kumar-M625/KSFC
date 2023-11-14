@@ -1,0 +1,38 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsDTO
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecord" asp-route-id="@Model.EnqSisfinId" onsubmit="ClearPopupFormASFD();">
+            @Html.HiddenFor(model => model.EnqSisfinId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Associate / Sister Concern</label>
+                @Html.DropDownListFor(model => model.EnqSis.EnqSisId, new SelectList(ViewBag.AssociateConcernList,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Financial Year</label>
+                @Html.DropDownListFor(model => model.FinyearCode, new SelectList(ViewBag.FinancialYearsList,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                @Html.CheckBoxFor(model => model.WhProv, new { @class = "form-check-inline", @disabled = "disabled" })
+                <label for="inputEmail4" class="form-label">Provisional Balance Sheet Details</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Financial Component</label>
+                @Html.DropDownListFor(model => model.FincompCd, new SelectList(ViewBag.ListFinancialComponent,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Amount (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqFinamt, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3 text-center">
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

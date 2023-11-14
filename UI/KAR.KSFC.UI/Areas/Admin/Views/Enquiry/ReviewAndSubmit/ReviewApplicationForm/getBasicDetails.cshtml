@@ -1,0 +1,99 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.UnitDetails.BasicDetailsDto
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i>Basic Details</h3>
+@if (Model != null)
+{
+        <br />
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Name : </label>
+            @Html.DisplayFor(model => model.EnqApplName)
+        </div>
+        <div class="col-sm-4">
+            <label>Address : </label>
+            @Html.DisplayFor(model => model.EnqAddress)
+        </div>
+        <div class="col-sm-4">
+            <label>Place : </label>
+            @Html.DisplayFor(model => model.EnqPlace)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Pincode : </label>
+            @Html.DisplayFor(model => model.EnqPincode)
+        </div>
+        <div class="col-sm-4">
+            <label>Email : </label>
+            @Html.DisplayFor(model => model.EnqEmail)
+        </div>
+        <div class="col-sm-4">
+            <label>Branch Name : </label>
+            @Html.DisplayFor(model => model.OffcCd)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Name Of unit : </label>
+            @Html.DisplayFor(model => model.UnitName)
+        </div>
+        <div class="col-sm-4">
+            <label>Place : </label>
+            @Html.DisplayFor(model => model.PurpCd)
+        </div>
+        <div class="col-sm-4">
+            <label>Nature of Premises : </label>
+            @Html.DisplayFor(model => model.PremCd)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Constitution Type : </label>
+            @Html.DisplayFor(model => model.ConstCd)
+        </div>
+        <div class="col-sm-4">
+            <label>Size Of Firm : </label>
+            @Html.DisplayFor(model => model.SizeCd)
+        </div>
+        <div class="col-sm-4">
+            <label>Name Of Product : </label>
+            @Html.DisplayFor(model => model.ProdCd)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Type Of Industry : </label>
+            @Html.DisplayFor(model => model.TypeOfIndustry)
+        </div>
+        <div class="col-sm-4">
+            <label>Expected Loan Amount : </label>
+            @Html.DisplayFor(model => model.EnqLoanamt)
+        </div>
+        <div class="col-sm-4">
+            <label>District : </label>
+            @Html.DisplayFor(model => model.District)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label>Taluk : </label>
+            @Html.DisplayFor(model => model.Taluk)
+        </div>
+        <div class="col-sm-4">
+            <label>Hobli : </label>
+            @Html.DisplayFor(model => model.Hobli)
+        </div>
+        <div class="col-sm-4">
+            <label>Village : </label>
+            @Html.DisplayFor(model => model.VilCd)
+        </div>
+    </div>
+}
+
+@if (Model == null)
+
+{
+        <p style="color: red"><b>No data added, Please add the Basic details</b></p>
+}
+<br />

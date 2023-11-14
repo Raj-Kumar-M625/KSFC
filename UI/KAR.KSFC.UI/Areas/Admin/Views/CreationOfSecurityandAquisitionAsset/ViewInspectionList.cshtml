@@ -1,0 +1,80 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDspInspDTO>
+@{
+    int count = 0;
+    var unitname = ViewBag.UnitName;
+
+}
+<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+    @await Html.PartialAsync("_AccountNumber")
+</div>
+<div style="font-size: larger;">
+    <strong>List of Inspection Details</strong>
+</div>
+
+<hr />
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblInspectionListDatatable" aria-labelledby="InspectionListData-tab">
+        <thead>
+            <tr>
+                <th  class="th1">S. No.</th>
+                <th  class="th3">Inspection No.</th>
+                <th  class="th3">Inspection Date</th>
+                <th  class="th3">Report Submission</th>
+                <th  class="th4">Name Of Inspection Official</th> 
+                <th  class="th3a">Action</th> 
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DinNo)
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.DinDt,"{0:yyyy-MM-dd}")</td>
+                        <td>@Html.DisplayFor(modelItem => item.DinRdt,"{0:yyyy-MM-dd}")</td>
+                        <td>@Html.DisplayFor(modelItem => item.DinTeam)</td>
+                        <td class="textCenter">
+                            <a onclick="showInPopup('@Url.Action("ViewRecord","InspectionDetail",new {id=item.UniqueId},Context.Request.Scheme)','View Inspection Details','Creation Inspection Detail')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                            <a href="@Url.Action("ViewAccount", "CreationOfSecurityandAquisitionAsset", new {AccountNumber=@item.EncryptedLoanAcc,LoanSub=@item.EncryptedLoanSub,UnitName =@ViewBag.EncryptedUnitName,OffCd=item.EncryptedOffcCd,inspectionID=item.DinNo,officialName = item.DinTeam})" class="btn btn-secondary text-white">Select</a>
+                        </td> 
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div>
+        <a href="/Admin/CreationOfSecurityandAquisitionAsset/" class="btn btn-info btn-lg text-white mb-2 mt-3">Previous</a>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modelCreationOfSecurityandAquisitionAsset">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblInspectionListDatatable').DataTable();
+    });
+</script>

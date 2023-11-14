@@ -1,0 +1,180 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgIndigenousInspectionDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="IndigenousMachineryInspectionDetailsAd" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Item No.</label></strong>
+                    @Html.TextBoxFor(m => m.ItemNo, new { @class = "form-control",  @type="number",@id ="ItemNo", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Item Details </label></strong>
+                    @Html.TextAreaFor(m => m.ItemDetails,  new { @class = "form-control",@maxlength = "200",@id = "ItemDetails", @disabled = "disabled" })
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name of Supplier </label></strong>
+                    @Html.TextBoxFor(m => m.SupplierName, new { @class = "form-control",@id = "SupplierName", @disabled = "disabled"})
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Address of Supplier </label></strong>
+                    @Html.TextAreaFor(m => m.SupplierAddress1, new { @class = "form-control",@maxlength = "200",@id = "SupplierAddr", @disabled = "disabled"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Quantity </label></strong>
+                    @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", @type="number",@id = "Quantity" , @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Basic Cost </label></strong>
+                    @Html.TextBoxFor(m => m.Cost,"{0:n2}", new { @class = "form-control",@maxlength="10",@id = "BasicCost", @disabled = "disabled",@style="text-align:right" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Tax </label></strong>
+                    @Html.TextBoxFor(m => m.Tax,"{0:n2}", new { @class = "form-control",@maxlength="10",@id = "Tax", @disabled = "disabled" ,@style="text-align:right"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Cost(Actual)</label></strong>
+                    @Html.TextBoxFor(m => m.ActualCost,"{0:n2}", new { @class = "form-control", @id = "TotCostActual", @disabled = "disabled" ,@style="text-align:right"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Cost </label></strong>
+                    @Html.TextBoxFor(m => m.TotalCost,"{0:n2}", new { @class = "form-control",@id = "TotCost", @disabled = "disabled" ,@style="text-align:right"})
+                </div>
+            </div> <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Machinary Status</label></strong>
+                    @Html.DropDownListFor(m => m.MachineryStatus, new SelectList(ViewBag.Machinarystatus, "MacStatus", "MacDets"),"---Select Registered State---", new { @class = "form-select",@disabled ="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Machinary  Aquired Status</label></strong>
+                    @Html.DropDownListFor(m => m.AquiredStatus, new SelectList(ViewBag.ProcureList, "ProcureId", "ProcureDesc"),"---Select Machinary Aquired Status---", new { @class = "form-select",@disabled ="disabled"})
+
+
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered for Realease</label></strong>
+                    @Html.TextBoxFor(m => m.SecurityRelease, new { @class = "form-control",@disabled ="disabled", @id = "SecConsideredforRel" ,@style="text-align:right"})
+                </div>
+            </div> <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Security Created</label></strong>
+                    @Html.TextBoxFor(m => m.SecurityCreated,
+                    new { @class = "form-control", @type="number", @id = "SecCreated", @required = "required",onkeydown="return event.keyCode !== 69", @disabled = "disabled" ,@style="text-align:right"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Eligibility till Prvious Inspection</label></strong>
+                    <input type="Number" asp-for="SecurityEligibility" class="form-control" min="0" id="SecCreated" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled />
+
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Supplier Registered Status </label></strong>
+                    @Html.DropDownListFor(m => m.RegisteredState,new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "1"},
+                    new SelectListItem(){Text="No",Value = "0"}
+                    },"---Select Registered Status---",
+                    new { @class = "form-select", @id = "RegStat", @disabled = "disabled"})
+                </div>
+            </div> <br />
+            <div class="row">
+                @*<div class="col-md-4">
+                    <strong><label class="form-label">Acquisition Status(Y/N)</label></strong>
+                    @Html.DropDownListFor(m => m.Status,new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Not Acquired",Value = "0"},
+                    new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                    new SelectListItem(){Text="Acquired",Value = "2"}
+                    },"---Select Acquisition Status---",
+                    new { @class = "form-select", @id = "CondStg", @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquired Date</label></strong>
+                    @Html.TextBoxFor(m => m.StatusChangedDate, "{0:yyyy-MM-dd}",new { @class = "form-control",type="date",@id = "StatusChangedDate", @disabled = "disabled"})
+                </div>*@
+                <div class="col-md-4">
+                    <strong><label class="form-label">Requested Date</label></strong>
+                    @Html.TextBoxFor(m => m.RequestDate,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date",@id = "RegDate", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Invoice No</label></strong>
+                    @Html.TextBoxFor(m => m.InvoiceNo, new { @class = "form-control",  @type="number",@id = "InvoiceNo", @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Invoice Date</label></strong>
+                    @Html.TextBoxFor(m => m.InvoiceDate,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date", @id = "InvoiceDate", @disabled = "disabled"})
+                </div>
+            </div> 
+            <br />
+            <div class="row">
+             
+                <div class="col-md-4">
+                    <strong><label class="form-label">Delivery (Weeks)</label></strong>
+                    @Html.TextBoxFor(m => m.Delivery, new { @class = "form-control", @type="number",@id = "Delivery(Weeks)" , @disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <p><h4>Indigenous Machinery Release Details</h4></p>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered For Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcSecAmt , new { @class = "form-control", @id = "secamt",@style="text-align:right", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@disabled = "disabled"})
+                    <span asp-validation-for="IrPlmcSecAmt " class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquisition Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.Status, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Not Acquired",Value = "0"},
+                    new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                    new SelectListItem(){Text="Acquired",Value = "2"}
+                    },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@disabled = "disabled"})
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.StatusChangedDate, "{0:yyyy-MM-dd}", new { @class = "form-control",@id = "Acqdate", type="date",onkeydown="return false", @readonly = "true", @disabled = "disabled"})
+                    <span asp-validation-for="StatusChangedDate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcTotalRelease, new { @class = "form-control", @type="number",@style="text-align:right", @id = "totalrelease", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@disabled = "disabled"})
+                    <span asp-validation-for="IrPlmcTotalRelease" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcAamt,"{0:n2}", new { @class = "form-control", @id = "actualvalue",@style="text-align:right",@disabled = "disabled" })
+                    <span asp-validation-for="IrPlmcAamt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @* @Html.TextBoxFor(m => m.IrPlmcRelseStat, new { @class = "form-control", @id = "relstat",readOnly="true",@type="number" ,onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="3"})
+                    <span asp-validation-for="IrPlmcRelseStat" class="text-danger"></span>*@
+                    @Html.DropDownListFor(m => m.IrPlmcRelseStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="No Release Yet",Value = "0"},
+                    new SelectListItem(){Text="Partially Released",Value = "1"},
+                    new SelectListItem(){Text="Fully Released",Value = "2"}
+                        },"---Select Release Status---", new { @class = "form-select", @id = "relstat",@disabled = "disabled"})
+                    <span asp-validation-for="IrPlmcRelseStat" class="text-danger"></span>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

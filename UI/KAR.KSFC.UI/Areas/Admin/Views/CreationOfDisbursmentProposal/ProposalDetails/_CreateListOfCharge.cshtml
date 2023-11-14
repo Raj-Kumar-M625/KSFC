@@ -1,0 +1,113 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal.TblIdmReleDetlsDTO>
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var offcd = ViewBag.OffCd;
+    var loansub = ViewBag.LoanSub;
+    var uniqueid = ViewBag.Uniqid;
+    var otherdebitmast = ViewBag.otherdebitMast;
+}
+
+
+<input type="hidden" value="@account" id="LoanAcc" />
+<input type="hidden" value="@offcd" id="OffcCd" />
+<input type="hidden" value="@loansub" id="LoanSub" />
+<input type="hidden" value="@uniqueid" id="Uniqueid" />
+
+@* @Html.HiddenFor(m => m.Action, new { @class = "form-control"})*@
+<div class="row m-2">
+
+    <div class="col-md-6">
+        <strong><label class="form-label">List of Charges</label></strong>
+        <select id="role" class="form-select">
+            <option id="">--Select--</option>
+            @foreach (var role in otherdebitmast)
+            {
+                <option id="@role.Value">@role.Text</option>
+            }
+        </select>
+
+    </div>
+    <div class="col-md-6">
+        <label calss="from-label"><strong>Amount</strong></label>
+        <input type="text" id="ChargeAmount" class="form-control mt-2" />
+    </div>
+</div>
+
+<div class="row m-2">
+    <div class="col-md-6">
+        <label calss="from-label"><strong>GST on Charges</strong></label>
+        <input type="text" id="" class="form-control mt-2" value="18%" readonly />
+    </div>
+    <div class="col-md-6">
+        <label calss="from-label"><strong>GL Code for FD</strong></label>
+        <input type="text" id="ReleFdGlcd" class="form-control mt-2" />
+    </div>
+</div>
+
+<div class="row m-2">
+    <div class="col-md-6">
+        <strong><label calss="from-label">GL Code for Others</label></strong>
+        <input type="text" id="ReleOthGlcd" class="form-control mt-2" />
+    </div>
+</div>
+
+<div class="row mt-2">
+    <div class="col-md-12">
+        <input type="submit" value="Submit" class="btn btn-primary float-end mx-3" disabled="disabled" id="submit1" />
+    </div>
+</div>
+
+<script>
+    $('input[id="ChargeAmount"], select[id="role"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit1']").removeAttr('disabled');
+        }
+    });
+
+    $('#submit1').click(function () {
+        //debugger;
+
+        var loannum = $("#LoanAcc").val();
+        var loanSub = $("#LoanSub").val();
+        var offcd = $("#OffcCd").val();
+        var disc = $("#role").val();
+        var amt = $("#ChargeAmount").val();
+        var uniqid = $("#Uniqueid").val();
+        var totalAmount = $('#totalamountcreate').val();
+        var releOthGlcd = $("#ReleOthGlcd").val();
+        var releFdGlcd = $("#ReleFdGlcd").val();
+        var newUrl = '@Url.Action("CreateChargeList","DisbursmentProposalDetails")';
+        $.ajax(
+            {
+                type: 'post',
+                url: newUrl,
+                data: {
+                    LoanAcc: loannum,
+                    LoanSub: loanSub,
+                    OffCd: offcd,
+                    DsbOthdebitDesc: disc,
+                    ReleChargeAmount: amt,
+                    uniqid: uniqid,
+                    BenfAmt: totalAmount,
+                    ReleOthGlcd: releOthGlcd,
+                    ReleFdGlcd:releFdGlcd
+                },
+
+                success: function (data) {
+                    //debugger;
+                    debugger;
+                    $('#modelChargeDetails .modal-body').html('');
+                    $('#modelChargeDetails .modal-title').html('');
+                    $('#modelChargeDetails').modal('hide');
+                    $("#view-all-modelChargeDetails").html(data.html)
+                    ReloadChargeDetails();
+                    //$('#modelProposalDetails ..modal-body').html(data);
+                    //$('#modelProposalDetails').modal('show');
+
+                }
+            }
+        );
+    });
+
+</script>

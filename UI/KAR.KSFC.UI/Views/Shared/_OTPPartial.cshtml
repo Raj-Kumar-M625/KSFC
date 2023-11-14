@@ -1,0 +1,35 @@
+﻿@model KAR.KSFC.UI.Models.RegisterViewModel
+<div>
+    <div class="col-25">
+
+        <b><label for="exampleInputEmail1" class="form-label">Mobile Number</label></b>
+    </div>
+    <div class="col-75">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-phone"></i></span>
+            </div>
+            @Html.TextBoxFor(m => m.MobileNumber, new { @class = "form-control", @id = "txtBoxMobileNoReg", @placeholder = "Enter Mobile Number", @maxlength = "10", @disabled = "@disabled" })
+            <button type="button" style="width:40%" class="btn btn-primary" id="btnGenOtpForMobForm" disabled> Generate OTP <i id="iconBtnGenOtp" class=""></i></button>
+            <button type="button" style="width:40%;display:none" class="btn btn-primary" id="btnResOtpForMobForm"> Resend OTP <i id="iconBtnResOtp" class=""></i></button>
+        </div>
+        <p style="display:none;" class="text-success" id="pMsgCountdownTimer"> OTP has been successfully sent to <span id="spanCurrentMobileNoReg"></span> .In case, you haven't received it, you can try resending OTP by clicking on 'Resend OTP' button after <span id="spanTimeCountdownTimer"></span> Seconds</p>
+        <p style="display:none;" class="text-danger" id="pErrMsgForMb"></p>
+        <p style="display:none;" class="text-success" id="pMsgNoOfAttemptsForSMS"></p>
+    </div>
+</div>
+<div>
+    <div class="col-25">
+        <b><label for="exampleInputEmail1" class="form-label"> OTP </label></b>
+    </div>
+
+    <div class="col-75">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-envelope"></i></span>
+            </div>
+            <input type="text" id="txtEnterOtpForMbForm" class="form-control" required="required" placeholder="Enter OTP" aria - label="Username" maxlength="6" aria-describedby="basic-addon1" disabled>
+            <button type="button" id="btnValOtpForMobForm" style="width:40%" class="btn btn-primary" disabled> Validate OTP <i id="iconBtnValidateOtp" class=""></i></button>
+        </div><p style="display:none" id="pMsgMobileOtpVal"></p>
+    </div>
+</div>

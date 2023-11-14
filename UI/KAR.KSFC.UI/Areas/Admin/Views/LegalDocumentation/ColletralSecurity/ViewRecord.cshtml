@@ -1,0 +1,65 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmSecurityDetailsDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> securityChargeDetails = ViewBag.Documentlist;
+}
+<div>
+    <div>
+        <form id="LDSecuirtyDetail" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.AccountNumber, new { @class = "form-control", value=@ViewBag.AccountNumber })
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name of Security Holder</label></strong>
+                    @Html.TextBoxFor(m => m.PjSecNam, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Details</label></strong>
+                    @Html.DropDownListFor(m => m.TblSecurityRefnoMast.SecCd, new SelectList(ViewBag.SecurityType, "Value", "Text"), "---Select Category---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Type of Security</label></strong>
+                    @Html.DropDownListFor(m => m.TblSecurityRefnoMast.SecurityCd, new SelectList(ViewBag.SecurityCategory, "Value", "Text"), "---Select Type---", new { @class = "form-select" , @disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value</label></strong>
+                    @Html.TextBoxFor(m => m.SecurityValue,"{0:n2}", new { @class = "form-control", /*@type = "number",*/ @disabled = "disabled",@style="text-align:right" })
+                </div>
+
+                <div class="col-md-4">
+                    <strong><label class="form-label">Description of Security</label></strong>
+                    @Html.TextAreaFor(m => m.PjSecDets, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Deed Description</label></strong>
+                    @Html.TextAreaFor(m => m.DeedDesc, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Deed No.</label></strong>
+                    @Html.TextBoxFor(m => m.DeedNo, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label for="inputAddress" class="form-label">Sub Registrar Office</label></strong>
+                    @Html.DropDownListFor(m => m.SubregistrarCd, new SelectList(ViewBag.SubRegistrarOffice, "Value", "Text"), "---Select Sub Registrar Ofice---", new { @class = "form-select", @disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Execution</label></strong>
+                    @Html.TextBoxFor(m => m.ExecutionDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date", @disabled = "disabled" })
+                </div>
+
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",securityChargeDetails)
+            </div>
+        </form>
+        <br />
+    </div>
+</div>

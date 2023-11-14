@@ -1,0 +1,1087 @@
+﻿.sticky {
+	position: fixed !important;
+	top: 0;
+	width: 100%;
+	z-index: 1;
+}
+.removeFlikker{
+	height:1000px;
+}
+
+
+.viewEnquiry {
+	color: red;
+	padding-left: 20px
+}
+
+
+#btn-back-to-top {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	display: none;
+}
+
+
+#recptpmntsection {
+	border: .5px solid #cdc8c8;
+	border-radius: 5px;
+	padding: 10px
+}
+
+.btn1 {
+	font-size: 10px;
+	width: 150%;
+	padding: 2px;
+	border-radius: 2px;
+	text-decoration: none;
+}
+
+.text-white {
+	--bs-text-opacity: 1;
+	color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
+}
+
+.btn-warning {
+	color: #fff;
+	background-color: #f39c12;
+	border-color: #f39c12;
+}
+
+.btn2 {
+	font-size: 13px;
+	padding: 4px;
+	width: 46%;
+	border-radius: 3px;
+	text-decoration: none;
+	margin-top: 4px;
+	margin-right: 2px;
+}
+
+.btn3 {
+	font-size: 12px;
+	width: 46%;
+	border-radius: 3px;
+	margin-top: 4px;
+	margin-right: 2px;
+}
+
+.indexCards {
+	width: 120%;
+	height: 125px;
+	text-align: center;
+	padding: 21px;
+	border: solid 1px;
+	line-height: 0.5;
+	color: black;
+}
+
+@media only screen and (max-width:1220px) {
+	.indexCards {
+		width: 143% !important;
+		height: 134px !important;
+		text-align: center !important;
+		padding: 17px !important;
+		border: solid 1px !important;
+		line-height: 0.5 !important;
+		color: black !important;
+	}
+
+	.table{
+		font-size:100% !important;
+	}
+
+	.btn {
+		font-size: 80% !important;
+	}
+
+	.btnDet17 {
+		margin-left: -2% !important;
+	}
+
+	.btnDet18 {
+		margin-left: -9% !important;
+	}
+
+	.btnDet19 {
+		margin-left: -5% !important;
+	}
+
+	.submit3 {
+		margin-right: -30px !important;
+		margin-top: -36px !important;
+	}
+
+	.submit1 {
+		margin-right: -29px !important;
+		margin-top: -36px !important;
+	}
+	.submit7 {
+		margin-right: -28px !important;
+		margin-top: -25px !important;
+	}
+
+	.btnDet4 {
+		margin-top: 40px !important;
+	}
+
+	.btnDet20 {
+		margin-left: -15px !important;
+	}
+
+	.btnDet14 {
+		margin-right: -5% !important;
+	}
+
+
+	.submit5 {
+		margin-right: -30px !important;
+	}
+
+	.submit4 {
+		margin-right: -31px !important;
+		margin-top: -62px !important;
+	}
+
+	#tblGenerateReceiptDatatable {
+		font-size: 56% !important;
+	}
+
+	.btnDet {
+		margin-left: -11% !important;
+	}
+
+
+	.Details {
+		font-size: 73% !important;
+	}
+
+	#ledger {
+		margin-left: -66% !important;
+	}
+
+	.btnDet12 {
+		margin-right: -5% !important;
+	}
+
+	.btnDet13 {
+		margin-left: 2% !important;
+	}
+
+	#widthdet {
+		width: 7% !important;
+	}
+
+	#tblReceiptPayment1 {
+		font-size: 72% !important;
+	}
+
+	.btn3 {
+		font-size: 9px !important;
+		width: 45% !important;
+		border-radius: 3px !important;
+		margin-top: 4px !important;
+		margin-right: 2px !important;
+	}
+
+	.btnDet11 {
+		margin-right: -1% !important;
+		
+	}
+	#tblLoanReceiptDatatable {
+		font-size: 65% !important;
+	}
+
+	.submit6 {
+		margin-top: 8% !important;
+		margin-left: 8% !important;
+		width: 92% !important;
+	}
+
+	#ledger1 {
+		margin-left: 193% !important;
+		margin-top: 17% !important;
+	}
+
+	.Networth {
+		margin-right: -33% !important;
+		margin-top: 11% !important;
+	}
+
+}
+
+@media only screen and (max-width:1020px) {
+	.indexCards {
+		width: 162% !important;
+		height: 129px !important;
+		text-align: center !important;
+		padding: 10px !important;
+		border: solid 1px !important;
+		line-height: 0.5 !important;
+		color: black !important;
+	}
+
+	.table {
+		font-size: 56% !important;
+	}
+
+	.textleft2 {
+		font-size: 78% !important;
+	}
+	.btnDet14 {
+		margin-right: -3% !important;
+	}
+	.btnDet17 {
+		margin-left: -2% !important;
+	}
+
+	.btnDet18 {
+		margin-left: -8% !important;
+	}
+
+	.btnDet19 {
+		margin-left: -4% !important;
+	}
+
+	.btn {
+		font-size: 72% !important;
+	}
+
+	.th3b {
+		width: 17% !important;
+		text-align: center !important;
+	}
+
+	#tblDisbursementDatatable {
+		width: 104% !important;
+	}
+	.submit3 {
+		margin-right: -5px !important;
+		margin-top: -36px !important;
+	}
+
+	.submit1 {
+		margin-right: -9px !important;
+		margin-top: -36px !important;
+	}
+
+	.btnDet20 {
+		margin-left: -6px !important;
+	}
+
+	.submit5 {
+		margin-right: -9px !important;
+	}
+
+	.submit4 {
+		margin-right: -5px !important;
+		margin-top: -62px !important;
+	}
+
+	#tblGenerateReceiptDatatable {
+		font-size: 36% !important;
+	}
+
+	.btn2 {
+		font-size: 6px !important;
+		padding: 4px !important;
+		width: 45% !important;
+		border-radius: 3px !important;
+		text-decoration: none !important;
+		margin-top: 4px !important;
+		margin-right: 2px !important;
+	}
+
+	.btnDet {
+		margin-left: -39% !important;
+	}
+
+	#Details {
+		font-size: 56%
+	}
+
+	.btnDet21 {
+		margin-left: 0% !important;
+	}
+
+	.btnDet22 {
+		margin-left: -8% !important;
+	}
+
+	.btnDet23 {
+		margin-left: -6% !important;
+	}
+
+	.Details {
+		font-size: 74%
+	}
+
+	#ledger{
+		margin-left:-66%
+	}
+
+	.btnDet12 {
+		margin-right: -5% !important;
+	}
+
+	.btnDet13 {
+		margin-left: 13% !important;
+		margin-top: 2% !important;
+	}
+	.editGenpayment {
+		font-size: 74%
+	}
+
+	#widthdet {
+		width: 8% !important;
+	}
+
+	#tblReceiptPayment1 {
+		font-size: 39% !important;
+	}
+
+	.btn3 {
+		font-size: 9px !important;
+		width: 87% !important;
+		border-radius: 3px !important;
+		margin-top: 4px !important;
+		margin-right: 2px !important;
+	}
+	.btnDet9 {
+		margin-right: -28px !important;
+		font-size: 10px !important;
+	}
+	.btnDet11 {
+		margin-right: 2% !important;
+	}
+
+	#tblLoanReceiptDatatable {
+		font-size: 46% !important;
+	}
+
+	.submit6 {
+		margin-top: 8% !important;
+		margin-left: 39% !important;
+		width: 61% !important;
+	}
+
+	.btnDet16 {
+		font-size: 10px !important;
+	}
+
+	#ledger1 {
+		margin-left: 204% !important;
+		margin-top: 17% !important;
+	}
+
+	.ViewDeed {
+		margin-left: 86% !important;
+	}
+
+	.Asset {
+		margin-right: 6% !important;
+	}
+
+	.Networth {
+		margin-right: -33% !important;
+		margin-top: 17% !important;
+	}
+
+	.Liabilities {
+		margin-right: 6% !important;
+	}
+
+	.Amount {
+		margin-right: 6% !important;
+	}
+}
+
+#tblReceiptPayment1 {
+	font-size: 82%;
+}
+	.submit4 {
+		margin-right: -48px ;
+		margin-top: -62px ;
+	}
+
+	.submit2 {
+		margin-right: -10px !important;
+		margin-top: -38px !important;
+	}
+
+	.submit1 {
+		margin-right: -20px ;
+		margin-top: -36px;
+	}
+
+	.submit7 {
+		margin-right: -7px !important;
+		margin-top: -25px !important;
+	}
+
+
+	.btnDet3 {
+		margin-right:  -8px !important;
+	}
+
+	
+.check {
+	width: 1% !important;
+	text-align: left !important;
+}
+	.th1 {
+		width: 5% !important;
+		text-align: left !important;
+	}
+
+	.th2 {
+		width: 10% !important;
+		text-align: left !important;
+		}
+
+.th2a {
+	width: 10% !important;
+	text-align: center !important;
+}
+
+.th2b {
+	width: 7% !important;
+	text-align: left !important;
+}
+
+
+	.th3 {
+		width: 15% !important;
+		text-align: left !important;
+	}
+
+	.th3a {
+		width: 15% !important;
+		text-align: center !important;
+	}
+
+	.th3b {
+	width: 15%;
+	text-align: center;
+	}
+
+	.th4 {
+		width: 20% !important;
+		text-align: left !important;
+	}
+
+	.th4a {
+		width: 20% !important;
+		text-align: center !important;
+	}
+
+	.th5 {
+		width: 25% !important;
+		text-align: center !important;
+	}
+
+	.th5a {
+		width: 25% !important;
+		text-align: center !important;
+	}
+
+	.th6 {
+		width: 30% !important;
+		text-align: center !important;
+	}
+
+	.th6a {
+		width: 30% !important;
+		text-align: left !important;
+	}
+
+
+	.th7 {
+		width: 8% !important;
+		text-align: left !important;
+	}
+
+	.th8 {
+	width: 12% !important;
+	text-align: left !important;
+	}
+
+	
+	.submit3 {
+		margin-right: -51px;
+		margin-top: -36px;
+	}
+
+
+	.submit5 {
+		margin-right: -53px;
+	}
+
+
+.submit6 {
+	margin-top: 8%;
+	margin-left: 49%;
+}
+
+	
+
+.btnDet {
+	margin-left: -20%;
+}
+
+	.btnDet1 {
+		margin-left: -26%
+	}
+
+	.btnDet2 {
+		margin-left: -23%
+	}
+
+
+
+	#btnDet5 {
+		margin-top: 5px;
+	}
+
+	#btnDet6 {
+		margin-top: 4px;
+	}
+
+	.btnDet7 {
+		width: 26% !important;
+		margin-left: 75% !important;
+	}
+
+
+.btnDet8 {
+	margin-left: 76% !important;
+	margin-block: 15px !important; 
+}
+
+	.btnDet9 {
+		margin-right: -25px;
+	}
+
+.btnDet10 {
+	margin-top: 69px !important;
+}
+
+.btnDet11 {
+		margin-right: -1%;
+	}
+
+	.btnDet12 {
+		margin-right: -6%;
+	}
+
+	.btnDet13 {
+		margin-left: -2%;
+	}
+
+
+.btnDet14 {
+	margin-right: -6%;
+}
+
+	#btnDet15 {
+		margin-left: -14%;
+		margin-top: 2%
+	}
+
+.btnDet16 {
+	margin-left: 81% !important;
+}
+
+
+	.btnDet17 {
+		margin-left: -4%;
+	}
+
+	.btnDet18 {
+		margin-left: -10%;
+	}
+
+	.btnDet19 {
+		margin-left: -7%;
+	}
+
+	.btnDet20 {
+		margin-left: -44px;
+	}
+
+.btnDet21 {
+	margin-left: -4% ;
+}
+
+.btnDet22 {
+	margin-left: -10% ;
+}
+
+.btnDet23 {
+	margin-left: -7%;
+}
+
+#viewDocuments {
+	backdrop-filter: blur(2px);
+	position: fixed;
+	top: 27px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1050;
+	display: none;
+	overflow: hidden;
+	outline: 0;
+}
+
+	#btnTabWorkingCapitalDeatils {
+		margin-top: 53px !important;
+	}
+
+	#docHeader {
+		background-color: #2c3e50 !important;
+		color: white;
+	}
+
+	#spanDet {
+		color: gray;
+		font-size: 12px !important;
+	}
+
+	#condval {
+		color: gray;
+		font-size: 12px !important;
+	}
+
+	#spanDet1 {
+		color: red;
+	}
+
+	.textCenter {
+		text-align: center !important;
+	}
+
+	.table {
+		table-layout: fixed;
+	}
+
+	.table td {
+		word-wrap: break-word;
+	}
+
+
+	#textright {
+		float: right !important;
+	}
+
+	#textleft {
+		float: left !important;
+	}
+
+	#textleft1 {
+		text-align: left !important;
+	}
+
+	#tblReceiptPayment {
+		font-size: 72%;
+	}
+
+	#tblGenerateReceiptDatatable {
+		font-size: 66%;
+	}
+
+
+
+	#widthdet {
+		width: 5%;
+	}
+
+	.totalamount {
+		width: 58% !important;
+	}
+
+.payamount {
+	width: 59%
+}
+
+	#regbtn {
+		background-color: #3bb37b
+	}
+
+	#othRelx {
+		color: blue;
+		cursor: pointer
+	}
+
+	#btnTabFICDetails {
+		margin-top: 30px;
+		margin-right: -15%;
+	}
+
+.select,
+#locale {
+	width: 100%;
+}
+
+.like {
+	margin-right: 10px;
+}
+
+#tblLoanReceiptDatatable {
+	font-size: 80%;
+}
+
+#ledger1 {
+	margin-left:150%;
+	margin-top: 17%;
+}
+
+
+	/*Loader*/
+/*@import url(https://fonts.googleapis.com/css?family=Droid+Sans);
+
+.loader {
+	position: fixed;
+	left: 4%;
+	top: 0px;
+	width: 90%;
+	height: 100%;
+	z-index: 9999;
+	background: url('http://www.downgraf.com/wp-content/uploads/2014/09/01-progress.gif?e44397') 50% 50% no-repeat rgb(249,249,249);
+	background-size:10%;
+}*/
+
+#divLoading {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 1000;
+}
+
+.loading-image {
+	width: 100px;
+	height: 100px;
+	backdrop-filter: blur(5px); /* Add backdrop-filter to blur image */
+}
+
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+}
+.submitpromoter {
+	margin-right: -55px;
+	margin-top: 0px;
+}
+.thdebit {
+	width: 40% !important;
+	text-align: center !important;
+}
+
+.ViewDeed {
+	margin-left: 89%;
+}
+.Asset {
+	margin-right: -9%;
+}
+.Networth {
+	margin-right: -33%;
+	margin-top: 6%;
+}
+.Liabilities {
+	margin-right: -7%;
+}
+
+.Amount {
+	margin-right: -7%;
+	margin-top: 6%;
+}
+
+#btnTabmodelBuildMatAtSiteDetailsDetails {
+	margin-top: -3%;
+}
+
+#btnpreviousBuildMatAtSiteDetailsDetails {
+	margin-right: 65%;
+	margin-top: -4%;
+}
+
+/*.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	background-color: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.popup-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	background-color: #eee;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+	.popup-header h2 {
+		margin: 0;
+		font-size: 1.2rem;
+	}
+
+.popup-content {
+	padding: 10px;
+}
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	padding: 20px;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	z-index: 9999;
+	max-width: 80%;
+}
+
+	.popup.success {
+		background-color: #dff0d8;
+		border-color: #d6e9c6;
+		color: #3c763d;
+	}
+
+	.popup.error {
+		background-color: #f2dede;
+		border-color: #ebccd1;
+		color: #a94442;
+	}
+
+.popup-header {
+	display: flex;	
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+	.popup-header h2 {
+		margin: 0;
+		font-size: 1.5rem;
+	}
+
+.close-button {
+	border: none;
+	background: none;
+	font-size: 2rem;
+	font-weight: bold;
+	color: #ccc;
+	cursor: pointer;
+	outline: none;
+}
+
+	.close-button:hover {
+		color: #000;
+	}
+
+.popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9998;
+	display: none;
+}
+/*.popup-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: -1;
+	backdrop-filter: blur(5px);
+}
+	.popup-overlay.active {
+		display: block;
+	}
+/*.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-container {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.popup-header h2 {
+  font-size: 1.2em;
+}
+
+.popup-content p {
+  margin-bottom: 0;
+}
+
+.popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+  backdrop-filter: blur(5px);
+}
+*/
+
+.popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+}
+
+/*.popup-container {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 20px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	z-index: 10000;
+}*/
+
+/*.popup-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+	.popup-header i.fa {
+		font-size: 24px;
+		color: #4caf50;
+		margin-right: 10px;
+	}*/
+
+/*.popup-content {
+	margin-bottom: 20px;
+}
+
+.popup-footer {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ok-button {
+	padding: 5px 20px;
+	background-color: #4caf50;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+}*/
+
+.pop-up {
+	position: fixed;
+	top: 30%;
+	left: 35%;
+	width: 500px;
+	height: 330px;
+	font-family: "Montserrat", sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-radius: 16px;
+	background-color: white;
+	z-index: 10000;
+	animation: pop-animation 0.4s linear;
+}
+
+.close-btn {
+	width: 480px;
+	font-family: "Montserrat", sans-serif;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 330px;
+	margin: 30px auto;
+	border-radius: 16px;
+	background-color: white;
+	animation: close-animation 0.1s linear;
+}
+
+.hide {
+	visibility: hidden;
+}
+
+@keyframes close-animation {
+	0% {
+		transform: scale(1);
+		opacity: 1;
+	}
+
+	50% {
+		transform: scale(0.8);
+		opacity: 0.7;
+	}
+
+	100% {
+		transform: scale(0.8);
+		opacity: 0.5;
+	}
+}
+
+@keyframes pop-animation {
+	0% {
+		transform: scale(0.5);
+	}
+
+	25% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(0.9);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsDTO>
+
+<h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Previous years Financial Details (minimum of past 3 years)</h3>
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" cellspacing="0" id="tblSisterASFYDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S.No
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSis.EnqSisName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinyearCodeNavigation.FinyearDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FincompCdNavigation.FincompDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqFinamt)
+                </th>
+                <th></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSis.EnqSisName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FinyearCodeNavigation.FinyearDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FincompCdNavigation.FincompDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqFinamt)
+                    </td>
+                    <td>
+                        <a onclick="showInPopupASFD('@Url.Action("ViewRecord","AssociateSisterFYDetails",new {id=item.EnqSisfinId},Context.Request.Scheme)','View Associate Sister FY Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                    </td>
+                     
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

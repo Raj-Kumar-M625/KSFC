@@ -1,0 +1,1 @@
+Roslyn version: 4.3.0.0Language version: CSharp9!Concurrent execution: enabledëåFile 'D:\KSFC_AO\API\KAR.KSFC.API.ServiceFacade\obj\Debug\net5.0\.NETCoreApp,Version=v5.0.AssemblyAttributes.cs' was recognized as generatedçàFile 'D:\KSFC_AO\API\KAR.KSFC.API.ServiceFacade\obj\Debug\net5.0\KAR.KSFC.API.ServiceFacade.AssemblyInfo.cs' was recognized as generated

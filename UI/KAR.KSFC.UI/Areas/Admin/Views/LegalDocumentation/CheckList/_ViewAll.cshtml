@@ -1,0 +1,93 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.LDCheckListDTO
+@{
+   
+}
+
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblGuarantorDatatable" aria-labelledby="Checklist-tab">
+        <thead>
+            <tr class="th3b">
+                <th>Module</th>
+                <th>Details</th>
+                <th></th>
+            </tr>
+        </thead>    
+        <tbody class="th3b">
+            <tr>
+                <td><strong> Primary/Collateral Security</strong></td>
+                <td> @Model.PrimarySecurityEdit / @Model.PrimarySecurityCount </td>
+                <td>
+                    @if (@Model.PrimarySecurityEdit == @Model.PrimarySecurityCount)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><strong> Guarantor Deed </strong></td>
+                <td> @Model.GuarantorDeedEdit / @Model.GuarantorDeedCount </td>
+                <td>
+                    @if (@Model.GuarantorDeedEdit == @Model.GuarantorDeedCount)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><strong>  Hypothecation </strong></td>
+                <td> @Model.HypothecationEdit / @Model.HypothecationCount </td>
+                <td>
+                    @if (@Model.HypothecationEdit == @Model.HypothecationCount)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" />
+                    }
+                </td>
+            </tr>
+            <tr id="securityCharge">
+                <td><strong> Security Charge Details </strong></td>
+                <td> @Model.SecurityChargeEdit / @Model.SecurityChargeCount </td>
+                <td>
+                    @if(@Model.SecurityChargeEdit==@Model.SecurityChargeCount)
+                    {
+                    <input type="checkbox" checked readonly />
+                    }
+                    else{
+                    <input type="checkbox" readonly/>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><strong> CERSAI Registration </strong></td>
+                <td> @Model.CersaiEdit / @Model.CersaiCount </td>
+                <td>
+                    @if (@Model.CersaiEdit == @Model.CersaiCount)
+                    {
+                        <input type="checkbox" checked />
+                    }
+                    else
+                    {
+                        <input type="checkbox" />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><strong> Condtion Details </strong></td>
+               <td> @Model.ConditionCount / @Model.ConditionCount  </td>
+                 <td><input type="checkbox" checked /> </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

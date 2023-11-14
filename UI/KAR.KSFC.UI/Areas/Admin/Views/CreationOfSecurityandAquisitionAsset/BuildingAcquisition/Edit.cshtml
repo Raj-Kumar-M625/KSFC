@@ -1,0 +1,110 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.TblIdmBuildingAcquisitionDetailsDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var loansub = ViewBag.LoanSub;
+    var offccd = ViewBag.OffCd;
+}
+<div>
+    <div>
+        <form id="BuildingAquisitionDetails" asp-action="Edit" onsubmit="return JqueryCSAAEditMethod(this,'BuildingAcquisition');  ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.Irbid, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item No.</label></strong>
+                    @Html.TextBoxFor(m => m.IrbItem, new { @class = "form-control",@id="IrbItem", @readonly="true"})
+                    <span asp-validation-for="IrbItem" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Roof Type</label></strong>
+                    @Html.TextBoxFor(m => m.RoofType, new { @class = "form-control", @id="rfType",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="50",@required="required" })
+                    <span asp-validation-for="RoofType" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Building details</label></strong>
+                    @Html.TextBoxFor(m => m.IrbBldgDetails, new { @class = "form-control", @readonly="true" })
+                    <span asp-validation-for="IrbBldgDetails" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Mem Plinth Area</label></strong>
+                    @Html.TextBoxFor(m => m.IrbArea, new { @class = "form-control", @readonly="true" })
+                    <span asp-validation-for="IrbArea" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Mem Total Cost</label></strong>
+                    @Html.TextBoxFor(m => m.IrbValue,"{0:n2}", new { @class = "form-control", @readonly="true" })
+                    <span asp-validation-for="IrbValue" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Acquired Status(Y/N)</label></strong>
+                    @Html.DropDownListFor(m => m.IrbStatus, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "1"},
+                    new SelectListItem(){Text="No",Value = "0"},
+                    }, "--- Select Acquired Status ---", new { @class = "form-select",@disabled = "disabled", @id="IrbStatus"})
+                    <span asp-validation-for="IrbStatus" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Actual Plinth Area</label></strong>
+                    @Html.TextBoxFor(m => m.IrbAPArea, new { @class = "form-control", @readonly="true" })
+                    <span asp-validation-for="IrbAPArea" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Actual Unit Cost per Sq.Mtr(B)</label></strong>
+                    @Html.TextBoxFor(m => m.IrbUnitCost,"{0:n2}", new { @class = "form-control", @id="ActualCostPerSq",@type="number",@required="required"})
+                    <span asp-validation-for="IrbUnitCost" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Actual Total Cost</label></strong>
+                    @Html.TextBoxFor(m => m.IrbATCost,"{0:n2}", new { @class = "form-control", @readonly="true" })
+                    <span asp-validation-for="IrbATCost" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Percentage Completed</label></strong>
+                    @Html.TextBoxFor(m => m.IrbPercentage, new { @class = "form-control",@id="Percentage",@type="number",@required="required" })
+                    <span asp-validation-for="IrbPercentage" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Building Construction Status</label></strong>
+                    @Html.TextBoxFor(m => m.IrbBldgConstStatus, new { @class = "form-control",@id="BuildingStatus",@required="required" })
+                    <span asp-validation-for="IrbBldgConstStatus" class="text-danger"></span>
+                </div>
+                
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3" >
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>  
+        </form>
+    </div>
+</div>
+<script>
+    $('input[id="rfType"], input[id="ActualCostPerSq"], input[id="Percentage"], input[id="BuildingStatus"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

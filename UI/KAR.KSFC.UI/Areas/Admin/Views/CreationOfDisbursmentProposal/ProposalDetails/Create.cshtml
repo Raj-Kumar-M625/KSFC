@@ -1,0 +1,136 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal.TblIdmReleDetlsDTO
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var offcd = ViewBag.OffCd;
+    var loansub = ViewBag.LoanSub;
+}
+
+<div>
+    <div>
+        <form id="ProposalDetails" asp-action="Create" onsubmit="return AjaxSingleTabAddMethod(this,'Proposaldetails');ClosePopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@offcd" asp-for="OffcCd" />
+            <input type="hidden" value="@loansub" asp-for="LoanSub" />
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-4">  
+                    <strong><label class="form-label">Proposal No.</label></strong>
+                    <input type="Number" asp-for="TblIdmDisbProp.PropNumber" class="form-control" min="0" readonly onkeypress="return event.charCode >= 46 && event.charCode <= 57" />
+                    <span asp-validation-for="TblIdmDisbProp.PropNumber" class="text-danger"></span>                   
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Department</label></strong>
+                    @Html.DropDownListFor(m => m.DeptCode, new SelectList(ViewBag.DeptMaster, "Value", "Text"),"---Select Department---", new { @class = "form-select"})
+                    <span asp-validation-for="DeptCode" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label calss="from-label">Recommended Amount<span id="spanDet1"> *</span></label></strong>
+                    <input asp-for="ReleAmount" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required style="text-align:right" id="Recommended" readonly/>
+                    <span asp-validation-for="ReleAmount" class="text-danger"></span>
+                </div>
+               
+            </div>
+            <br />
+          
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label calss="from-label">Adjustment Amount<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="ReleAdjAmount" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" disabled="disabled" style="text-align:right" />
+                    <span asp-validation-for="ReleAdjAmount" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Sequence No.<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="ReleAdjRecSeq" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                    <span asp-validation-for="ReleAdjRecSeq" class="text-danger"></span>
+                </div>
+             
+            </div>
+            <br />
+          @*  <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Sequence No.<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="ReleAdjRecSeq" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                    <span asp-validation-for="ReleAdjRecSeq" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label calss="from-label">Upfront Fees<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="ReleAddUpFrtAmount" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                    <span asp-validation-for="ReleAddUpFrtAmount" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label calss="from-label">Bank Charges<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="ReleBnkChg" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                    <span asp-validation-for="ReleBnkChg" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label calss="from-label">Total Amount</label></strong>
+                    <input type="Number"  class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />                   
+                </div>
+            </div>*@
+         
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end" style="margin-right:-26px">
+                   @* <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />*@
+                </div>
+            </div>
+
+
+<div id="view-all">
+    @await Html.PartialAsync("/Areas/Admin/Views/CreationOfDisbursmentProposal/ProposalDetails/_ListofLoanSub.cshtml")
+</div>
+@*<div class="modal fade" tabindex="-1" role="dialog" id="viewDocuments">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header" id="docHeader">
+                <h5 class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" onclick="CloseDocPopupFormsh();" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<input type="submit" class="btn btn-info btn-lg float-end" id="btnpropdetails" value="Save" style="margin-top: 10px;" />
+        </form>
+    </div>
+</div>
+
+@*<input type="button" class="btn btn-info btn-lg float-end" id="btnpropdetails" value="Save" style="margin-top: 10px;" />*@
+<script>
+    $('input[class="form-control"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+
+    $(document).ready(function () {
+       // debugger;
+        $("#view-all").hide();
+    });
+
+
+    $('#submit').click(function(){
+        //debugger;
+        $("#view-all").show();
+         //$("input[id='submit']").attr('disabled',true);
+    })
+
+    
+      var recom = @ViewBag.Recommended;
+    $("#Recommended").val(recom)
+      var recommended = $("#Recommended").val();
+        $("#totalamountcreate").val(recommended);
+    
+
+
+
+</script>

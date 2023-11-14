@@ -1,0 +1,34 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectWorkingCapitalDeatailsDTO
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Working Capital Arrangement Details</h3>
+<br />
+ @if (Model != null)
+{
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Bank Name : </label>
+            @Html.DisplayFor(model => model.EnqWcBank)
+            </div>
+            <div class="col-sm-4">
+                <label>Branch Name : </label>
+            @Html.DisplayFor(model => model.EnqWcBranch)
+            </div>
+            <div class="col-sm-4">
+                <label>IFSC Code : </label>
+            @Html.DisplayFor(model => model.EnqWcIfsc)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Amount : </label>
+            @Html.DisplayFor(model => model.EnqWcAmt)
+            </div>
+        </div>
+}
+<br />
+
+@if (Model == null)
+
+{
+        <p style="color: red"><b>No data added, Please add the Working Capital details</b></p>
+}

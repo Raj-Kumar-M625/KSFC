@@ -1,0 +1,56 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterAssetsNetWorthDTO>
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Promoter Asset Details</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Promoter Name
+                </th>
+                <th>
+                    Asset Category
+                </th>
+                <th>
+                    Asset Type
+                </th>
+                <th>
+                    Value
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqPromassetId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterMasterDTO.PromoterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetcatCd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssettypeCd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqAssetValue)
+                        </td>
+                    </tr>
+                }       }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Promoter Asset details</b></p>
+}

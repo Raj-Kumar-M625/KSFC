@@ -1,0 +1,52 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterLiabilityDetailsDTO>
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Promoter Liability Details</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Promoter Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Value
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterMasterDTO.PromoterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqLiabDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqLiabValue)
+                        </td>
+                    </tr>
+                }       }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Promoter Liability details</b></p>
+}
+
+

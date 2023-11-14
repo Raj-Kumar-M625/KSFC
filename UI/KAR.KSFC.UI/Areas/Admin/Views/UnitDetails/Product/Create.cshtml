@@ -1,0 +1,83 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmUnitProductsDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var offcd = ViewBag.OffcCd;
+    var LoanSub = ViewBag.LoanSub;
+    var productList = ViewBag.productlist;
+}
+
+<div>
+    <div>
+        <form id="UDProductDetails" asp-action="Create" onsubmit="return JqueryCUIAddMethod(this,'Product');ClearPopupFormac();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@offcd" asp-for="OffcCd" />
+            <input type="hidden" value="@LoanSub" asp-for="LoanSub" />
+
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+           @* @Html.HiddenFor(m => m.UtCd, new { @class = "form-control"})*@
+
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Industry<span  id="spanDet1"> *</span></label></strong>
+                   @* @Html.DropDownListFor(m => m.IndId,
+                    new SelectList(ViewBag.industrylist,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select",@maxlength = "150",@id="industry",required="required" })
+                    <span asp-validation-for="IndId" class="text-danger"></span>*@
+                    <input type="text" id="bnkName" readonly class="form-control" />
+                    <span asp-validation-for="IndId" class="text-danger"></span>
+                    <input type="hidden" asp-for="IndId" id="IndId" />
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Proposed product<span  id="spanDet1"> *</span></label></strong>
+                    @* @Html.DropDownListFor(m => m.ProdId,
+                    new SelectList(ViewBag.productlist,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select",@maxlength = "150", @id = "proposedproduct",required="required" })
+                    <span asp-validation-for="ProdId" class="text-danger"></span>*@
+                    <select id="Productcode" class="form-select"  required>
+                        <option value="">-- Select Type --</option>
+                        @foreach (var item in productList)
+                        {
+                            <option value='@item.Id,@item.ProdInd'>@item.ProdDets</option>
+                        }
+                    </select>
+                    <span asp-validation-for="ProdDets" class="text-danger"></span>
+                    <input type="hidden" asp-for="ProdId" id="ProdId" />
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <br/>
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('select[id="Productcode"],select[id="industry"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    $("#Productcode").change(function(){
+        debugger;
+        var industrycode = @Html.Raw(Json.Serialize(@ViewBag.industrylist));
+        var product = $("#Productcode").val().split(',');
+        var productid = product[1];
+        var productcd = product[0];
+        var pint = parseInt(productid);
+        var indcode = industrycode[pint-1].text;
+        var indcd = industrycode[pint - 1].value;
+
+        $("#bnkName").val(indcode);
+        $("#ProdId").val(productcd);
+        $("#IndId").val(indcd);
+        
+    })
+
+</script>

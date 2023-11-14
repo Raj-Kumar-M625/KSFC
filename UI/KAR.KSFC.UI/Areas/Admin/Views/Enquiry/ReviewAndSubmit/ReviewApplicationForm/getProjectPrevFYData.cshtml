@@ -1,0 +1,52 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectFinancialYearDetailsDTO>
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i>Previous years Financial Details (in case of Additional Loan) – minimum of past 3 years</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqPjfinId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinyearCodeNavigation.FinyearDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FincompCdNavigation.FincompDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqPjfinamt)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqPjfinId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FinyearCodeNavigation.FinyearDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FincompCdNavigation.FincompDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqPjfinamt)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Previous years Financial Details details</b></p>
+}
+
+
+

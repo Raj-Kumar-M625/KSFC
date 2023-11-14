@@ -1,0 +1,73 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.LoanAccountNumberDTO
+@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@await Html.PartialAsync("_Loader")
+<div class="row">
+    <div class="col-3">
+        <a class="nav-link" asp-action="ViewAccount" asp-controller="LegalDocumentation" asp-route-OffCd="@Model.EncryptedInOffc" asp-route-AccountNumber="@Model.EncryptedLoanAcc" asp-route-LoanSub="@Model.EncryptedLoanSub" asp-route-UnitName="@Model.EncryptedLoanUnit" asp-route-MainModule="LegalDocumentation" onclick="showLoader()">
+            <div class="indexCards" style="background-color: #ebd072;">
+                <h5>Legal Documentation</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a class="nav-link" asp-action="ViewAccount" asp-controller="Audit" asp-route-OffCd="@Model.EncryptedInOffc" asp-route-AccountNumber="@Model.EncryptedLoanAcc" asp-route-LoanSub="@Model.EncryptedLoanSub" asp-route-UnitName="@Model.EncryptedLoanUnit" asp-route-MainModule="AuditClearance" onclick="showLoader()">
+            <div class="indexCards" style="background-color: #90BEEB;">
+                <h5>Audit Clearance</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a class="nav-link" asp-action="ViewAccount" asp-controller="Disbursement" asp-route-AccountNumber="@Model.EncryptedLoanAcc" asp-route-LoanSub="@Model.EncryptedLoanSub" asp-route-UnitName="@Model.EncryptedLoanUnit" asp-route-OffcCd="@Model.EncryptedInOffc" asp-route-MainModule="DisbursementCondition" onclick="showLoader()">
+            <div class="indexCards" style=" background-color: #E5A09D">
+                <h5>Verification of Disbursement Conditions</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a class="nav-link" asp-action="ViewAccount" asp-controller="UnitDetails" asp-route-AccountNumber="@Model.EncryptedLoanAcc" asp-route-LoanSub="@Model.EncryptedLoanSub" asp-route-UnitName="@Model.EncryptedLoanUnit" asp-route-OffcCd="@Model.EncryptedInOffc" asp-route-InUnit="@Model.EncryptedInUnit" asp-route-MainModule="ChangeOfUnit" onclick="showLoader()">
+            <div class="indexCards" style="background-color: #bff0f8;">
+                <h5>Monitoring and Control</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+    <div class="col-3">
+        <a class="nav-link" asp-action="ViewAccount" asp-controller="InspectionOfUnit" asp-route-AccountNumber="@Model.EncryptedLoanAcc" asp-route-LoanSub="@Model.EncryptedLoanSub" asp-route-UnitName="@Model.EncryptedLoanUnit" asp-route-OffcCd="@Model.EncryptedInOffc" asp-route-MainModule="InspectionOfUnit" onclick="showLoader()">
+            <div class="indexCards" style="background-color:#ebd072;">
+                <h5>Inspection Of Units</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+<div class="col-3">
+        <a class="nav-link" asp-action="ViewAccount" asp-controller="CreationOfDisbursmentProposal" asp-route-OffCd="@Model.EncryptedInOffc" asp-route-AccountNumber="@Model.EncryptedLoanAcc" asp-route-LoanSub="@Model.EncryptedLoanSub" asp-route-UnitName="@Model.EncryptedLoanUnit" onclick="showLoader()">
+            <div class="indexCards" style=" background-color: #bff0f8">
+                <h5>Creation Of Disbursment Proposal</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>
+
+    @*<div class="col-3">
+        <a class="nav-link" asp-action="ViewAccount" asp-controller="EntryOfOtherDebits" asp-route-OffCd="@Model.EncryptedInOffc" asp-route-AccountNumber="@Model.EncryptedLoanAcc" asp-route-LoanSub="@Model.EncryptedLoanSub" asp-route-UnitName="@Model.EncryptedLoanUnit" onclick="showLoader()">
+            <div class="indexCards" style=" background-color: #E5A09D">
+                <h5>Adjustment Amount</h5>
+                <strong><p>(@ViewBag.Count)</p></strong>
+            </div>
+        </a>
+    </div>*@
+</div>
+<script type="text/javascript">
+    localStorage.removeItem("projectCost")
+    localStorage.removeItem("meansOfFinance")
+    localStorage.removeItem("allocation")
+</script>

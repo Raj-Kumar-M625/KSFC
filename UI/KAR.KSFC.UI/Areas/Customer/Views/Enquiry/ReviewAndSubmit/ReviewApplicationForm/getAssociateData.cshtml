@@ -1,0 +1,69 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsDTO>
+@{
+    int count = 1;
+}
+@if (Model != null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblSisterASCDDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Sister Concerns Name
+                </th>
+                <th>
+                    Sister Concerns IFSC
+                </th>
+                <th>
+                    Bank Facility Description
+                </th>
+                <th>
+                    Outstanding Amount (In Lakhs.)
+                </th>
+                <th>
+                    Default Amount (In Lakhs.)
+                </th>
+                <th>
+                    One Time Settlement Amount (In Lakhs.)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(count++)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSisName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSisIfsc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BfacilityCodeNavigation.BfacilityDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqDeftamt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqDeftamt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqOts)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color: red"><b>No data added, Please add the Associate / Sister Concern Details details</b></p>
+}
+
+
+

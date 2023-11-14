@@ -1,0 +1,123 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.IdmIrPlmcDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var loansub = ViewBag.LoanSub;
+    var offccd = ViewBag.OffCd;
+    var Machine = ViewBag.Machinary;
+}
+<div>
+    <div>
+        <form id="MachineryAcquisition" asp-action="Edit" onsubmit="return JqueryCSAAEditMethod(this,'MachineryAcquisition'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.LoanSub, new { @class = "form-control", value=@ViewBag.LoanSub })
+            @Html.HiddenFor(m => m.OffcCd, new { @class = "form-control", value=@ViewBag.OffCd })
+            @Html.HiddenFor(m => m.IrPlmcId, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.UniqueId, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Item No</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcItem, new { @class = "form-control", @id = "itemno",@disabled = "disabled" })
+                    <span asp-validation-for="IrPlmcItem" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Item Details</label></strong>
+                    @Html.TextAreaFor(m => m.IrPlmcItemDets, new { @class = "form-control", @id = "itemdet",@disabled = "disabled" })
+                    <span asp-validation-for="IrPlmcItemDets" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Supplier</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcSupplier, new { @class = "form-control", @id = "suppliername",@disabled = "disabled" })
+                    <span asp-validation-for="IrPlmcSupplier" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcAamt,"{0:n2}", new { @class = "form-control", @id = "actualvalue" })
+                    <span asp-validation-for="IrPlmcAamt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Mem Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcAmt,"{0:n2}", new { @class = "form-control", @id = "memvalue", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10" })
+                    <span asp-validation-for="IrPlmcAmt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcTotalRelease, new { @class = "form-control", @type="number", @id = "totalrelease", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="IrPlmcTotalRelease" class="text-danger"></span>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered For Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcSecAmt, new { @class = "form-control", @id = "secamt", @type="number", onkeydown="return event.keyCode !== 69", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10"})
+                    <span asp-validation-for="IrPlmcSecAmt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcRelseStat, new { @class = "form-control", @id = "relstat",@disabled = "disabled" ,onkeydown="return event.keyCode !== 69",oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="3"})
+                    <span asp-validation-for="IrPlmcRelseStat" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquired Status(Y/N)</label></strong>
+                    @Html.DropDownListFor(m => m.IrPlmcAcqrdStatus, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "true"},
+                    new SelectListItem(){Text="No",Value = "false"}
+                    }, "--- Select Acquired Status ---", new { @class = "form-select",@disabled = "disabled", @id="acqstat" })
+                    <span asp-validation-for="IrPlmcAcqrdStatus" class="text-danger"></span>
+                </div>
+            </div>
+            <br/>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('input[id="memvalue"], input[id="totalrelease"], input[id="secamt"], input[id="relstat"], select[id="acqstat"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    $(document).ready(function () {
+        $("#secamt").val();
+        var secval = parseInt($("#secamt").val());
+        var mac = @Machine;
+        var ratio = (parseInt($("#secamt").val()) / mac) * 100;
+        $("#relstat").val(ratio);
+    })
+
+    $("#secamt").on("change", function () {
+       $("#secamt").val();
+        var secval = parseInt($("#secamt").val());
+        var mac = @Machine;
+        var ratio = (parseInt($("#secamt").val()) / mac) * 100;
+        $("#relstat").val(ratio);
+    })
+
+    $("#relstat").on("change", function () {
+        var data = $(this).val();
+        if (data.length > 3) {
+
+            swal.fire({
+                title: 'Release Status Cannot be greater than 100!',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                $(this).val("");
+            })
+        }
+    });
+</script>
+

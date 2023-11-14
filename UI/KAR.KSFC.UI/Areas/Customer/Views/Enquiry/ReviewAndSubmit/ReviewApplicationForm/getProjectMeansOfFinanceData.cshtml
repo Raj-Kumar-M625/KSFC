@@ -1,0 +1,51 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.ProjectDetails.ProjectMeansOfFinanceDTO>
+@{
+    int count = 1;
+}
+
+
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Finance Category
+                </th>
+                <th>
+                    Finance Type
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqPjmfValue)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @(count++)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MfcatCdNavigation.PjmfDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PjmfCdNavigation.PjmfDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqPjmfValue)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}else
+{
+    <p style="color: red"><b>No data added, Please add the Means of Finance details</b></p>
+}
+
+

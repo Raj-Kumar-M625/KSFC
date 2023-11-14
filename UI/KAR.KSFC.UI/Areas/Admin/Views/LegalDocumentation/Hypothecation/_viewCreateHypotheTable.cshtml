@@ -1,0 +1,110 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.HypoAssetDetailDTO
+@{
+    int count = 0;
+    
+}
+
+<div>
+    <div>
+        <form id="LDCreateHypo" asp-action="Create" onsubmit="return jQueryAjaxPosCreateHypothetsh(this); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+           @* @Html.HiddenFor(m => m.IdmHypothDetId, new { @class = "form-control"})*@
+            <input type="hidden" value="@ViewBag.AccountNumber" asp-for="LoanAcc"/>
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffCd" asp-for="OffcCd" />
+          @*  <input type="hidden" value="@ViewBag.IdmHypothDetId" asp-for="IdmHypothDetId"/>*@
+            <input type="hidden" value="AssetOthDetails" asp-for="AssetOthDetails" />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Value</label></strong>
+                    @Html.TextBoxFor(m => m.HypothValue,"{0:n2}", new {@class = "form-control",@readonly = "readonly",@id = "TotValue" ,@style="text-align:right"})
+                    <span asp-validation-for="HypothValue" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4">
+                    <strong><label class="form-label">Hypoth./Mortgage Description</label></strong>
+                    @Html.TextAreaFor(m => m.HypothDesc, new { @class = "form-control",@maxlength = "200", @id="hypothDesc"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="HypothDesc" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Execution</label></strong>
+                    @Html.TextBoxFor(m => m.ExecutionDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date", @id="execDt",onkeydown="return false"})
+                    <span asp-validation-for="ExecutionDate" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Hypothecation Deed No.<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.HypothNo, new {@onkeypress="allowAlphaNumericSpace(event)" ,@class = "form-control uniqueNumber",@maxlength = "15", @id="hypDeed" ,@required="required"})
+                    <span asp-validation-for="HypothNo" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" disabled="disabled" class="btn btn-primary" id="submit" />
+                </div>
+            </div>
+        </form>       
+    </div>
+</div>
+<script>
+
+        $('input[id="TotValue"], textarea[id="hypothDesc"], input[id="execDt"], input[id="hypDeed"]').change(function () {
+
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+
+    //debugger;
+    //var deed = $("#deedNo").val()
+    //if (deed.length > 0) {
+    //    $("#hypDeed").attr("readonly",true)
+    //    $("#execDt").attr("readonly", true)
+    //    $("#hypothDesc").attr("readonly", true)
+    //}
+    //else {
+      
+    //    $("#hypDeed").attr("readonly", false)
+    //    $("#execDt").attr("readonly", false)
+    //    $("#hypothDesc").attr("readonly", false)
+
+    //}
+
+        
+    $(".uniqueNumber").change(function () {
+    var ItmNo = $(this).val();
+    var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+for (i = 0; i < ItemNo.length; i++) {
+    if (ItmNo == ItemNo[i])
+        swal.fire({
+            title: 'Deed Number already exists',
+            icon: 'warning',
+
+            confirmButtonText: 'Ok',
+        }).then((result) => {
+            $(this).val("");          
+        })
+}
+    });
+</script>
+<script>
+    function allowAlphaNumericSpace(e) {
+        var code = ('charCode' in e) ? e.charCode : e.keyCode;
+        if (!(code == 32) && // space
+            !(code > 47 && code < 58) && // numeric (0-9)
+            !(code > 64 && code < 91) && // upper alpha (A-Z)
+            !(code > 96 && code < 123)) { // lower alpha (a-z)
+            e.preventDefault();
+        }
+    }
+   
+</script>

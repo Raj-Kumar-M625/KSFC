@@ -1,0 +1,354 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDChgFurnDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var inspectionId = ViewBag.InspectionId;
+    var furn = ViewBag.Furniture;
+}
+
+
+<div>
+    <div>
+        <form id="FurnitureInspectionDetails" asp-action="Edit" asp-controller="FurnitureInspectionAd" onsubmit="return JqueryInspectionEditMethod(this,'FurnitureInspectionAd');  ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@inspectionId" asp-for="FurnIno" />
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item No<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="FurnItemNo" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" readonly="readonly" />
+                    <span asp-validation-for="FurnItemNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Total Security Created<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnSec, new { @class = "form-control disable",@maxlength = "7",onkeypress="return event.charCode >= 46 && event.charCode <= 57", @required = "required" ,@id = "TotalSec",@readonly=true})
+                    <input type="text" hidden id="TotalSec2" value="@Model.FurnSec" />
+                    <span asp-validation-for="FurnSec" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item Details<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextAreaFor(m => m.FurnDetails, new { @class = "form-control disable",@maxlength = "200", @required = "required"})
+                    <span asp-validation-for="FurnDetails" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security considered for Release</label></strong>
+                    @Html.TextBoxFor(m => m.DfurnSecRel, new { @class = "form-control disable",@maxlength = "10",onkeypress="return event.charCode >= 46 && event.charCode <= 57",@style="text-align:right"})
+                    <span asp-validation-for="DfurnSecRel" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Name of Supplier<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnSupp, new { @class = "form-control disable",@required = "required",@maxlength = "100" })
+                    <span asp-validation-for="FurnSupp" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Eligibility till previous Inspection<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.Eligibility, new { @class = "form-control disable", @type="number",onkeydown="return event.keyCode !== 69",@disabled="disabled"})
+                    <span asp-validation-for="Eligibility" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Address of Supplier<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnSuppAdd1, new { @class = "form-control disable", @required = "required",@maxlength = "100"})
+                    <span asp-validation-for="FurnSuppAdd1" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Supplier Registered Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.FurnReg, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "1"},
+                    new SelectListItem(){Text="No",Value = "0"}
+                    },"---Select Registered Status---", new { @class = "form-select disable", @required = "required"})
+                    <span asp-validation-for="FurnReg" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Quantity<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="FurnQty" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                    <span asp-validation-for="FurnQty" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Tax<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnTax,"{0:n2}", new { @class = "form-control disable",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", @id="promMobileNo", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@style="text-align:right" })
+                    <span asp-validation-for="FurnTax" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Basic Cost<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnCost,"{0:n2}", new { @class = "form-control disable",required = "required", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))", @id="promMobileNo", oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength)",maxlength="10",@style="text-align:right" })
+                    <span asp-validation-for="FurnCost" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Requested Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnRequDate, "{0:yyyy-MM-dd}",new { @class = "form-control disable",@required = "required",type="date" ,onkeydown="return false" })
+                    <span asp-validation-for="FurnRequDate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                @*<div class="col-md-6">
+                <strong><label class="form-label">Acquistion Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                @Html.DropDownListFor(m => m.FurnSat, new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="Fully Aquired",Value = "0"},
+                new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                new SelectListItem(){Text="Canceled Aquisition",Value = "2"}
+                },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@required = "required"})
+                <span asp-validation-for="FurnSat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                @Html.TextBoxFor(m => m.FurnStatChangeDate,"{0:yyyy-MM-dd}",  new { @class = "form-control disable",@id = "Acqdate", type="date",onkeydown="return false", @readonly = "true",@required = "required"})
+                <span asp-validation-for="FurnStatChangeDate" class="text-danger"></span>
+                </div>*@
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Total Cost<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnTotalCost,"{0:n2}", new { @class = "form-control disable",onkeydown="return event.keyCode !== 69",@required = "required",@style="text-align:right"})
+                    <span asp-validation-for="FurnTotalCost" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Invoice No<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="FurnInvoiceNo" class="form-control disable" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                    <span asp-validation-for="FurnInvoiceNo" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Total Cost (Actual)<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnActualCost,"{0:n2}", new { @class = "form-control disable",onkeydown="return event.keyCode !== 69",@required = "required",@style="text-align:right",@id="costLand"})
+                    <span asp-validation-for="FurnActualCost" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Invoice Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.FurnInvoiceDate,"{0:yyyy-MM-dd}", new { @class = "form-control disable",  @type="date",@required = "required",onkeydown="return false" })
+                    <span asp-validation-for="FurnInvoiceDate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Delivery (Weeks)<span id="spanDet1"> *</span></label></strong>
+                    <input type="Number" asp-for="FurnDeleiverInWeek" class="form-control" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+                    <span asp-validation-for="FurnDeleiverInWeek" class="text-danger"></span>
+                </div>
+            </div>
+            <div @*id="Furniture"*@>
+                <p><h4>Furniture/Equipment Release Details</h4></p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong><label class="form-label">Total Release</label></strong>
+                        @Html.TextBoxFor(m => m.IrfTotalRelease, new { @class = "form-control", @id = "ldAreain" ,@style="text-align:right"})
+
+                        <span asp-validation-for="IrfTotalRelease" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <strong><label class="form-label">Acquistion Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                        @Html.DropDownListFor(m => m.FurnSat, new List<SelectListItem>()
+                        {
+                        new SelectListItem(){Text="Fully Aquired",Value = "0"},
+                        new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                        new SelectListItem(){Text="Canceled Aquisition",Value = "2"}
+                        },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg",@required = "required"})
+                        <span asp-validation-for="FurnSat" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <strong><label class="form-label">Security Considered for Release</label></strong>
+                        @Html.TextBoxFor(m => m.IrfSecAmt, new { @class = "form-control", @id = "IrfSecAmt",
+                        @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13",@style="text-align:right"})
+                        <span asp-validation-for="IrfSecAmt" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong><label class="form-label">Release Status</label></strong>
+                        @Html.DropDownListFor(m => m.IrfRelStat, new List<SelectListItem>()
+                        {
+                        new SelectListItem(){Text="No Release Yet",Value = "0"},
+                        new SelectListItem(){Text="Partially Released",Value = "1"},
+                        new SelectListItem(){Text="Fully Released",Value = "2"}
+                        },"---Select Release Status---", new { @class = "form-select", @id = "IrlRelStat",@required = "required"})
+                        <span asp-validation-for="IrfRelStat" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                        @Html.TextBoxFor(m => m.FurnStatChangeDate,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date",onkeydown="return false",@id = "Acqdate",  @readonly = "true",@required = "required"})
+                        <span asp-validation-for="FurnStatChangeDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+            </div>
+
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $('input[class="form-control disable"],select[class="form-select disable"],textarea[class="form-control disable"]').change(function () {
+
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+</script>
+<script>
+    var maxDate = new Date().toISOString().split('T')[0];
+    document.getElementById('Acqdate').value = maxDate
+
+
+    $("#FurnItemNo").on("change", function () {
+        var ItmNo = $(this).val();
+        var ItemNo = @Html.Raw(Json.Serialize(@ViewBag.ItemNumber));
+        for (i = 0; i < ItemNo.length; i++) {
+            if (ItmNo == ItemNo[i])
+                swal.fire({
+                    title: 'Item Number already exists',
+                    icon: 'warning',
+
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    $(this).val("");
+                })
+        }
+
+    });
+
+
+    $("#AcqStg").change(function () {
+        debugger;
+        var status = $('#AcqStg :selected').val();
+        if (status == 1 || status == 2) {
+            //document.getElementById('Acqdate').readOnly = false
+            $("#Furniture").show();
+        }
+        else {
+            $("#AcqStg").click(function () {
+                //$("#Acqdate").val("0");
+            });
+            $("#Furniture").hide();
+            //document.getElementById('Acqdate').readOnly = true
+        }
+    });
+
+    $("#IrfSecAmt").on("change", function () {
+        debugger
+        var secamt = ($("#IrfSecAmt").val());
+        var furniture = ($("#TotalSec").val());
+        var ratio = (secamt / furniture) * 100;
+        $("#IrfRelStat").val(Math.round(ratio));
+    })
+
+    $("#AcqStg").change(function () {
+        debugger;
+        var costOfLand = $("#costLand").val();
+        var securityCreated = $("#TotalSec").val();
+        if ($("#AcqStg").val() === "1" || $("#AcqStg").val() === "2") {
+
+            if (@ViewBag.row== 1) {
+                $("#TotalSec").val(costOfLand)
+                var secamt = ($("#IrfSecAmt").val());
+                var ratio = (secamt / costOfLand) * 100;
+
+            } else {
+                var total = Number(costOfLand) + Number(securityCreated);
+                $("#TotalSec").val(total)
+                var secamt = ($("#IrfSecAmt").val());
+                var ratio = (secamt / total) * 100;
+            }
+        } else {
+
+            if (@ViewBag.row== 1) {
+                $("#TotalSec").val("0")
+
+            } else {
+                $("#TotalSec").val("@Model.FurnSec")
+            }
+        }
+    });
+
+
+    $("#costLand").on("change", function () {
+        debugger;
+        var costOfLand = $("#costLand").val();
+        var securityCreated = $("#TotalSec2").val();
+
+
+        if (@ViewBag.row== 1) {
+            if ($("#AcqStg").val() === "1" || $("#AcqStg").val() === "2") {
+                $("#TotalSec").val(costOfLand)
+                var secamt = ($("#IrfSecAmt").val());
+                var ratio = (secamt / costOfLand) * 100;
+            }
+        } else {
+            if ($("#AcqStg").val() === "1") {
+                var total = Number(costOfLand) + Number(securityCreated);
+                $("#TotalSec").val(total)
+                var secamt = ($("#IrfSecAmt").val());
+                var ratio = (secamt / total) * 100;
+                //$("#IrfRelStat").val(Math.round(ratio));
+            }
+            else {
+
+            }
+
+
+        }
+
+
+
+    })
+
+
+
+    var releaseStatus = $("#IrfRelStat").val()
+
+    if (releaseStatus === "100") {
+        $(".disable").attr("disabled", true);
+    }
+
+
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        var MacNo = "@ViewBag.Eligibility";
+        $("#eligibility").val(MacNo);
+        var created = "@ViewBag.Created";
+        $("#TotalSec").val(created);
+        var release = "@ViewBag.Release";
+        $("#IrfSecAmt").val(release);
+        var ratio = (release / created) * 100;
+        //$("#IrfRelStat").val(Math.round(ratio));
+
+    });
+
+</script>

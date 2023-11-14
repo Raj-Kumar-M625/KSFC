@@ -1,0 +1,95 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal.TblIdmReleDetlsDTO>
+@{
+    int count = 0;
+    var account = ViewBag.AccountNumber;
+    var encryptln = ViewBag.encryptedloanacc;
+    var encryptoffcd = ViewBag.encryptedoffcd;
+    var encryptedlnsb = ViewBag.encryptedlnsb;
+    var encryptedutname = ViewBag.encryptedutname;
+    var loansub = ViewBag.LoanSub;
+    
+}
+
+<a onclick="showInPopup('@Url.Action("Create","DisbursmentProposalDetails",new {AccountNumber = account,LoanSub = loansub,OffCd = @ViewBag.OffCd},Context.Request.Scheme)','Add New Disbursment Proposal Details','Disbursment Proposal')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add New Disbursment Proposal</a>
+
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProposalDetailsDatatable" aria-labelledby="ProposalDetails-tab">
+        <thead>
+            <tr>
+                <th class="th1">S. No.</th>
+                <th class="th4">Loan Account No.</th>
+                <th class="th4">Proposal No.</th>
+                <th class="th4a">Release Amount</th>
+                <th class="th6">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+             
+                @foreach (var item in Model)
+                {
+                   
+                        count++;
+                    <tr >
+                            <td>@count</td>
+                            @if (item.Action == 0)
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.LoanAcc)</td>
+                            }
+                            else
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.TblIdmDisbProp.LoanAcc)</td>
+                            }
+
+
+                            @if (item.Action == 0)
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.TblIdmDisbProp.PropNumber)</td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <div>
+                                    <a href="@Url.Action("ViewBeneficiaryDetails", "CreationOfDisbursmentProposal", new {AccountNumber= encryptln,LoanSub=encryptedlnsb, PropNumber=@item.TblIdmDisbProp.PropNumber,UnitName =encryptedutname,OffCd=encryptoffcd,unqid=item.UniqueId})">@item.TblIdmDisbProp.PropNumber</a>
+                                    </div>
+                                </td>
+                            }
+
+                            <td align="right">@Html.DisplayFor(modelItem => item.ReleAmount)</td>
+
+                            <td id="textCenter">
+                                <a onclick="showInPopup('@Url.Action("ViewRecord","DisbursmentProposalDetails",new {unqid=item.UniqueId},Context.Request.Scheme)','View Disbursment Proposal Details','Disbursment Proposal')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                                <a onclick="showInPopup('@Url.Action("Edit","DisbursmentProposalDetails",new {unqid=item.UniqueId},Context.Request.Scheme)','Edit Disbursment Proposal Details','Disbursment Proposal')" class="btn btn-primary text-white"> <i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                                <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("Delete","DisbursmentProposalDetails",new {unqid=item.UniqueId},Context.Request.Scheme)','Proposaldetails')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+                                <input type="button" value="Summary" class="btn btn-info" onclick="return PrintPanel('@item.UniqueId')" />
+                            </td>
+                       </tr>
+                   
+                   
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+   
+
+    
+</div>
+<div id="DownloadPanel" class="even_spacing"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblProposalDetailsDatatable').DataTable();
+    });
+
+
+   
+</script>

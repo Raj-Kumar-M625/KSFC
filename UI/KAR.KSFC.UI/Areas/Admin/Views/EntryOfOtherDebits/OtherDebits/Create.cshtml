@@ -1,0 +1,107 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.IdmOthdebitsDetailsDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var offcd =  ViewBag.OffcCd;
+    var loansub =   ViewBag.LoanSub;
+}
+
+<div>
+    <div>
+        <form id="OtherdebitDetails" asp-action="Create" onsubmit="return AjaxSingleTabAddMethod(this,'OtherDebit');ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@offcd" asp-for="OffcCd" />
+            <input type="hidden" value="@loansub" asp-for="LoanSub" />
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+             <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Other debits <span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.DsbOthdebitId, new SelectList(ViewBag.OtherDebitCode, "Value", "Text"), "---Select Type---", new { @class = "form-select",@required = "required"})
+                    <span asp-validation-for="DsbOthdebitId" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Amount <span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitAmt, new { @class = "form-control", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13",@required = "required",id="amount",@style="text-align:right"})
+                    <span asp-validation-for="OthdebitAmt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Remarks/Comments</label></strong>
+                    @Html.TextAreaFor(m => m.OthdebitRemarks, new { @class = "form-control"})
+                    <span asp-validation-for="OthdebitRemarks" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Other Taxes</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitTaxes, new { @class = "form-control", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",id="othertax",@maxlength = "13",@style="text-align:right"})
+                    <span asp-validation-for="OthdebitTaxes" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">GST Amount</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitGst ,new { @class = "form-control", @readonly = "true" ,@maxlength = "13",id="gstamt",@style="text-align:right"})
+                    <span asp-validation-for="OthdebitGst" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Due Date of Payment</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitDuedate ,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13",onkeydown="return false"})
+                    <span asp-validation-for="OthdebitDuedate" class="text-danger"></span>
+                </div>
+            </div>
+             <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Amount</label></strong>
+                    @Html.TextBoxFor(m => m.OthdebitTotal, new { @class = "form-control",@readonly = "true", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13",id="totalamt",@style="text-align:right"})
+                    <span asp-validation-for="OthdebitTotal" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group submit3">
+                <div class="col-md-2 text-center float-end">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+@*</div>*@
+<script>
+    $('input[class="form-control"],textarea[class="form-control"],select[class="form-select"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    $("#amount").on("change", function() {
+        debugger
+        var amt = parseInt($(this).val());
+        var tax = parseInt($("#othertax").val());
+        var gst = (amt * 0.18);
+        var gst = gst.toFixed(0);
+        if (isNaN(tax)) {
+            var totalamt = parseInt(amt) + parseInt(gst);
+        }
+        else {
+            var totalamt = parseInt(amt) + parseInt(gst) + parseInt(tax)
+        }
+        $("#gstamt").val(gst);
+        $("#totalamt").val(totalamt);
+    });
+
+    $("#othertax").on("change", function(e) {
+        debugger
+        var tax = parseInt($(this).val());
+        var amt = parseInt($("#amount").val());
+        var gst = parseInt($("#gstamt").val());
+        if (isNaN(tax)) {
+            var totalamt = parseInt(amt) + parseInt(gst)
+        }
+        else {
+            var totalamt = parseInt(amt) + parseInt(gst) + parseInt(tax)
+        }
+        $("#totalamt").val(totalamt);
+    });
+
+</script>

@@ -1,0 +1,79 @@
+﻿@using KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt
+@{
+
+    List<TblLaReceiptPaymentDetDTO> SavedReceipt = ViewBag.SavedReceipt;
+    var AccountNumber = ViewBag.AccountNumber;
+       var LoanSub = ViewBag.LoanSub;
+    var UnitName = ViewBag.UnitName;
+    var allSavedReceiptList = ViewBag.SavedReceipt;
+}
+
+<div><h2 id="textCenter">Loan Related Receipts</h2></div>
+<div id="LoanRelatedDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="EditSaveReceipts-tab" data-bs-toggle="tab" data-bs-target="#EditSaveReceipts" type="button" role="tab" aria-controls="EditSaveReceipts" aria-selected="false">Save Receipt Details</button>
+            <div class="progress">
+                <div id="EditSaveReceiptsProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+    <br />
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fadefade show active" id="EditSaveReceipts" role="tabpanel" aria-labelledby="EditSaveReceipts-tab">
+          
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button" id="SaveReceipts_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
+                            <b>List of Loan Related Receipt Details</b>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body">
+                            <div id="view-all-EditSaveReceipts">
+                                @await Html.PartialAsync("/Areas/Admin/Views/LoanRelatedReceipt/SavedReceipt/_Create.cshtml")
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelEditSaveReceiptDetails">
+                                <div class="modal-dialog modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormac();" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+@*                            <button type="submit" class="btn btn-info btn-lg previous" style="margin-top: 25px;" id="previousbtnEditSaveReceiptsTab">Previous</button>
+*@
+@*                            <input type="submit" onclick="showInPopupPayment('@Url.Action("CreatePayment","SavedReceipt",new {uniqueID=@ViewBag.UniqueID},Context.Request.Scheme)','View Saved Receipt Details','SavedReceipt')" class="btn  btn-success btn-lg next  float-end" style="margin-top: 25px;" value="Create Payment" />
+*@                      
+
+                            <input type="submit" onclick="location.href = '@Url.Action("ViewAccount","LoanRelatedReceipt",new {AccountNumber=@AccountNumber,LoanSub=@LoanSub,UnitName=@UnitName,Module="Payment"},Context.Request.Scheme)';" class="btn btn-info btn-lg previous btnDet4" value="Previous" />
+                            
+                            <input type="submit" onclick="return showInPopupPayment('View Saved Receipt Details','SavedReceipt',LoanSub='@LoanSub',UnitName='@UnitName')" class="btn  btn-success btn-lg next  float-end btnDet4"  value="Create Payment" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/LA.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        ReloadGenerateReceipts();
+        ReloadSaveReceipts();
+    });
+
+
+    function onclick() {
+        location.href = '@Url.Action("Index","Home")';
+    }
+</script>

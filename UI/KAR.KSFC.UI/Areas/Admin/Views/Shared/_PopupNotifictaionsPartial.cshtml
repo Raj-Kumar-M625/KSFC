@@ -1,0 +1,19 @@
+﻿
+<script>
+    var msg = @(TempData["Message"]!=null? Html.Raw(TempData["Message"]) : Html.Raw("undefined"));
+
+    //console.log(msg)
+
+    if (msg) {
+        if (msg.provider == "sweetAlert") {
+            swal.fire({
+                title: "Tab",
+                text: "Are you sure you want to delete this record?",
+                icon: "Success!",
+                button: "OK"
+            });
+        } else {
+            toastr[msg.type](msg.message, msg.title);
+        }
+    }
+</script>

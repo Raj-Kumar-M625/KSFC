@@ -1,0 +1,83 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmBuildingMaterialSiteInspectionDTO
+@{
+    Layout = null;
+}
+
+<div>
+    <div>
+        <form id="BuildMatSiteInspectionDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item No.</label></strong>
+                     @Html.TextBoxFor(m => m.IrbmItem, new { @class = "form-control",@maxlength = "10",@disabled = "disabled", @id = "reviseLdArea", @type="number",onkeydown="return event.keyCode !== 69"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Unit</label></strong>
+                    @Html.DropDownListFor(m => m.UomId, new SelectList(ViewBag.UmoList,"Value", "Text"),"---Select Unit---", new { @class = "form-select", @id = "LandType" ,@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Material Description</label></strong>
+                    @Html.TextAreaFor(m => m.IrbmMat, new { @class = "form-control",@maxlength = "200",@disabled = "disabled", @id = "ldDevDt"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                    <span asp-validation-for="IrbmMat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Per Unit Rate</label></strong>
+                    @Html.TextBoxFor(m => m.IrbmRate,"{0:n2}", new { @class = "form-control",@id = "Rate",@disabled = "disabled",onkeydown="return event.keyCode !== 69",@style="text-align:right"})
+                    <span asp-validation-for="IrbmRate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Quantity</label></strong>
+                    @Html.TextBoxFor(m => m.IrbmQty, new { @class = "form-control", @id = "qty",@disabled = "disabled", @type="number",onkeydown="return event.keyCode !== 69"})
+                    <span asp-validation-for="IrbmQty" class="text-danger"></span>
+                </div>
+                 <div class="col-md-6">
+                    <strong><label class="form-label">Amount</label></strong>
+                    <input  class="form-control" id="TotValue" min="0" onkeypress="return event.charCode >= 46 && event.charCode <= 57" readonly style="text-align:right"/>
+
+                </div>
+            </div>
+ 
+        </form>
+    </div>
+</div>
+
+<script>
+    $("#Rate").each(function () {
+        debugger;
+        var Rate = $('#Rate').val();
+        var Quantity = $('#qty').val();
+        var TotalValue
+        if (Quantity == "") {
+            TotalValue = parseInt(Rate);
+        }
+        else {
+            TotalValue = parseInt(Rate) * parseInt(Quantity);
+        }
+        $("#TotValue").val(TotalValue);
+        $("#totamt").val(TotalValue);
+    });
+    
+    $("#qty").each(function () {
+        debugger;
+        var Rate = $('#Rate').val();
+        var Quantity = $('#qty').val();
+        var TotalValue
+        if (Rate == "") {
+            TotalValue = parseInt(Rate);
+        }
+        else {
+            TotalValue = parseInt(Rate) * parseInt(Quantity);
+        }
+        $("#TotValue").val(TotalValue);
+    });
+</script>

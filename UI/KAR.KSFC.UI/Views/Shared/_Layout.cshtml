@@ -1,0 +1,86 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Configuration["SysConfig:Title"]</title>
+    <link rel="icon" type="image/x-icon" href=@Configuration["SysConfig:FavIcon"]>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>*@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/CaptchaLibrary.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="~/lib/jquery-datetimepicker/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery-datetimepicker/jquery.datetimepicker.min.js"></script>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/Light.css" id="stylesheet" rel="stylesheet" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    
+</head>
+<body>
+    <header>
+        <nav id="myHeader" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <img src=@Configuration["SysConfig:LogoPath"] style="width:5%;height:5%" />
+
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><b>@Startup._e[@Configuration["SysConfig:Title"]] </b></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <h1></h1>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                    <table>
+                  
+                        <tr><td colspan="2"> <partial name="_LoginPartial" /> </td></tr>
+                        <tr><td></td><td> </td></tr>
+                    </table>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+            <button type="button"
+                    class="btn btn-primary btn-floating"
+                    id="btn-back-to-top">
+                Back To Top
+            </button>
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/BackToTop.js"></script>
+    <script>
+        window.onscroll = function () { myFunction() };
+
+        var header = document.getElementById("myHeader");
+        var sticky = header.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset > sticky) {
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            }
+        }
+        backToTop();
+    </script>
+</body>
+</html>
+

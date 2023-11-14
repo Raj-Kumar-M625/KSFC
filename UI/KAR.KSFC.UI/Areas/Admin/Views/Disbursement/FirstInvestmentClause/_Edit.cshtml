@@ -1,0 +1,111 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM.Disbursement
+@model KAR.KSFC.Components.Common.Dto.IDM.Disbursement.IdmFirstInvestmentClauseDTO
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var mainModule = ViewBag.MainModule;
+    var loansub = ViewBag.LoanSub;
+    var office = ViewBag.OffcCd;
+}
+
+<div>
+    <div>
+        <form id="FICDetails" asp-action="Update" onsubmit="return JqueryDisbursmentEditMethod(this,'FirstInvestmentClause');">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="DCFICLoanACC">
+            <input type="hidden" value="@loansub" asp-for="DCFICSno">
+            <input type="hidden" value="@office" asp-for="DCFICOffc">
+            @Html.HiddenFor(m => m.DCFICId, new { @class = "form-control"})
+
+            <div class="row">
+                <div class="col-md-5">
+                    <strong><label class="form-label">Promoter Contribution Original (in lakhs)<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DCFICAmountOriginal,"{0:0.00}", new { @class = "form-control ficmodel",@type="number", @id = "ProContributionOriginal",  @required ="required",@readonly = "readonly",@style="text-align:right"})
+                    <span asp-validation-for="DCFICAmountOriginal" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-5">
+                    <strong><label class="form-label">Promoter Contribution Revised<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DCFICAmount,"{0:0.00}", new { @class = "form-control ficmodel",@type="number",@id = "ProContributionRevised",@style="text-align:right"})
+                    <span asp-validation-for="DCFICAmount" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-5">
+                    <strong><label class="form-label">Requested Date</label></strong>
+                    @Html.TextBoxFor(m => m.DCFICRequestDate,  "{0:yyyy-MM-dd}",new { @class = "form-control ficmodel", @id = "RequestDate",type="date",onkeydown = "return false"})
+                    <span asp-validation-for="DCFICRequestDate" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-5">
+                    <strong><label class="form-label">Communication Date</label></strong>
+                    @Html.TextBoxFor(m => m.DCFICCommunicationDate, "{0:yyyy-MM-dd}", new { @class = "form-control ficmodel",@id ="CommunicationDate", type="date",onkeydown = "return false"})
+                    <span asp-validation-for="DCFICCommunicationDate" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div>
+                <a id="othRelx" onclick="showRelaxationPopup('@Url.Action("ViewOtherRelaxation","OtherRelaxation",new {mainModule=@mainModule,accountNumber = @account},Context.Request.Scheme)','Other Relaxation Details','OtherRelaxation')"> Other Relaxation </a>
+                <div class="modal"  tabindex="-1" role="dialog" id="viewOtherRelaxation">
+                    <div class="modal-dialog  modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header" >
+                                <h5 class="modal-title"></h5>
+                                <button type="button" class="close" data-dismiss="modal" onclick="CloseRelaxPopupFormsh();" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end btnDet3">
+                    <input type="button" value="Send For Approval" class="btn btn-warning " disabled="disabled" id="submitApproval" />  
+                </div>
+                  <br/>
+                 <input type="submit" value="&nbsp &nbsp Next &nbsp &nbsp" class="btn btn-info btn-lg next float-end" id="btnTabFICDetails" />
+            </div>
+            <br />
+        </form>
+        <div>
+            <button id="previousbtnFICTab" type="submit" class="btn btn-info btn-lg previous">Previous</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    $("#ProContributionOriginal").on("change", function () {
+       var data=$(this).val();
+       if(data.length >10)
+       {
+         
+            swal.fire({
+                title: 'Prometer Contribution Original Amount Cannot be greater than 100 lakhs!',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                $(this).val("");
+            })
+       }
+    });
+
+    $("#ProContributionRevised").on("change", function () {
+        var data = $(this).val();
+        if (data.length > 10) {
+            swal.fire({
+                title: 'Prometer  Contribution Revised Amount Cannot be greater than 100 lakhs!',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                $(this).val("");
+            })
+        }
+    });
+</script>

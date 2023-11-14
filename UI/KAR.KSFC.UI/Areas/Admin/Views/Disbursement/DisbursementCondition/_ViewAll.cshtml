@@ -1,0 +1,83 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.LDConditionDetailsDTO>
+@{
+    int count = 0;
+    //var account = ViewBag.AccountNumber;
+}
+@*<a onclick="showInPopup('@Url.Action("Create","DisbursementCondition",new {accountNumber = ViewBag.AccountNumber,loansub = ViewBag.LoanSub,offccd = ViewBag.OffcCd },Context.Request.Scheme)','Add New Disbursement Condition Details','Disbursement Condition')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add New Disbursrement Condition</a>*@
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblDisbursementDatatable" aria-labelledby="DisbursementDataTable-tab">
+        <thead>
+            <tr>
+                <th class="th1">S. No.</th>
+                <th class="th3">Type of Condition</th>
+                <th class="th3">Condition Description</th>
+                <th class="th4">Condition Stage</th>
+                <th class="th2">Compliance</th>
+                @*<th class="th1">Whether Relaxation Can Be Sought</th>*@
+                <th class="th5">Action</th>
+             </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelItem => item.ConditionType)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CondDetails)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ConditionStage)</td>
+                        @if (item.WhRelAllowed == null)
+                        {
+                            if(item.Compliance != null){
+                            <td>@(item.Compliance == "0" ? "Not Complied" : "Complied")</td>
+                            }else{
+                                <td></td>
+                            }
+                        }else{
+                            <td>@(item.WhRelAllowed == true ? "Relaxed" : "Deffered")</td>
+                        }
+                     
+                     @*   @if (item.WhRelaxation == true)
+                        {
+
+                            <td>
+                                Yes
+                            </td>
+
+                        }
+                        else
+                        {
+                            <td>
+                                No
+                            </td>
+                        }*@
+                        <td class="textCenter">
+                            <a onclick="showInPopup('@Url.Action("ViewRecord","DisbursementCondition",new {id=item.UniqueId},Context.Request.Scheme)','View Disbursement Condition Details','Disbursement Condition')" class="btn btn-warning text-white"><i class="fa fa-eye" aria-hidden="true"></i>  View</a>
+                            @if (item.WhRelAllowed == null){
+                            <a onclick="showInPopup('@Url.Action("Edit","DisbursementCondition",new {id=item.UniqueId},Context.Request.Scheme)','Edit Disbursement Condition Details','Disbursement Condition')" class="btn btn-primary text-white" > <i class="fa fa-pencil" aria-hidden="true"></i>   Edit</a>
+                            }else{
+                                <button class="btn btn-primary text-white disabled"> <i class="fa fa-pencil" aria-hidden="true"></i>Edit</button>
+                            }
+                            <a onclick="JqueryDisbursmentDeleteMethod('@Url.Action("Delete","DisbursementCondition",new {id=item.UniqueId},Context.Request.Scheme)','Disbursement')" class="btn btn-danger"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblDisbursementDatatable').DataTable();
+    });
+</script>

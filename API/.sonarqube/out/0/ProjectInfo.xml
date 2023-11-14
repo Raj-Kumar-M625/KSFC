@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>KAR.KSFC.API.ServiceFacade</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>d527c8b7-b8ce-4277-9abc-225be8b3d5c8</ProjectGuid>
+  <FullPath>D:\KSFC_AO\API\KAR.KSFC.API.ServiceFacade\KAR.KSFC.API.ServiceFacade.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="D:\KSFC_AO\API\.sonarqube\out\0\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePath">D:\KSFC_AO\API\KAR.KSFC.API.ServiceFacade\bin\Debug\net5.0\KAR.KSFC.API.ServiceFacade.dll.RoslynCA.json|D:\KSFC_AO\API\KAR.KSFC.API.ServiceFacade\bin\Debug\net5.0\KAR.KSFC.API.ServiceFacade.dll.RoslynCA.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPath">D:\KSFC_AO\API\.sonarqube\out\0</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>net5.0</TargetFramework>
+</ProjectInfo>

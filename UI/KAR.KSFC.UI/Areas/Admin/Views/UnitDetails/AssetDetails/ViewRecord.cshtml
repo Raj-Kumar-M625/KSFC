@@ -1,0 +1,74 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.UnitDetails.IdmPromAssetDetDTO
+@{
+    Layout = null;  
+}
+
+<div>
+    <div>
+        <form id="UDAssetDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Name of Promoter</label></strong>
+                    @Html.DropDownListFor(m => m.PromoterCode, new SelectList(ViewBag.AllPromoterNames, "PromoterCode", "PromName"),"---Select Promoter Name---", new { @class = "form-select", @id="Name",@disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Asset Category</label></strong>
+                    @Html.DropDownListFor(m => m.AssetCatCD,
+                    new SelectList( ViewBag.AssetCategary,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select", @id = "AssetCat",@disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Asset Type</label></strong>
+                    @Html.DropDownListFor(m => m.AssetTypeCD,
+                    new SelectList(ViewBag.AssetType,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select", @id = "AssetType",@disabled = "disabled",@style="white-space: pre-wrap" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Land/Shed</label></strong>
+                    @Html.DropDownListFor(m => m.LandType,
+                    new SelectList(ViewBag.LandType,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select", @id = "AssetType",@disabled = "disabled" })
+                    <span asp-validation-for="LandType" class="text-danger"></span>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Survey/Site/Flat No</label></strong>
+                    @Html.TextBoxFor(m => m.IdmAssetSiteno, new { @class = "form-control", @id = "SiteNo",@disabled = "disabled"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Site/Flat Address</label></strong>
+                    @Html.TextBoxFor(m => m.IdmAssetaddr, new { @class = "form-control", @id = "Assetaddr",@disabled = "disabled"})
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Dimensions (Sq. Mtrs.)</label></strong>
+                    @Html.TextBoxFor(m => m.IdmAssetDim, new { @class = "form-control", @id = "Assetdim",@disabled = "disabled"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Area (Sq. Mtrs.)</label></strong>
+                    @Html.TextAreaFor(m => m.IdmAssetArea, new { @class = "form-control", @id = "Assetare",@disabled = "disabled"})
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Asset Description</label></strong>
+                    @Html.TextAreaFor(m => m.IdmAssetDesc, new { @class = "form-control", @id = "AssetDesc",@disabled = "disabled"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Value</label></strong>
+                    @Html.TextBoxFor(m => m.IdmAssetValue,"{0:n2}", new { @class = "form-control",@disabled = "disabled" ,@style="text-align:right"})
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

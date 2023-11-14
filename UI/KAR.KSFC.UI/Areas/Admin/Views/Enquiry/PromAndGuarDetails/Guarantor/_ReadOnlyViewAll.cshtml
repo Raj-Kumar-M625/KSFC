@@ -1,0 +1,242 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorAllDetailsDTO
+
+<div>
+
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Guarantor Details</h3>
+    
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblGuaDetailsDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Name of Guarantor
+                </th>
+                <th>
+                    Pan
+                </th>
+                <th>
+                    Domicile
+                </th>
+                <th>
+                    Mobile No.
+                </th>
+                <th></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            
+            @foreach (var item in Model.ListGuarantor)
+            {
+                
+                <tr>
+                    <td>
+                        
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GuarName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DomicileMasterDTO.DomDets)
+                    </td>
+                    
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromoterMaster.PromoterMobno)
+                    </td>
+                    <td>
+                        <a onclick="showInPopupPGGD('@Url.Action("ViewRecord","Guarantor",new {id=item.EnqGuarId},Context.Request.Scheme)','View Guarantor Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                    </td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />
+<div>
+
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Guarantor Asset Details</h3>
+    
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblGuaAssetDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Guarantor Name
+                </th>
+                <th>
+                    Asset Category
+                </th>
+                <th>
+                    Asset Type
+                </th>
+                <th>
+                    Value (Lakhs)
+                </th>
+                <th></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            
+            @if (Model.GuarantorAssetLiabilityDetails.ListAssetDetails != null)
+            {
+
+                @foreach (var item in Model.GuarantorAssetLiabilityDetails.ListAssetDetails)
+                {
+                    
+                    <tr>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarantorDetailsDTO.GuarName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetCategoryMasterDTO.AssetcatDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetTypeMasterDTO.AssettypeDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarAssetValue)
+                        </td>
+                        <td>
+                            <a onclick="showInPopupPGGD('@Url.Action("ViewRecordAsset", "Guarantor", new { id = item.EnqGuarassetId }, Context.Request.Scheme)','View Guarantor Asset Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                        </td>
+                        
+                    </tr>
+                }}
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />
+
+<div>
+
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Guarantor Liability Details</h3>
+    
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblGuaLiabilityDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Guarantor Name
+                </th>
+                <th>
+                    Liability Description
+                </th>
+                <th>
+                    Value (Lakhs)
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.GuarantorAssetLiabilityDetails.ListLiabilityDetails != null)
+            {
+               
+                @foreach (var item in Model.GuarantorAssetLiabilityDetails.ListLiabilityDetails)
+                {
+                    <tr>
+                        <td>
+                            
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarantorDetailsDTO.GuarName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarLiabDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarLiabValue)
+                        </td>
+                        <td>
+                            <a onclick="showInPopupPGGD('@Url.Action("ViewRecordLiability", "Guarantor", new { id = item.EnqGuarliabId }, Context.Request.Scheme)','View Liability Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                        </td>
+                        
+                    </tr>
+                }}
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />
+
+<div class="col-md-8 offset-md-2 text-center">
+    <div style="width:40%;">
+        <div class="form-group">
+            <label for="inputEmail4" class="form-label">Total Assets(Immovable + Movable)(In Lakhs)</label>
+            @Html.TextBoxFor(model => model.GuarantorAssetLiabilityDetails.TotalAssets, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+        <div class="form-group">
+            <label for="inputEmail4" class="form-label">Total Liabilities(In Lakhs)</label>
+            @Html.TextBoxFor(model => model.GuarantorAssetLiabilityDetails.TotalLiabilities, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+        <div class="form-group">
+            <label for="inputEmail4" class="form-label">Net Worth (Total Assets – Total Liabilities)(In Lakhs)</label>
+            @Html.TextBoxFor(model => model.GuarantorAssetLiabilityDetails.TotalNetworth, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+<div>
+    <h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i>NET WORTH</h3>
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblGuaNetWorthDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S. No.
+                </th>
+                <th>
+                    Guarantor Name
+                </th>
+                <th>
+                    Net Worth (Lakhs)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.NetWorthList != null)
+            {
+                @foreach (var item in ViewBag.NetWorthList)
+                {
+
+                    <tr>
+                        <td> </td>
+
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Networth
+                        </td>
+                    </tr>
+                }}
+        </tbody>
+    </table>
+</div>
+<br />
+<br />
+<br />
+

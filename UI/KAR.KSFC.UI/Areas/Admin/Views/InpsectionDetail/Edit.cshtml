@@ -1,0 +1,76 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDspInspDTO
+@{
+    Layout = null;
+     List<ldDocumentDto> inspectionDocDetails = ViewBag.Documentlist;
+}
+
+<div>
+    <div>        
+         <form id="InspectionDetailsForm" asp-action="Edit" onsubmit="return JqueryInspectionEditMethod(this,'InpsectionDetail'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+            <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd" />
+              @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc }) 
+                @Html.HiddenFor(m => m.DinNo , new { @class = "form-select" })
+             <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Inpsection No.</label></strong>
+                    @Html.TextBoxFor(m => m.DinNo, new { @class = "form-select",@disabled = "disabled" })
+                    <span asp-validation-for="DinNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label"> Inpsection Date</label></strong>
+                      @Html.TextBoxFor(m => m.DinDt,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date",onkeydown="return false"})
+                    <span asp-validation-for = "DinDt" class="text-danger"></span>
+                </div>                               
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Report Submission</label></strong>
+                   @Html.TextBoxFor(m => m.DinRdt, "{0:yyyy-MM-dd}", new { @class = "form-control",type="date",onkeydown="return false" })
+                   <span asp-validation-for="DinRdt" class="text-danger"></span>
+                </div>
+                 <div class="col-md-6">
+                    <strong><label class="form-label">Name of Inspection Official</label></strong>s
+                     <input type="text" asp-for="DinTeam" class="form-control" />                  
+                    <span asp-validation-for="DinTeam" class="text-danger"></span>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Release</label></strong>
+                    @Html.DropDownListFor(m => m.DinRdt, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="General",Value = "0"},
+                    new SelectListItem(){Text="Adhoc",Value = "1"},
+                    new SelectListItem(){Text="Both",Value = "2"}
+                    },"---Select Type of Release---", new { @class = "form-select", @id = "Type",@required = "required"})
+                    <span asp-validation-for="DinRdt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div>
+                 @if(Model.DinRowID>0){
+                   @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",inspectionDocDetails)
+                }                
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit"/>
+                </div>
+            </div>
+            <br />
+        </form>
+    </div>
+</div>
+
+<script>
+    $('input[id="DinNo"], input[id="DinDt"], input[id="DinRdt"],input[id="DinTeam"]').change(function() {        
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

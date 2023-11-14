@@ -1,0 +1,53 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorLiabilityDetailsDTO>
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Guarantor Liability Details</h3>
+
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Guarantor Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Value
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqGuarliabId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarantorDetailsDTO.GuarName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarLiabDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GuarLiabValue)
+                        </td>
+                    </tr>
+                }       }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Guarantor Liability details</b></p>
+}
+

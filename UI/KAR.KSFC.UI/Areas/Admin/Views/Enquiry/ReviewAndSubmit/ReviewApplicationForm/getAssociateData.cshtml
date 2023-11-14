@@ -1,0 +1,68 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsDTO>
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Associate / Sister Concern Details</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSisId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSisName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BfacilityCodeNavigation.BfacilityDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BfacilityCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqOutamt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqDeftamt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqOts)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSisId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSisName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BfacilityCodeNavigation.BfacilityDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BfacilityCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqOutamt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqDeftamt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqOts)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Associate / Sister Concern Details</b></p>
+}
+
+

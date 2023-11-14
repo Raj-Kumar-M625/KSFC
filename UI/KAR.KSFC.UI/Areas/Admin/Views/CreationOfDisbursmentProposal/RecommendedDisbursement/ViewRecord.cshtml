@@ -1,0 +1,116 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfDisbursmentProposal.IdmDsbdetsDTO
+@{
+    Layout = null;
+    var TotalAmount = ViewBag.total;
+    var Sancamount = ViewBag.sancamount;
+    var estamt = Model.DsbEstAmt;
+    var amt = Model.DsbAmt;
+}
+<div>
+    <div>
+        <form id="RecommDisbursementDetails" asp-action="ViewRecord" onsubmit="ClosePopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Allocation Code</label></strong>
+                    @Html.TextBoxFor(m => m.DsbAcd, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Estimated Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DsbEstAmt, new { @class = "form-control", @disabled = "disabled",@id="EstimAmount" ,@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Allocation Amount</label></strong>
+                    @Html.TextBoxFor(m => m.AlocAmt, new { @class = "form-control", @disabled = "disabled", @id="allocamt"  ,@style="text-align:right"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security considered for release</label></strong>
+                    @Html.TextBoxFor(m => m.SecConsideredFRelease, new { @class = "form-control", @disabled = "disabled" , @id="secconsider" ,@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security as per Inspection</label></strong>
+                    @Html.TextBoxFor(m => m.SecInspection, new { @class = "form-control", @disabled = "disabled" , @id="secconsiderinsp",@style="text-align:right"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Eligible Amount</label></strong>
+                    @Html.TextBoxFor(m => m.EligibleAmt, new { @class = "form-control", @disabled = "disabled" ,@id="eligamount",@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Margin Retained %</label></strong>
+                    @Html.TextBoxFor(m => m.MarginRetained, new { @class = "form-control", @disabled = "disabled" ,@id="margin"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Recommended Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DsbAmt, new { @class = "form-control", @disabled = "disabled" ,@id="RecomAmount",@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Release Amount</label></strong>
+                    @Html.TextBoxFor(m => m.DsbDt, new { @class = "form-control", @disabled = "disabled" , @id="RelAmt",@style="text-align:right"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Allocation Details</label></strong>
+                    @Html.TextAreaFor(m => m.AllocationDetails, new { @class = "form-control", @disabled = "disabled" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Total Amount</label></strong>
+                    @Html.TextBoxFor(m => string.Empty, new { @class = "form-control", @disabled = "disabled",@id="Totalamount" ,@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+            <br />
+        </form>
+    </div>
+</div>
+
+<script>
+   
+    $(document).ready(function () {
+      
+        var secperinsp = parseInt($('#secconsiderinsp').val());
+        var releaseamout = parseInt($('#RelAmt').val());
+        var eligiAmt = secperinsp - releaseamout;
+        $('#eligamount').val(eligiAmt);
+        var elgamount = parseInt($('#eligamount').val());
+        var alcamount = parseInt($('#allocamt').val());
+        var seccons = parseInt($('#secconsider').val());
+        if (seccons <= elgamount) {
+            $('#eligamount').val("");
+        }
+        if (seccons > alcamount) {
+            $('#allocamt').val("");
+        }
+        var recomendedAmt = parseInt($('#RecomAmount').val());
+        $('#Totalamount').val(releaseamout + recomendedAmt);
+        var margin = (secperinsp / releaseamout) * 100
+        $("#margin").val(margin);
+        debugger;
+        var totalamount = $('#Totalamount').val();
+        if (totalamount > ViewBag.sancamount) {
+            debugger;
+            swal.fire(
+                'Error',
+                'Total Amount Can Not Be Greater Than Eligible Amount',
+                'error'
+            )
+            $('#Totalamount').val("");
+        }
+    });
+
+</script>

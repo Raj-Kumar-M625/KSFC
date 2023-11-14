@@ -1,0 +1,49 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.Disbursement.Form8AndForm13DTO
+@{
+    Layout = null;
+    List<ldDocumentDto> form8and13Details = ViewBag.Documentlist;
+}
+
+<div>
+    <div>
+        <form id="Form8AndForm13Details" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.DF813LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Form</label></strong>
+                    @Html.DropDownListFor(m => m.DF813t1,
+                    new SelectList(ViewBag.Form8and13list,"Value", "Text"), "---Select Type---"
+                    , new { @class = "form-select", @id = "formType",@disabled = "disabled" })
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Date of Filing</label></strong>
+                    @Html.TextBoxFor(m => m.DF813Dt, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date", @disabled = "disabled",onkeydown = "return false" })
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Receipt No</label></strong>
+                    @Html.TextBoxFor(m => m.DF813Ref, new { @class = "form-control", @id = "RecNo",@disabled = "disabled"})
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Requested Date</label></strong>
+                    @Html.TextBoxFor(m => m.DF813RqDt, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date", @disabled = "disabled" ,onkeydown = "return false"})
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Registration as Charge Certificate</label></strong>
+                    @Html.TextBoxFor(m => m.DF813cc, new { @class = "form-control", @id = "RecNo",@disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div>
+                @await Html.PartialAsync("/Areas/Admin/Views/Shared/_ViewDocument.cshtml",form8and13Details)
+            </div>
+        </form>
+    </div>
+</div>

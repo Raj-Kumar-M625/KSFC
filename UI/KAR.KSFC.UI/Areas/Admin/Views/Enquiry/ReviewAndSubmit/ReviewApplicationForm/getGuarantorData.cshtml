@@ -1,0 +1,58 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.GuarantorDetailsDTO>
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Guarantor Details</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqGuarId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GuarName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Pan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DomCd)
+                </th>
+                <th>
+                   @* @Html.DisplayNameFor(model => model.pinCode)*@
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqGuarId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GuarName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DomCd)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.pinCode)*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Guarantor  details</b></p>
+}
+
+
+

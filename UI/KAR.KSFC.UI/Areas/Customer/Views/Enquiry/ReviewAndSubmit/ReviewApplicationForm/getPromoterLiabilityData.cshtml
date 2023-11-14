@@ -1,0 +1,56 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterLiabilityDetailsDTO>
+@{
+    int count = 1;
+}
+
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProLiabilityDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Promoter Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Value (In Lakhs.)
+                </th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model!= null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td> 
+                            @(count++)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterMasterDTO.PromoterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqLiabDesc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqLiabValue)
+                        </td>
+                        
+                    </tr>
+                }}
+        </tbody>
+    </table>
+}
+else
+
+{
+    <p style="color: red"><b>No data added, Please add the Promoter Liability details</b></p>
+}
+
+

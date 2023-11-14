@@ -1,0 +1,65 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.IDM.IdmOthdebitsDetailsDTO>
+@{
+    int count = 0;
+    var account = ViewBag.AccountNumber;
+    var offcd = ViewBag.OffCd;
+    var loansub = ViewBag.LoanSub;
+}
+<a onclick="showInPopup('@Url.Action("Create","EntryOfOtherDebits",new {AccountNumber = account ,OffCd = offcd, LoanSub = loansub},Context.Request.Scheme)','Add New Other Debits Details','OtherDebits')" class="btn btn-primary text-white mb-2 mt-2"><em class="fa fa-plus"></em> Add New Other Debits</a>
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblOtherDebitDatatable" aria-labelledby="otherdebits-tab">
+        <thead>
+            <tr>
+                <th class="th2">S. No.</th>
+                <th class="th4">Other Debits Details</th>
+                <th class="th3">Amount</th>
+                <th class="th3">Total Amount</th>
+                <th class="thdebit">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var item in Model)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelItem => item.DsbOthdebitDetails)</td>
+                        <td>@Html.DisplayFor(modelItem => item.OthdebitAmt)</td>
+                        <td>@Html.DisplayFor(modelItem => item.OthdebitTotal)</td>
+                        @if (item.IsSubmitted == null)
+                        {
+                            <td class="textCenter">
+                                <a onclick="showInPopup('@Url.Action("ViewRecord", "EntryOfOtherDebits",new {unqid=item.UniqueId},Context.Request.Scheme)','View Other Debits Details','OtherDebits')" class="btn btn-warning text-white"><em class="fa fa-eye"></em> View</a>
+                                <a onclick="showInPopup('@Url.Action("Edit", "EntryOfOtherDebits",new {unqid=item.UniqueId},Context.Request.Scheme)','Edit Other Debits Details','OtherDebits')" class="btn btn-primary text-white"><em class="fa fa-pencil"></em> Edit</a>
+                                <a onclick="AjaxSingleTabDeleteMethod('@Url.Action("Delete","EntryOfOtherDebits",new {unqid=item.UniqueId},Context.Request.Scheme)','OtherDebits')" class="btn btn-danger"><em class="fa fa-trash-o" aria-hidden="true"></em> Delete </a>
+                                @*  <a onclick="return fxnSubmitOtherDebits('@item.UniqueId','@item.LoanAcc','@item.LoanSub','@item.OffcCd')" class="btn btn-info"><em class="bi bi-save" aria-hidden="true"></em> Submit </a>*@
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="textCenter">
+                                <a onclick="showInPopup('@Url.Action("ViewRecord", "EntryOfOtherDebits",new {unqid=item.UniqueId},Context.Request.Scheme)','View Other Debits Details','OtherDebits')" class="btn btn-warning text-white"><em class="fa fa-eye"></em> View</a>
+                            </td>
+                        }
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8">
+                        No Data Available.
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblOtherDebitDatatable').DataTable();
+    });
+</script>

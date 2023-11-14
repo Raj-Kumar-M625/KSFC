@@ -1,0 +1,74 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.TblIdmIrLandDTO
+@{
+    Layout = null;
+    var security = ViewBag.Inspection;
+}
+
+
+<div>
+    <div>
+        <form id="LandAcquisition" asp-action="ViewRecord" onsubmit="ClosePopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Land Ref. No.</label></strong>
+                    @Html.TextBoxFor(m => m.IrlIno, new { @class = "form-control", @id = "irlino",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Area</label></strong>
+                    @Html.TextBoxFor(m => m.IrlArea, new { @class = "form-control", @id = "irlarea",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Unit Area</label></strong>
+                    @Html.TextBoxFor(m => m.IrlAreaIn, new { @class = "form-control", @id = "irlareain",@disabled = "disabled" })
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Type</label></strong>
+                    @Html.DropDownListFor(m => m.IrlLandTy, new SelectList(ViewBag.LandType,"Value", "Text"), "---Select Land Type---", new { @class = "form-select", @id = "landtype", @disabled="disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Cost</label></strong>
+                    @Html.TextBoxFor(m => m.IrlLandCost,"{0:n2}", new { @class = "form-control", @id = "irllandcost",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered For Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrlSecValue,"{0:n2}", new { @class = "form-control", @id = "irlsecvalue",@disabled = "disabled" })
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Land Development Cost</label></strong>
+                    @Html.TextBoxFor(m => m.IrlDevCost,"{0:n2}", new { @class = "form-control", @id = "irldevcost",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @Html.TextBoxFor(m => m.IrlRelStat, new { @class = "form-control", @id = "irlrelstat",@disabled = "disabled" })
+                </div>                
+            </div>
+        </form>
+        <br/>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        debugger;
+        var secval = ($("#irlsecvalue").val());
+        var secvalue = @security;
+        var ratio = (parseInt($("#irlsecvalue").val()) / secvalue) * 100;
+        $("#irlrelstat").val(ratio);
+    })
+
+    $("#irlsecvalue").on("change", function () {
+        debugger
+        var secval = ($("#irlsecvalue").val());
+        var secvalue = @security;
+        var ratio = (parseInt($("#irlsecvalue").val()) / secvalue) * 100;
+        $("#irlrelstat").val(ratio);
+    })
+
+</script>

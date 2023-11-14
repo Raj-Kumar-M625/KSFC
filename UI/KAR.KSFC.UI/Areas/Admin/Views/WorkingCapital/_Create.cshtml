@@ -1,0 +1,83 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgWorkingCapitalDTO
+
+@{
+    Layout = null;
+    var account = ViewBag.AccountNumber;
+    var inspectionId = ViewBag.InspectionId;
+}
+
+<div>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" value="@account" asp-for="LoanAcc" />
+    <input type="hidden" value="@inspectionId" asp-for="DcwcIno" id="inspectionID" />
+    <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub"/>
+    <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd"/>
+
+    @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+    @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+    <div class="row">
+        <div class="col-md-6">
+            <strong><label calss="from-label">Name Of Bank<span id="spanDet1"> *</span></label></strong>
+            <input type="text" asp-for="DcwcNbank" id="Bankname" class="form-control" required />
+            <span asp-validation-for="DcwcNbank" class="text-danger"></span>
+        </div>
+        <br/>
+        <div class="col-md-6">
+            <strong> <label calss="from-label">NOC Issued On Previous Bank <span id="spanDet1"> *</span></label></strong>
+            <input type="text" asp-for="DcwcObank" id="NocBank" class="form-control"  required />
+            <span asp-validation-for="DcwcObank" class="text-danger"></span>
+        </div>
+        <br />
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <strong> <label calss="from-label">NOC Issued Date<span id="spanDet1"> *</span></label></strong>
+             @Html.TextBoxFor(m => m.DcwcOnocdt,"{0:dd-MM-yyyy}",  new { @class = "form-control",required = "required",onkeydown="return false", @type = "date" })
+            <span asp-validation-for="DcwcOnocdt" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="col-md-6">
+            <strong><label calss="from-label">Working Capital Sanction Date<span id="spanDet1"> *</span> </label></strong>
+             @Html.TextBoxFor(m => m.DcwcSandt,"{0:dd-MM-yyyy}",  new { @class = "form-control",id="WcsancDt",required = "required",onkeydown="return false", @type = "date" })
+            <span asp-validation-for="DcwcSandt" class="text-danger"></span>
+        </div>
+        <br />
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <strong><label calss="from-label">Working Capital Asset<span id="spanDet1"> *</span> </label></strong>
+            <input type="Number" asp-for="DcwcAmount" id="Wcasset" class="form-control" onkeypress="return event.charCode >= 46 && event.charCode <= 57" required />
+            <span asp-validation-for="DcwcAmount" class="text-danger"></span>
+        </div>
+        <br />
+        <div class="col-md-6">
+            <strong><label calss="from-label">Memorandum Copy Sent Date<span id="spanDet1"> *</span></label></strong>
+             @Html.TextBoxFor(m => m.DcwcMemdt,"{0:dd-MM-yyyy}",  new { @class = "form-control",id="memoDt",required = "required",onkeydown="return false", @type = "date" })
+            <span asp-validation-for="DcwcMemdt" class="text-danger"></span>
+        </div>
+        <br />
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <strong><label calss="from-label">Remarks<span id="spanDet1"> *</span> </label></strong>
+            <textarea asp-for="DcwcRem" id="remarks" class="form-control" required ></textarea>
+            <span id="spanDet">Max: 40 Characters</span><br />
+            <span asp-validation-for="DcwcRem" class="text-danger"></span>
+        </div>
+        <br />
+    </div>
+    <input type="submit"  class="btn btn-info btn-lg next float-end" id="btnTabWorkingCapitalDeatils" disabled="disabled" value="Submit" />
+    <br/>
+    <br/>
+</div>
+<script>
+    $('input[id="Bankname"],input[id="NocBank"],input[id="nocDt"],input[id="WcsancDt"],input[id="Wcasset"],input[id="memoDt"],input[id="remarks"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='btnTabWorkingCapitalDeatils']").removeAttr('disabled');
+        }
+    });
+</script>

@@ -1,0 +1,48 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsDTO
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecord" asp-route-id="@Model.EnqSisId" onsubmit="ClearPopupFormASD();">
+            @Html.HiddenFor(model => model.EnqSisId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Associate / Sister Concern</label>
+                @Html.TextBoxFor(model => model.EnqSisName, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Banker /Fin. Institution</label>
+                @Html.TextBoxFor(model => model.EnqSisIfsc, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Facility</label>
+                @Html.DropDownListFor(model => model.BfacilityCode, new SelectList(ViewBag.ListFacility, "Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "@disabled" })
+                
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Outstanding (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqOutamt, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Default, if any (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqDeftamt, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Relief and Concessions Availed</label>
+                @Html.TextBoxFor(model => model.EnqRelief, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">One-Time Settlement Paid (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqOts, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3 text-center">
+
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

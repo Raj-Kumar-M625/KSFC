@@ -1,0 +1,58 @@
+﻿@*@model KAR.KSFC.Components.Common.Dto.IDM.LoanAllocationDTO
+@{
+    
+}
+<div><h2 class="textCenter">Loan Allocation</h2></div>
+
+<div id="AuditDIV">
+    <span id="spanErrorMsg" class="text-danger"></span>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="LoanAllocation-tab" data-bs-toggle="tab" data-bs-target="#LoanAllocation" type="button" role="tab" aria-controls="LoanAllocation" aria-selected="false">Allocation Details</button>
+            <div class="progress">
+                <div id="LoanAllocationProgressBar" class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="LoanAllocation" role="tabpanel" aria-labelledby="LoanAllocation-tab">
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                @await Html.PartialAsync("_AccountNumber")
+            </div>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsstayopen-headingtwo">
+                        <button class="accordion-button" id="loanallocation_detail_accor_btn" type="button" data-bs-toggle="collapse" data-bs-target="#panelsstayopen-collapsetwo" aria-expanded="true" aria-controls="panelsstayopen-collapsetwo">
+                            <strong>list of allocation details</strong>
+                        </button>
+                    </h2>
+                    <div id="panelsstayopen-collapsetwo" class="accordion-collapse collapse show" aria-labelledby="panelsstayopen-headingtwo">
+                        <div class="accordion-body">
+                            <div id="view-all-allocation">
+                                @await html.partialasync("/areas/admin/views/loanallocation/_viewall.cshtml",model.loanallocationdetails)
+                            </div>
+                            <div class="modal" tabindex="-1" role="dialog" id="modelloanallocationdetails">
+                                <div class="modal-dialog modal-xl" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"></h5>
+                                            <button type="button" class="close" data-dismiss="modal" onclick="closepopupformsh();" aria-label="close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="/admin/loanallocation/" class="btn btn-info btn-lg text-white mb-2 mt-2">previous</a>
+                            <input type="submit" class="btn btn-info btn-lg mb-2 mt-2 submit float-end" onclick="location.href=/admin/;" id="btntaballocationdetails" value="submit" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/IDM.js" asp-append-version="true"></script>
+*@

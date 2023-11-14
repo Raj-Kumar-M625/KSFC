@@ -1,0 +1,152 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDchgLandDetDTO
+@{
+    Layout = null;
+}
+
+
+<div>
+    <div>
+        <form id="LandInspectionDetails" asp-action="ViewRecord" onsubmit="ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Land Ref No<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DcLndrefNo, new { @class = "form-control",@maxlength = "10", @id = "reviseLdArea", @readonly = "true"})
+
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Revised Land Area</label></strong>
+                    @Html.TextBoxFor(m => m.DcLndArea,
+                    new { @class = "form-control", @id = "reviseLdArea", @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Created</label></strong>
+                    @Html.TextBoxFor(m => m.DcLndSecCreated,
+                    new { @class = "form-control", @id = "secCreated", @disabled = "disabled"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Type Of Land</label></strong>
+                    @Html.DropDownListFor(m => m.DcLndType, new SelectList(@ViewBag.LandType, "Value","Text"),"---Select Type Of Land---", new { @class = "form-select", @id = "LandType", @disabled = "disabled"})
+                </div>
+
+                <div class="col-md-4">
+                    <strong><label class="form-label">Cost Of Land</label></strong>
+                    @Html.TextBoxFor(m => m.DcLndAmt,"{0:n2}",
+                    new { @class = "form-control", @id = "costLand", @disabled = "disabled",@style="text-align:right"})
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Cost Of Land Development</label></strong>
+                    @Html.TextBoxFor(m => m.DcLndDevCst,"{0:n2}",
+                    new { @class = "form-control", @id = "costDevLand", @disabled = "disabled",@style="text-align:right"})
+                </div>
+            </div>
+            <br />
+            <div class="row">
+
+                @*<div class="col-md-4">
+                <strong><label class="form-label">Land Financed (Y/N)</label></strong>
+                @Html.DropDownListFor(m => m.DcLndLandFinance, new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="YES",Value = "1"},
+                new SelectListItem(){Text="NO",Value = "0"}
+                },"---Select Land Financed---", new { @class = "form-select", @id = "LdFin", @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                <strong><label class="form-label">Acquisition Status(Y/N)</label></strong>
+                @Html.DropDownListFor(m => m.DcLndAqrdIndicator,new List<SelectListItem>()
+                {
+                new SelectListItem(){Text="Not Acquired",Value = "0"},
+                new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                new SelectListItem(){Text="Acquired",Value = "2"}
+                },"---Select Acquisition Status---",
+                new { @class = "form-select", @id = "CondStg", @disabled = "disabled"})
+                </div>
+                <div class="col-md-4">
+                <strong><label class="form-label">Acquired Date</label></strong>
+                @Html.TextBoxFor(m => m.DcLndStatChgDate, "{0:yyyy-MM-dd}",
+                new { @class = "form-control", type="date", @disabled = "disabled"})
+                </div>*@
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Land Development Details</label></strong>
+                    @Html.TextAreaFor(m => m.DcLndDets,
+                    new { @class = "form-control",@maxlength = "200", @id = "ldDevDt", @disabled = "disabled"})
+                    <span id="spanDet">Max: 200 Characters</span><br />
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered for Release</label></strong>
+                    @Html.TextBoxFor(m => m.DcLndSecCreated, new { @class = "form-control", @id = "secrelease",
+                    @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13",@style="text-align:right", @disabled = "disabled"})
+                    <span asp-validation-for="DcLndSecCreated" class="text-danger"></span>
+                </div>
+
+            </div>
+            <br />
+
+            <p><h4>Land Release Details</h4></p>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Land Unit Area</label></strong>
+                    @Html.TextBoxFor(m => m.IrlAreaIn, new { @class = "form-control", @id = "ldAreain", @disabled = "disabled" })
+
+                    <span asp-validation-for="IrlAreaIn" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Land Financed (Y/N)</label></strong>
+                    @*@Html.DropDownListFor(m => m.DcLndLandFinance, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="YES",Value = "1"},
+                    new SelectListItem(){Text="NO",Value = "0"}
+                    },"---Select Land Financed---", new { @class = "form-select", @id = "LdFin", @disabled = "disabled"})
+                    <span asp-validation-for="DcLndLandFinance" class="text-danger"></span>*@
+                    @Html.TextBoxFor(m => m.DcLndLandFinance, new { @class = "form-control", @id = "LdFin",@disabled = "disabled"})
+                    <span asp-validation-for="DcLndLandFinance" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquisition Status(Y/N)<span id="spanDet1"> *</span></label></strong>
+                    @Html.DropDownListFor(m => m.DcLndAqrdIndicator, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Not Acquired",Value = "0"},
+                    new SelectListItem(){Text="Partially Acquired",Value = "1"},
+                    new SelectListItem(){Text="Acquired",Value = "2"}
+                    },"---Select Acquisition Status---", new { @class = "form-select", @id = "AcqStg", @disabled = "disabled"})
+                    <span asp-validation-for="DcLndAqrdIndicator" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @* @Html.TextBoxFor(m => m.IrlRelStat, new { @class = "form-control",@type="number",readOnly="true",
+                    @oninput="this.value=this.value.slice(0,this.maxLength)",
+                    @maxlength = "10", @id = "IrlRelStat"})*@
+                    @Html.DropDownListFor(m => m.IrlRelStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="No Release Yet",Value = "0"},
+                    new SelectListItem(){Text="Partially Released",Value = "1"},
+                    new SelectListItem(){Text="Fully Released",Value = "2"}
+                    },"---Select Release Status---", new { @class = "form-select", @id = "IrlRelStat", @disabled = "disabled"})
+                    <span asp-validation-for="IrlRelStat" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered for Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrlSecValue, new { @class = "form-control", @id = "secrelease",
+                    @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "13",@style="text-align:right", @disabled = "disabled"})
+                    <span asp-validation-for="IrlSecValue" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquired Date<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DcLndStatChgDate, "{0:yyyy-MM-dd}", new { @class = "form-control",@id = "Acqdate", type="date",onkeydown="return false", @readonly = "true", @disabled = "disabled"})
+                    <span asp-validation-for="DcLndStatChgDate" class="text-danger"></span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,74 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@model KAR.KSFC.Components.Common.Dto.IDM.IdmSidbiApprovalDTO
+@{
+    Layout = null;
+    List<ldDocumentDto> SidbiDetails = ViewBag.Documentlist;
+    var AccountNumber = ViewBag.AccountNumber;
+    var subModuleId = ViewBag.SubModuleId;
+    var subModuleType = ViewBag.SubModuleType;
+    var mainModule = ViewBag.MainModule;
+}
+<div>
+    <div>
+        <form asp-action="SaveSidbiApprovalDetails" onsubmit="return JqueryDisbursmentEditMethod(this,'SidbiApproval'); ClearPopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@AccountNumber" asp-for="LoanAcc" />
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.AccountNumber })
+            @Html.HiddenFor(m => m.SidbiApprId, new{@class = "form-control"})
+            <div class="row">
+                <div class="col-md-5">
+                    <strong><label class="form-label">Sanctioned Loan Amount</label></strong>
+                    @Html.TextBoxFor(m => m.LnSancAmt,"{0:n2}", new { @class = "form-control",@readonly = "true" ,@style="text-align:right"})
+                    <span asp-validation-for="LnSancAmt" class="text-danger"></span>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <strong><label class="form-label">Type of Promoter</label></strong>
+                    @Html.TextBoxFor(m => m.CnstDets, new { @class = "form-control" , @readonly = "true"})
+                    <span asp-validation-for="CnstDets" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-5">                    
+                    @Html.CheckBoxFor(m => m.WhAppr )
+                    <strong><label class="form-label">&nbsp;&nbsp;&nbsp;Whether SIDBI Approval Initiated</label></strong>
+                </div>
+            </div>
+            <br /><br />
+            <div>
+                @*@await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml", SidbiDetails)*@
+                <a onclick="showDocumentPopup('@Url.Action("DisplayDocument","IdmDocument",new {submoduleId=@subModuleId,submoduleType=@subModuleType,mainModule=@mainModule},Context.Request.Scheme)','Uploaded Documents','SidbiApproval')" class="btn btn-primary text-white"> Upload / View Document(s)</a>
+            </div>
+            <br />
+            <div class="modal" tabindex="-1" role="dialog" id="modelSidbidocumentupload">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                            <button type="button" class="close" data-dismiss="modal" onclick="ClosePopupFormsh();" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end btnDet4" >
+                    <input type="submit" value="Submit" class="btn btn-info btn-lg mt-2 next float-end" id="submit" onclick="location.href=/Admin/;" />
+                </div>
+            </div>
+        </form>
+        <br />
+        <br />
+    </div>
+</div>@*
+<script>
+    $('input[id="txtname"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='btnsubmit']").removeAttr('disabled');
+        }
+    });
+</script>*@

@@ -1,0 +1,54 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsDTO
+
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateOrEdit" asp-route-id="@Model.EnqSisId" onsubmit="return jQueryAjaxPostASD(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqSisId)
+            @Html.HiddenFor(model => model.UniqueId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Associate / Sister Concern</label>
+                @Html.TextBoxFor(model => model.EnqSisName, new { @class = "form-control" })
+                <span asp-validation-for="EnqSisName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Banker /Fin. Institution</label>
+                @Html.TextBoxFor(model => model.EnqSisIfsc, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Facility</label>
+                @Html.DropDownListFor(model => model.BfacilityCode, new SelectList(ViewBag.ListFacility, "Value", "Text"), "-- Please select --", new { @class = "form-select", @id = "ddlFacilityTypes" })
+                <span asp-validation-for="BfacilityCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Outstanding (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqOutamt, new { @class = "form-control" })
+                <span asp-validation-for="EnqOutamt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Default, if any (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqDeftamt, new { @class = "form-control" })
+                <span asp-validation-for="EnqDeftamt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Relief and Concessions Availed</label>
+                @Html.TextBoxFor(model => model.EnqRelief, new { @class = "form-control" })
+                <span asp-validation-for="EnqRelief" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">One-Time Settlement Paid (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqOts, new { @class = "form-control" })
+                <span asp-validation-for="EnqOts" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

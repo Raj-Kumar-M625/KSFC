@@ -1,0 +1,43 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.SecurityDocumentsDetails.SecurityDetailsDTO;
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="ViewRecord" asp-route-id="@Model.EnqSecId" onsubmit="ClearPopupFormSDDS();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqSecId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Type of Security</label>
+                @Html.DropDownListFor(model => model.SecCode, new SelectList(ViewBag.ListTypeOfSecurity,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Security Details</label>
+                @Html.DropDownListFor(model => model.SecCd, new SelectList(ViewBag.ListDdlSecurityDetailsType,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Description</label>
+                @Html.TextBoxFor(model => model.EnqSecDesc, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Holder</label>
+                @Html.TextBoxFor(model => model.EnqSecName, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Relation</label>
+                @Html.DropDownListFor(model => model.PromrelCd, new SelectList(ViewBag.ListDdlRelationType,"Value", "Text"), "-- Please select --", new { @class = "form-select", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Value</label>
+                @Html.TextBoxFor(model => model.EnqSecValue, new { @class = "form-control", @disabled = "disabled" })
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Close" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsDTO>
+
+<h3><i class="fas fa-comments-dollar text-success"></i> Previous years Financial Details (minimum of past 3 years)</h3>
+    @if (Model != null)
+{
+    <table class="table table-wrapper">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSisfinId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSis.EnqSisName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinyearCodeNavigation.FinyearDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FincompCdNavigation.FincompDets)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqFinamt)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSisfinId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSis.EnqSisName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FinyearCodeNavigation.FinyearDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FincompCdNavigation.FincompDets)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqFinamt)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Previous years Financial Details details</b></p>
+}
+
+

@@ -1,0 +1,77 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.InspectionOfUnit.IdmDspInspDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+}  
+<div>
+    <div>
+        <form id="InspectionDetailsForm" asp-action="Create" onsubmit="return JqueryInspectionAddMethod(this,'InspectionDetail'); ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <input type="hidden" value="@account" asp-for="LoanAcc" />
+             <input type="hidden" value="@ViewBag.LoanSub" asp-for="LoanSub" />
+             <input type="hidden" value="@ViewBag.OffcCd" asp-for="OffcCd"/>
+           <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Inspection No.<span  id="spanDet1"> *</span></label></strong>
+                      @Html.TextBoxFor(m => m.DinNo,  new { @class = "form-control", type="number",@required = "required"})                   
+                   <span asp-validation-for="DinNo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Inspection Date<span  id="spanDet1"> *</span></label></strong>                     
+                    @Html.TextBoxFor(m => m.DinDt, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date",@required = "required"})
+                      <span asp-validation-for="DinDt" class="text-danger"></span>
+                </div>
+            </div>
+            <br/>   
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Type of Release</label></strong>
+                    @Html.DropDownListFor(m => m.DinRdt, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="General",Value = "0"},
+                    new SelectListItem(){Text="Adhoc",Value = "1"},
+                    new SelectListItem(){Text="Both",Value = "2"}
+                    },"---Select Type of Release---", new { @class = "form-select", @id = "Type",@required = "required"})
+                    <span asp-validation-for="DinRdt" class="text-danger"></span>
+                </div>
+            </div>
+            <br/>
+                <div class="form-group">
+                <div class="col-md-2 text-center float-end submit5">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+                </div>
+            <br/>  
+        </form>
+    </div>
+</div>
+<script>
+
+    $('input[id="DinNo"], input[id="DinDt"], input[id="DinRdt"],input[id="DinTeam"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    $("#DinNo").change(function () {        
+        var inpsectionNumber = $('#DinNo').val();
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("InpsectionNoValidation","InspectionDetail")',
+            data: {Inpsection :inpsectionNumber },
+            success: function (data) {
+                if (data) {
+                    $("#DinNo").val('');
+                    swal.fire(
+                        'Inpsection No already exist',
+                        '',
+                        'warning'
+                    )
+                } else {
+
+                }
+
+            }
+        });
+    });
+</script>

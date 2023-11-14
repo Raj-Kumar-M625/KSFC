@@ -1,0 +1,67 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernDetailsDTO>
+
+
+<h3 class="text-center"><i class="fas fa-comments-dollar text-success"></i> Associate / Sister Concern Details</h3>
+<div class="pre-scrollable">
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblSisterASCDDatatable">
+        <thead>
+            <tr>
+                <th>
+                    S.No
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSisName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqSisIfsc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BfacilityCodeNavigation.BfacilityDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqOutamt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqDeftamt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EnqOts)
+                </th>
+                <th></th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSisName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqSisIfsc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BfacilityCodeNavigation.BfacilityDesc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqDeftamt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqDeftamt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnqOts)
+                    </td>
+                    <td>
+                        <a onclick="showInPopupASD('@Url.Action("ViewRecord","AssociateSisterDetails",new {id=item.EnqSisId},Context.Request.Scheme)','View Associate/ Sister Details')" class="btn btn-secondary text-white"><i class="fas fa-pencil-alt"></i> View</a>
+                    </td>
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterDetailsDTO>
+
+ 
+@{
+    int count = 1;
+}
+@if (Model!=null && Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProDetailsDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Name of Promoter
+                </th>
+                <th>
+                    Position
+                </th>
+                <th>
+                    Shareholding
+                </th>
+                <th>
+                    PAN
+                </th>
+                <th>
+                    Domicile
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <td>
+                            @(count++)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterMaster.PromoterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PdesigCdNavigation.PdesigDets)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqPromShare)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterMaster.PromoterPan)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoDomText)
+                        </td>
+                       
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color: red"><b>No data added, Please add the Promoter details</b></p>
+}
+
+
+
+

@@ -1,0 +1,65 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.TblIdmDhcgAllcDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var offcd =  ViewBag.OffcCd;
+    var loansub = ViewBag.LoanSub;
+}
+
+<div>
+    <div>
+        <form id="AllocationDetails" asp-action="Create" onsubmit="return AjaxSingleTabAddMethod(this,'LoanAllocation');ClearPopupFormsh();">
+             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@account" asp-for="LoanAcc" />
+            <input type="hidden" value="@offcd" asp-for="OffcCd" />
+            <input type="hidden" value="@loansub" asp-for="LoanSub" />
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-4">
+                     <strong><label class="form-label">Allocation Code<span id="spanDet1"> *</span> </label></strong>
+                      @Html.DropDownListFor(m => m.DcalcCd, new SelectList(ViewBag.AllocationCodes, "Value", "Text"), "---Select Type---", new { @class = "form-select", required = "required",@id="Allcd"})
+                       <span asp-validation-for="DcalcCd" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Allocation Details<span id="spanDet1"> *</span> </label></strong>
+                    @Html.TextAreaFor(m => m.DcalcDetails, new { @class = "form-control", required = "required",@id="AllDet",@maxlength = "100" })
+                    <span asp-validation-for="DcalcDetails" class="text-danger"></span>
+                      <span id="spanDet">Max:100 Characters</span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Orginal Allocation Amount<span id="spanDet1"> *</span> </label></strong>
+                    @Html.TextBoxFor(m => m.DcalcAmt,"{0:n2}", new { @class = "form-control",required = "required",@id="Allamt", @onkeypress="return (event.charCode !=8 && event.charCode == 0 || (event.charCode >= 48 && event.charCode <= 57))",@maxlength = "8",style="text-align:right"})
+                    <span asp-validation-for="DcalcAmt" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of Request</label></strong>
+                    @Html.TextBoxFor(m => m.DcalcRqdt ,"{0:yyyy-MM-dd}", new { @class = "form-control",@id="DtRq" ,type="date",onkeydown="return false" })
+                    <span asp-validation-for="DcalcRqdt" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Date of communication<span id="spanDet1"> *</span></label></strong>
+                    @Html.TextBoxFor(m => m.DcalcComdt ,"{0:yyyy-MM-dd}", new { @class = "form-control",type="date",  @id="DtComm",required = "required",onkeydown="return false" })
+                    <span asp-validation-for="DcalcComdt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="form-group submit4">
+                <div class="col-md-2 text-center float-end" >
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('input[class="form-control"],select[class="form-select"]').change(function() {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    
+
+</script>

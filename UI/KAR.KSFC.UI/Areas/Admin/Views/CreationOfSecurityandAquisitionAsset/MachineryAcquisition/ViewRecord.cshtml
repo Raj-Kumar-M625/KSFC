@@ -1,0 +1,61 @@
+﻿@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.IdmIrPlmcDTO
+@{
+    Layout = null;
+}
+<div>
+    <div>
+        <form id="MachineryAcquisition" asp-action="ViewRecord" onsubmit="ClosePopupFormsh();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Item No</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcItem, new { @class = "form-control", @id = "itemno",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Item Details</label></strong>
+                    @Html.TextAreaFor(m => m.IrPlmcItemDets, new { @class = "form-control", @id = "itemdet",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Name Of Supplier</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcSupplier, new { @class = "form-control", @id = "suppliername",@disabled = "disabled" })
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Actual Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcAamt,"{0:n2}", new { @class = "form-control", @id = "actualvalue",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Mem Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcAmt,"{0:n2}", new { @class = "form-control", @id = "memvalue",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Total Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcTotalRelease, new { @class = "form-control", @id = "totalrelease",@disabled = "disabled" })
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <strong><label class="form-label">Security Considered For Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcSecAmt, new { @class = "form-control", @id = "secamt",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @Html.TextBoxFor(m => m.IrPlmcRelseStat, new { @class = "form-control", @id = "relstat",@disabled = "disabled" })
+                </div>
+                <div class="col-md-4">
+                    <strong><label class="form-label">Acquired Status(Y/N)</label></strong>
+                    @Html.DropDownListFor(m => m.IrPlmcAcqrdStatus, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "true"},
+                    new SelectListItem(){Text="No",Value = "false"}
+                    }, "--- Select Acquired Status ---", new { @class = "form-select", @id="acqstat",@disabled = "disabled" })
+                </div>
+            </div>
+        </form>
+        <br/>
+    </div>
+</div>

@@ -1,0 +1,136 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{ }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @Configuration["SysConfig:Title"]</title>
+    <link rel="icon" type="image/x-icon" href=@Configuration["SysConfig:FavIconCustomer"]>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap-icons.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/Light.css" id="stylesheet" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!-- required js -->
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/bootstrap/dist/js/jquery.dataTables.min.js"></script>
+    <script src="~/js/CustSessionNotify.js"></script>
+    <script src="~/js/crud.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    
+    <!-- required JavaScript polyfills for IE11-->
+    <script nomodule crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=default%2CNumber.parseInt%2CNumber.parseFloat%2CArray.prototype.find%2CArray.prototype.includes"></script>
+    <script nomodule>window.MSInputMethodContext && document.documentMode && document.write('<script src="https://cdn.jsdelivr.net/combine/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js,npm/ie11-custom-properties@4,npm/element-qsa-scope@1"><\/script>');</script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" id="myHeader">
+            <div class="container">
+                <img src=@Configuration["SysConfig:LogoPath"] style="width:5%;height:5%" />
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><b>@Startup._e[@Configuration["SysConfig:Title"]]</b></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="Index">@Startup._e["Home"]</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Enquiry" asp-action="Index">@Startup._e["Enquiry"]</a>
+                        </li>
+                    </ul>
+                </div>
+                <table id="tblLang" style="border:none;border-color:aquamarine;">
+                    <tr>
+                        <td>@await Html.PartialAsync("~/Views/Shared/_lingual.cshtml")</td>
+                        <td> @await Html.PartialAsync("~/Views/Shared/_LightOrDarkMode.cshtml")</td>
+                    </tr>
+                    <tr><td colspan="2"> <partial name="_CustomerLoginPartial" /> </td></tr>
+                    <tr><td></td><td> </td></tr>
+                </table>
+            </div>
+        </nav>
+    </header>
+    <div class="container removeFlikker">
+        <main role="main" class="pb-3">
+            @RenderBody()
+            <button type="button"
+                    class="btn btn-primary btn-floating"
+                    id="btn-back-to-top">
+                Back To Top
+            </button>
+        </main>
+    </div>
+    <input type="hidden" id="hdnSessionTimeout" value="@Configuration["SysConfig:SessionExpiryTimeInSeconds"]" />
+    <input type="hidden" id="hdnSessionExpNotice" value="@Configuration["SysConfig:SessionExpiryNoticeTimeInSeconds"]" />
+    <div class="modal" id="modalAlert" tabindex="1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="h5CustSessionConTitle">Need more time?</h5>
+                    <h5 class="modal-title" id="h5CustSessionExpTitle" style="display:none;">Session Expired !</h5>
+                </div>
+                <div id="divCustSessionContinue">
+                    <div id="divModelAlertPup" class="modal-body">
+                        <div id="pModalAlertPup">Your session will expire in <span id="spanTimeCountdownTimer"></span> seconds. Click 'Continue' to restore.</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="" onclick="btnHideSessionModalContinue();" class="btn btn-primary" data-dismiss="modal">Continue</button>
+                        @Html.ActionLink("Logout", "Logout", "Home", new { area = "Customer" }, new { @class = "btn btn-secondary" })
+                    </div>
+                </div>
+                <div id="divCustSessionExpired" style="display:none">
+                    <div id="divModelAlertPup" class="modal-body">
+                        <div id="pModalAlertPup" class="text-danger">Your session has expired !</div>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("Login Again", "Logout", "Home", new { area = "Customer" }, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="">
+        <div class="container">
+        </div>
+    </footer>
+
+    @RenderSection("Scripts", required: false)
+    <script src="~/js/BackToTop.js"></script>
+    <script>
+        window.onscroll = function () { myFunction() };
+
+        var header = document.getElementById("myHeader");
+        var sticky = header.offsetTop;
+
+        function myFunction() {
+            if (window.pageYOffset > sticky) {
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            }
+        }
+        backToTop();
+    </script>
+</body>
+</html>
+

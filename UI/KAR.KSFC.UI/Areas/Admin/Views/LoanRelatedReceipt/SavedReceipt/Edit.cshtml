@@ -1,0 +1,128 @@
+﻿@using KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt
+@model List<KAR.KSFC.Components.Common.Dto.LoanAccounting.LoanRelatedReceipt.TblLaReceiptPaymentDetDTO>
+@{
+    Layout = null;
+    int count = 0;
+    List<TblLaReceiptPaymentDetDTO> ReceiptPayment = ViewBag.ReceiptPayment;
+    var selectedReceipts = Model.Count();
+    var toalamount = Model.Sum(x => x.BalanceAmt );
+    var paymentAmt = Model.Sum(x => x.PaymentAmt);
+}
+
+<div>
+    <form id="ReceiptPayment" asp-action="Edit" onsubmit="return JqueryAjaxPostMethod(this,'ReceiptPayment'); ClosePopupFormLA();">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(m => m.FirstOrDefault().UniqueID, new { @class = "form-control"})
+        @Html.HiddenFor(m => m.FirstOrDefault().TblLaPaymentDet.LoanNo, new { @class = "form-control", value=@ViewBag.AccountNumber })
+        <div class="row editGenpayment">
+            <div class="col-md-6">
+                <b>Number of receipts selected :</b> <input value="@selectedReceipts" type="text" id="widthdet" class="form-control-inline" />
+            </div>
+            <div class="col-md-3 btnDet7">
+                <b>Total Amount :</b>
+                <input class="totalamount" type="text"  value="@toalamount" disabled />
+            </div>
+            <br />
+            <div class="col-md-3 mt-2 btnDet8">
+                <b>Pay Amount :</b>
+                <input class="payamount" type="text" value="@paymentAmt" disabled />
+            </div>
+        </div>
+            
+            <br />
+        <div class="">
+            <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblRcptPmntDatatable">
+                <thead class="thead-light">
+                    <tr>
+                        <th>S. No.</th>
+                        <th hidden>ReceiptPaymentId</th>
+                        <th>Receipt Reference Number</th>
+                        <th>Transaction Type</th>
+                        <th>Date Of Initiation</th>
+                        <th>Due Date For Payment</th>
+                        <th>Total Amount</th>
+                        <th>Pay Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="customtable">
+                    @foreach (var item in ReceiptPayment)
+                    {
+                        count++;
+                        <tr>
+                            <td>@count</td>
+                            <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.ReceiptRefNo)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TransactionType)</td>
+                            <td>@Html.DisplayFor(modelItem => item.DateofInitiation)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TblLaReceiptDet.DueDatePayment)</td>
+                            <td>@Html.DisplayFor(modelItem => item.BalanceAmt)</td>
+                            <td>@Html.DisplayFor(modelItem => item.PaymentAmt)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div id="textright">
+                <b><label class="col-md-6 btnDet9">Total Amount :</label></b>
+                <input class="col-md-3 totalamount" id="totalamount" type="text" disabled />
+            </div>
+        </div>
+<br/>
+<br/>
+<div class="editGenpayment">
+    <div class="row " >
+    <div class="col-md-4">
+        <b><label class="form-label">Branch Code</label></b>
+        @Html.TextBoxFor(m => m.FirstOrDefault().TblLaPaymentDet.BranchCode, new {@class = "form-control",@id = "branchcd", @maxlength = "20" })
+        <span id="spanDet">Max: 20 Characters</span><br />
+        <span asp-validation-for="FirstOrDefault().TblLaPaymentDet.BranchCode" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <b><label class="form-label">IFSC Of Issuing Bank</label></b>
+        @Html.TextBoxFor(m => m.FirstOrDefault().TblLaPaymentDet.IfscCode, new { @class = "form-control" ,@id = "bankifsc",@maxlength = "20" })
+        <span id="spanDet">Max: 20 Characters</span><br />
+        <span asp-validation-for="FirstOrDefault().TblLaPaymentDet.IfscCode" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <b><label class="form-label">Cheque Date</label></b>
+        @Html.TextBoxFor(m => m.FirstOrDefault().TblLaPaymentDet.ChequeDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type="date",@id = "chqdt"})
+        <span asp-validation-for="FirstOrDefault().TblLaPaymentDet.ChequeDate" class="text-danger"></span>
+    </div>
+</div>
+<br/>
+<div class="row">
+    <div class="col-md-4">
+        <b><label class="form-label">Date Of Cheque Realization</label></b>
+        @Html.TextBoxFor(m => m.FirstOrDefault().TblLaPaymentDet.DateOfChequeRealization, "{0:yyyy-MM-dd}",new {@class = "form-control",@id = "dtchqrelz",@type="date" })
+        <span asp-validation-for="FirstOrDefault().TblLaPaymentDet.DateOfChequeRealization" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <b><label class="form-label">Cheque No.</label></b>
+        @Html.TextBoxFor(m => m.FirstOrDefault().TblLaPaymentDet.ChequeNo, new { @class = "form-control",@maxlength = "20",@id = "chqno" })
+        <span id="spanDet">Max: 20 Characters</span><br />
+        <span asp-validation-for="FirstOrDefault().TblLaPaymentDet.ChequeNo" class="text-danger"></span>
+    </div>
+</div>
+
+</div>
+
+<div>
+    <div class="form-group btnDet12">
+        <div class="col-md-2 text-center float-end">
+            <input type="submit" value="Save" class="btn btn-primary" disabled id="submit" />
+        </div>        
+    </div>   
+    <div class="form-group btnDet13">
+        <div class="col-md-2 text-center">
+            <input type="button" value="View Ledger Posting" class="btn btn-primary float-end" id="ledger" />
+        </div>
+    </div>
+</div>
+</form>
+</div>
+
+<script>
+    $('input[id="branchcd"],input[id="bankifsc"], input[id="chqdt"], input[id="dtchqrelz"], input[id="chqno"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+</script>

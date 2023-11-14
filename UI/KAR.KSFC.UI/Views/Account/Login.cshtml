@@ -1,0 +1,138 @@
+﻿@model KAR.KSFC.UI.Models.CustomerViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            <h4></h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-25">
+                    <b><label for="exampleInputEmail1">PAN</label></b>
+                </div>
+                <div class="col-75">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-person-badge"></i></span>
+                        </div>
+                        <input type="text" class="form-control capitalise" asp-for="PanNumber" placeholder="Enter PAN" id="txtPanLogin" maxlength="10" aria-label="Username" autocomplete="off" readonly value="AAAAAAAAAA" aria-describedby="basic-addon1">
+                        <button type="button" style="width:40%" class="btn btn-primary" id="btnGenOtpForPanLogin" disabled>Generate OTP<i class="" id="iconBtnGenOtpLogin"></i></button>
+                        <button type="button" style="width:40%;display:none" class="btn btn-primary" id="btnResOtpForPanLogin">Resend OTP<i id="iconBtnResOtpLogin" class=""></i></button>
+                    </div>
+                    <p style="display:none" class="text-success" id="pOtpCountdownTimerMsg"> OTP has been successfully sent to <span id="spanOTPTimerMbEnding"></span>. In case, you haven't received it, you can try resending OTP by clicking on 'Resend OTP' button after <span id="spanCountDownTimer"></span> Seconds</p>
+                    <p style="display:none" id="pMsgForPanLogin"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <b><label for="exampleInputEmail1">OTP</label></b>
+                </div>
+                <div class="col-75">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-credit-card-fill"></i></span>
+                        </div>
+                        <input type="text" class="form-control" value="123456" asp-for="OTP" id="txtEnterOtpLogin" placeholder="Enter OTP" autocomplete="off" aria-label="Username" aria-describedby="basic-addon1" maxlength="6" readonly />
+                        <button type="button" id="btnVerOtpLogin" style="width:40%;display:none;" class="btn btn-primary">Verify OTP<i id="iconBtnVerOtpLogin" class=""></i></button>
+                    </div><p style="display:none; color:#ff0000" id="pMsgPanOtpVal"></p>
+                </div>
+            </div>
+            <div class="row">
+                <partial name="_CaptchaPartial" />
+            </div>
+            <div class="row">
+                <div>
+                    <button style="width:50%;" type="submit" class="btn btn-primary" id="btnSubLogin">Login</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+<div class="modalCust" style="display: none">
+    <div class="center">
+        <img alt="" src="~/images/loading.gif" />
+    </div>
+</div>
+
+<div class="modal" id="modalAlertCust" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Login</h5>
+            </div>
+            <div id="divModelAlertCust" class="modal-body">
+                <p id="pModalAlertCust"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnHideModalCust" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modalAlertHome" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Registration</h5>
+            </div>
+            <div id="divModelAlertPup" class="modal-body">
+                <div id="pModalAlertPupHome"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnHideModalHome" class="btn btn-primary" data-dismiss="modal" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+<script src="~/js/CustLoginValidation.js"></script>
+
+
+    @*Style for loading Overlay image for AJAX calls*@
+<style type="text/css">
+    body {
+        font-family: Arial;
+        font-size: 10pt;
+    }
+
+    .modalCust {
+        position: fixed;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        /*filter: alpha(opacity=60);*/
+        opacity: 0.6;
+        /*-moz-opacity: 0.8;*/
+    }
+
+    .center {
+        z-index: 1000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 145px;
+        background-color: White;
+        border-radius: 10px;
+        /*filter: alpha(opacity=100);*/
+        opacity: 1;
+        /*-moz-opacity: 1;*/
+    }
+
+        .center img {
+            height: 128px;
+            width: 128px;
+        }
+
+    
+</style>
+}

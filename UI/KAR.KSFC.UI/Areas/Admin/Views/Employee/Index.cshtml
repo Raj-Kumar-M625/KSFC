@@ -1,0 +1,61 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.Employee.EmployeeDTO>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Employee";
+}
+<h4 class="text-muted">SEARCH EMPLOYEE</h4>
+
+@await Html.PartialAsync("_Search")
+
+@if(ViewBag.showList == true)
+{
+    @await Html.PartialAsync("_ViewAll", Model) 
+} 
+
+<div class="modal fade" id="ksfcEmpDetails" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true" data-toggle="modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                
+                <h5 class="modal-title" id="employeeModalLabel">Modal title</h5>
+                <span>
+@*                    <button type="button" class="btn-outline-primary float-right">Enable Edit</button>
+*@                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="modalOneCloseBtn"></button>
+                </span>
+                
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer" id="modalFooterKSFC">
+                <button class="btn btn-warning" id="employeeSubmitDetailsBtn" type="button" onclick="submitEmployeeForm();">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ksfcAlertModal" tabindex="-1" aria-labelledby="employeeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-sm">
+        <div class="modal-content">
+            
+            <div class="modal-body" id="popupBodyMsg">
+                Are you sure to delete the record of <b id="empNameBoldElement"></b> ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" id="ksfcAlertModalFooterBtn" >Yes</button>
+                <button type="button" id="ksfcAlertModalFooterCloseBtn" class="btn btn-outline-primary" data-bs-dismiss="modal" aria-label="Close" onclick="window.location.reload()">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+<script type="text/javascript">
+    // just in case for writing some js or jQuery
+</script>
+}

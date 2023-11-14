@@ -1,0 +1,45 @@
+﻿@model List<KAR.KSFC.Components.Common.Dto.EnquirySubmission.PromoterGuarantorDetails.PromoterNetWorthDetailsDTO>
+
+    @{
+    int count = 1;
+}
+@if (Model!=null && Model.ToList().Any())
+{
+    <table class="table table-striped table-bordered table-sm table-responsive-xl" id="tblProNetWorthDatatable">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Promoter Name
+                </th>
+                <th>
+                    Net Worth (In Lakhs.)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @(count++)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PromoterDetailsDTO.PromoterMaster.PromoterName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EnqNw)
+                        </td>
+                    </tr>
+                }       }
+        </tbody>
+    </table>
+}
+else
+{
+    <p style="color: red"><b>No data added, Please add the Promoter NET WORTH details</b></p>
+}

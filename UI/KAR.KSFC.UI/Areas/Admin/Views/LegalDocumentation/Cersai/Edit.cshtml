@@ -1,0 +1,67 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM
+@{
+    Layout = null;
+    int count = 0;
+    List<IdmCersaiRegDetailsDTO> cersaiDetails = ViewBag.CersaiList;
+    //List<AssetRefnoDetailsDTO> CersaiAssetDetails = ViewBag.AssetRefDetails;
+}
+
+<div class="pre-scrollable">
+
+    <div class="table-responsive">
+        <table class="table" id="Table1" aria-labelledby="HypothecationDetails-tab">
+            <thead class="thead-light">
+                <tr>
+
+                    <th class="th4">S. No.</th>
+                    <th class="th4">Cersai Registration No.</th>
+                    <th hidden class="th4">IdmDsbChargeId</th>
+                    <th class="th4">Description of Asset</th>
+                    <th class="th5">Value</th>
+                </tr>
+            </thead>
+            <tbody class="customtable" aria-labelledby="HypothecationList-tab">
+                @if (cersaiDetails.Count() > 0)
+                {
+                    @foreach (var item in cersaiDetails)
+                    {
+                        count++;
+                        @*var cersaiNo = cersaiDetails.Where(x => x.AssetCd == item.AssetCd).Select(x => x.CersaiRegNo).LastOrDefault();*@
+                        var cersaiNo = item.CersaiRegNo;
+                        <tr>
+                            <td hidden>
+                                <input type="checkbox" hidden checked />
+                            </td>
+                            <td>@count</td>
+                            <td>@cersaiNo</td>
+                            <td hidden>@Html.DisplayFor(modelItem => item.IdmDsbChargeId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.AssetDet)</td>
+                            <td align="right">@Html.DisplayFor(modelItem => item.AssetVal)</td>
+                            <td>
+                                <a onclick="showInPopup('@Url.Action("ViewRegister","Cersai",new {assetcd= item.AssetCd,cersai =@cersaiNo },Context.Request.Scheme)','View Cersai Registration Details','Cersai')" class="btn btn-warning text-white"><em class="fa fa-eye" aria-hidden="true"></em>  View</a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4">
+                            No Data Available.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<div id="view-all">
+    @await Html.PartialAsync("/Areas/Admin/Views/LegalDocumentation/Cersai/_EditRegister.cshtml")
+</div>
+
+@*<div>
+    @await Html.PartialAsync("/Areas/Admin/Views/Shared/_DisplayDocumnet.cshtml",cersaiDetails)
+</div>*@
+

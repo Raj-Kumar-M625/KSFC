@@ -1,0 +1,47 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.AssociateSisterConcernDetails.SisterConcernFinancialDetailsDTO
+@{
+    Layout = null;
+}
+@if (ViewBag.ErrorSisterConcernExist != null)
+{
+    <span class="text-danger">@ViewBag.ErrorSisterConcernExist</span>
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="CreateOrEditFy" asp-controller="AssociateSisterDetails" asp-route-id="@Model.EnqSisfinId" onsubmit="return jQueryAjaxPostASFD(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(model => model.EnqSisfinId)
+            @Html.HiddenFor(model => model.UniqueId)
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Name of Associate / Sister Concern</label>
+                @Html.DropDownListFor(model => model.EnqSisId, new SelectList(ViewBag.AssociateConcernList, "EnqSisId", "EnqSisName"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="EnqSisId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Financial Year</label>
+                @Html.DropDownListFor(model => model.FinyearCode, new SelectList(ViewBag.FinancialYearsList, "Value", "Text"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="FinyearCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.CheckBoxFor(model => model.WhProv, new { @class = "form-check-inline" })
+                <label for="inputEmail4" class="form-label">Provisional Balance Sheet Details</label>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Financial Component</label>
+                @Html.DropDownListFor(model => model.FincompCd, new SelectList(ViewBag.ListFinancialComponent, "Value", "Text"), "-- Please select --", new { @class = "form-select" })
+                <span asp-validation-for="FincompCd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="inputEmail4" class="form-label">Amount (In Lakhs.)</label>
+                @Html.TextBoxFor(model => model.EnqFinamt, new { @class= "form-control" })
+                <span asp-validation-for="EnqFinamt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,128 @@
+﻿@using KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset
+@model KAR.KSFC.Components.Common.Dto.IDM.CreationOfSecurityandAquisitionAsset.TblIdmIrFurnDTO
+@{
+    Layout = null;
+    var account = ViewBag.LoanAcc;
+    var furn = ViewBag.Furniture;
+}
+
+<div>
+    <div>
+        <form id="FurnitureAcquistionDetails" asp-action="Edit" onsubmit="return JqueryCSAAEditMethod(this,'FurnitureAcquisition'); ClearPopupFormac();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.LoanAcc, new { @class = "form-control", value=@ViewBag.LoanAcc })
+            @Html.HiddenFor(m => m.Action, new { @class = "form-control"})
+            @Html.HiddenFor(m => m.IrfId, new { @class = "form-control"})
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item No.</label></strong>
+                    @Html.TextBoxFor(m => m.IrfItem, new { @class = "form-control",@maxlength = "200", @id = "IrfNo",@disabled = "disabled"})
+                    <span asp-validation-for="IrfItem" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Item Details</label></strong>
+                    @Html.TextAreaFor(m => m.IrfItemDets, new { @class = "form-control",@maxlength = "200", @id = "IrfItemDets",@disabled = "disabled"})
+                    <span asp-validation-for="IrfItemDets" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Name of Supplier</label></strong>
+                    @Html.TextBoxFor(m => m.IrfSupplier, new { @class = "form-control",@maxlength = "200", @id = "IrfSupplier",@disabled = "disabled"})
+                    <span asp-validation-for="IrfSupplier" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Actual Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrfAamt, new { @class = "form-control",@maxlength = "200", @id = "IrfAamt",@disabled = "disabled"})
+                    <span asp-validation-for="IrfAamt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Mem Value</label></strong>
+                    @Html.TextBoxFor(m => m.IrfAmt,"{0:n2}", new { @class = "form-control",@maxlength = "200", @id = "IrfAmt",@disabled = "disabled"})
+                    <span asp-validation-for="IrfAmt" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Security Considered for Release</label></strong>
+                    @Html.TextBoxFor(m => m.IrfSecAmt,"{0:n2}", new { @class = "form-control",@maxlength = "10",
+                    @oninput="this.value=this.value.slice(0,this.maxLength)",@id = "IrfSecAmt"})
+                    <span asp-validation-for="IrfSecAmt" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Acquired Status(Y/N)</label></strong>
+                    @Html.DropDownListFor(m => m.IrfAqrdStat, new List<SelectListItem>()
+                    {
+                    new SelectListItem(){Text="Yes",Value = "true"},
+                    new SelectListItem(){Text="No",Value = "false"}
+                    }, "--- Select Acquired Status ---", new { @class = "form-select",@disabled = "disabled", @id="IrfAqrdStat"})
+                    <span asp-validation-for="IrfAqrdStat" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <strong><label class="form-label">Release Status(%)</label></strong>
+                    @Html.TextBoxFor(m => m.IrfRelStat, new { @class = "form-control",@type="number",@disabled = "disabled",
+                    @oninput="this.value=this.value.slice(0,this.maxLength)",
+                    @maxlength = "10", @id = "IrfRelStat"})
+                    <span asp-validation-for="IrfRelStat" class="text-danger"></span>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <strong><label class="form-label">Total Realease</label></strong>
+                    @Html.TextBoxFor(m => m.IrfTotalRelease, new { @class = "form-control",@type="number",
+                    @oninput="this.value=this.value.slice(0,this.maxLength)",@maxlength = "10", @id = "IrfTotalRelease"})
+                    <span asp-validation-for="IrfTotalRelease" class="text-danger"></span>
+                </div>                
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="col-md-2 text-center float-end submit3">
+                    <input type="submit" value="Submit" class="btn btn-primary" disabled="disabled" id="submit" />
+                </div>
+            </div>            
+        </form>
+    </div>
+</div>
+<script>
+    $('input[class="form-control"],select[id="IrfAqrdStat"]').change(function () {
+        if ($(this).val()) {
+            $("input[id='submit']").removeAttr('disabled');
+        }
+    });
+
+    $(document).ready(function () {
+        debugger;
+        var secamt = ($("#IrfSecAmt").val());
+        var furniture = @furn;
+        var ratio = (parseInt($("#IrfSecAmt").val()) / furniture) * 100;
+        $("#IrfRelStat").val(ratio);
+    })
+
+    $("#IrfSecAmt").on("change", function () {
+        debugger
+        var secamt = ($("#IrfSecAmt").val());
+        var furniture = @furn;
+        var ratio = (parseInt($("#IrfSecAmt").val()) / furniture) * 100;
+        $("#IrfRelStat").val(ratio);
+    })
+
+    $("#IrfRelStat").on("change", function () {
+        var data = $(this).val();
+        if (data.length > 3) {
+
+            swal.fire({
+                title: 'Release Status Cannot be greater than 100!',
+                icon: 'warning',
+                confirmButtonText: 'Ok',
+            }).then((result) => {
+                $(this).val("");
+            })
+        }
+    });
+</script>

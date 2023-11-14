@@ -1,0 +1,33 @@
+﻿@model KAR.KSFC.Components.Common.Dto.EnquirySubmission.SecurityDocumentsDetails.Declaration
+
+
+<h3><i class="fas fa-comments-dollar text-success"></i>Declaration</h3>
+<br />
+    @if (Model != null)
+{
+        <div class="row">
+        <div class="col-sm-4">
+             <label>Date : </label>
+            @Html.DisplayFor(model => model.date)
+        </div>
+        <div class="col-sm-4">
+             <label>Place : </label>
+            @Html.DisplayFor(model => model.Place)
+        </div>
+        <div class="col-sm-4">
+             <label>Name Of Applicant : </label>
+            @Html.DisplayFor(model => model.NameOfApplicant)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+             <label>Applicant Designation : </label>
+            @Html.DisplayFor(model => model.ApplicantDesignation)
+        </div>
+    </div>
+}
+@if (Model == null)
+
+{
+    <p style="color: red"><b>No data added, Please add the Declaration details</b></p>
+}
